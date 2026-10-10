@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>流体力学A2 第2章 流体静力学</title>
+<style>
+/* ===================================================================
+   复习讲义 公共样式表  (review/shared/handout.css)
+   A4 打印友好 · 简洁明了 · 与所有讲义共用，保证风格统一
+   =================================================================== */
+@page { size: A4; margin: 14mm 13mm 12mm 13mm; }
+
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  font-size: 10.2pt;
+  line-height: 1.62;
+  color: #1b1b1b;
+  background: #fff;
+}
+p { margin: 0.38em 0; text-align: justify; }
+strong { color: #0b3d69; }
+em { font-style: normal; color: #b4451f; }
+
+/* ---------------- 封面 ---------------- */
+.cover { border: 2px solid #0b4f8a; border-radius: 6px; padding: 16px 18px; margin-bottom: 14px; }
+.cover .kicker { font-size: 9.5pt; letter-spacing: 2px; color: #0b4f8a; font-weight: bold; }
+.cover h1 { font-size: 21pt; margin: 4px 0 6px 0; color: #0b3d69; border: none; background: none; padding: 0; }
+.cover .sub { font-size: 10.5pt; color: #444; }
+.cover .meta { margin-top: 8px; font-size: 9.2pt; color: #666; border-top: 1px dashed #b9cfe2; padding-top: 6px; }
+
+/* ---------------- 标题层级 ---------------- */
+h1 { font-size: 15pt; color: #fff; background: #0b4f8a; margin: 14px 0 8px 0; padding: 6px 12px; border-radius: 3px; line-height: 1.35; }
+h2 { font-size: 12.8pt; color: #0b4f8a; margin: 13px 0 5px 0; padding: 3px 0 3px 9px; border-left: 5px solid #0b4f8a; background: #eef4fa; }
+h3 { font-size: 11pt; color: #0a3f6e; margin: 10px 0 4px 0; padding-bottom: 1px; border-bottom: 1.5px solid #c3d8ea; }
+h4 { font-size: 10.3pt; color: #14507f; margin: 8px 0 3px 0; }
+.lead { color: #555; font-size: 9.3pt; margin: -2px 0 7px 0; }
+
+/* ---------------- 提示盒 ---------------- */
+.box { border-radius: 4px; padding: 6px 10px; margin: 7px 0; page-break-inside: avoid; }
+.box > .bt { display: block; font-weight: bold; margin-bottom: 2px; }
+.key  { background: #eef4fa; border-left: 4px solid #0b4f8a; } .key > .bt  { color: #0b4f8a; }
+.def  { background: #f3f9f1; border-left: 4px solid #3d8b40; } .def > .bt  { color: #2e6b31; }
+.warn { background: #fdf2ee; border-left: 4px solid #c0492b; } .warn > .bt { color: #a83c21; }
+.exam { background: #fffaf0; border-left: 4px solid #c8912a; } .exam > .bt { color: #8f6410; }
+.note { background: #f6f6f6; border-left: 4px solid #999; }    .note > .bt { color: #555; }
+
+/* ---------------- 公式 ---------------- */
+.fml {
+  font-family: "Cambria Math", "Times New Roman", "Microsoft YaHei", serif;
+  background: #fbfbfb; border: 1px solid #e2e2e2; border-radius: 3px;
+  padding: 5px 10px; margin: 6px 0; text-align: center; font-size: 11pt;
+  page-break-inside: avoid;
+}
+.fml.left { text-align: left; }
+.fml .tag { float: right; color: #888; font-size: 9pt; }
+i, var { font-family: "Cambria Math", "Times New Roman", serif; font-style: italic; }
+sub, sup { font-size: 0.72em; }
+
+/* ---------------- 表格 ---------------- */
+table { border-collapse: collapse; width: 100%; margin: 7px 0; font-size: 9.4pt; page-break-inside: avoid; }
+th, td { border: 1px solid #c8d6e2; padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: #e8f1f9; color: #0b3d69; font-weight: bold; }
+tr:nth-child(even) td { background: #fafcfe; }
+td.c, th.c { text-align: center; }
+
+/* ---------------- 例题 / 习题 ---------------- */
+.prob { border: 1px solid #d9e6f2; border-left: 4px solid #4a90c4; border-radius: 4px; padding: 7px 10px; margin: 9px 0; page-break-inside: avoid; background: #fcfdff; }
+.prob > .pt { font-weight: bold; color: #0b4f8a; margin-bottom: 3px; }
+.prob .q { margin: 3px 0; }
+.prob .sol { margin-top: 4px; }
+.prob .ans { background: #fff6d9; border-radius: 3px; padding: 3px 7px; margin-top: 4px; font-weight: bold; color: #8a5a00; }
+ol, ul { margin: 4px 0 4px 1.5em; padding: 0; }
+li { margin: 2px 0; }
+.step { margin-left: 1.1em; }
+
+/* ---------------- 图片 ---------------- */
+figure { margin: 8px 0; text-align: center; page-break-inside: avoid; }
+figure img { max-width: 100%; border: 1px solid #dcdcdc; border-radius: 3px; }
+figcaption { font-size: 8.8pt; color: #666; margin-top: 3px; }
+
+/* ---------------- 其他 ---------------- */
+.pagebreak { page-break-before: always; }
+.toc { background: #f7fafd; border: 1px solid #d9e6f2; border-radius: 4px; padding: 8px 12px; margin: 8px 0 12px 0; }
+.toc ol { margin-left: 1.2em; }
+.toc a { color: #0b3d69; text-decoration: none; }
+.badge { display: inline-block; background: #0b4f8a; color: #fff; border-radius: 3px; padding: 0 6px; font-size: 8.8pt; margin-right: 4px; }
+.badge.g { background: #3d8b40; } .badge.o { background: #c8912a; } .badge.r { background: #c0492b; }
+hr { border: none; border-top: 1px dashed #c3d8ea; margin: 12px 0; }
+
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="kicker">流体力学 A2 · 期末复习讲义</div>
+  <h1>第 2 章 流体静力学</h1>
+  <div class="sub">静压强特性 · 欧拉平衡方程 · 静力学基本方程 · 测压计 · 平面壁与曲面壁总压力 · 相对平衡</div>
+  <div class="meta">对应课件：<em>流体力学2-流体静力学（完）</em>，共 163 页｜章节编排：2.1 流体静压强及其特性 → 2.2 流体静压强的分布规律 → 2.3 压强的计算基准和度量单位 → 2.4 液柱测压计 → 2.5 作用于平面的液体压力 → 2.6 作用于曲面的液体总压力 → 2.7 流体平衡微分方程 → 2.8 流体的相对平衡</div>
+</div>
+
+<div class="toc">
+  <strong>本讲内容</strong>
+  <ol>
+    <li>流体静压强及其特性（定义、两个特性及力学证明）</li>
+    <li>流体平衡微分方程（欧拉方程、全微分式、等压面方程、力的势函数）</li>
+    <li>等压面（性质与三条判据）</li>
+    <li>重力场中流体静力学基本方程（两种形式、几何与物理意义、帕斯卡定律）</li>
+    <li>压强的计算基准与度量单位（绝对压强 / 相对压强 / 真空度）</li>
+    <li>液柱式测压计（测压管、U 形管、压差计、微差计与通用计算套路）</li>
+    <li>作用于平面的液体总压力（解析法 + 图解法 / 压强分布图）</li>
+    <li>作用于曲面的液体总压力（压力体、浮力与阿基米德原理）</li>
+    <li>流体平衡微分方程在相对平衡中的应用（等加速直线运动、等角速旋转）</li>
+    <li>应试速查：公式表、数值表、易错清单</li>
+  </ol>
+</div>
+
+<h1>1 流体静压强及其特性</h1>
+
+<h2>1.1 流体静力学的研究对象</h2>
+<p class="lead">流体静力学研究在外力作用下处于力学平衡状态的流体的力学规律及其在工程上的应用。</p>
+<div class="box def"><div class="bt">静止（平衡）的含义</div>
+<p><strong>绝对静止：</strong>流体相对于惯性坐标系静止。<strong>相对静止：</strong>流体相对于非惯性参考坐标系静止（容器作等加速直线运动或等角速旋转，流体随容器一起运动）。</p>
+<p>两种情形下“流体之间无相对运动”，因而<strong>无切向应力</strong>，流体静力学只考虑法向应力，即压强 <i>p</i>。静止流体的速度梯度 <i>du</i>/<i>dy</i> = 0，内摩擦力为零——注意此时流体<em>有</em>黏性，只是黏性表现不出来（黏性作用为零而非黏度为零）。</p>
+</div>
+
+<h3>2.1.1 流体静压强的定义</h3>
+<p><strong>压强：</strong>在流体内部或流体与壁面间存在的单位面积上的法向作用力。<strong>流体静压强：</strong>流体处于静止状态时，在流体内部或流体与固体壁面间存在的单位面积上<em>负的法向</em>表面力。</p>
+<div class="fml"><span class="tag">定义式</span>
+<p><i>p</i> = lim<sub>Δ<i>A</i>→0</sub> Δ<i>P</i> / Δ<i>A</i>，&nbsp;&nbsp;平均静压强 <i>p</i><sub>m</sub> = Δ<i>P</i> / Δ<i>A</i></p></div>
+<p>单位：帕斯卡（Pa），1 Pa = 1 N/m<sup>2</sup>。1 工程大气压 = 9.81×10<sup>4</sup> Pa ≈ 10<sup>5</sup> Pa。流体静压力与流体静压强都是压力的一种量度，前者是力（N），后者是应力（Pa）。</p>
+
+<h3>2.1.2 流体静压强的两个特性</h3>
+<div class="box key"><div class="bt">必记结论（高频考点）</div>
+<p><span class="badge">特性一</span>静压强的方向总是沿作用面的<strong>内法向</strong>，即<strong>垂直指向作用面</strong>。</p>
+<p><span class="badge">特性二</span>某一点静压强的大小<strong>与作用面的方位无关</strong>，即同一点处沿各个方向的流体静压强均相等，<i>p</i> = <i>p</i>(<i>x</i>, <i>y</i>, <i>z</i>) 是空间位置的标量函数（各向同性）。</p>
+</div>
+
+<h4>特性一的理由</h4>
+<ul>
+  <li>静止流体无切向应力，只可能存在法向应力；故压强必垂直于作用面。</li>
+  <li>“指向作用面”等价于<strong>绝对压强 <i>p</i> &gt; 0（非负）</strong>。压强的物理来源是分子热运动撞击壁面，故压强不能为负。极限情况是真空（无流体）时 <i>p</i> = 0。工程上所谓“负压”指<em>相对压强为负</em>，绝不是绝对压强为负。</li>
+  <li>该结论对惯性系、非惯性系均成立，只要流体相对该坐标系不动。</li>
+</ul>
+
+<h4>特性二的力学证明（微元四面体法）</h4>
+<p>在 <i>P</i> 点周围取微元四面体 <i>ABCO</i>，三个直角棱长 <i>dx</i>、<i>dy</i>、<i>dz</i>，斜面 <i>ABC</i> 的外法线方向 <i>n</i> 任意。设单位质量力的分量 (<i>f</i><sub>x</sub>, <i>f</i><sub>y</sub>, <i>f</i><sub>z</sub>)，各面压强 <i>p</i><sub>x</sub>、<i>p</i><sub>y</sub>、<i>p</i><sub>z</sub>、<i>p</i><sub>n</sub>。对 <i>x</i> 方向列平衡：表面力与体积力之和为零，两边同除 Δ<i>A</i><sub>x</sub> = d<i>y</i>d<i>z</i>/2，并令 <i>dx</i>, <i>dy</i>, <i>dz</i> → 0：</p>
+<div class="fml left">
+<p><i>p</i><sub>x</sub> − <i>p</i><sub>n</sub> + (1/3)ρ<i>f</i><sub>x</sub>d<i>x</i> = 0 &nbsp;⟹&nbsp; 略去高阶小量后 <i>p</i><sub>x</sub> = <i>p</i><sub>n</sub></p>
+<p>同理 <i>p</i><sub>y</sub> = <i>p</i><sub>n</sub>，<i>p</i><sub>z</sub> = <i>p</i><sub>n</sub>&nbsp;⟹&nbsp; <i>p</i><sub>x</sub> = <i>p</i><sub>y</sub> = <i>p</i><sub>z</sub> = <i>p</i><sub>n</sub></p>
+</div>
+<p>由于 <i>dx</i>、<i>dy</i>、<i>dz</i> 的取法任意，故 <i>n</i> 方向任意，特性二得证。体积力项是比表面力项高一阶的小量，<strong>略去高阶小量</strong>是证明的关键一步（也是常考的推导细节）。</p>
+
+<div class="box exam"><div class="bt">常见考法</div>
+<p>① 判断“静止流体中某点各方向压强不等”“压强方向沿外法线”“绝对压强可为负”等说法的正误；② 写出两个特性并说明理由；③ 简答“为什么静止流体中黏性不产生切应力”。</p>
+</div>
+
+<div class="pagebreak"></div>
+<h1>2 流体平衡微分方程</h1>
+
+<h2>2.1 欧拉平衡微分方程（1755 年）</h2>
+<p class="lead">在静止流体中任取微元正六面体（边长 <i>dx</i>、<i>dy</i>、<i>dz</i>，中心点静压强 <i>p</i>），作受力分析：表面力只有法向压力，质量力为重力、惯性力，所受合力为零。</p>
+<h4>推导要点</h4>
+<ol>
+  <li><strong>表面力：</strong>用泰勒展开求六个面中心点的压强。沿 <i>x</i> 轴，左、右两面中心点压强分别略去二阶以上无穷小量后为 <i>p</i> − (∂<i>p</i>/∂<i>x</i>)(d<i>x</i>/2) 与 <i>p</i> + (∂<i>p</i>/∂<i>x</i>)(d<i>x</i>/2)，故左右两面压力为 <i>P</i><sub>左</sub> = [<i>p</i> − (1/2)(∂<i>p</i>/∂<i>x</i>)d<i>x</i>]d<i>y</i>d<i>z</i>，<i>P</i><sub>右</sub> = [<i>p</i> + (1/2)(∂<i>p</i>/∂<i>x</i>)d<i>x</i>]d<i>y</i>d<i>z</i>。</li>
+  <li><strong>质量力：</strong>设单位质量力 <strong><i>f</i></strong> = (<i>X</i>, <i>Y</i>, <i>Z</i>)，则 <i>x</i> 向质量力 <i>F</i><sub>x</sub> = ρ<i>X</i>d<i>x</i>d<i>y</i>d<i>z</i>。</li>
+  <li><strong>力平衡：</strong><i>P</i><sub>左</sub> − <i>P</i><sub>右</sub> + <i>F</i><sub>x</sub> = 0，两边除以 ρd<i>x</i>d<i>y</i>d<i>z</i>。</li>
+</ol>
+<div class="fml"><span class="tag">欧拉平衡微分方程（矢量式）</span>
+<p><strong><i>f</i></strong> − (1/ρ)∇<i>p</i> = 0</p>
+<p style="font-size:10pt;margin-top:4px"><i>X</i> − (1/ρ)(∂<i>p</i>/∂<i>x</i>) = 0，&nbsp; <i>Y</i> − (1/ρ)(∂<i>p</i>/∂<i>y</i>) = 0，&nbsp; <i>Z</i> − (1/ρ)(∂<i>p</i>/∂<i>z</i>) = 0</p>
+</div>
+<p>其中 ∇ = <strong>i</strong>(∂/∂<i>x</i>) + <strong>j</strong>(∂/∂<i>y</i>) + <strong>k</strong>(∂/∂<i>z</i>) 为哈密顿算子。</p>
+<div class="box key"><div class="bt">物理意义与适用范围</div>
+<p><strong>物理意义：</strong>在静止流体中，单位体积质量力在某一方向的分力，与压强沿该方向的递增率相平衡；<em>质量力作用的方向就是压强递增率的方向</em>。</p>
+<p><strong>适用范围：</strong>静止或相对静止状态下的可压缩与不可压缩流体。<strong>它是流体静力学最基本的方程组，流体静力学的其他计算公式都是从此方程组推导出来的。</strong></p>
+</div>
+
+<h2>2.2 平衡方程的全微分式</h2>
+<p>将三个分量式分别乘以 d<i>x</i>、d<i>y</i>、d<i>z</i> 后相加（左端恰好是全微分 d<i>p</i>）：</p>
+<div class="fml"><span class="tag">全微分式（必背）</span>
+<p>d<i>p</i> = ρ(<i>X</i>d<i>x</i> + <i>Y</i>d<i>y</i> + <i>Z</i>d<i>z</i>)</p>
+</div>
+<p>由于流体不可压缩时 ρ = 常数，等号右端括号内必须是某个坐标函数的全微分，故令</p>
+<div class="fml left">
+<p>d<i>W</i> = <i>X</i>d<i>x</i> + <i>Y</i>d<i>y</i> + <i>Z</i>d<i>z</i>，即 <i>X</i> = ∂<i>W</i>/∂<i>x</i>，<i>Y</i> = ∂<i>W</i>/∂<i>y</i>，<i>Z</i> = ∂<i>W</i>/∂<i>z</i></p>
+<p>则 d<i>p</i> = ρ d<i>W</i>，积分得 <i>p</i> = ρ<i>W</i> + <i>C</i>；由 <i>p</i> = <i>p</i><sub>0</sub>、<i>W</i> = <i>W</i><sub>0</sub> 定出 <i>C</i> = <i>p</i><sub>0</sub> − ρ<i>W</i><sub>0</sub>，于是</p>
+<p><i>p</i> = <i>p</i><sub>0</sub> + ρ(<i>W</i> − <i>W</i><sub>0</sub>)</p>
+</div>
+<p>满足上式的坐标函数 <i>W</i>(<i>x</i>, <i>y</i>, <i>z</i>) 称为<strong>力的势函数</strong>，具有势函数的质量力称为<strong>有势的力</strong>。</p>
+<div class="box def"><div class="bt">流体平衡的条件</div>
+<p><strong>只有在有势的质量力作用下，不可压缩均质流体才能处于平衡状态。</strong>上式 <i>p</i> = <i>p</i><sub>0</sub> + ρ(<i>W</i> − <i>W</i><sub>0</sub>) 即不可压缩流体平衡微分方程积分后的普遍关系式。</p>
+</div>
+
+<h2>2.3 等压面</h2>
+<div class="box def"><div class="bt">定义</div>
+<p><i>p</i> = 常数 的面称为<strong>等压面</strong>。由 d<i>p</i> = ρ d<i>W</i> = 0（ρ ≠ 0）得 d<i>W</i> = 0，即 <i>W</i> = 常数。</p>
+</div>
+<div class="fml"><span class="tag">等压面微分方程</span>
+<p><i>X</i>d<i>x</i> + <i>Y</i>d<i>y</i> + <i>Z</i>d<i>z</i> = 0</p>
+</div>
+<div class="box key"><div class="bt">等压面的性质与判据</div>
+<ol>
+  <li><strong>等压面即等势面</strong>（d<i>W</i> = 0 ⟹ <i>W</i> = 常数）。</li>
+  <li>流体质点沿等压面移动距离 d<strong><i>l</i></strong> 时，质量力所作的微功为零，即 <strong><i>f</i></strong>·d<strong><i>l</i></strong> = 0。</li>
+  <li><strong>等压面与质量力正交</strong>。这是绘制与判断等压面的核心依据：质量力只有重力时，等压面就是水平面。</li>
+  <li><strong>判据（构成等压面的三个条件）：同种、连续、静止（相对静止）的流体</strong>，其水平面是等压面。</li>
+</ol>
+</div>
+<div class="box warn"><div class="bt">易错点</div>
+<p>① 两种流体的<strong>分界面</strong>和<strong>自由面</strong>既是水平面又是等压面；不同密度的两种流体各自的水平面才是等压面，<em>不能</em>跨过分界面把一个水平面当作整片等压面。② 非均质流体：静止非均质流体的水平面仍然是等压面，且由 d<i>p</i> = ρ<sub>1</sub>d<i>h</i>、<i>p</i><sub>1</sub> = <i>p</i><sub>2</sub> 推得 ρ<sub>1</sub> = ρ<sub>2</sub>，故水平面同时是<strong>等压面、等容重面、等密度面，进而还是等温面</strong>。③ 等压面不一定水平（相对平衡时是倾斜平面或旋转抛物面）。</p>
+</div>
+
+<h2>2.4 重力场中的流体静力学基本方程</h2>
+<p>质量力只有重力时：<i>X</i> = 0，<i>Y</i> = 0，<i>Z</i> = −<i>g</i>，取 <i>z</i> 轴铅垂向上，代入 d<i>p</i> = ρ(<i>X</i>d<i>x</i> + <i>Y</i>d<i>y</i> + <i>Z</i>d<i>z</i>)：</p>
+<div class="fml"><span class="tag">推导</span>
+<p>d<i>p</i> = −ρ<i>g</i> d<i>z</i> = −γ d<i>z</i> &nbsp;⟹&nbsp; 积分 <i>p</i> = −γ<i>z</i> + <i>C</i></p>
+</div>
+<p>对液面上一点与液体内任意深度 <i>h</i> 处一点应用：<i>p</i> = <i>p</i><sub>0</sub> + γ(<i>z</i><sub>0</sub> − <i>z</i>) = <i>p</i><sub>0</sub> + γ<i>h</i>。</p>
+<div class="fml"><span class="tag">液体静力学基本方程（两种形式）</span>
+<p><i>p</i> = <i>p</i><sub>0</sub> + ρ<i>gh</i> = <i>p</i><sub>0</sub> + γ<i>h</i>&nbsp;&nbsp;（<i>h</i> 为淹没深度，向下为正）</p>
+<p style="margin-top:5px"><i>z</i> + <i>p</i>/γ = 常数&nbsp;&nbsp;（即各点测压管水头相等）</p>
+</div>
+<div class="box key"><div class="bt">物理意义与使用条件</div>
+<p><strong>第一条式的意义：</strong>静止液体中压强随深度按<em>直线</em>规律变化；深度相同的点压强相同（水平面是等压面）；<em>压强的大小与容器的形状无关</em>。</p>
+<p><strong>第二条式的几何意义：</strong><i>z</i> 为该点相对于基准面的高度（<strong>位置水头</strong>），<i>p</i>/γ 为该点在压强作用下沿测压管所能上升的高度（<strong>压强水头</strong>，此处 <i>p</i> 为相对压强），<i>z</i> + <i>p</i>/γ 为<strong>测压管水头</strong>（测压管水面相对基准面的高度）。静止液体中各点的测压管水头相等。</p>
+<p><strong>能量意义：</strong><i>z</i> 是单位重量流体的重力势能，<i>p</i>/γ 是单位重量流体的压强势能，<i>z</i> + <i>p</i>/γ 是单位重量流体的总势能。静止液体中各点单位重量流体的总势能相等——重力势能与压强势能各自可变，但总和恒定，体现能量守恒。</p>
+<p><strong>使用条件：静止、同种、连续流体</strong>（三个条件缺一不可）。实际流体、理想流体都适用。</p>
+</div>
+
+<h3>2.4.1 帕斯卡定律与连通器</h3>
+<p>对上式两边取增量 Δ<i>p</i> = Δ<i>p</i><sub>0</sub>（<i>h</i> 不变），即：</p>
+<div class="box def"><div class="bt">水静压强等值传递的帕斯卡定律</div>
+<p>静止液体任一边界面上压强的变化，将<strong>等值地</strong>传到其他各点（只要静止不被破坏）。工程应用：千斤顶、水压机；连通器原理应用：三峡双线五级船闸（全长 1621 m，上下游总落差 113 m，每级落差 22 ~ 23 m，利用连通器分级调节水位实现万吨级船队过坝）。</p>
+</div>
+
+<h3>2.4.2 气体压强的计算</h3>
+<p>对不可压缩气体，γ<sub>气</sub> 很小，在高度差不大时可忽略气体柱重量：</p>
+<div class="fml"><p>气体：<i>p</i> = <i>p</i><sub>0</sub> + γ<i>h</i> ≈ <i>p</i><sub>0</sub></p></div>
+<p>即容器内气体各点压强近似相等（这是测压计问题中“空气柱压强差可忽略”的依据）。</p>
+
+<h1>3 压强的计算基准和度量单位</h1>
+
+<h2>3.1 压强的两种计算基准（三种压强）</h2>
+<table>
+  <tr><th>名称</th><th>符号</th><th class="c">计量基准</th><th>关系式</th><th>说明</th></tr>
+  <tr><td>绝对压强</td><td><i>p</i><sub>abs</sub></td><td class="c">完全真空（绝对零压强）</td><td><i>p</i><sub>abs</sub> = <i>p</i><sub>a</sub> + ρ<i>gh</i></td><td>恒有 <i>p</i><sub>abs</sub> ≥ 0，≥ 0 是压强特性一的要求</td></tr>
+  <tr><td>相对压强（表压、计示压强）</td><td><i>p</i></td><td class="c">当地大气压 <i>p</i><sub>a</sub></td><td><i>p</i> = <i>p</i><sub>abs</sub> − <i>p</i><sub>a</sub> = ρ<i>gh</i></td><td>可正可负；水面与大气相通时 <i>p</i> = ρ<i>gh</i></td></tr>
+  <tr><td>真空度（真空压强）</td><td><i>p</i><sub>v</sub></td><td class="c">当地大气压 <i>p</i><sub>a</sub></td><td><i>p</i><sub>v</sub> = <i>p</i><sub>a</sub> − <i>p</i><sub>abs</sub> = −<i>p</i></td><td>仅当 <i>p</i><sub>abs</sub> &lt; <i>p</i><sub>a</sub> 时存在，<i>p</i><sub>v</sub> ≥ 0；真空高度 <i>h</i><sub>v</sub> = <i>p</i><sub>v</sub>/γ = (<i>p</i><sub>a</sub> − <i>p</i>)/γ</td></tr>
+</table>
+<div class="fml left">
+<p><i>p</i><sub>abs</sub> = <i>p</i><sub>a</sub> + <i>p</i>；&nbsp; <i>p</i> = <i>p</i><sub>abs</sub> − <i>p</i><sub>a</sub>；&nbsp; <i>p</i><sub>v</sub> = <i>p</i><sub>a</sub> − <i>p</i><sub>abs</sub> = −<i>p</i>&nbsp;&nbsp;（三者都取正值量）</p>
+</div>
+<figure>
+<svg viewBox="0 0 460 230" width="440" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft YaHei, sans-serif" font-size="12">
+  <line x1="70" y1="20" x2="70" y2="215" stroke="#0b3f6e" stroke-width="1.6"/>
+  <polygon points="70,215 66,205 74,205" fill="#0b3f6e"/>
+  <text x="80" y="24" fill="#0b3f6e">p</text>
+  <line x1="40" y1="150" x2="400" y2="150" stroke="#3d8b40" stroke-width="1.4" stroke-dasharray="6 4"/>
+  <text x="404" y="147" fill="#3d8b40">p&#8320;（大气压）</text>
+  <text x="404" y="161" fill="#3d8b40">基准</text>
+  <line x1="40" y1="60" x2="400" y2="60" stroke="#c0492b" stroke-width="1.4"/>
+  <text x="12" y="64" fill="#c0492b">p&#8331;&#8331; = 0</text>
+  <text x="12" y="88" fill="#666">完全真空</text>
+  <line x1="150" y1="100" x2="330" y2="100" stroke="#0b4f8a" stroke-width="1.4"/>
+  <text x="336" y="104" fill="#0b4f8a">p&#8331;&#8332;&#8332; &gt; p&#8320;</text>
+  <line x1="150" y1="150" x2="280" y2="150" stroke="#0b4f8a" stroke-width="3"/>
+  <text x="286" y="146" fill="#0b4f8a">相对压强 +</text>
+  <line x1="150" y1="150" x2="150" y2="100" stroke="#c8912a" stroke-width="1.2"/>
+  <line x1="150" y1="150" x2="150" y2="190" stroke="#c8912a" stroke-width="1.2"/>
+  <line x1="150" y1="120" x2="300" y2="120" stroke="#c8912a" stroke-width="2"/>
+  <line x1="150" y1="190" x2="300" y2="190" stroke="#0b4f8a" stroke-width="2"/>
+  <text x="306" y="124" fill="#c8912a">绝对压强（p &gt; p&#8320;）</text>
+  <text x="306" y="194" fill="#0b4f8a">绝对压强（p &lt; p&#8320;）</text>
+  <line x1="150" y1="150" x2="150" y2="190" stroke="#c0492b" stroke-width="3"/>
+  <text x="120" y="208" fill="#c0492b">真空度</text>
+</svg>
+<figcaption>图 2-1 绝对压强、相对压强与真空度的关系（同一 <i>p</i> 坐标轴）</figcaption>
+</figure>
+<div class="box exam"><div class="bt">常见考法</div>
+<p>① 已知表压求绝对压强／已知真空度求绝对压强；② 判断“真空度就是负的绝对压强”之类错误说法（<em>错</em>，真空度是相对压强的相反数）；③ 水泵吸入管、凝汽器、锅炉炉膛、烟囱底部等“负压”部位给出的压强是表压还是真空度。</p>
+</div>
+
+<h2>3.2 压强的度量单位</h2>
+<ol>
+  <li><strong>应力单位（唯一 SI 单位）：</strong>由定义 <i>p</i> = <i>P</i>/<i>A</i>，单位 Pa（N/m<sup>2</sup>）、kPa、MPa。</li>
+  <li><strong>大气压倍数：</strong>1 标准大气压（atm）= 101325 Pa = 760 mmHg（0 ℃、海平面上的压强）；1 工程大气压（at）= 98000 Pa ≈ 98100 Pa = 10 mH<sub>2</sub>O ≈ 0.1 MPa（海拔 200 m 处正常大气压）。</li>
+  <li><strong>液柱高度：</strong>由 <i>h</i> = <i>p</i>/γ 换算。</li>
+</ol>
+<div class="box key"><div class="bt">四种单位换算必记数值</div>
+<table>
+  <tr><th class="c">基准</th><th class="c">Pa</th><th class="c">水柱高（γ = 9810 N/m<sup>3</sup>）</th><th class="c">汞柱高（ρ<sub>Hg</sub> = 13600 kg/m<sup>3</sup>）</th></tr>
+  <tr><td class="c">1 标准大气压</td><td class="c">101325</td><td class="c">10.33 m</td><td class="c">760 mmHg</td></tr>
+  <tr><td class="c">1 工程大气压</td><td class="c">98000（≈98100）</td><td class="c">10 m</td><td class="c">735.6 mmHg</td></tr>
+</table>
+<p>其中<strong>仅有 Pa 是 SI 单位</strong>；帕斯卡（Pa）、大气压、液柱高三种表示法在液柱测压计计算中都要熟练互换。</p>
+</div>
+
+<h1>4 液柱测压计</h1>
+
+<p class="lead">常用测压计包括机械式、电子式和液柱式。液柱式测压计的原理就是液体静力学基本方程 <i>p</i> = <i>p</i><sub>0</sub> + ρ<i>gh</i>：以液柱高度变化反映压强大小。</p>
+
+<h2>4.1 测压管（结构最简单的液柱式测压计）</h2>
+<p>直管或 U 形管。直管测压管要求：管径不宜过小（否则受毛细作用影响）、所测压强不能过大（否则 <i>h</i> 过高）、<strong>只能测液体压强</strong>（气体需用 U 形管配工作液体）。</p>
+<figure>
+<svg viewBox="0 0 500 210" width="480" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft YaHei, sans-serif" font-size="12">
+  <g>
+    <rect x="30" y="70" width="80" height="120" fill="none" stroke="#333" stroke-width="1.5"/>
+    <line x1="30" y1="70" x2="110" y2="70" stroke="#4a90c4" stroke-width="2"/>
+    <line x1="30" y1="95" x2="110" y2="95" stroke="#4a90c4" stroke-width="1"/>
+    <rect x="30" y="95" width="80" height="95" fill="#dbeaf7" opacity="0.7"/>
+    <line x1="80" y1="70" x2="80" y2="20" stroke="#333" stroke-width="1.5"/>
+    <line x1="80" y1="20" x2="80" y2="70" stroke="#4a90c4" stroke-width="0"/>
+    <line x1="80" y1="35" x2="80" y2="70" stroke="#4a90c4" stroke-width="1"/>
+    <rect x="80" y="35" width="0" height="35" fill="#dbeaf7"/>
+    <line x1="122" y1="35" x2="122" y2="95" stroke="#c0492b" stroke-width="1"/>
+    <polygon points="122,35 119,42 125,42" fill="#c0492b"/>
+    <polygon points="122,95 119,88 125,88" fill="#c0492b"/>
+    <text x="128" y="68" fill="#c0492b">h</text>
+    <text x="24" y="128" fill="#0b4f8a">A</text>
+    <text x="90" y="62" fill="#444">p&#8320;</text>
+    <text x="40" y="205" fill="#333">(a) p&#8320; = γh</text>
+  </g>
+  <g transform="translate(160,0)">
+    <rect x="30" y="70" width="80" height="120" fill="none" stroke="#333" stroke-width="1.5"/>
+    <line x1="30" y1="70" x2="110" y2="70" stroke="#4a90c4" stroke-width="2"/>
+    <line x1="30" y1="105" x2="110" y2="105" stroke="#4a90c4" stroke-width="1"/>
+    <rect x="30" y="105" width="80" height="85" fill="#dbeaf7" opacity="0.7"/>
+    <line x1="70" y1="70" x2="70" y2="20" stroke="#333" stroke-width="1.5"/>
+    <line x1="70" y1="20" x2="90" y2="20" stroke="#333" stroke-width="1.5"/>
+    <line x1="90" y1="20" x2="90" y2="70" stroke="#333" stroke-width="1.5"/>
+    <line x1="90" y1="70" x2="90" y2="105" stroke="none"/>
+    <line x1="90" y1="70" x2="90" y2="105" stroke="#c0492b" stroke-width="0"/>
+    <line x1="90" y1="70" x2="90" y2="120" stroke="#4a90c4" stroke-width="1"/>
+    <line x1="70" y1="45" x2="90" y2="45" stroke="#4a90c4" stroke-width="1"/>
+    <line x1="70" y1="45" x2="70" y2="70" stroke="#4a90c4" stroke-width="1"/>
+    <line x1="104" y1="45" x2="104" y2="70" stroke="#c0492b" stroke-width="1"/>
+    <text x="110" y="60" fill="#c0492b">h</text>
+    <text x="40" y="205" fill="#333">(b) p&#8320; = γh&#8331;&#8331;&#8331;&#8331; 或 p&#8336; = γh</text>
+  </g>
+  <g transform="translate(320,0)">
+    <rect x="30" y="70" width="80" height="120" fill="none" stroke="#333" stroke-width="1.5"/>
+    <line x1="30" y1="70" x2="110" y2="70" stroke="#4a90c4" stroke-width="2"/>
+    <rect x="30" y="70" width="80" height="120" fill="#eef4fa" opacity="0.7"/>
+    <line x1="72" y1="70" x2="72" y2="15" stroke="#333" stroke-width="1.5"/>
+    <line x1="72" y1="15" x2="94" y2="15" stroke="#333" stroke-width="1.5"/>
+    <line x1="94" y1="15" x2="94" y2="120" stroke="#333" stroke-width="1.5"/>
+    <line x1="72" y1="40" x2="94" y2="40" stroke="#888" stroke-width="1.5"/>
+    <line x1="72" y1="95" x2="94" y2="95" stroke="#888" stroke-width="1.5"/>
+    <line x1="106" y1="40" x2="106" y2="95" stroke="#c0492b" stroke-width="1"/>
+    <polygon points="106,40 103,47 109,47" fill="#c0492b"/>
+    <polygon points="106,95 103,88 109,88" fill="#c0492b"/>
+    <text x="112" y="72" fill="#c0492b">h</text>
+    <text x="34" y="90" fill="#444">气体</text>
+    <text x="30" y="205" fill="#333">(c) 测气体 p&#8320; = γh</text>
+  </g>
+</svg>
+<figcaption>图 2-2 测压管与 U 形管测压计（(a) 测液体正压；(b) 液体压强低于大气压，出现真空；(c) 测气体压强）</figcaption>
+</figure>
+<div class="fml left">
+<p>(a) <i>p</i> = γ<i>h</i>&nbsp;&nbsp;（水面上 <i>p</i><sub>0</sub> = <i>p</i><sub>a</sub>，管内液面高出容器液面 <i>h</i>）</p>
+<p>(b) <i>p</i> + γ<i>h</i> = 0 ⟹ <i>p</i> = −γ<i>h</i>，即 <i>p</i><sub>v</sub> = γ<i>h</i>&nbsp;&nbsp;（管内液面低于容器液面）</p>
+<p>(c) <i>p</i> = γ<i>h</i>&nbsp;&nbsp;（测气体压强，γ 为工作液体容重）</p>
+</div>
+<p>当压强较大时，直管测压计中改用水银（工作液体）：设容器内液面压强为 <i>p</i>，U 形管中水银面高差为 <i>h</i>，容器液面到水银左支管面的高度为 <i>h</i><sub>1</sub>，取等压面在水银面较低一侧：</p>
+<div class="fml left">
+<p><i>p</i> + γ<i>h</i><sub>1</sub> = γ<sub>Hg</sub><i>h</i> &nbsp;⟹&nbsp; <i>p</i> = γ<sub>Hg</sub><i>h</i> − γ<i>h</i><sub>1</sub>，或写成相对压强比 <i>p</i>/γ = (<i>γ</i><sub>Hg</sub>/γ)<i>h</i> − <i>h</i><sub>1</sub></p>
+</div>
+<div class="box note"><div class="bt">毛细作用</div>
+<p>管径小、精度要求高时需考虑毛细作用：液体在细管中因表面张力和分子间作用力差异而自发上升或下降。附着力大于内聚力时液面上升（如水），反之下降（如水银）。管径越细、表面张力越大，毛细作用越显著，上升高度遵循 <i>H</i> = 2σcosθ/(<i>r</i>ρ<i>g</i>)，σ 为表面张力系数（N/m）。</p>
+</div>
+
+<h2>4.2 压差计（测定两点间压强差）</h2>
+<p>采用等压面规律进行压差计算。对图中两点 <i>A</i>、<i>B</i>（容器内液体容重 γ<sub>A</sub>、γ<sub>B</sub>，工作液体容重 γ<sub>p</sub>，水银柱差 <i>h</i>，两测点高差分别为 <i>z</i><sub>A</sub>、<i>z</i><sub>B</sub>）：</p>
+<div class="fml left">
+<p><i>p</i><sub>A</sub> + γ<sub>A</sub>(<i>z</i><sub>A</sub> + <i>h</i>) = <i>p</i><sub>B</sub> + γ<sub>B</sub><i>z</i><sub>B</sub> + γ<sub>p</sub><i>h</i></p>
+<p>⟹ <i>p</i><sub>A</sub> − <i>p</i><sub>B</sub> = (γ<sub>p</sub> − γ<sub>A</sub>)<i>h</i> + γ<sub>B</sub><i>z</i><sub>B</sub> − γ<sub>A</sub><i>z</i><sub>A</sub></p>
+</div>
+<table>
+  <tr><th class="c">情形</th><th>条件</th><th>压强差</th><th>结论</th></tr>
+  <tr><td class="c">(a)</td><td><i>A</i>、<i>B</i> 处为同种液体</td><td>(γ<sub>p</sub> − γ)<i>h</i> + γ(<i>z</i><sub>B</sub> − <i>z</i><sub>A</sub>)</td><td>一般式</td></tr>
+  <tr><td class="c">(b)</td><td>同种液体，且在同一高程 <i>z</i><sub>A</sub> = <i>z</i><sub>B</sub></td><td>(γ<sub>p</sub> − γ)<i>h</i></td><td><strong>容重差乘以水银柱差</strong>（最常用）</td></tr>
+  <tr><td class="c">(c)</td><td><i>A</i>、<i>B</i> 处为同一气体</td><td>γ<sub>p</sub><i>h</i></td><td>水银柱差所产生的压强（空气压差计：<i>p</i><sub>A</sub> − <i>p</i><sub>B</sub> = γ<sub>p</sub><i>h</i>）</td></tr>
+</table>
+
+<h2>4.3 微差计（倾斜式微压计）</h2>
+<p>工作液体一般采用蒸馏水或酒精；功能是在测定微小压强（或压差）时提高量测精度。</p>
+<div class="fml left">
+<p><i>p</i><sub>1</sub> − <i>p</i><sub>2</sub> = γ<i>h</i> = γ<i>l</i>&nbsp;sinα，&nbsp; <i>l</i> = <i>h</i>/sinα</p>
+<p>α = 30° 时 <i>l</i> = 2<i>h</i>；α = 10° 时 <i>l</i> = 5.76<i>h</i></p>
+</div>
+<div class="box key"><div class="bt">结论</div>
+<p>倾斜角度 α 越小，<i>l</i> 比 <i>h</i> 放大的倍数越大，量测精度越高；工作液体密度越小，读数越大（故常用酒精而不用水银）。</p>
+</div>
+
+<h2>4.4 测压计计算通用套路</h2>
+<div class="box key"><div class="bt">五步法（必背）</div>
+<ol>
+  <li><strong>定两端：</strong>从已知压强的一端出发，逐段推算到待求压强的一端，中间量（分界面、转向点压强）随即消去。</li>
+  <li><strong>逐段加减：</strong>沿管内流体从一端走到另一端，<em>向下</em>走（沿重力方向）压强<strong>加</strong> ρ<i>gh</i>；<em>向上</em>走压强<strong>减</strong> ρ<i>gh</i>。每段用该段流体的密度。</li>
+  <li><strong>取等压面：</strong>在同一种连通流体的<em>同一高度</em>上取等压面（通常在两种流体的分界面、U 形管最低液面或同一水平液面处），利用该面上压强相等列方程。</li>
+  <li><strong>气体柱：</strong>小范围高度内空气质量影响不计，γ<sub>air</sub> ≈ 0，空气段的 ρ<i>gh</i> 项可略。</li>
+  <li><strong>统一基准：</strong>全式统一用<em>绝对压强</em>或统一用<em>相对压强</em>；用相对压强时，与大气相通的液面就是 <i>p</i> = 0 的起点。</li>
+</ol>
+</div>
+<div class="box warn"><div class="bt">易错点</div>
+<p>① 忘记区分工作液体与被测流体的密度（水银 13600 kg/m<sup>3</sup>、水 1000、酒精 800）；② 上下方向搞反导致符号错；③ 在<em>不同</em>流体或<em>不连通</em>的两点取等压面；④ 把工程大气压当标准大气压用（0.5 工程大气压 = 4.905×10<sup>4</sup> Pa，而 0.5 atm = 5.07×10<sup>4</sup> Pa）。</p>
+</div>
+
+<div class="prob"><div class="pt">例 2-1（压强基准与换算）</div>
+<div class="q">某水泵吸入管中水的绝对压强为 78 kPa，当地大气压为 98 kPa，求相对压强与真空度；若改用汞柱表示真空度，汞柱高为多少？（ρ<sub>Hg</sub> = 13600 kg/m<sup>3</sup>，γ<sub>水</sub> = 9800 N/m<sup>3</sup>，<i>g</i> = 9.8 m/s<sup>2</sup>）</div>
+<div class="sol">
+<p>解：真空度 <i>p</i><sub>v</sub> = <i>p</i><sub>a</sub> − <i>p</i><sub>abs</sub> = 98 − 78 = 20 kPa</p>
+<p>相对压强 <i>p</i> = −<i>p</i><sub>v</sub> = −20 kPa（表压为负，即通常说的“负压”）</p>
+<p>汞柱高 <i>h</i><sub>Hg</sub> = <i>p</i><sub>v</sub>/(ρ<sub>Hg</sub><i>g</i>) = 20000/(13600 × 9.8) = 20000/133280 = 0.150 m = 150 mmHg</p>
+<p>（若用水柱表示：<i>h</i><sub>v</sub> = 20000/9800 = 2.04 mH<sub>2</sub>O）</p>
+</div>
+<div class="ans">答案：<i>p</i> = −20 kPa，<i>p</i><sub>v</sub> = 20 kPa，<i>h</i><sub>Hg</sub> = 150 mmHg（= 2.04 mH<sub>2</sub>O）</div>
+</div>
+
+<div class="prob"><div class="pt">例 2-2（多层液体：先求分界面压强）</div>
+<div class="q">密闭容器内盛有三种不相混的液体，自上而下依次为：油层厚 <i>h</i><sub>1</sub> = 1.0 m（γ<sub>1</sub> = 8000 N/m<sup>3</sup>），水层厚 <i>h</i><sub>2</sub> = 1.5 m（γ<sub>2</sub> = 9800 N/m<sup>3</sup>），水银层厚 <i>h</i><sub>3</sub> = 0.4 m（γ<sub>3</sub> = 133280 N/m<sup>3</sup>）。液面压强 <i>p</i><sub>0</sub> = 30000 Pa（相对）。求容器底部及水银层中的压强。</div>
+<div class="sol">
+<p>解：多种流体的容器，<strong>先求分界面压强</strong>，再逐层向下累加 ρ<i>gh</i>：</p>
+<p>油—水分界面（深度 1.0 m）：<i>p</i><sub>1</sub> = <i>p</i><sub>0</sub> + γ<sub>1</sub><i>h</i><sub>1</sub> = 30000 + 8000 × 1.0 = 38000 Pa</p>
+<p>水—水银分界面（深度 2.5 m）：<i>p</i><sub>2</sub> = <i>p</i><sub>1</sub> + γ<sub>2</sub><i>h</i><sub>2</sub> = 38000 + 9800 × 1.5 = 38000 + 14700 = 52700 Pa</p>
+<p>容器底部（深度 2.9 m）：<i>p</i><sub>底</sub> = <i>p</i><sub>2</sub> + γ<sub>3</sub><i>h</i><sub>3</sub> = 52700 + 133280 × 0.4 = 52700 + 53312 = 106012 Pa</p>
+</div>
+<div class="ans">答案：<i>p</i><sub>1</sub> = 38.0 kPa，<i>p</i><sub>2</sub> = 52.7 kPa，<i>p</i><sub>底</sub> ≈ 106.0 kPa（均为相对压强）</div>
+</div>
+
+<div class="prob"><div class="pt">例 2-3（复式 U 形管压力计）</div>
+<div class="q">复式 U 形管压力计如图：压力表 <i>M</i> 读数 0.5 工程大气压（表压），<i>h</i> = 0.2 m，<i>h</i><sub>1</sub> = 0.3 m，<i>h</i><sub>2</sub> = 0.3 m，<i>h</i><sub>3</sub> = 0.5 m；水的密度 ρ<sub>w</sub> = 1000 kg/m<sup>3</sup>，酒精比重 ρ<sub>a</sub>/ρ<sub>w</sub> = 0.8，ρ<sub>Hg</sub> = 13600 kg/m<sup>3</sup>。求 <i>p</i><sub>B</sub>。</div>
+<div class="sol">
+<p>解：方法——<strong>从已知端逐步向后推算，直到未知端</strong>；在小范围高度内空气质量影响不计，γ<sub>air</sub> = 0。</p>
+<p>已知端：<i>p</i><sub>M</sub> = 0.5 工程大气压 = 0.5 × 9.81 × 10<sup>4</sup> = 4.905 × 10<sup>4</sup> Pa（表压）</p>
+<p>逐段（从 <i>M</i> 侧液面向下、再向上…沿管内流体走到 <i>B</i>）：</p>
+<p class="step">① 到水银—水银的同一液面（下降段，加压）：<i>p</i><sub>1</sub> = <i>p</i><sub>M</sub> + ρ<sub>Hg</sub><i>g</i><i>h</i> = 49050 + 13600 × 9.81 × 0.2 = 49050 + 26683 = 75733 Pa</p>
+<p class="step">② 越过空气段（γ<sub>air</sub> = 0，压强不变）：<i>p</i><sub>2</sub> = <i>p</i><sub>1</sub> = 75733 Pa</p>
+<p class="step">③ 上升段（减压）：<i>p</i><sub>3</sub> = <i>p</i><sub>2</sub> − ρ<sub>Hg</sub><i>g</i><i>h</i><sub>1</sub> = 75733 − 13600 × 9.81 × 0.3 = 75733 − 40025 = 35708 Pa</p>
+<p class="step">④ 酒精上升段（减压）：<i>p</i><sub>4</sub> = <i>p</i><sub>3</sub> − ρ<sub>a</sub><i>g</i><i>h</i><sub>2</sub> = 35708 − 800 × 9.81 × 0.3 = 35708 − 2354 = 33354 Pa</p>
+<p class="step">⑤ 水银下降段（加压）、水上升段（减压）后到达 <i>p</i><sub>B</sub>，最终得 <i>p</i><sub>B</sub> ≈ −9180 Pa</p>
+<p>负号表示绝对压强低于当地大气压，故该点处于真空状态。</p>
+</div>
+<div class="ans">答案：真空度 <i>p</i><sub>v,B</sub> = 9.18 × 10<sup>3</sup> Pa ≈ 9.18 kPa（按课件给定数据）</div>
+</div>
+
+<div class="prob"><div class="pt">例 2-4（倾斜式微压计）</div>
+<div class="q">用倾斜式微压计测量气流的微小压差，工作液体为酒精（ρ = 800 kg/m<sup>3</sup>），倾角 α = 30°，读得斜管液柱长度 <i>l</i> = 25 cm。求所测压差；若倾角改为 10°，同一压差对应的读数是多少？</div>
+<div class="sol">
+<p>解：<i>p</i><sub>1</sub> − <i>p</i><sub>2</sub> = γ<i>h</i> = γ<i>l</i>&nbsp;sinα</p>
+<p>Δ<i>p</i> = 800 × 9.81 × 0.25 × sin30° = 800 × 9.81 × 0.25 × 0.5 = 981 Pa</p>
+<p>α = 10° 时：<i>l</i> = Δ<i>p</i>/(γ sinα) = 981/(800 × 9.81 × sin10°) = 981/(7848 × 0.17365) = 981/1362.8 = 0.72 m</p>
+<p>即放大倍数由 2 倍提高到 5.76 倍，读数由 25 cm 增至 72 cm，量测精度明显提高。</p>
+</div>
+<div class="ans">答案：Δ<i>p</i> = 981 Pa；α = 10° 时 <i>l</i> ≈ 0.72 m（72 cm），放大 5.76 倍</div>
+</div>
+
+<h1>5 作用于平面的液体总压力</h1>
+
+<p class="lead">工程上除确定点压强外，还需计算受压面上的总压力（如三峡坝高 181 m、白鹤滩坝高 289 m，坝体需要承受多大的压力？）。静止液体作用在<strong>平面</strong>上的总压力要回答三个问题：<strong>大小、作用点、方向</strong>。方法有两种：<strong>解析法</strong>与<strong>图算法（图解法）</strong>。</p>
+
+<h2>5.1 解析法</h2>
+<figure>
+<svg viewBox="0 0 470 220" width="450" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft YaHei, sans-serif" font-size="12">
+  <line x1="20" y1="20" x2="440" y2="20" stroke="#4a90c4" stroke-width="2"/>
+  <text x="446" y="24" fill="#4a90c4">自由液面</text>
+  <line x1="120" y1="20" x2="300" y2="180" stroke="#333" stroke-width="2"/>
+  <line x1="300" y1="180" x2="300" y2="205" stroke="#333" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="120" y1="20" x2="120" y2="205" stroke="#333" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="120" y1="205" x2="300" y2="205" stroke="#888" stroke-width="1" stroke-dasharray="4 3"/>
+  <path d="M120,20 A40,40 0 0,0 158,32" fill="none" stroke="#c0492b" stroke-width="1.2"/>
+  <text x="152" y="46" fill="#c0492b">α</text>
+  <text x="86" y="120" fill="#0b4f8a">A</text>
+  <line x1="200" y1="20" x2="200" y2="86" stroke="#c8912a" stroke-width="1.2"/>
+  <polygon points="200,86 197,79 203,79" fill="#c8912a"/>
+  <text x="205" y="60" fill="#c8912a">h</text>
+  <circle cx="210" cy="92" r="3.2" fill="#0b4f8a"/>
+  <text x="216" y="90" fill="#0b4f8a">C（形心）</text>
+  <circle cx="240" cy="117" r="3.2" fill="#c0492b"/>
+  <text x="246" y="122" fill="#c0492b">D（压力中心）</text>
+  <line x1="60" y1="20" x2="60" y2="205" stroke="#0b4f8a" stroke-width="1.2"/>
+  <polygon points="60,20 57,28 63,28" fill="#0b4f8a"/>
+  <text x="44" y="16" fill="#0b4f8a">O</text>
+  <text x="200" y="216" fill="#333">受压面 A，面积 A，与水平面夹角 α</text>
+  <g stroke="#c0492b" stroke-width="1.4">
+    <line x1="200" y1="75" x2="230" y2="98"/>
+    <polygon points="230,98 222,96 226,91" fill="#c0492b"/>
+  </g>
+  <text x="234" y="76" fill="#c0492b">dP = γh dA</text>
+</svg>
+<figcaption>图 2-3 倾斜平面上的总压力（解析法坐标系：<i>Ox</i> 轴为受压面与自由液面的交线，<i>y</i> 轴沿受压面斜向下）</figcaption>
+</figure>
+<h4>总压力的大小</h4>
+<p>设 <i>h</i> 为倾斜平面上任一点到自由液面的深度，<i>h</i> = <i>y</i>&nbsp;sinα；在深度 <i>h</i> 处取微元面积 d<i>A</i>，由静止液体产生的压强 <i>p</i> = γ<i>h</i>，微元面积上受力 d<i>P</i> = γ<i>h</i>&nbsp;d<i>A</i> = γ<i>y</i>&nbsp;sinα&nbsp;d<i>A</i>。积分：</p>
+<div class="fml left">
+<p><i>P</i> = ∫<sub>A</sub> d<i>P</i> = ∫<sub>A</sub> γ<i>y</i>&nbsp;sinα&nbsp;d<i>A</i> = γ&nbsp;sinα ∫<sub>A</sub> <i>y</i>&nbsp;d<i>A</i></p>
+<p>受压面 <i>A</i> 对 <i>Ox</i> 轴的静矩 ∫<sub>A</sub> <i>y</i>&nbsp;d<i>A</i> = <i>y</i><sub>C</sub><i>A</i>，而 <i>y</i><sub>C</sub>&nbsp;sinα = <i>h</i><sub>C</sub>，故</p>
+</div>
+<div class="fml"><span class="tag">平面总压力（核心公式）</span>
+<p><i>P</i> = γ&nbsp;sinα&nbsp;<i>y</i><sub>C</sub><i>A</i> = γ<i>h</i><sub>C</sub><i>A</i> = <i>p</i><sub>C</sub><i>A</i></p>
+</div>
+<p>其中 <i>h</i><sub>C</sub> 为受压面<strong>形心点 C 的淹没深度</strong>，<i>y</i><sub>C</sub> 为形心点 C 到 <i>Ox</i> 轴的距离，<i>p</i><sub>C</sub> 为形心点 C 的压强。</p>
+<div class="box key"><div class="bt">结论</div>
+<p><strong>静水总压力大小等于受压面面积与其形心点压强的乘积</strong>，方向沿受压面的<strong>内法线</strong>方向，且<strong>与平板的倾斜角度 α 无关</strong>。注意是形心点压强 <i>p</i><sub>C</sub>，不是平均压强之外的其他量；这里是相对压强计算（与容器形状无关）。</p>
+</div>
+
+<h4>总压力的作用点（压力中心 D）</h4>
+<p>对 <i>Ox</i> 轴取力矩：合力矩等于各微元力矩之积分，<i>P</i>&nbsp;<i>y</i><sub>D</sub> = ∫<sub>A</sub> γ<i>y</i>&nbsp;sinα&nbsp;<i>y</i>&nbsp;d<i>A</i> = γ&nbsp;sinα&nbsp;<i>J</i><sub>x</sub>，其中 <i>J</i><sub>x</sub> = ∫<sub>A</sub> <i>y</i><sup>2</sup>d<i>A</i> 为受压面对 <i>Ox</i> 轴的惯性矩。由平行移轴定理 <i>J</i><sub>x</sub> = <i>J</i><sub>C</sub> + <i>y</i><sub>C</sub><sup>2</sup><i>A</i>：</p>
+<div class="fml"><span class="tag">压力中心（核心公式）</span>
+<p><i>y</i><sub>D</sub> = <i>J</i><sub>x</sub>/(<i>y</i><sub>C</sub><i>A</i>) = <i>y</i><sub>C</sub> + <i>J</i><sub>C</sub>/(<i>y</i><sub>C</sub><i>A</i>)</p>
+<p style="margin-top:5px"><i>y</i><sub>e</sub> = <i>y</i><sub>D</sub> − <i>y</i><sub>C</sub> = <i>J</i><sub>C</sub>/(<i>y</i><sub>C</sub><i>A</i>) &gt; 0 ⟹ <i>y</i><sub>D</sub> &gt; <i>y</i><sub>C</sub></p>
+</div>
+<p>其中 <i>J</i><sub>C</sub> 为受压面<em>对过形心且平行于 Ox 轴的轴</em>的惯性矩，<i>y</i><sub>e</sub> 为压力中心沿 <i>y</i> 轴方向至受压面形心的距离。</p>
+<div class="box key"><div class="bt">结论</div>
+<p>① <i>J</i><sub>C</sub>/(<i>y</i><sub>C</sub><i>A</i>) &gt; 0，故<strong>总压力作用点 D 一般位于受压面形心 C 之下</strong>（因为压强随淹没深度增加而增大）。② 随着受压面整体深度增加，<i>y</i><sub>C</sub> 增大，<i>y</i><sub>e</sub> 减小，D 与 C 位置逐渐靠近；当深度趋于无穷时 D 与 C 重合。③ 实际工程中受压平面多数对称，压力中心位于平面的对称中心线上，此时<strong>不必求 <i>x</i><sub>D</sub></strong>，只需 <i>y</i><sub>D</sub>。</p>
+</div>
+<div class="box warn"><div class="bt">使用条件与虚设液面</div>
+<p>上述公式只能计算<strong>液面压强为大气压强</strong>时作用于平面的液体静压力及其压力中心（即以相对压强全为 0 的液面为基准）。若容器封闭、液面压强 <i>p</i><sub>0</sub> ≠ <i>p</i><sub>a</sub>，则采用<strong>相对压强为 0 的虚设液面</strong>：虚设液面在实际液面上方（下方）距离为 (<i>p</i><sub>0</sub> − <i>p</i><sub>a</sub>)/γ；当 <i>p</i><sub>0</sub> &gt; <i>p</i><sub>a</sub> 时虚设液面在实际液面上方，反之在下方。计算静压力时 <i>h</i><sub>C</sub> 用形心至<em>虚设液面</em>的距离代替，计算压力中心时 <i>y</i><sub>C</sub> 用形心沿 <i>y</i> 轴方向至虚设液面的距离代替。</p>
+</div>
+
+<h2>5.2 图解法（压强分布图）</h2>
+<p><strong>静压强分布图：</strong>在受压面承压的一面，以一定比例尺的矢量线段，表示压强大小和方向的图形。由 <i>p</i> = <i>p</i><sub>0</sub> + γ<i>h</i> 可知图形分两部分：</p>
+<ul>
+  <li><i>p</i><sub>0</sub> 的作用：矩形分布，且左右两边相互抵消，通常不考虑；</li>
+  <li>γ<i>h</i> 的作用：三角形分布（起点压强 0，终点压强 γ<i>h</i>）。</li>
+</ul>
+<figure>
+<svg viewBox="0 0 460 210" width="440" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft YaHei, sans-serif" font-size="12">
+  <line x1="40" y1="20" x2="330" y2="20" stroke="#4a90c4" stroke-width="2"/>
+  <text x="336" y="24" fill="#4a90c4">液面</text>
+  <rect x="120" y="20" width="24" height="150" fill="#eef4fa" stroke="#333" stroke-width="1.5"/>
+  <text x="112" y="34" fill="#0b4f8a">A</text>
+  <text x="112" y="176" fill="#0b4f8a">B</text>
+  <polygon points="144,20 254,170 144,170" fill="#dbeaf7" stroke="#0b4f8a" stroke-width="1.4"/>
+  <g stroke="#0b4f8a" stroke-width="0.9">
+    <line x1="144" y1="50" x2="176" y2="50"/><line x1="144" y1="80" x2="209" y2="80"/>
+    <line x1="144" y1="110" x2="242" y2="110"/><line x1="144" y1="140" x2="274" y2="140"/>
+  </g>
+  <text x="258" y="176" fill="#0b4f8a">γh</text>
+  <text x="150" y="60" fill="#0b3d69">h</text>
+  <line x1="120" y1="170" x2="60" y2="170" stroke="#333" stroke-width="1.4"/>
+  <line x1="144" y1="20" x2="144" y2="170" stroke="#333" stroke-width="0"/>
+  <text x="52" y="166" fill="#333">b（宽度）</text>
+  <line x1="200" y1="170" x2="200" y2="20" stroke="#c8912a" stroke-width="1"/>
+  <polygon points="200,170 197,163 203,163" fill="#c8912a"/>
+  <text x="205" y="100" fill="#c8912a">h</text>
+  <text x="44" y="30" fill="#4a90c4">p&#8320;</text>
+  <circle cx="186" cy="113" r="3" fill="#c0492b"/>
+  <text x="192" y="118" fill="#c0492b">形心（压力中心）</text>
+  <text x="330" y="120" fill="#333">矩形受压面，</text>
+  <text x="330" y="138" fill="#333">压强分布图为</text>
+  <text x="330" y="156" fill="#333">三角形 ABE</text>
+</svg>
+<figcaption>图 2-4 矩形竖放闸门的静压强分布图与压力中心</figcaption>
+</figure>
+<div class="box key"><div class="bt">图解法的三个步骤与结论</div>
+<ol>
+  <li>先绘制压强分布图；</li>
+  <li>作用力的大小等于压强分布图的<strong>面积乘受压面的宽度</strong>，即压强分布图的<strong>体积</strong>；</li>
+  <li>作用点的位置相当于压强分布图的<strong>形心点</strong>位置。</li>
+</ol>
+<p>以矩形（宽 <i>b</i>、高 <i>h</i>）竖放挡水为例：压强分布图 ABE 三角形面积 Ω = (1/2)γ<i>h</i>&nbsp;<i>h</i>，故</p>
+<p><i>P</i> = Ω&nbsp;<i>b</i> = (1/2)γ<i>h</i><sup>2</sup><i>b</i>，与解析法 <i>P</i> = γ<i>h</i><sub>C</sub><i>A</i> = γ(<i>h</i>/2)(<i>h</i><i>b</i>) 完全一致。</p>
+<p><strong>常见疑问：</strong>为什么这里取 <i>h</i><sub>C</sub> = <i>h</i>/2 而不是 2<i>h</i>/3？——<i>h</i>/2 是<em>总压力的计算深度（形心深度）</em>，2<i>h</i>/3 是<em>压力分布图三角形的形心纵坐标，即压力中心的深度</em>，两者含义不同，切勿混用。</p>
+</div>
+
+<h2>5.3 常见平面的形心深度、面积与压力中心</h2>
+<table>
+  <tr><th>受压面（宽 <i>b</i>，高/直径 <i>h</i> 或 <i>d</i>）</th><th class="c">形心淹没深度 <i>h</i><sub>C</sub></th><th class="c">面积 <i>A</i></th><th class="c">惯性矩 <i>J</i><sub>C</sub></th><th class="c">压力中心 <i>y</i><sub>D</sub>（<i>y</i> 沿斜面自 <i>Ox</i> 量起）</th></tr>
+  <tr><td>矩形，竖向放置，上边缘与液面齐平</td><td class="c"><i>h</i>/2</td><td class="c"><i>bh</i></td><td class="c"><i>bh</i><sup>3</sup>/12</td><td class="c"><i>y</i><sub>D</sub> = <i>y</i><sub>C</sub> + <i>h</i>/6 = (2/3)<i>h</i>/sinα</td></tr>
+  <tr><td>矩形，竖向放置，上边缘位于液面以下深度 <i>h</i><sub>1</sub></td><td class="c"><i>h</i><sub>1</sub> + <i>h</i>/2</td><td class="c"><i>bh</i></td><td class="c"><i>bh</i><sup>3</sup>/12</td><td class="c"><i>y</i><sub>D</sub> = <i>y</i><sub>C</sub> + <i>h</i><sup>2</sup>/[12(<i>h</i><sub>1</sub> + <i>h</i>/2)]</td></tr>
+  <tr><td>矩形，水平放置（上、下表面均水平）</td><td class="c"><i>h</i><sub>C</sub> = <i>h</i>（各点同深度）</td><td class="c"><i>A</i> = <i>bl</i></td><td class="c">—</td><td class="c">各点压强相同，压力中心与形心重合</td></tr>
+  <tr><td>圆形（直径 <i>d</i>），圆心淹没深度 <i>h</i><sub>C</sub></td><td class="c"><i>h</i><sub>C</sub></td><td class="c">π<i>d</i><sup>2</sup>/4</td><td class="c">π<i>d</i><sup>4</sup>/64</td><td class="c"><i>y</i><sub>D</sub> = <i>y</i><sub>C</sub> + <i>d</i><sup>2</sup>/(16<i>y</i><sub>C</sub>)（即 <i>y</i><sub>e</sub> = <i>d</i><sup>2</sup>/16<i>y</i><sub>C</sub>）</td></tr>
+</table>
+<div class="box note"><div class="bt">记忆要点</div>
+<p><strong>矩形：</strong><i>J</i><sub>C</sub> = <i>bh</i><sup>3</sup>/12，<i>y</i><sub>e</sub> = <i>h</i><sup>2</sup>/(12<i>y</i><sub>C</sub>)。<strong>圆：</strong><i>J</i><sub>C</sub> = π<i>d</i><sup>4</sup>/64，<i>y</i><sub>e</sub> = <i>d</i><sup>2</sup>/(16<i>y</i><sub>C</sub>)。两式的通用形式都是 <i>y</i><sub>e</sub> = <i>J</i><sub>C</sub>/(<i>y</i><sub>C</sub><i>A</i>)，只要记住 <i>J</i><sub>C</sub> 与 <i>A</i> 即可现场推。</p>
+</div>
+
+<div class="prob"><div class="pt">例 2-5（矩形斜闸门：解析法 + 图解法，课件例 7）</div>
+<div class="q">矩形平板一侧挡水，与水平面夹角 α = 30°，平板上边缘与水面齐平，水深 <i>h</i> = 3 m，平板长 <i>l</i> = 6 m，宽 <i>b</i> = 5 m。分别用解析法和图解法求作用在平板上的作用力及其作用点。（ρ = 1000 kg/m<sup>3</sup>，<i>g</i> = 9.81 m/s<sup>2</sup>）</div>
+<div class="sol">
+<p><strong>1. 解析法</strong></p>
+<p class="step">① 形心深度：<i>h</i><sub>C</sub> = (<i>h</i>/2) = 1.5 m（上边缘与液面齐平，形心在板长中点，其淹没深度为全长中点处的水深）</p>
+<p class="step">② 形心沿板面的坐标：<i>y</i><sub>C</sub> = (<i>h</i>/2)/sin30° = 1.5/0.5 = 3 m</p>
+<p class="step">③ 总压力大小：<i>P</i> = <i>p</i><sub>C</sub><i>A</i> = γ<i>h</i><sub>C</sub><i>A</i> = ρ<i>g</i>(<i>h</i>/2)(<i>l</i><i>b</i>) = 1000 × 9.81 × 1.5 × 6 × 5 = 441450 N</p>
+<p class="step">④ 压力中心：<i>J</i><sub>C</sub> = <i>bl</i><sup>3</sup>/12 = 5 × 6<sup>3</sup>/12 = 90 m<sup>4</sup>，<i>y</i><sub>e</sub> = <i>J</i><sub>C</sub>/(<i>y</i><sub>C</sub><i>A</i>) = 90/(3 × 30) = 1.0 m</p>
+<p class="step">⑤ <i>y</i><sub>D</sub> = <i>y</i><sub>C</sub> + <i>y</i><sub>e</sub> = 3 + 1 = 4 m（自液面沿板面量起），对应的淹没深度 <i>h</i><sub>D</sub> = 4 sin30° = 2.0 m</p>
+<p>方向为受压面内的法线方向（垂直指向平板）。</p>
+<p><strong>2. 图解法</strong></p>
+<p class="step">① 绘出压强分布图 abc（起点压强 0，终点压强 γ<i>h</i> 的三角形）。</p>
+<p class="step">② 作用力大小等于压强分布图的体积：</p>
+<p class="step"><i>P</i> = Ω&nbsp;<i>b</i> = (1/2)<i>l</i>&nbsp;γ<i>h</i>&nbsp;<i>b</i> = (1/2) × 6 × 9810 × 3 × 5 = 441450 N</p>
+<p class="step">③ 作用点位置为压强分布图的形心：<i>y</i><sub>D</sub> = (2/3)<i>l</i> = (2/3) × 6 = 4 m</p>
+<p>两种方法结果一致。</p>
+</div>
+<div class="ans">答案：<i>P</i> ≈ 441.45 kN ≈ 441 kN，作用点 <i>y</i><sub>D</sub> = 4 m（自液面沿板面量起，即板长的 2/3 处，淹没深度 2.0 m）</div>
+</div>
+
+<div class="prob"><div class="pt">例 2-6（圆形闸门与启门力）</div>
+<div class="q">直径 <i>d</i> = 1 m 的圆形闸门竖直安装在闸壁上，圆心位于水面以下 <i>h</i><sub>C</sub> = 4 m。闸门由铰链设在其顶部、力臂为 1.2 m 的杠杆启闭。求水对闸门的总压力、压力中心以及所需启门力的大小（以闸门顶部为矩心，忽略门重与摩擦）。</div>
+<div class="sol">
+<p>解：总压力 <i>P</i> = γ<i>h</i><sub>C</sub><i>A</i></p>
+<p><i>A</i> = π<i>d</i><sup>2</sup>/4 = π × 1<sup>2</sup>/4 = 0.7854 m<sup>2</sup></p>
+<p><i>P</i> = 9810 × 4 × 0.7854 = 30819 N</p>
+<p>压力中心：圆心（形心）的 <i>y</i><sub>C</sub> = 4 m（水面上边缘即 <i>Ox</i> 轴，矩形/圆均自同一基准量起）</p>
+<p><i>J</i><sub>C</sub> = π<i>d</i><sup>4</sup>/64 = π × 1<sup>4</sup>/64 = 0.04909 m<sup>4</sup></p>
+<p><i>y</i><sub>e</sub> = <i>J</i><sub>C</sub>/(<i>y</i><sub>C</sub><i>A</i>) = 0.04909/(4 × 0.7854) = 0.015625 m ≈ 1.6 cm</p>
+<p><i>y</i><sub>D</sub> = 4 + 0.016 = 4.016 m</p>
+<p>取闸门顶部（即铰链）为矩心：顶部在水面下 4 − 0.5 = 3.5 m，压力中心到铰链的距离为 4.016 − 3.5 = 0.516 m。</p>
+<p>力矩平衡：<i>P</i> × 0.516 = <i>F</i> × 1.2</p>
+<p><i>F</i> = 30819 × 0.516/1.2 = 15903/1.2 = 13252 N</p>
+</div>
+<div class="ans">答案：<i>P</i> ≈ 30.8 kN；<i>y</i><sub>D</sub> ≈ 4.02 m（压力中心在圆心下方 1.6 cm）；启门力 <i>F</i> ≈ 13.3 kN</div>
+</div>
+
+<h1>6 作用于曲面的液体总压力</h1>
+
+<p class="lead">曲面上的液体总压力与平面上有本质不同：曲面几何形状复杂，<em>压力方向在曲面上各点不同</em>，不能简单沿用平面方法，必须把总压力分解为<strong>水平分力</strong>与<strong>垂直分力</strong>分别计算。水平分力的计算类似平面情况，垂直分力与曲面上方液体的虚拟体积（<strong>压力体</strong>）相关。</p>
+
+<h2>6.1 水平分力</h2>
+<p>设一垂直于底面的柱体（长度 <i>l</i>），受压曲面为 <i>AB</i>；在曲面 <i>AB</i> 上水深 <i>h</i> 处取微元面积 d<i>A</i>，作用在 d<i>A</i> 上的水静压力 d<i>P</i> = γ<i>h</i>&nbsp;d<i>A</i>，该力垂直于 d<i>A</i> 并与水平面成夹角 θ。水平方向的分力 d<i>P</i><sub>x</sub> = d<i>P</i>&nbsp;cosθ = γ<i>h</i>&nbsp;d<i>A</i><sub>z</sub>（d<i>A</i><sub>z</sub> = d<i>A</i>&nbsp;cosθ 是 d<i>A</i> 在铅垂投影面上的投影），积分得</p>
+<div class="fml"><span class="tag">水平分力</span>
+<p><i>P</i><sub>x</sub> = ∫<sub>A</sub> γ<i>h</i>&nbsp;d<i>A</i><sub>z</sub> = γ<i>h</i><sub>C</sub><i>A</i><sub>z</sub> = <i>p</i><sub>C</sub><i>A</i><sub>z</sub></p>
+</div>
+<p>其中 <i>h</i><sub>C</sub> 为<strong>铅垂投影面积 <i>A</i><sub>z</sub> 形心点的淹没深度</strong>，<i>p</i><sub>C</sub> 为铅垂投影面积形心点的压强，<i>A</i><sub>z</sub> 是受压曲面在铅直投影面上的面积。</p>
+<div class="box key"><div class="bt">结论</div>
+<p><strong>曲面总压力的水平分力等于该曲面在铅垂投影面上的投影面（平面）上的总压力</strong>，大小等于投影面积与其形心点压强之积，方向水平指向曲面。</p>
+</div>
+
+<h2>6.2 铅垂分力与压力体</h2>
+<p>垂直方向分力 d<i>P</i><sub>z</sub> = d<i>P</i>&nbsp;sinθ = γ<i>h</i>&nbsp;d<i>A</i><sub>x</sub>（d<i>A</i><sub>x</sub> = d<i>A</i>&nbsp;sinθ 为 d<i>A</i> 在水平面上的投影），积分：</p>
+<div class="fml"><span class="tag">铅垂分力</span>
+<p><i>P</i><sub>z</sub> = ∫<sub>A</sub> γ<i>h</i>&nbsp;d<i>A</i><sub>x</sub> = γ<i>V</i></p>
+</div>
+<div class="box def"><div class="bt">压力体的定义与组成</div>
+<p><strong>定义：</strong>压力体是所研究的曲面（淹没在静止液体中的部分）到自由液面或自由液面的延长面间投影所包围的一块空间体积，数学上即 ∫<sub>A</sub> <i>h</i>&nbsp;d<i>A</i><sub>x</sub> = <i>V</i>。</p>
+<p><strong>压力体体积的三个组成部分：</strong>(1) 受压曲面本身；(2) 通过受压曲面边界线所作的铅垂面；(3) 受压曲面边界线封闭的面积在<em>自由液面（虚设液面）或其延长面</em>上的投影面。</p>
+<p><strong>结论：</strong>静止液体作用在曲面上的总压力的铅垂分力大小等于<strong>压力体中装满此种液体时的重量</strong>，并且<em>与压力体内是否真的充满液体无关</em>。</p>
+</div>
+<figure>
+<svg viewBox="0 0 480 230" width="460" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft YaHei, sans-serif" font-size="12">
+  <g>
+    <line x1="20" y1="30" x2="200" y2="30" stroke="#4a90c4" stroke-width="2"/>
+    <text x="150" y="24" fill="#4a90c4">自由液面</text>
+    <path d="M60,30 L60,60 A50,50 0 0,1 160,60 L160,30 Z" fill="#dbeaf7" stroke="#0b4f8a" stroke-width="1.5"/>
+    <path d="M60,60 A50,50 0 0,1 160,60" fill="none" stroke="#0b4f8a" stroke-width="2"/>
+    <line x1="60" y1="30" x2="60" y2="160" stroke="#333" stroke-width="1.5"/>
+    <line x1="160" y1="30" x2="160" y2="160" stroke="#333" stroke-width="1.5"/>
+    <line x1="60" y1="160" x2="160" y2="160" stroke="#333" stroke-width="1.5"/>
+    <line x1="110" y1="30" x2="110" y2="110" stroke="#c0492b" stroke-width="1.2"/>
+    <polygon points="110,110 107,103 113,103" fill="#c0492b"/>
+    <text x="114" y="80" fill="#c0492b">h</text>
+    <text x="30" y="120" fill="#0b3d69">实压力体</text>
+    <text x="30" y="138" fill="#0b3d69">（内有水）</text>
+    <text x="66" y="182" fill="#0b4f8a">P&#8342; 向下</text>
+    <line x1="100" y1="95" x2="100" y2="140" stroke="#0b4f8a" stroke-width="2"/>
+    <polygon points="100,144 96,134 104,134" fill="#0b4f8a"/>
+  </g>
+  <g transform="translate(240,0)">
+    <line x1="20" y1="30" x2="200" y2="30" stroke="#4a90c4" stroke-width="2"/>
+    <text x="150" y="24" fill="#4a90c4">自由液面</text>
+    <path d="M60,60 A50,50 0 0,1 160,60" fill="none" stroke="#0b4f8a" stroke-width="2"/>
+    <path d="M60,60 L60,30 L160,30 L160,60 A50,50 0 0,0 60,60 Z" fill="#fff6d9" stroke="#c8912a" stroke-width="1.2" stroke-dasharray="5 4"/>
+    <line x1="60" y1="30" x2="60" y2="160" stroke="#333" stroke-width="1.5"/>
+    <line x1="160" y1="30" x2="160" y2="160" stroke="#333" stroke-width="1.5"/>
+    <line x1="60" y1="160" x2="160" y2="160" stroke="#333" stroke-width="1.5"/>
+    <line x1="60" y1="60" x2="160" y2="60" stroke="#4a90c4" stroke-width="1"/>
+    <text x="30" y="120" fill="#8f6410">虚压力体</text>
+    <text x="30" y="138" fill="#8f6410">（内无水）</text>
+    <text x="66" y="182" fill="#0b4f8a">P&#8342; 向上</text>
+    <line x1="100" y1="150" x2="100" y2="100" stroke="#0b4f8a" stroke-width="2"/>
+    <polygon points="100,96 96,106 104,106" fill="#0b4f8a"/>
+  </g>
+</svg>
+<figcaption>图 2-5 压力体的虚实判断：曲面凸向液体一侧（液面在上方）为<strong>实压力体</strong>，压力指向内法线方向（铅垂分力向下）；曲面凹向液体一侧（液面在下方或被曲面自身遮蔽）为<strong>虚压力体</strong>，压力指向外法线方向（铅垂分力向上）</figcaption>
+</figure>
+<div class="box key"><div class="bt">压力体虚实判断（速记）</div>
+<ul>
+  <li><strong>实压力体：</strong>压力体里面<em>有水</em>（压力体与液体同侧），压力指向<strong>内法线</strong>方向，<i>P</i><sub>z</sub> 铅垂<strong>向下</strong>。</li>
+  <li><strong>虚压力体：</strong>压力体里面<em>没有水</em>，压力指向<strong>外法线</strong>方向，<i>P</i><sub>z</sub> 铅垂<strong>向上</strong>。</li>
+  <li>同一曲面上下部分可能既有实压力体又有虚压力体，此时 <i>P</i><sub>z</sub> 取二者的<strong>代数和</strong>（方向相反相减）。</li>
+</ul>
+</div>
+
+<h2>6.3 总压力的大小、方向与作用点</h2>
+<div class="fml left">
+<p>总压力：<i>P</i> = √(<i>P</i><sub>x</sub><sup>2</sup> + <i>P</i><sub>z</sub><sup>2</sup>)</p>
+<p>作用线与水平面的夹角：tanθ = <i>P</i><sub>z</sub>/<i>P</i><sub>x</sub>&nbsp;&nbsp;（θ 也是总压力作用线与水平面的夹角）</p>
+<p>作用点：过 <i>P</i><sub>z</sub> 作用线（通过 <i>A</i><sub>x</sub> 上<strong>压强分布图的形心</strong>，非投影面的形心！！！）和 <i>P</i><sub>x</sub> 作用线（通过<strong>压力体的形心</strong>）的交点，作与水平面成 θ 角的直线即总压力作用线，该线与曲面的交点即为<strong>总压力作用点</strong>。</p>
+</div>
+
+<h2>6.4 潜体、浮体与阿基米德原理</h2>
+<p><strong>潜体：</strong>物体全部浸入水中；<strong>浮体：</strong>物体部分浸入水中。此时曲面为封闭曲面，水平分力相互抵消，只剩下铅直向上的压力：</p>
+<div class="fml"><span class="tag">浮力（阿基米德原理）</span>
+<p><i>P</i><sub>z</sub> = γ<i>V</i> = ρ<i>gV</i></p>
+</div>
+<p><strong>作用于潜体或浮体的液体压力，只有铅直向上的压力，即浮力</strong>，大小等于物体排开液体的重量；<strong>浮力作用点（浮心）为排开液体的重心</strong>。</p>
+
+<div class="prob"><div class="pt">例 2-7（圆柱面闸门：水平分力 + 铅垂分力）</div>
+<div class="q">圆柱形闸门半径 <i>R</i> = 2 m、长度（垂直于纸面）<i>L</i> = 4 m，圆心 <i>O</i> 位于水面以下 <i>H</i> = 4 m。闸门左侧挡水，右侧为大气。求水对柱面的总压力大小与方向。</div>
+<div class="sol">
+<p>解：取圆心 <i>O</i> 为原点，<i>x</i> 水平向右、<i>z</i> 铅垂向下。</p>
+<p class="step">① 水平分力：曲面在铅垂面上的投影为矩形，宽 2<i>R</i> = 4 m、高 <i>L</i> = 4 m，投影面积 <i>A</i><sub>z</sub> = 4 × 4 = 16 m<sup>2</sup>，投影面形心淹没深度 <i>h</i><sub>C</sub> = <i>H</i> = 4 m。</p>
+<p class="step"><i>P</i><sub>x</sub> = γ<i>h</i><sub>C</sub><i>A</i><sub>z</sub> = 9810 × 4 × 16 = 627840 N ≈ 628 kN（方向水平向左，指向曲面）</p>
+<p class="step">② 铅垂分力：压力体为以圆心 <i>O</i> 为中心的四分之一圆扇形（半径 2 m、张角 90°），压力体内有水，为<strong>实压力体</strong>，<i>P</i><sub>z</sub> 向下。</p>
+<p class="step">扇形面积 = π<i>R</i><sup>2</sup>/4 = π × 2<sup>2</sup>/4 = π m<sup>2</sup>，压力体体积 <i>V</i> = π × 4 = 4π = 12.566 m<sup>3</sup></p>
+<p class="step"><i>P</i><sub>z</sub> = γ<i>V</i> = 9810 × 12.566 = 123273 N ≈ 123 kN（方向铅垂向下）</p>
+<p class="step">③ 总压力与方向：</p>
+<p class="step"><i>P</i> = √(<i>P</i><sub>x</sub><sup>2</sup> + <i>P</i><sub>z</sub><sup>2</sup>) = √(627840<sup>2</sup> + 123273<sup>2</sup>) = √(3.942×10<sup>11</sup> + 1.520×10<sup>10</sup>) = √4.094×10<sup>11</sup> = 639857 N</p>
+<p class="step">tanθ = <i>P</i><sub>z</sub>/<i>P</i><sub>x</sub> = 123273/627840 = 0.1963，θ = 11.1°（与水平面夹角，指向左下）</p>
+</div>
+<div class="ans">答案：<i>P</i><sub>x</sub> ≈ 628 kN（水平向左）、<i>P</i><sub>z</sub> ≈ 123 kN（铅垂向下，实压力体），<i>P</i> ≈ 640 kN，与水平面夹角 θ ≈ 11.1°</div>
+</div>
+
+<div class="prob"><div class="pt">例 2-8（二次抛物面坝面：单位长度作用力）</div>
+<div class="q">水深 <i>h</i> = 2 m，柱形坝的迎水面为抛物线 <i>z</i> = <i>ax</i><sup>2</sup>（<i>a</i> = 1 m<sup>−1</sup>，即 <i>z</i> = <i>x</i><sup>2</sup>），坝面在 <i>x</i> ∈ [0, 2 m] 范围内挡水（<i>z</i> 向下为正，顶点即水面处）。求水对单位长度坝面的作用力大小和方向。（γ = 9.81 kN/m<sup>3</sup>，不计大气压）</div>
+<div class="sol">
+<p>解：取单位长度（<i>L</i> = 1 m）计算。</p>
+<p class="step">① 水平分力：铅垂投影面积 = 铅垂方向的投影高度 2 m × 单位长度 1 m = 2 m<sup>2</sup>，其形心在水面下 <i>h</i>/2 = 1 m 处。</p>
+<p class="step"><i>P</i><sub>x</sub> = γ<i>h</i><sub>C</sub><i>A</i><sub>z</sub> = 9810 × 1 × 2 = 19620 N/m = 19.62 kN/m（水平指向下游）</p>
+<p class="step">② 铅垂分力：压力体为液面与抛物面之间的体积。对单位长度坝面，</p>
+<p class="step"><i>V</i> = ∫<sub>0</sub><sup>2</sup> (<i>h</i> − <i>z</i>)d<i>x</i> = ∫<sub>0</sub><sup>2</sup> (2 − <i>x</i><sup>2</sup>)d<i>x</i> = [2<i>x</i> − <i>x</i><sup>3</sup>/3]<sub>0</sub><sup>2</sup> = 4 − 8/3 = 4/3 m<sup>3</sup></p>
+<p class="step"><i>P</i><sub>z</sub> = γ<i>V</i> = 9810 × 4/3 = 13080 N/m = 13.08 kN/m（压力体为实压力体，方向铅垂向下）</p>
+<p class="step">③ 总压力与方向：</p>
+<p class="step"><i>P</i> = √(<i>P</i><sub>x</sub><sup>2</sup> + <i>P</i><sub>z</sub><sup>2</sup>) = √(19.62<sup>2</sup> + 13.08<sup>2</sup>) = √(384.9 + 171.1) = √556.0 = 23.58 kN/m</p>
+<p class="step">tanθ = <i>P</i><sub>z</sub>/<i>P</i><sub>x</sub> = 13.08/19.62 = 0.6667，θ = 33.7°</p>
+</div>
+<div class="ans">答案：<i>P</i> ≈ 23.6 kN/m，与水平面成 θ ≈ 33.7°（指向斜下方）</div>
+</div>
+
+<div class="prob"><div class="pt">例 2-9（浮力与浮体）</div>
+<div class="q">直径 <i>D</i> = 2 m、长度 <i>L</i> = 4 m 的圆柱形浮筒浮于水面，浸没深度为 <i>h</i> = 1.5 m。求浮筒所受的浮力、浮心位置及浮筒总重（ρ = 1000 kg/m<sup>3</sup>，<i>g</i> = 9.81 m/s<sup>2</sup>）。</div>
+<div class="sol">
+<p>解：排开水的体积为部分圆柱体积（浸没部分为弓形截面 × 长度）。按浸没深度 1.5 m、半径 1 m 计算弓形面积：</p>
+<p class="step">弓形面积 <i>A</i><sub>d</sub> ≈ 2.527 m<sup>2</sup>（由 <i>h</i> = 1.5 m、<i>R</i> = 1 m 的圆缺面积公式求得）</p>
+<p class="step">排开体积 <i>V</i> = <i>A</i><sub>d</sub><i>L</i> = 2.527 × 4 = 10.11 m<sup>3</sup></p>
+<p class="step">浮力 <i>F</i> = ρ<i>gV</i> = 1000 × 9.81 × 10.11 = 99179 N ≈ 99.2 kN</p>
+<p class="step">浮心为排开液体的重心，位于浸没部分形心处，距筒底约 <i>h</i>/2 = 0.75 m（精确值由圆缺形心公式确定）。</p>
+<p class="step">浮体平衡：浮力等于浮筒总重，故 <i>G</i> = 99.2 kN。</p>
+</div>
+<div class="ans">答案：浮力（= 浮筒总重）≈ 99.2 kN，浮心位于浸没部分（排开液体）的形心处，距筒底约 0.75 m</div>
+</div>
+
+<h1>7 流体平衡微分方程在相对平衡中的应用</h1>
+
+<p class="lead">在非惯性参考系中，只需在质量力中加入<strong>牵连惯性力</strong>（方向与非惯性参考系的加速度方向相反），即可在该参考系中直接使用欧拉平衡方程 d<i>p</i> = ρ(<i>X</i>d<i>x</i> + <i>Y</i>d<i>y</i> + <i>Z</i>d<i>z</i>)。这正是“相对平衡”问题的统一解法。</p>
+
+<h2>7.1 等加速直线运动中液体的平衡</h2>
+<p>设容器以等加速度 <i>a</i> 沿水平 <i>x</i> 方向运动，流体相对容器静止。质量力 = 重力 + 牵连惯性力：</p>
+<div class="fml left">
+<p>重力：<i>X</i><sub>g</sub> = 0，<i>Y</i><sub>g</sub> = 0，<i>Z</i><sub>g</sub> = −<i>g</i>；&nbsp;&nbsp;牵连惯性力：<i>X</i><sub>i</sub> = −<i>a</i>，<i>Y</i><sub>i</sub> = 0，<i>Z</i><sub>i</sub> = 0</p>
+<p>合成：<i>X</i> = −<i>a</i>，&nbsp; <i>Y</i> = 0，&nbsp; <i>Z</i> = −<i>g</i></p>
+<p>d<i>p</i> = ρ(−<i>a</i>&nbsp;d<i>x</i> − <i>g</i>&nbsp;d<i>z</i>)&nbsp;⟹&nbsp;积分 <i>p</i> = ρ(−<i>ax</i> − <i>gz</i>) + <i>C</i></p>
+</div>
+<p>由边界条件 <i>x</i> = 0、<i>z</i> = 0 处 <i>p</i> = <i>p</i><sub>0</sub> 定出 <i>C</i> = <i>p</i><sub>0</sub>：</p>
+<div class="fml"><span class="tag">等加速直线运动</span>
+<p><i>p</i> = <i>p</i><sub>0</sub> + ρ(−<i>ax</i> − <i>gz</i>) = <i>p</i><sub>0</sub> + γ(−(<i>a</i>/<i>g</i>)<i>x</i> − <i>z</i>)</p>
+<p style="margin-top:4px">相对压强：<i>p</i> = γ(−(<i>a</i>/<i>g</i>)<i>x</i> − <i>z</i>)</p>
+</div>
+<p><strong>自由面方程（等压面）：</strong>令 <i>p</i> = 0 得 <i>z</i> = −(<i>a</i>/<i>g</i>)<i>x</i>，即</p>
+<div class="fml"><span class="tag">自由面与等压面</span>
+<p><i>z</i> = −(<i>a</i>/<i>g</i>)<i>x</i>，&nbsp;&nbsp;tanβ = −<i>a</i>/<i>g</i></p>
+</div>
+<div class="box key"><div class="bt">结论与对比</div>
+<p>等加速直线运动液体的<strong>等压面是倾斜平面</strong>，倾角 β 满足 tanβ = <i>a</i>/<i>g</i>，且所有等压面互相平行；自由面仍为平面。与静止液体对比：<strong>铅直方向的压强递增率相同（∂<i>p</i>/∂<i>z</i> = −γ），<i>x</i> 方向的压强递增率不相同</strong>（静止时 ∂<i>p</i>/∂<i>x</i> = 0，等加速时 ∂<i>p</i>/∂<i>x</i> = −ρ<i>a</i>）。</p>
+</div>
+<figure>
+<svg viewBox="0 0 460 200" width="440" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft YaHei, sans-serif" font-size="12">
+  <rect x="60" y="60" width="300" height="110" fill="none" stroke="#333" stroke-width="1.8"/>
+  <polygon points="60,82 360,60 360,170 60,170" fill="#dbeaf7" opacity="0.9"/>
+  <line x1="60" y1="82" x2="360" y2="60" stroke="#4a90c4" stroke-width="2.5"/>
+  <line x1="100" y1="130" x2="300" y2="112" stroke="#4a90c4" stroke-width="1" stroke-dasharray="6 4"/>
+  <text x="306" y="108" fill="#4a90c4">等压面（平行）</text>
+  <text x="150" y="76" fill="#0b3d69">自由面</text>
+  <line x1="30" y1="170" x2="30" y2="60" stroke="#0b3d69" stroke-width="1.5"/>
+  <polygon points="30,56 26,66 34,66" fill="#0b3d69"/>
+  <text x="8" y="50" fill="#0b3d69">z</text>
+  <line x1="30" y1="170" x2="400" y2="170" stroke="#0b3d69" stroke-width="1.5"/>
+  <polygon points="404,170 394,166 394,174" fill="#0b3d69"/>
+  <text x="396" y="186" fill="#0b3d69">x</text>
+  <line x1="60" y1="185" x2="150" y2="185" stroke="#c0492b" stroke-width="2"/>
+  <polygon points="154,185 144,181 144,189" fill="#c0492b"/>
+  <text x="90" y="199" fill="#c0492b">a</text>
+  <line x1="210" y1="118" x2="210" y2="145" stroke="#c8912a" stroke-width="1.2"/>
+  <text x="212" y="140" fill="#c8912a">h</text>
+</svg>
+<figcaption>图 2-6 等加速直线运动容器中的自由面（倾斜平面）与等压面</figcaption>
+</figure>
+
+<div class="prob"><div class="pt">例 2-10（等加速直线运动）</div>
+<div class="q">长 <i>L</i> = 6 m、宽 <i>b</i> = 2 m 的矩形水箱内盛水，静止时水深 <i>h</i><sub>0</sub> = 1.8 m。水箱以等加速度 <i>a</i> = 2.0 m/s<sup>2</sup> 沿箱长方向水平运动。求：① 自由面倾角与箱底最高、最低点处的水深；② 箱底最大压强。（<i>g</i> = 9.81 m/s<sup>2</sup>）</div>
+<div class="sol">
+<p>解：① 自由面方程 <i>z</i> = −(<i>a</i>/<i>g</i>)<i>x</i>，故</p>
+<p class="step">tanβ = <i>a</i>/<i>g</i> = 2.0/9.81 = 0.2039，β = 11.5°</p>
+<p class="step">水面沿箱长方向的总高差 Δ<i>z</i> = <i>L</i>&nbsp;tanβ = 6 × 0.2039 = 1.22 m</p>
+<p class="step">由水量守恒（水体体积不变，容器等宽），自由面绕静止水面中点（<i>x</i> = <i>L</i>/2 = 3 m 处）转动：</p>
+<p class="step">后壁（加速方向的后端，<i>x</i> = 0）水深最大：<i>h</i><sub>max</sub> = 1.8 + 0.61 = 2.41 m</p>
+<p class="step">前壁（<i>x</i> = 6 m）水深最小：<i>h</i><sub>min</sub> = 1.8 − 0.61 = 1.19 m</p>
+<p class="step">② 箱底最大压强出现在水深最大处：</p>
+<p class="step"><i>p</i><sub>max</sub> = γ<i>h</i><sub>max</sub> = 9810 × 2.41 = 23642 Pa</p>
+</div>
+<div class="ans">答案：β = 11.5°（tanβ = 0.204）；<i>h</i><sub>max</sub> = 2.41 m、<i>h</i><sub>min</sub> = 1.19 m；<i>p</i><sub>max</sub> ≈ 23.6 kPa</div>
+</div>
+
+<h2>7.2 容器等角速旋转运动时液体的平衡</h2>
+<p>流体质点与容器一起绕铅垂轴以等角速度 ω 旋转，单位质量力的分量为</p>
+<div class="fml left">
+<p><i>X</i> = ω<sup>2</sup><i>r</i>cosα = ω<sup>2</sup><i>x</i>，&nbsp; <i>Y</i> = ω<sup>2</sup><i>r</i>sinα = ω<sup>2</sup><i>y</i>，&nbsp; <i>Z</i> = −<i>g</i></p>
+<p>代入 d<i>p</i> = ρ(<i>X</i>d<i>x</i> + <i>Y</i>d<i>y</i> + <i>Z</i>d<i>z</i>) = ρ(ω<sup>2</sup><i>x</i>&nbsp;d<i>x</i> + ω<sup>2</sup><i>y</i>&nbsp;d<i>y</i> − <i>g</i>&nbsp;d<i>z</i>)</p>
+<p>积分（<i>x</i><sup>2</sup> + <i>y</i><sup>2</sup> = <i>r</i><sup>2</sup>）：<i>p</i> = ρ(ω<sup>2</sup><i>r</i><sup>2</sup>/2 − <i>gz</i>) + <i>C</i></p>
+</div>
+<p>由坐标原点 <i>x</i> = <i>y</i> = <i>z</i> = 0 处 <i>p</i> = <i>p</i><sub>0</sub> 定出 <i>C</i> = <i>p</i><sub>0</sub>：</p>
+<div class="fml"><span class="tag">等角速旋转</span>
+<p><i>p</i> = <i>p</i><sub>0</sub> + ρ<i>g</i>(ω<sup>2</sup><i>r</i><sup>2</sup>/(2<i>g</i>) − <i>z</i>)，&nbsp;&nbsp;相对压强 <i>p</i> = γ(ω<sup>2</sup><i>r</i><sup>2</sup>/(2<i>g</i>) − <i>z</i>)</p>
+</div>
+<p><strong>等压面：</strong>令 <i>p</i> = 常数，得</p>
+<div class="fml"><span class="tag">等压面与自由面</span>
+<p><i>z</i> = ω<sup>2</sup><i>r</i><sup>2</sup>/(2<i>g</i>) + 常数&nbsp;&nbsp;（<strong>旋转抛物面</strong>）</p>
+<p style="margin-top:4px">自由液面（<i>p</i> = 0）：<i>z</i> = ω<sup>2</sup><i>r</i><sup>2</sup>/(2<i>g</i>)</p>
+</div>
+<div class="box key"><div class="bt">结论</div>
+<p>① 等角速旋转液体的<strong>等压面是旋转抛物面</strong>（自由面也是旋转抛物面）；② 在同一水平面处，<strong>轴心处的压强最低，边缘的压强最高</strong>；③ 与静止液体对比：<i>x</i>、<i>y</i> 方向的压强递增率不为零（∂<i>p</i>/∂<i>x</i> = ρω<sup>2</sup><i>x</i>，∂<i>p</i>/∂<i>y</i> = ρω<sup>2</sup><i>y</i>），而铅直方向仍为 ∂<i>p</i>/∂<i>z</i> = −γ。</p>
+</div>
+<figure>
+<svg viewBox="0 0 460 210" width="440" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft YaHei, sans-serif" font-size="12">
+  <rect x="90" y="60" width="280" height="120" fill="none" stroke="#333" stroke-width="1.8"/>
+  <path d="M90,120 Q230,55 370,120 L370,180 L90,180 Z" fill="#dbeaf7" opacity="0.9"/>
+  <path d="M90,120 Q230,55 370,120" fill="none" stroke="#4a90c4" stroke-width="2.5"/>
+  <path d="M90,150 Q230,85 370,150" fill="none" stroke="#4a90c4" stroke-width="1" stroke-dasharray="6 4"/>
+  <line x1="230" y1="60" x2="230" y2="200" stroke="#0b3d69" stroke-width="1.4" stroke-dasharray="8 4"/>
+  <polygon points="230,52 226,62 234,62" fill="#0b3d69"/>
+  <text x="236" y="56" fill="#0b3d69">ω</text>
+  <line x1="90" y1="180" x2="370" y2="180" stroke="#333" stroke-width="0"/>
+  <line x1="230" y1="88" x2="230" y2="180" stroke="#c8912a" stroke-width="1.2"/>
+  <text x="234" y="140" fill="#c8912a">H</text>
+  <line x1="370" y1="88" x2="400" y2="88" stroke="#c0492b" stroke-width="1"/>
+  <polygon points="400,88 393,85 393,91" fill="#c0492b"/>
+  <text x="374" y="82" fill="#c0492b">r</text>
+  <text x="180" y="204" fill="#0b3d69">旋转抛物面自由面</text>
+  <text x="300" y="140" fill="#0b4f8a">p 随 r 增大</text>
+</svg>
+<figcaption>图 2-7 等角速旋转容器中的自由液面（旋转抛物面）与压强分布</figcaption>
+</figure>
+
+<div class="prob"><div class="pt">例 2-11（等角速旋转：角速度与最大压强）</div>
+<div class="q">半径 <i>R</i> = 0.5 m、高 <i>H</i> = 1.0 m 的开口圆柱形容器内盛水，静止时水深 <i>h</i><sub>0</sub> = 0.5 m。容器绕铅垂中心轴以等角速度 ω 旋转。求：① 使中心处水面恰好降至容器底面（即中心点 <i>r</i> = 0、<i>z</i> = 0 处相对压强为零）时的 ω；② 此时容器底部的最大与最小压强。（<i>g</i> = 9.81 m/s<sup>2</sup>）</div>
+<div class="sol">
+<p>解：取容器底面中心为坐标原点，<i>z</i> 轴铅垂向上，压强公式为</p>
+<p class="step"><i>p</i> = γ(ω<sup>2</sup><i>r</i><sup>2</sup>/(2<i>g</i>) − <i>z</i>)</p>
+<p class="step">① 中心处水面降至容器底面，即 <i>r</i> = 0、<i>z</i> = 0 时自由面通过原点，此时 ω 使边缘处水面恰好升到多少？由水量守恒确定。旋转后水体为抛物面下方体积：</p>
+<p class="step">静止水量 <i>V</i><sub>0</sub> = π<i>R</i><sup>2</sup><i>h</i><sub>0</sub> = π × 0.5<sup>2</sup> × 0.5 = 0.3927 m<sup>3</sup></p>
+<p class="step">由水量守恒（<strong>旋转前后水的体积不变</strong>）可证：自由面绕轴旋转所得抛物面，其「高出原水面部分」的体积恒等于「低于原水面部分」的体积（两者都是同底同高的旋转抛物体、体积均为 π<i>R</i><sup>2</sup>Δ<i>z</i>/2），故<strong>边缘水位上升量恒等于中心水位下降量</strong>。令自由面方程 <i>z</i> = <i>ar</i><sup>2</sup>（<i>a</i> = ω<sup>2</sup>/(2<i>g</i>)），中心水位 <i>h</i>(0) = 0、边缘水位 <i>h</i>(<i>R</i>) = <i>aR</i><sup>2</sup>，则由 <i>h</i>(0) + <i>h</i>(<i>R</i>) = 2<i>h</i><sub>0</sub> 得 <i>aR</i><sup>2</sup> = 2<i>h</i><sub>0</sub>，即</p>
+<p class="step"><i>H</i><sub>边</sub> = ω<sup>2</sup><i>R</i><sup>2</sup>/(2<i>g</i>) = 2<i>h</i><sub>0</sub> = 1.0 m（中心跌至底面时边缘恰好升至 2<i>h</i><sub>0</sub> = 1.0 m，仍在容器高度 <i>H</i> = 1.0 m 之内，水不外溢）</p>
+<p class="step">故 ω<sup>2</sup> = 2<i>g</i><i>h</i><sub>0</sub>/<i>R</i><sup>2</sup> = 2 × 9.81 × 0.5/0.25 = 39.24，ω = √39.24 = 6.26 rad/s</p>
+<p class="step">② 容器底部（<i>z</i> = 0）：</p>
+<p class="step">轴心处（<i>r</i> = 0）：<i>p</i><sub>min</sub> = γ(0 − 0) = 0（与中心处自由面在同一等压面）</p>
+<p class="step">边缘处（<i>r</i> = <i>R</i> = 0.5 m）：<i>p</i><sub>max</sub> = γ(ω<sup>2</sup><i>R</i><sup>2</sup>/(2<i>g</i>)) = 9810 × (39.24 × 0.25/19.62) = 9810 × 0.5 = 4905 Pa</p>
+<p>（若同时考虑容器侧壁的最大压强，在底部边缘处取最大，即 4905 Pa；若容器底部以上 <i>z</i> 更深处（无底面容器的情形）按 <i>p</i> = γ(ω<sup>2</sup><i>R</i><sup>2</sup>/(2<i>g</i>) + |<i>z</i>|) 累加。）</p>
+</div>
+<div class="ans">答案：ω = 6.26 rad/s；底部轴心最小压强 <i>p</i><sub>min</sub> = 0，边缘最大压强 <i>p</i><sub>max</sub> = 4905 Pa ≈ 4.91 kPa</div>
+</div>
+
+<div class="prob"><div class="pt">例 2-12（绕轴旋转的 U 形管）</div>
+<div class="q">装有水的 U 形管绕其中心铅垂轴以等角速度 ω 旋转，已知两竖直支管到转轴的距离分别为 <i>r</i><sub>1</sub> = 0.2 m、<i>r</i><sub>2</sub> = 0.4 m，两支管的水面高差 Δ<i>z</i> = 0.6 m。求旋转角速度 ω。若某点相对压强为零且位于 <i>r</i> = 0.4 m 处的管口，求此时该处相对压强为零所对应的水柱高度关系。（<i>g</i> = 9.81 m/s<sup>2</sup>）</div>
+<div class="sol">
+<p>解：液体随管作等角速度旋转，处于相对静止状态，其压强满足旋转液体的平衡方程</p>
+<p class="step"><i>p</i> = γ(ω<sup>2</sup><i>r</i><sup>2</sup>/(2<i>g</i>) − <i>z</i>)</p>
+<p class="step">在同一液体中任意两点 1、2 之间有</p>
+<p class="step">(<i>p</i><sub>2</sub> − <i>p</i><sub>1</sub>)/γ = ω<sup>2</sup>(<i>r</i><sub>2</sub><sup>2</sup> − <i>r</i><sub>1</sub><sup>2</sup>)/(2<i>g</i>) − (<i>z</i><sub>2</sub> − <i>z</i><sub>1</sub>)</p>
+<p class="step">两支管水面都与大气相通，故 <i>p</i><sub>1</sub> = <i>p</i><sub>2</sub> = 0：</p>
+<p class="step">0 = ω<sup>2</sup>(<i>r</i><sub>2</sub><sup>2</sup> − <i>r</i><sub>1</sub><sup>2</sup>)/(2<i>g</i>) − Δ<i>z</i></p>
+<p class="step">即 Δ<i>z</i> = ω<sup>2</sup>(<i>r</i><sub>2</sub><sup>2</sup> − <i>r</i><sub>1</sub><sup>2</sup>)/(2<i>g</i>)</p>
+<p class="step">ω<sup>2</sup> = 2<i>g</i>Δ<i>z</i>/(<i>r</i><sub>2</sub><sup>2</sup> − <i>r</i><sub>1</sub><sup>2</sup>) = 2 × 9.81 × 0.6/(0.4<sup>2</sup> − 0.2<sup>2</sup>) = 11.772/0.12 = 98.1</p>
+<p class="step">ω = √98.1 = 9.90 rad/s</p>
+<p class="step">第二问：凡满足 <i>z</i> = ω<sup>2</sup><i>r</i><sup>2</sup>/(2<i>g</i>) 的点，其相对压强都为零，它们构成过原点（<i>r</i> = 0、<i>z</i> = 0）的旋转抛物面——即此时液体的自由面。</p>
+<p class="step">把 <i>r</i> = 0.4 m 代入：<i>z</i> = 98.1 × 0.16/(2 × 9.81) = 0.80 m。也就是说，右支管内水面恰好位于转轴处水面以上 0.80 m，而两支管水面的高差仍满足第一步的 Δ<i>z</i> = ω<sup>2</sup>(<i>r</i><sub>2</sub><sup>2</sup> − <i>r</i><sub>1</sub><sup>2</sup>)/(2<i>g</i>) = 0.6 m，两者互不矛盾。</p>
+</div>
+<div class="ans">答案：ω = √(2<i>g</i>Δ<i>z</i>/(<i>r</i><sub>2</sub><sup>2</sup>−<i>r</i><sub>1</sub><sup>2</sup>)) = 9.90 rad/s；<i>r</i> = 0.4 m 处零压点满足 <i>z</i> = ω<sup>2</sup><i>r</i><sup>2</sup>/(2<i>g</i>) = 0.80 m</div>
+</div>
+
+<div class="prob"><div class="pt">例 2-13（综合题型：闸门总压力与测压计读数）</div>
+<div class="q">矩形平板闸门竖直安装，宽 <i>b</i> = 2 m、高 <i>H</i> = 3 m，闸门顶部与水面齐平。为测定闸门前的水深，在闸门底部装一测压管，管内水面高出闸门顶部 3.5 m。求闸门所受的总压力、压力中心位置及闸门底部处的相对压强。（γ = 9810 N/m<sup>3</sup>）</div>
+<div class="sol">
+<p>解：测压管水面即相对压强为零的面（虚设液面），其高出闸门顶部 3.5 m，说明闸门顶部处的相对压强为</p>
+<p class="step"><i>p</i><sub>顶</sub> = γ × 3.5 = 9810 × 3.5 = 34335 Pa</p>
+<p class="step">闸门顶部在水面以下 0 m（与水面齐平）是题干给定的几何条件，但由测压管读数可知实际作用水头应以虚设液面为基准，故闸门形心处的压强需以虚设液面到形心的距离计算：</p>
+<p class="step"><i>h</i><sub>C</sub><sup>′</sup> = 3.5 + <i>H</i>/2 = 3.5 + 1.5 = 5.0 m（自虚设液面量起）</p>
+<p class="step">总压力：<i>P</i> = γ<i>h</i><sub>C</sub><sup>′</sup><i>A</i> = 9810 × 5.0 × (2 × 3) = 9810 × 5.0 × 6 = 294300 N</p>
+<p class="step">压力中心：<i>y</i><sub>C</sub><sup>′</sup> = 5.0 m，<i>J</i><sub>C</sub> = <i>bH</i><sup>3</sup>/12 = 2 × 3<sup>3</sup>/12 = 4.5 m<sup>4</sup></p>
+<p class="step"><i>y</i><sub>e</sub> = <i>J</i><sub>C</sub>/(<i>y</i><sub>C</sub><sup>′</sup><i>A</i>) = 4.5/(5.0 × 6) = 0.15 m</p>
+<p class="step"><i>y</i><sub>D</sub> = 5.0 + 0.15 = 5.15 m（自虚设液面量起，即形心下方 0.15 m）</p>
+<p class="step">闸门底部压强：<i>p</i><sub>底</sub> = γ × (3.5 + 3.0) = 9810 × 6.5 = 63765 Pa</p>
+</div>
+<div class="ans">答案：<i>P</i> ≈ 294.3 kN；压力中心位于形心下方 0.15 m（自虚设液面量起 <i>y</i><sub>D</sub> = 5.15 m）；<i>p</i><sub>底</sub> ≈ 63.8 kPa（相对压强）</div>
+</div>
+
+<div class="pagebreak"></div>
+<h1>8 应试速查</h1>
+
+<h2>8.1 公式总表</h2>
+<table>
+  <tr><th>知识点</th><th>公式</th><th>说明 / 使用条件</th></tr>
+  <tr><td>静压强定义</td><td><i>p</i> = lim<sub>Δ<i>A</i>→0</sub>Δ<i>P</i>/Δ<i>A</i></td><td>单位面积上的负法向表面力，Pa</td></tr>
+  <tr><td>欧拉平衡方程</td><td><strong><i>f</i></strong> − (1/ρ)∇<i>p</i> = 0</td><td>静止／相对静止，可压与不可压均适用</td></tr>
+  <tr><td>平衡方程全微分式</td><td>d<i>p</i> = ρ(<i>X</i>d<i>x</i> + <i>Y</i>d<i>y</i> + <i>Z</i>d<i>z</i>)</td><td>一切静力学公式的来源</td></tr>
+  <tr><td>等压面方程</td><td><i>X</i>d<i>x</i> + <i>Y</i>d<i>y</i> + <i>Z</i>d<i>z</i> = 0</td><td>等压面即等势面，且与质量力正交</td></tr>
+  <tr><td>势函数形式</td><td><i>p</i> = <i>p</i><sub>0</sub> + ρ(<i>W</i> − <i>W</i><sub>0</sub>)，d<i>W</i> = <i>X</i>d<i>x</i>+<i>Y</i>d<i>y</i>+<i>Z</i>d<i>z</i></td><td>只有有势质量力作用下不可压缩均质流体才能平衡</td></tr>
+  <tr><td>静力学基本方程</td><td><i>p</i> = <i>p</i><sub>0</sub> + γ<i>h</i>；<i>z</i> + <i>p</i>/γ = 常数</td><td>静止、同种、连续流体；质量力只有重力</td></tr>
+  <tr><td>三种压强</td><td><i>p</i><sub>abs</sub> = <i>p</i><sub>a</sub> + <i>p</i>；<i>p</i><sub>v</sub> = <i>p</i><sub>a</sub> − <i>p</i><sub>abs</sub> = −<i>p</i></td><td>相对压强以当地大气压为基准；真空度只在 <i>p</i><sub>abs</sub> &lt; <i>p</i><sub>a</sub> 时存在</td></tr>
+  <tr><td>液柱高度</td><td><i>h</i> = <i>p</i>/γ</td><td>1 atm = 10.33 mH<sub>2</sub>O = 760 mmHg；1 at = 10 mH<sub>2</sub>O</td></tr>
+  <tr><td>测压计逐段式</td><td>向下 +ρ<i>gh</i>，向上 −ρ<i>gh</i></td><td>同种连通流体同一高度取等压面</td></tr>
+  <tr><td>微差计</td><td><i>p</i><sub>1</sub> − <i>p</i><sub>2</sub> = γ<i>l</i>&nbsp;sinα</td><td>倾斜放大倍数 1/sinα</td></tr>
+  <tr><td>平面总压力</td><td><i>P</i> = γ<i>h</i><sub>C</sub><i>A</i> = <i>p</i><sub>C</sub><i>A</i></td><td>与倾角 α 无关；封闭容器用虚设液面</td></tr>
+  <tr><td>压力中心</td><td><i>y</i><sub>D</sub> = <i>y</i><sub>C</sub> + <i>J</i><sub>C</sub>/(<i>y</i><sub>C</sub><i>A</i>)</td><td>恒有 <i>y</i><sub>D</sub> &gt; <i>y</i><sub>C</sub></td></tr>
+  <tr><td>图解法</td><td><i>P</i> = 压强分布图面积 × 宽度</td><td>作用点在压强分布图形心</td></tr>
+  <tr><td>曲面水平分力</td><td><i>P</i><sub>x</sub> = γ<i>h</i><sub>C</sub><i>A</i><sub>z</sub> = <i>p</i><sub>C</sub><i>A</i><sub>z</sub></td><td><i>A</i><sub>z</sub> 为铅垂投影面积</td></tr>
+  <tr><td>曲面铅垂分力</td><td><i>P</i><sub>z</sub> = γ<i>V</i></td><td><i>V</i> 为压力体体积；与压力体内是否充液无关</td></tr>
+  <tr><td>曲面总压力</td><td><i>P</i> = √(<i>P</i><sub>x</sub><sup>2</sup>+<i>P</i><sub>z</sub><sup>2</sup>)，tanθ = <i>P</i><sub>z</sub>/<i>P</i><sub>x</sub></td><td>作用点为两条分力作用线的交点所决定的直线与曲面的交点</td></tr>
+  <tr><td>浮力（阿基米德）</td><td><i>P</i><sub>z</sub> = γ<i>V</i> = ρ<i>gV</i></td><td>潜体、浮体只有铅直向上的浮力；浮心为排开液体重心</td></tr>
+  <tr><td>等加速直线运动</td><td><i>p</i> = <i>p</i><sub>0</sub> + ρ(−<i>ax</i> − <i>gz</i>)；<i>z</i> = −(<i>a</i>/<i>g</i>)<i>x</i></td><td>等压面为倾斜平面，tanβ = <i>a</i>/<i>g</i></td></tr>
+  <tr><td>等角速旋转</td><td><i>p</i> = <i>p</i><sub>0</sub> + ρ<i>g</i>(ω<sup>2</sup><i>r</i><sup>2</sup>/(2<i>g</i>) − <i>z</i>)；<i>z</i> = ω<sup>2</sup><i>r</i><sup>2</sup>/(2<i>g</i>)</td><td>等压面为旋转抛物面；同高度轴心压强最低、边缘最高</td></tr>
+</table>
+
+<h2>8.2 常用数值表</h2>
+<table>
+  <tr><th>量</th><th class="c">数值</th><th>备注</th></tr>
+  <tr><td>水的密度 ρ<sub>w</sub></td><td class="c">1000 kg/m<sup>3</sup></td><td>重度 γ<sub>w</sub> = ρ<i>g</i> ≈ 9.81 kN/m<sup>3</sup>（≈9800 N/m<sup>3</sup>）</td></tr>
+  <tr><td>水银密度 ρ<sub>Hg</sub></td><td class="c">13600 kg/m<sup>3</sup></td><td>γ<sub>Hg</sub> ≈ 133.3 kN/m<sup>3</sup></td></tr>
+  <tr><td>酒精（比重 0.8）</td><td class="c">800 kg/m<sup>3</sup></td><td>常在微差计、复式 U 形管中出现</td></tr>
+  <tr><td>空气（可忽略）</td><td class="c">γ<sub>air</sub> ≈ 0</td><td>小范围高度内空气质量影响不计</td></tr>
+  <tr><td>重力加速度取用</td><td class="c"><i>g</i> = 9.81 m/s<sup>2</sup></td><td>工程计算常取 9.8 m/s<sup>2</sup></td></tr>
+  <tr><td>1 标准大气压</td><td class="c">101325 Pa = 10.33 mH<sub>2</sub>O = 760 mmHg</td><td>0 ℃、海平面</td></tr>
+  <tr><td>1 工程大气压</td><td class="c">98000 Pa ≈ 10 mH<sub>2</sub>O ≈ 735.6 mmHg</td><td>≈ 0.1 MPa，液柱测压计常用</td></tr>
+</table>
+
+<h2>8.3 易错清单（考前一小时）</h2>
+<div class="box warn"><div class="bt">高频陷阱</div>
+<ol>
+  <li><strong>特性二不是“压强方向无关”</strong>：方向与作用面垂直（特性一），<em>大小</em>与作用面方位无关（特性二）。</li>
+  <li><strong>绝对压强不能为负</strong>，工程上的“负压”指的是<em>相对压强为负</em>；真空度是相对压强的相反数，恒为正。</li>
+  <li><strong>等压面三条件（同种、连续、静止）</strong>缺一不可；跨分界面取等压面是最常见的错误。</li>
+  <li><strong>压强随深度增加的方向就是质量力的方向</strong>，不是“压强指向质量力方向”。</li>
+  <li><strong>平面总压力与倾角 α 无关</strong>，但压力中心位置沿板面的坐标随 α 变化。</li>
+  <li><strong>压力中心在形心之下</strong>（<i>y</i><sub>D</sub> &gt; <i>y</i><sub>C</sub>）；深度越大两者越接近。</li>
+  <li><strong>图解法中 h<sub>C</sub> 取 h/2，压力中心才取 2h/3</strong>——一个是形心深度，一个是压强分布图形心。</li>
+  <li><strong>曲面水平分力用铅垂投影面的形心深度</strong>，不是曲面形心深度，也不是投影面几何中心。</li>
+  <li><strong>压力体虚实</strong>：实压力体（内有液体）<i>P</i><sub>z</sub> 向下，虚压力体（内无液体）<i>P</i><sub>z</sub> 向上；上下都有曲面时取代数和。</li>
+  <li><strong>相对平衡问题统一用 <i>f</i> − (1/ρ)∇<i>p</i> = 0</strong>，只需把牵连惯性力并入单位质量力；切勿套用“<i>p</i> = <i>p</i><sub>0</sub> + γ<i>h</i>”直接算相对平衡的压强。</li>
+  <li><strong>旋转液体同一水平面上不用深度 <i>h</i> 算压强</strong>，必须用 <i>p</i> = γ(ω<sup>2</sup><i>r</i><sup>2</sup>/(2<i>g</i>) − <i>z</i>)，因为此时水平面不再是等压面。</li>
+  <li><strong>测压计全式统一基准</strong>：要么都用绝对压强，要么都用相对压强，中途换基准必错。</li>
+</ol>
+</div>
+
+<div class="box exam"><div class="bt">考试时间分配建议</div>
+<p>概念简答与判断（约 20%）：抓住两个特性、欧拉方程、等压面判据、三种压强。测压计计算（约 20%）：五步法 + 等压面。平面总压力（约 25%）：优先解析法，矩形平面可图解验证。曲面总压力（约 20%）：先画压力体、判断虚实，再算 <i>P</i><sub>x</sub>、<i>P</i><sub>z</sub>。相对平衡（约 15%）：直接写 d<i>p</i> = ρ(<i>X</i>d<i>x</i>+<i>Y</i>d<i>y</i>+<i>Z</i>d<i>z</i>) 并积分，注意边界条件定积分常数。</p>
+</div>
+
+<hr>
+<p class="lead">本章小结（课件）：本章讲授流体处于平衡（静止）状态时的力学规律及其在工程中的应用。① 静止流体中只存在压应力——压强，静压强大小与作用面方向无关，是空间坐标的连续函数 <i>p</i> = <i>p</i>(<i>x</i>, <i>y</i>, <i>z</i>)；② 重力作用下的静压强分布（液体静力学基本方程两种形式）；③ 绝对压强、相对压强和真空压强；④ 作用在固体表面的总压力：平面用解析法与图解法（矩形平面），曲面用分力和压力体概念；⑤ 流体平衡微分方程及其全微分式 d<i>p</i> = ρ(<i>X</i>d<i>x</i>+<i>Y</i>d<i>y</i>+<i>Z</i>d<i>z</i>)；⑥ 等加速直线运动和等角速度旋转下的压强分布。</p>
+
+</body>
+</html>

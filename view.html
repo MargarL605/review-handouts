@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF 阅读 · 期末复习讲义</title>
+<link rel="stylesheet" href="site.css">
+<style>
+  html,body{height:100%}
+  body{display:flex;flex-direction:column;background:#eef2f7}
+  .viewbar{background:var(--brand);color:#fff;flex:0 0 auto}
+  .viewbar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:11px 20px}
+  .viewbar b{font-size:15px;font-weight:600}
+  .viewbar .sp{flex:1 1 auto}
+  .viewbar a{color:#fff;font-size:13px;opacity:.9;border:1px solid rgba(255,255,255,.45);
+             border-radius:6px;padding:4px 11px}
+  .viewbar a:hover{background:rgba(255,255,255,.14);text-decoration:none}
+  .viewwrap{flex:1 1 auto;min-height:0;padding:14px 20px 20px}
+  .viewwrap iframe{width:100%;height:100%;border:1px solid var(--line);border-radius:10px;
+                   background:#fff;box-shadow:0 1px 3px rgba(16,32,56,.07)}
+  .fallback{max-width:1060px;margin:60px auto;padding:0 20px;text-align:center;color:var(--muted)}
+  .fallback h1{color:var(--brand);font-size:20px}
+  @media (max-width:640px){ .viewwrap{padding:8px} }
+</style>
+</head>
+<body>
+
+<div class="viewbar">
+  <div class="wrap">
+    <b id="t">PDF 阅读</b>
+    <span class="sp"></span>
+    <a id="a" href="#" download>下载这份 PDF</a>
+    <a href="index.html">返回讲义首页</a>
+  </div>
+</div>
+
+<div class="viewwrap" id="vw">
+  <iframe id="fr" title="PDF 在线阅读"></iframe>
+</div>
+
+<div class="fallback" id="fb" hidden>
+  <h1>没有指定要阅读的 PDF</h1>
+  <p>请从 <a href="index.html">讲义首页</a> 点击「在线看 PDF」进入。</p>
+</div>
+
+<script>
+(function () {
+  // ---- allow-list: only files that really exist in docs/ may be opened ----
+  var OK = [
+    '动力学-第1章-质点动力学.pdf',
+    '动力学-第2-3章-动量定理与动量矩定理.pdf',
+    'fluid2.pdf', 'fluid3.pdf',
+    '工程热力学-计算练习解题讲义.pdf',
+    '工程热力学-知识点简答题作答讲义.pdf'
+  ];
+  var q = new URLSearchParams(location.search);
+  var f = q.get('f') || '';
+  var title = q.get('t') || '';
+
+  if (OK.indexOf(f) < 0) {
+    document.getElementById('vw').hidden = true;
+    document.getElementById('fb').hidden = false;
+    return;
+  }
+  var url = 'docs/' + f;
+  document.getElementById('t').textContent = title || f.replace(/\.pdf$/, '');
+  document.getElementById('a').setAttribute('href', url);
+  document.getElementById('fr').src = url + '#view=FitH';
+  document.title = (title || f) + ' · 在线阅读';
+})();
+</script>
+
+</body>
+</html>

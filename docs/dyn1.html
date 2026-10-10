@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>理论力学·动力学 第1章 质点动力学</title>
+<style>
+/* ===================================================================
+   复习讲义 公共样式表  (review/shared/handout.css)
+   A4 打印友好 · 简洁明了 · 与所有讲义共用，保证风格统一
+   =================================================================== */
+@page { size: A4; margin: 14mm 13mm 12mm 13mm; }
+
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  font-size: 10.2pt;
+  line-height: 1.62;
+  color: #1b1b1b;
+  background: #fff;
+}
+p { margin: 0.38em 0; text-align: justify; }
+strong { color: #0b3d69; }
+em { font-style: normal; color: #b4451f; }
+
+/* ---------------- 封面 ---------------- */
+.cover { border: 2px solid #0b4f8a; border-radius: 6px; padding: 16px 18px; margin-bottom: 14px; }
+.cover .kicker { font-size: 9.5pt; letter-spacing: 2px; color: #0b4f8a; font-weight: bold; }
+.cover h1 { font-size: 21pt; margin: 4px 0 6px 0; color: #0b3d69; border: none; background: none; padding: 0; }
+.cover .sub { font-size: 10.5pt; color: #444; }
+.cover .meta { margin-top: 8px; font-size: 9.2pt; color: #666; border-top: 1px dashed #b9cfe2; padding-top: 6px; }
+
+/* ---------------- 标题层级 ---------------- */
+h1 { font-size: 15pt; color: #fff; background: #0b4f8a; margin: 14px 0 8px 0; padding: 6px 12px; border-radius: 3px; line-height: 1.35; }
+h2 { font-size: 12.8pt; color: #0b4f8a; margin: 13px 0 5px 0; padding: 3px 0 3px 9px; border-left: 5px solid #0b4f8a; background: #eef4fa; }
+h3 { font-size: 11pt; color: #0a3f6e; margin: 10px 0 4px 0; padding-bottom: 1px; border-bottom: 1.5px solid #c3d8ea; }
+h4 { font-size: 10.3pt; color: #14507f; margin: 8px 0 3px 0; }
+.lead { color: #555; font-size: 9.3pt; margin: -2px 0 7px 0; }
+
+/* ---------------- 提示盒 ---------------- */
+.box { border-radius: 4px; padding: 6px 10px; margin: 7px 0; page-break-inside: avoid; }
+.box > .bt { display: block; font-weight: bold; margin-bottom: 2px; }
+.key  { background: #eef4fa; border-left: 4px solid #0b4f8a; } .key > .bt  { color: #0b4f8a; }
+.def  { background: #f3f9f1; border-left: 4px solid #3d8b40; } .def > .bt  { color: #2e6b31; }
+.warn { background: #fdf2ee; border-left: 4px solid #c0492b; } .warn > .bt { color: #a83c21; }
+.exam { background: #fffaf0; border-left: 4px solid #c8912a; } .exam > .bt { color: #8f6410; }
+.note { background: #f6f6f6; border-left: 4px solid #999; }    .note > .bt { color: #555; }
+
+/* ---------------- 公式 ---------------- */
+.fml {
+  font-family: "Cambria Math", "Times New Roman", "Microsoft YaHei", serif;
+  background: #fbfbfb; border: 1px solid #e2e2e2; border-radius: 3px;
+  padding: 5px 10px; margin: 6px 0; text-align: center; font-size: 11pt;
+  page-break-inside: avoid;
+}
+.fml.left { text-align: left; }
+.fml .tag { float: right; color: #888; font-size: 9pt; }
+i, var { font-family: "Cambria Math", "Times New Roman", serif; font-style: italic; }
+sub, sup { font-size: 0.72em; }
+
+/* ---------------- 表格 ---------------- */
+table { border-collapse: collapse; width: 100%; margin: 7px 0; font-size: 9.4pt; page-break-inside: avoid; }
+th, td { border: 1px solid #c8d6e2; padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: #e8f1f9; color: #0b3d69; font-weight: bold; }
+tr:nth-child(even) td { background: #fafcfe; }
+td.c, th.c { text-align: center; }
+
+/* ---------------- 例题 / 习题 ---------------- */
+.prob { border: 1px solid #d9e6f2; border-left: 4px solid #4a90c4; border-radius: 4px; padding: 7px 10px; margin: 9px 0; page-break-inside: avoid; background: #fcfdff; }
+.prob > .pt { font-weight: bold; color: #0b4f8a; margin-bottom: 3px; }
+.prob .q { margin: 3px 0; }
+.prob .sol { margin-top: 4px; }
+.prob .ans { background: #fff6d9; border-radius: 3px; padding: 3px 7px; margin-top: 4px; font-weight: bold; color: #8a5a00; }
+ol, ul { margin: 4px 0 4px 1.5em; padding: 0; }
+li { margin: 2px 0; }
+.step { margin-left: 1.1em; }
+
+/* ---------------- 图片 ---------------- */
+figure { margin: 8px 0; text-align: center; page-break-inside: avoid; }
+figure img { max-width: 100%; border: 1px solid #dcdcdc; border-radius: 3px; }
+figcaption { font-size: 8.8pt; color: #666; margin-top: 3px; }
+
+/* ---------------- 其他 ---------------- */
+.pagebreak { page-break-before: always; }
+.toc { background: #f7fafd; border: 1px solid #d9e6f2; border-radius: 4px; padding: 8px 12px; margin: 8px 0 12px 0; }
+.toc ol { margin-left: 1.2em; }
+.toc a { color: #0b3d69; text-decoration: none; }
+.badge { display: inline-block; background: #0b4f8a; color: #fff; border-radius: 3px; padding: 0 6px; font-size: 8.8pt; margin-right: 4px; }
+.badge.g { background: #3d8b40; } .badge.o { background: #c8912a; } .badge.r { background: #c0492b; }
+hr { border: none; border-top: 1px dashed #c3d8ea; margin: 12px 0; }
+
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="kicker">理论力学 · 动 力 学</div>
+  <h1>第 1 章　质点动力学</h1>
+  <div class="sub">期末复习讲义 ｜ 核心概念 · 公式总表 · 经典例题 · 易错提醒 · 补充练习</div>
+  <div class="meta">
+    <strong>依据课件：</strong>《动力学-1-质点动力学》（21 页幻灯片，本次实际参考 PDF 第 1–21 页全部内容）<br>
+    <strong>覆盖范围：</strong>动力学概述与研究对象 · 牛顿三大定律 · 质点运动微分方程的三种形式 · 两类问题与四种力函数的积分方法 · 课件六个经典例题 · 本章小结<br>
+    <strong>不含：</strong>动能定理、动量定理、动量矩定理、达朗贝尔原理、虚位移原理、刚体动力学、碰撞与振动等后续章节内容
+  </div>
+</div>
+
+<p class="lead">
+  本章是动力学的起点，任务只有两件：<strong>会写方程</strong>（受力分析 → 运动分析 → 选坐标系 → 写投影式）和<strong>会解方程</strong>（按力的类型选积分方法 + 用初始条件定常数）。全章公式不多，考的都是"这一步该不该加负号""这个常数怎么定"。
+</p>
+
+<div class="box note">
+  <div class="bt">记号约定</div>
+  <p>本讲义中<b>黑体</b>表示矢量（如 <b>F</b>、<b>v</b>、<b>a</b>、<b>r</b>），<i>斜体</i>表示标量（如 <i>m</i>、<i>t</i>、<i>x</i>）。变量上的点表示对时间求导：<i>ẋ</i> = d<i>x</i>/d<i>t</i>，<i>ẍ</i> = d<sup>2</sup><i>x</i>/d<i>t</i><sup>2</sup>。</p>
+</div>
+
+<div class="toc">
+  <strong>目　录</strong>
+  <ol>
+    <li><a href="#s1">动力学概述：研究对象与两类基本问题</a></li>
+    <li><a href="#s2">牛顿三大定律</a></li>
+    <li><a href="#s3">质点的运动微分方程（三种形式）</a></li>
+    <li><a href="#s4">两类问题的求解：四种力函数的积分方法</a></li>
+    <li><a href="#s5">综合例题精讲</a></li>
+    <li><a href="#s6">本章小结</a></li>
+    <li><a href="#s7">补充练习（含完整解答）</a></li>
+  </ol>
+</div>
+
+<h2 id="s1">一、动力学概述：研究对象与两类基本问题</h2>
+
+<div class="box def">
+  <div class="bt">核心概念</div>
+  <p><strong>动力学研究的问题：</strong>研究<em>作用于物体上的力</em>与<em>物体运动状态变化</em>之间的关系，即建立力和运动之间的关系。</p>
+  <p><strong>与先行课程的分工：</strong>静力学研究力系的简化和平衡规律；运动学研究物体运动的规律、<em>不考虑力的作用</em>；动力学则必须考虑力。</p>
+  <p><strong>研究对象：</strong>质点和质点系。质点系按质点间距离是否可变分为两类——<em>不变质点系</em>（质点间距离保持不变的质点系，如刚体）与<em>可变质点系</em>（质点间距离可以改变的质点系，如流体等）。</p>
+  <p><strong>课程内容：</strong>牛顿力学（矢量动力学），以牛顿定律为基础；分析力学，以虚功、达朗贝尔原理为基础。</p>
+  <p><strong>工程实例：</strong>研究飞行器<em>轨道</em>动力学问题时，可将飞行器视为<em>质点</em>；研究飞行器<em>姿态</em>动力学问题时，可将飞行器视为刚体系或质点系。</p>
+</div>
+
+<h3>1.1　动力学研究的两类基本问题</h3>
+
+<div class="box key">
+  <div class="bt">两类问题（本章的总纲）</div>
+  <p><strong>① 已知运动求力</strong>——已知 <i>r</i> = <i>r</i>(<i>t</i>)、<i>v</i> = <i>v</i>(<i>t</i>)、<i>a</i> = <i>a</i>(<i>t</i>)，求力 <b>F</b>。一般是一个<em>微分过程</em>：把运动方程求导两次代入 <b>F</b> = <i>m</i><b>a</b> 即可。</p>
+  <p><strong>② 已知力求运动</strong>——已知力求运动（轨迹、速度、位置）。<em>这是一个积分过程，必须知道初始条件！</em>没有初始条件，积分常数定不出来，运动不能唯一确定。</p>
+</div>
+
+<table>
+  <tr><th>课程</th><th>研究内容</th><th>是否考虑力</th></tr>
+  <tr><td>静力学</td><td>力系的简化和平衡规律</td><td>只讨论平衡状态</td></tr>
+  <tr><td>运动学</td><td>物体运动的规律（几何观点）</td><td class="c">不考虑力</td></tr>
+  <tr><td>动力学</td><td>力与运动状态变化之间的关系</td><td class="c">考虑力</td></tr>
+</table>
+
+<table>
+  <tr><th>概念</th><th>含义</th><th>举例</th></tr>
+  <tr><td>质点</td><td>具有一定质量、几何形状可忽略的物体</td><td>轨道运动中的飞行器</td></tr>
+  <tr><td>质点系</td><td>有限或无限个质点的集合</td><td>刚体、流体</td></tr>
+  <tr><td>不变质点系</td><td>质点间距离保持不变的质点系</td><td>刚体</td></tr>
+  <tr><td>可变质点系</td><td>质点间距离可以改变的质点系</td><td>流体等</td></tr>
+</table>
+
+<div class="prob">
+  <div class="pt">例 1-1（两类问题判别·自编）</div>
+  <div class="q">指出下列问题各属"已知运动求力"还是"已知力求运动"，并说明求解时是否需要初始条件：(1) 已知小球的运动方程 <i>x</i> = <i>A</i> sin ω<i>t</i>，求绳的拉力；(2) 已知炮弹所受的重力与空气阻力，求炮弹的轨迹。</div>
+  <div class="sol">
+    <p>(1) <em>已知运动求力</em>。对 <i>x</i>(<i>t</i>) 求导两次得加速度，代入 <i>m</i><b>a</b> = <b>F</b> 即可，<em>不需要</em>初始条件（运动方程本身已包含了初条件的信息）。</p>
+    <p>(2) <em>已知力求运动</em>。要积分运动微分方程，<em>必须</em>给出初始条件（初位置与初速度），否则积分常数无法确定，轨迹不唯一。</p>
+  </div>
+  <div class="ans">(1) 微分问题，不需初条件；(2) 积分问题，必须给初条件。</div>
+</div>
+
+<div class="box warn">
+  <div class="bt">易错提醒</div>
+  <ul>
+    <li>"已知力求运动"漏掉初始条件是最典型的失分点——只写出通解不算做完。</li>
+    <li>"质点"还是"质点系"取决于<em>研究什么问题</em>，不取决于物体本身：同一个飞行器，算轨道时是质点，算姿态时是质点系。</li>
+  </ul>
+</div>
+
+<h2 id="s2">二、牛顿三大定律</h2>
+
+<div class="box def">
+  <div class="bt">三大定律的表述</div>
+  <p><strong>第一定律（惯性定律）：</strong>任何物体，若不受外力作用，将永远保持静止或作匀速直线运动。</p>
+  <p><strong>第二定律（力与加速度关系定律）：</strong>质点的加速度大小与所受力的大小成正比，而与质点的质量成反比，加速度方向与力的方向一致。<em>适用于惯性参考系！</em></p>
+  <p><strong>第三定律（作用与反作用定律）：</strong>两物体间相互作用的力总是大小相等、方向相反，沿同一条作用线，且同时分别作用于两个物体上。</p>
+  <p><strong>质量的物理意义：</strong>质量是物体<em>惯性</em>的度量。</p>
+</div>
+
+<div class="fml"><i>m</i><b>a</b> = <b>F</b><span class="tag">(2-1)</span></div>
+<div class="fml"><b>F</b> = −<b>F</b>′<span class="tag">(2-2)</span></div>
+
+<h3>2.1　公式（定律）总表</h3>
+
+<table>
+  <tr><th>定律</th><th>数学表达</th><th>适用条件</th><th>易错点</th></tr>
+  <tr>
+    <td>第一定律<br>惯性定律</td>
+    <td class="c">不受外力时 <b>v</b> = 常矢量</td>
+    <td>惯性参考系</td>
+    <td>它同时<em>定义了惯性参考系</em>：第一定律成立的参考系才是惯性系</td>
+  </tr>
+  <tr>
+    <td>第二定律</td>
+    <td class="c"><i>m</i><b>a</b> = <b>F</b></td>
+    <td><em>只适用于惯性参考系</em>；质点、低速宏观</td>
+    <td><b>a</b> 与 <b>F</b> 同向、同时（瞬时对应），与速度方向<em>无关</em>；<b>F</b> 是合力</td>
+  </tr>
+  <tr>
+    <td>第三定律</td>
+    <td class="c"><b>F</b> = −<b>F</b>′</td>
+    <td>任意参考系；任意两物体间</td>
+    <td>两力分别作用在<em>两个</em>物体上，不能相互抵消，不是"二力平衡"</td>
+  </tr>
+</table>
+
+<div class="prob">
+  <div class="pt">例 2-1（概念辨析·自编）</div>
+  <div class="q">判断下列说法是否正确并说明理由：(1) 只要知道质点所受的力，就能完全确定它的运动；(2) 牛顿第二定律 <i>m</i><b>a</b> = <b>F</b> 在任何参考系中都成立；(3) 作用力与反作用力大小相等、方向相反，所以它们是一对平衡力。</div>
+  <div class="sol">
+    <p><strong>解题思路：</strong>这三问分别对应"两类问题"、"第二定律的适用条件"、"第三定律与二力平衡的区别"。</p>
+    <p>(1) <em>错。</em>已知力求运动是积分问题，还必须给出初始条件才能定出积分常数。</p>
+    <p>(2) <em>错。</em>第二定律只对惯性参考系成立；在非惯性系中直接使用必须另加惯性力（本课程后续内容）。</p>
+    <p>(3) <em>错。</em>作用力与反作用力分别作用在两个不同物体上，不可能构成平衡力系；只有作用在同一物体上的两个力才可能平衡。</p>
+  </div>
+  <div class="ans">三个说法均错。</div>
+</div>
+
+<div class="box warn">
+  <div class="bt">易错提醒</div>
+  <ul>
+    <li><b>F</b> = <i>m</i><b>a</b> 是<em>矢量式</em>，不能直接拿来计算，必须投影到坐标轴上。</li>
+    <li>第二定律的"瞬时性"：力一撤，加速度立即为零，但速度不会突变。</li>
+  </ul>
+</div>
+
+<h2 id="s3">三、质点的运动微分方程（三种形式）</h2>
+
+<div class="box def">
+  <div class="bt">核心概念</div>
+  <p>把牛顿第二定律写成微分方程的形式，就得到<strong>质点的运动微分方程</strong>。矢量式与坐标系无关，只用来说明物理关系；真正求解时必须投影到选定的坐标系上，化成标量微分方程（组）。</p>
+  <p>课件给出的三种形式：<strong>矢量式</strong>、<strong>直角坐标式</strong>、<strong>自然轴系式</strong>。</p>
+</div>
+
+<h3>3.1　一、矢量式</h3>
+<div class="fml"><i>m</i><b>a</b> = <i>m</i> (d<b>v</b>/d<i>t</i>) = <i>m</i> (d<sup>2</sup><b>r</b>/d<i>t</i><sup>2</sup>) = <b>F</b><span class="tag">(3-1)</span></div>
+
+<h3>3.2　二、直角坐标式</h3>
+<div class="fml">
+  <i>m</i> (d<sup>2</sup><i>x</i>/d<i>t</i><sup>2</sup>) = <i>F<sub>x</sub></i>　　<i>m</i> (d<sup>2</sup><i>y</i>/d<i>t</i><sup>2</sup>) = <i>F<sub>y</sub></i>　　<i>m</i> (d<sup>2</sup><i>z</i>/d<i>t</i><sup>2</sup>) = <i>F<sub>z</sub></i><span class="tag">(3-2)</span>
+</div>
+
+<h3>3.3　三、自然轴系式</h3>
+<div class="fml">
+  <i>m</i> (d<i>v</i>/d<i>t</i>) = Σ<i>F</i><sub>τ</sub>　　<i>m</i> (<i>v</i><sup>2</sup>/ρ) = Σ<i>F<sub>n</sub></i>　　0 = Σ<i>F<sub>b</sub></i><span class="tag">(3-3)</span>
+</div>
+<p class="lead">其中 τ 为切线方向（沿运动方向），<i>n</i> 为主法线方向（指向曲率中心），<i>b</i> 为副法线方向，ρ 为轨迹在该点的曲率半径（圆周运动时 ρ = <i>r</i>）。</p>
+
+<h3>3.4　公式总表</h3>
+
+<table>
+  <tr><th>形式</th><th>表达式</th><th>适用条件</th><th>易错点</th></tr>
+  <tr>
+    <td>矢量式</td>
+    <td class="c"><i>m</i><b>a</b> = <i>m</i> d<b>v</b>/d<i>t</i> = <i>m</i> d<sup>2</sup><b>r</b>/d<i>t</i><sup>2</sup> = <b>F</b></td>
+    <td>惯性参考系；任何运动</td>
+    <td>只用于<em>列式</em>，不能直接求解，必须投影</td>
+  </tr>
+  <tr>
+    <td>直角坐标式</td>
+    <td class="c"><i>m</i> d<sup>2</sup><i>x</i>/d<i>t</i><sup>2</sup> = <i>F<sub>x</sub></i>　（<i>y</i>、<i>z</i> 同理）</td>
+    <td>力沿固定方向变化；直线运动；抛体运动</td>
+    <td><i>F<sub>x</sub></i> 是<em>合力</em>在 <i>x</i> 轴的投影，不是某一个力的投影；各轴正方向要事先约定</td>
+  </tr>
+  <tr>
+    <td>自然轴系式</td>
+    <td class="c"><i>m</i> d<i>v</i>/d<i>t</i> = Σ<i>F</i><sub>τ</sub>；<i>m</i> <i>v</i><sup>2</sup>/ρ = Σ<i>F<sub>n</sub></i>；0 = Σ<i>F<sub>b</sub></i></td>
+    <td>轨迹已知的曲线运动（圆周运动、圆弧轨道、单摆等）</td>
+    <td>切向式反映<em>速度大小</em>的变化，法向式反映<em>速度方向</em>的变化；<i>b</i> 方向方程恒为 0 = Σ<i>F<sub>b</sub></i>，常用来求未知力</td>
+  </tr>
+</table>
+
+<div class="prob">
+  <div class="pt">例 3-1　单摆（课件例题，自然轴系式的典型应用）</div>
+  <div class="q">质量为 <i>m</i>、长为 <i>l</i> 的单摆，在铅垂面内摆动。初始时 θ = 0，小球的速度为 <i>v</i><sub>0</sub>（θ 为摆线与铅垂线的夹角）。试求绳作用在小球上的力 <i>F</i>(θ)，并分析小球的运动。</div>
+  <div class="sol">
+    <p><strong>解题思路：</strong>小球作<em>圆周运动</em>且轨迹已知，用自然轴系式；先由切向方程积分得到 <i>v</i>(θ)，再代入法向方程求绳力 <i>F</i>(θ)。</p>
+    <p><strong>① 取研究对象、受力与运动分析：</strong>小球受重力 <i>m</i><b>g</b>（向下）与绳拉力 <b>F</b>（沿摆线指向悬点）；小球沿半径 <i>l</i> 的圆弧运动。</p>
+    <p><strong>② 列自然轴系运动微分方程</strong>（τ 沿 θ 增大方向，<i>n</i> 沿摆线指向悬点，ρ = <i>l</i>）：</p>
+    <div class="fml left">τ：<i>m l</i> θ̈ = −<i>m g</i> sin θ　　<i>n</i>：<i>m l</i> θ̇<sup>2</sup> = <i>F</i> − <i>m g</i> cos θ</div>
+    <p><strong>③ 积分切向方程</strong>（两边同乘 θ̇ 后对 <i>t</i> 积分，即得常用的能量关系）：</p>
+    <div class="fml left">(1/2) <i>m l</i><sup>2</sup> θ̇<sup>2</sup> = (1/2) <i>m v</i><sub>0</sub><sup>2</sup> − <i>m g l</i>(1 − cos θ)　⟹　<i>l</i> θ̇<sup>2</sup> = <i>v</i><sub>0</sub><sup>2</sup>/<i>l</i> − 2<i>g</i>(1 − cos θ)</div>
+    <p><strong>④ 代入法向方程求绳力：</strong></p>
+    <div class="fml left"><i>F</i> = <i>m g</i> cos θ + <i>m l</i> θ̇<sup>2</sup> = <i>m g</i>(3 cos θ − 2) + <i>m v</i><sub>0</sub><sup>2</sup>/<i>l</i></div>
+    <p><strong>⑤ 分析运动：</strong>切向方程 <i>l</i> θ̈ + <i>g</i> sin θ = 0 是<em>非线性</em>方程，其通解记为 θ = <i>A</i> sin(ω<i>t</i> + φ)。</p>
+    <p class="step">（1）<strong>微幅摆动：</strong>sin θ ≈ θ，方程化为 θ̈ + (<i>g</i>/<i>l</i>)θ = 0。初条件 θ<sub>0</sub> = 0、θ̇<sub>0</sub> = <i>v</i><sub>0</sub>/<i>l</i>，记 ω = √(<i>g</i>/<i>l</i>)，定出 <i>A</i> = <i>v</i><sub>0</sub>/(<i>l</i>ω)、φ = 0，即 θ = [<i>v</i><sub>0</sub>/(<i>l</i>ω)] sin ω<i>t</i>。运动具有<em>等时性</em>——周期与初始条件无关。</p>
+    <p class="step">（2）<strong>大幅摆动：</strong>方程为 θ̈ + ω<sup>2</sup> sin θ = 0，解不再是简谐的，运动<em>不具有等时性</em>（周期随振幅变化）。</p>
+  </div>
+  <div class="ans"><i>F</i> = <i>m g</i>(3 cos θ − 2) + <i>m v</i><sub>0</sub><sup>2</sup>/<i>l</i>；微幅摆动等时，大幅摆动不等时。</div>
+</div>
+
+<div class="box warn">
+  <div class="bt">易错提醒</div>
+  <ul>
+    <li>自然轴系的 τ 正方向要<em>自己先约定</em>（一般取 θ 增大方向），约定之后 −<i>m g</i> sin θ 里的负号才有着落。</li>
+    <li>用"能量关系"代替切向方程的积分，只对<em>保守力</em>（重力、弹簧力）成立；有摩擦时必须老老实实积分切向方程。</li>
+    <li>等时性只对<em>微幅</em>摆动成立，sin θ ≈ θ 的适用条件是 θ 很小。</li>
+    <li>直线运动中不要误用 <i>v</i><sup>2</sup>/ρ：直线运动 ρ → ∞，法向方程退化为 0 = Σ<i>F<sub>n</sub></i>。</li>
+  </ul>
+</div>
+
+<h2 id="s4">四、两类问题的求解：四种力函数的积分方法</h2>
+
+<div class="box def">
+  <div class="bt">核心概念</div>
+  <p>已知力求运动时，方程 <i>m</i> ẍ = <i>F</i> 怎么积分，取决于力 <i>F</i> 是<strong>常数</strong>还是 <i>t</i>、<i>x</i>、<i>v</i> 的函数。常见四种情形如下（课件给出的就是这四种）。</p>
+</div>
+
+<h3>4.1　（1）力是常矢量（例如：重力）</h3>
+<div class="fml left"><i>m</i> (d<sup>2</sup><i>x</i>/d<i>t</i><sup>2</sup>) = <i>F<sub>x</sub></i>　⟹　d<i>x</i>/d<i>t</i> = (<i>F<sub>x</sub></i>/<i>m</i>) <i>t</i> + <i>ẋ</i><sub>0</sub>　⟹　<i>x</i> = <i>x</i><sub>0</sub> + <i>ẋ</i><sub>0</sub> <i>t</i> + (<i>F<sub>x</sub></i>/2<i>m</i>) <i>t</i><sup>2</sup></div>
+
+<h3>4.2　（2）力是位置的函数 <i>F</i> = <i>F</i>(<b>r</b>)（例如：弹簧力）</h3>
+<div class="fml left"><i>m</i> ẍ = <i>F</i>(<i>x</i>)，其中 ẍ = d<i>ẋ</i>/d<i>t</i> = (d<i>ẋ</i>/d<i>x</i>)(d<i>x</i>/d<i>t</i>) = <i>ẋ</i> (d<i>ẋ</i>/d<i>x</i>)　←　<em>分离变量法</em></div>
+<div class="fml left">∫<sub><i>ẋ</i><sub>0</sub></sub><sup><i>ẋ</i></sup> <i>ẋ</i> d<i>ẋ</i> = (1/<i>m</i>) ∫<sub><i>x</i><sub>0</sub></sub><sup><i>x</i></sup> <i>F</i>(<i>x</i>) d<i>x</i>　⟹　(1/2)<i>ẋ</i><sup>2</sup> = (1/2)<i>ẋ</i><sub>0</sub><sup>2</sup> + (1/<i>m</i>) ∫<sub><i>x</i><sub>0</sub></sub><sup><i>x</i></sup> <i>F</i>(<i>x</i>) d<i>x</i></div>
+
+<h3>4.3　（3）力是速度的函数 <i>F</i> = <i>F</i>(<i>v</i>)（例如：空气阻力）</h3>
+<div class="fml left"><i>m</i> ẍ = <i>F</i>(<i>ẋ</i>)　⟹　d<i>t</i> = <i>m</i> d<i>ẋ</i> / <i>F</i>(<i>ẋ</i>)　⟹　∫<sub>0</sub><sup><i>t</i></sup> d<i>t</i> = ∫<sub><i>ẋ</i><sub>0</sub></sub><sup><i>ẋ</i></sup> <i>m</i> d<i>ẋ</i> / <i>F</i>(<i>ẋ</i>)</div>
+
+<h3>4.4　（4）力是时间的函数 <i>F</i> = <i>F</i>(<i>t</i>)（例如：周期力）</h3>
+<div class="fml left"><i>m</i> (d<sup>2</sup><i>x</i>/d<i>t</i><sup>2</sup>) = <i>F</i>(<i>t</i>)　⟹　∫d<i>ẋ</i> = (1/<i>m</i>)∫<i>F</i>(<i>t</i>) d<i>t</i>　⟹　<i>ẋ</i> = <i>ẋ</i><sub>0</sub> + (1/<i>m</i>) ∫<sub>0</sub><sup><i>t</i></sup> <i>F</i>(<i>t</i>) d<i>t</i>，再积分得 <i>x</i> = <i>x</i><sub>0</sub> + ∫<sub>0</sub><sup><i>t</i></sup> <i>ẋ</i> d<i>t</i></div>
+
+<div class="box note">
+  <div class="bt">说明</div>
+  <p>以上积分的<em>分离形式并不是唯一的</em>，具体如何分离，要与所求问题相对应（求 <i>v</i>(<i>t</i>) 就往 <i>t</i> 上分离，求 <i>v</i>(<i>x</i>) 就往 <i>x</i> 上分离）。</p>
+</div>
+
+<h3>4.5　公式总表</h3>
+
+<table>
+  <tr><th>力的类型</th><th>典型例子</th><th>微分方程</th><th>分离/积分方法</th><th>易错点</th></tr>
+  <tr>
+    <td>常力 <i>F</i> = 常矢量</td><td>重力、恒力</td>
+    <td class="c"><i>m</i> ẍ = <i>F<sub>x</sub></i></td>
+    <td>连续积分两次</td>
+    <td>两个积分常数都要用初条件定，别只定一个</td>
+  </tr>
+  <tr>
+    <td>位置函数 <i>F</i> = <i>F</i>(<i>r</i>)</td><td>弹簧力 −<i>kx</i></td>
+    <td class="c"><i>m</i> ẍ = <i>F</i>(<i>x</i>)</td>
+    <td>用 ẍ = <i>ẋ</i> d<i>ẋ</i>/d<i>x</i> 把 <i>t</i> 消掉，对 <i>x</i> 分离变量</td>
+    <td>记住 ẍ = <i>ẋ</i> d<i>ẋ</i>/d<i>x</i> 这一步代换；积分限与初条件一一对应</td>
+  </tr>
+  <tr>
+    <td>速度函数 <i>F</i> = <i>F</i>(<i>v</i>)</td><td>空气阻力 −μ<i>v</i><sup>2</sup></td>
+    <td class="c"><i>m</i> d<i>v</i>/d<i>t</i> = <i>F</i>(<i>v</i>)</td>
+    <td>d<i>t</i> = <i>m</i> d<i>v</i>/<i>F</i>(<i>v</i>)，两边分别对 <i>t</i>、<i>v</i> 积分</td>
+    <td>阻力方向永远与速度<em>相反</em>，符号由速度符号决定，不能预先写死</td>
+  </tr>
+  <tr>
+    <td>时间函数 <i>F</i> = <i>F</i>(<i>t</i>)</td><td>周期力</td>
+    <td class="c"><i>m</i> ẍ = <i>F</i>(<i>t</i>)</td>
+    <td>先对 <i>t</i> 积一次得 <i>v</i>(<i>t</i>)，再积一次得 <i>x</i>(<i>t</i>)</td>
+    <td>积分上下限写成 0 → <i>t</i>，对应初条件 <i>ẋ</i><sub>0</sub>、<i>x</i><sub>0</sub></td>
+  </tr>
+</table>
+
+<div class="box key">
+  <div class="bt">解题四步骤（课件原话）</div>
+  <ol>
+    <li>取研究对象，<em>受力分析、运动分析</em>；</li>
+    <li>对质点建立<em>牛顿第二定律矢量式</em>；</li>
+    <li>建立坐标系，化矢量式为<em>投影式</em>，建立微分方程（组）；</li>
+    <li>求解微分方程（组）。</li>
+  </ol>
+  <p><strong>两条注意：</strong>① 投影式两边正方向相同；② 坐标与坐标导数的正方向相同。</p>
+</div>
+
+<div class="prob">
+  <div class="pt">例 4-1　空气中下落的小球（课件例题，<i>F</i> = <i>F</i>(<i>v</i>) 型）</div>
+  <div class="q">质量为 <i>m</i> 的小球在空气中铅垂下落，空气阻力大小为 <i>F</i> = μ<i>v</i><sup>2</sup>、方向与速度相反（μ 为常数）。初瞬时 <i>y</i> = 0、<i>v</i> = 0。试求小球的运动。</div>
+  <div class="sol">
+    <p><strong>解题思路：</strong>阻力是<em>速度的函数</em>，属第（3）类，把 d<i>t</i> 与 d<i>v</i> 分离后两边积分。</p>
+    <p><strong>① 受力与运动分析：</strong>小球受重力 <i>m g</i>（向下）和空气阻力 μ<i>v</i><sup>2</sup>（与速度反向，即向上）。取 <i>y</i> 轴铅垂向下，则 <i>v</i> = <i>ẏ</i> &gt; 0。</p>
+    <p><strong>② 列运动微分方程：</strong></p>
+    <div class="fml left"><i>m</i> ÿ = <i>m g</i> − μ<i>ẏ</i><sup>2</sup>　⟹　<i>v̇</i> = <i>g</i> − (μ/<i>m</i>) <i>v</i><sup>2</sup></div>
+    <p><strong>③ 化为可分离形式：</strong>令 <i>c</i><sup>2</sup> = <i>m g</i>/μ，则</p>
+    <div class="fml left"><i>v̇</i> = (μ/<i>m</i>) (<i>c</i><sup>2</sup> − <i>v</i><sup>2</sup>)　⟹　d<i>v</i>/(<i>c</i><sup>2</sup> − <i>v</i><sup>2</sup>) = (μ/<i>m</i>) d<i>t</i></div>
+    <p><strong>④ 积分（用初条件 <i>v</i>(0) = 0 定积分限）：</strong></p>
+    <div class="fml left">∫<sub>0</sub><sup><i>v</i></sup> d<i>v</i>/(<i>c</i><sup>2</sup> − <i>v</i><sup>2</sup>) = (μ/<i>m</i>) ∫<sub>0</sub><sup><i>t</i></sup> d<i>t</i>　⟹　<i>v</i> = <i>c</i> · th(<i>g t</i>/<i>c</i>)，<i>c</i> = √(<i>m g</i>/μ)</div>
+    <p><strong>⑤ 再积分一次求运动规律：</strong>由 d<i>y</i>/d<i>t</i> = <i>v</i>，用初条件 <i>y</i>(0) = 0：</p>
+    <div class="fml left"><i>y</i> = ∫<sub>0</sub><sup><i>t</i></sup> <i>c</i> th(<i>g t</i>/<i>c</i>) d<i>t</i> = (<i>c</i><sup>2</sup>/<i>g</i>) ln ch(<i>g t</i>/<i>c</i>)</div>
+  </div>
+  <div class="ans"><i>v</i> = <i>c</i>·th(<i>g t</i>/<i>c</i>)，<i>y</i> = (<i>c</i><sup>2</sup>/<i>g</i>)·ln ch(<i>g t</i>/<i>c</i>)，其中 <i>c</i> = √(<i>m g</i>/μ)。当 <i>t</i> → ∞ 时 <i>v</i> → <i>c</i>，即存在<em>极限速度</em>。</div>
+</div>
+
+<div class="box warn">
+  <div class="bt">易错提醒</div>
+  <ul>
+    <li>阻力的方向总是与速度反向，所以它的投影式符号是 −μ<i>v</i><sup>2</sup>（速度为正时）；不要一看到"阻力"就直接写减号而不看速度方向。</li>
+    <li>分离变量时先分清哪些是变量、哪些是常量；积分限从初状态写到末状态，两边必须对应。</li>
+    <li>题目问 <i>v</i>(<i>t</i>) 还是问 <i>v</i>(<i>x</i>) 决定分离方式，不要机械照搬公式。</li>
+  </ul>
+</div>
+
+<h2 id="s5">五、综合例题精讲</h2>
+
+<div class="box key">
+  <div class="bt">建模方法总表：先定坐标系，再写方程</div>
+  <table>
+    <tr><th>情形</th><th>首选坐标系</th><th>理由</th></tr>
+    <tr><td>直线运动；力与运动方向一致或垂直（如抛体）</td><td>直角坐标式</td><td>方程可以直接分离，各轴独立积分</td></tr>
+    <tr><td>轨迹已知的曲线运动（圆周、圆弧、单摆）</td><td>自然轴系式</td><td>法向方程直接给出约束力，切向方程给出速度变化</td></tr>
+    <tr><td>力始终指向（或背离）一个固定点</td><td>直角坐标式（按坐标分解力）</td><td>把力投影成 −<i>kx</i>、−<i>ky</i> 后两轴解耦，便于消参求轨迹</td></tr>
+  </table>
+</div>
+
+<div class="prob">
+  <div class="pt">例 5-1　抛体的空气阻力（课件例题，矢量式 → 直角坐标式）</div>
+  <div class="q">设空气阻力的大小与速度的平方成正比、方向与速度相反。试建立抛体的运动微分方程。</div>
+  <div class="sol">
+    <p><strong>解题思路：</strong>先用矢量式把重力与阻力写全，再投影到直角坐标轴上。</p>
+    <p><strong>① 取炮弹为研究对象，建立矢量形式的运动微分方程：</strong>阻力可写成 <b>R</b> = −<i>c v</i> <b>v</b>（大小 <i>c v</i><sup>2</sup>，方向与 <b>v</b> 相反）。</p>
+    <div class="fml left"><i>m</i><b>a</b> = <i>m</i><b>g</b> + <b>R</b>　⟹　<i>m</i><b>a</b> = <i>m</i><b>g</b> + (−<i>c v</i> <b>v</b>)</div>
+    <p><strong>② 建立直角坐标形式的运动微分方程：</strong>因 <i>v</i> = √(<i>ẋ</i><sup>2</sup> + <i>ẏ</i><sup>2</sup>)，把矢量式分别向 <i>x</i>、<i>y</i> 轴投影得</p>
+    <div class="fml left"><i>m</i> ẍ = −<i>c ẋ</i> √(<i>ẋ</i><sup>2</sup> + <i>ẏ</i><sup>2</sup>)　　<i>m</i> ÿ = −<i>m g</i> − <i>c ẏ</i> √(<i>ẋ</i><sup>2</sup> + <i>ẏ</i><sup>2</sup>)</div>
+    <p><strong>③ 讨论：</strong>两式通过 <i>v</i> = √(<i>ẋ</i><sup>2</sup> + <i>ẏ</i><sup>2</sup>) <em>耦合</em>，一般求不出初等函数解，只能数值求解。取 <i>m</i> = 10 kg、<i>c</i> = 0.02 N·s<sup>2</sup>/m<sup>2</sup>、<i>v</i><sub>0</sub> = 1000 m/s，当 θ<sub>0</sub> = 70° 与 θ<sub>0</sub> = 47° 时，课件用数值方法画出了炮弹的轨迹：与无阻力情形相比，射程明显减小、轨迹不再是对称的抛物线。</p>
+  </div>
+  <div class="ans">运动微分方程为 <i>m</i> ẍ = −<i>c ẋ v</i>，<i>m</i> ÿ = −<i>m g</i> − <i>c ẏ v</i>，其中 <i>v</i> = √(<i>ẋ</i><sup>2</sup> + <i>ẏ</i><sup>2</sup>)。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 5-2　指向原点的引力（课件例题，两类问题的"求运动规律 + 轨迹"）</div>
+  <div class="q">质点 A 的质量为 <i>m</i>，受指向原点 O 的引力 <b>F</b> = −<i>k</i><b>r</b> 作用，其中 <b>r</b> 是 A 对 O 的矢径，<i>k</i> 为比例常数。初瞬时质点的坐标为 <i>x</i> = <i>b</i>、<i>y</i> = 0，初速度的分量为 <i>v<sub>x</sub></i> = 0、<i>v<sub>y</sub></i> = <i>v</i><sub>0</sub>。试求质点 A 的运动规律和轨迹。</div>
+  <div class="sol">
+    <p><strong>解题思路：</strong>力始终指向定点，把力按坐标分解成 −<i>kx</i>、−<i>ky</i>，两个方向的方程就解耦成两个简谐振动方程。</p>
+    <p><strong>① 运动分析：</strong>由于 A 所受的力始终指向 O，且初速度与力共面，故质点在 <em>该平面内作平面曲线运动</em>。建立图示直角坐标系。</p>
+    <p><strong>② 列运动微分方程：</strong>设矢径与 <i>x</i> 轴夹角为 φ，则</p>
+    <div class="fml left"><i>m</i> ẍ = −<i>F</i> cos φ = −<i>k r</i> cos φ = −<i>k x</i>　　<i>m</i> ÿ = −<i>F</i> sin φ = −<i>k r</i> sin φ = −<i>k y</i></div>
+    <p><strong>③ 化为标准形式：</strong>令 ω<sup>2</sup> = <i>k</i>/<i>m</i>，得</p>
+    <div class="fml left">ẍ + ω<sup>2</sup><i>x</i> = 0　　ÿ + ω<sup>2</sup><i>y</i> = 0</div>
+    <p>其通解为 <i>x</i> = <i>c</i><sub>1</sub> cos ω<i>t</i> + <i>c</i><sub>2</sub> sin ω<i>t</i>，<i>y</i> = <i>c</i><sub>3</sub> cos ω<i>t</i> + <i>c</i><sub>4</sub> sin ω<i>t</i>；求导得 <i>ẋ</i> = −<i>c</i><sub>1</sub>ω sin ω<i>t</i> + <i>c</i><sub>2</sub>ω cos ω<i>t</i>，<i>ẏ</i> = −<i>c</i><sub>3</sub>ω sin ω<i>t</i> + <i>c</i><sub>4</sub>ω cos ω<i>t</i>。</p>
+    <p><strong>④ 用初始条件定积分常数：</strong>把 <i>t</i> = 0、<i>x</i> = <i>b</i>、<i>y</i> = 0、<i>ẋ</i> = 0、<i>ẏ</i> = <i>v</i><sub>0</sub> 代入，得</p>
+    <div class="fml left"><i>c</i><sub>1</sub> = <i>b</i>，<i>c</i><sub>2</sub> = 0，<i>c</i><sub>3</sub> = 0，<i>c</i><sub>4</sub> = <i>v</i><sub>0</sub>/ω</div>
+    <p><strong>⑤ 运动规律与轨迹：</strong></p>
+    <div class="fml left"><i>x</i> = <i>b</i> cos(√(<i>k</i>/<i>m</i>) <i>t</i>)，　<i>y</i> = <i>v</i><sub>0</sub> √(<i>m</i>/<i>k</i>) sin(√(<i>k</i>/<i>m</i>) <i>t</i>)</div>
+    <p>消去时间 <i>t</i>，得轨迹方程 <i>x</i><sup>2</sup>/<i>b</i><sup>2</sup> + <i>y</i><sup>2</sup>/(<i>m v</i><sub>0</sub><sup>2</sup>/<i>k</i>) = 1，即质点 A 的轨迹为<em>椭圆</em>（中心在 O 点）。</p>
+  </div>
+  <div class="ans">运动规律如上；轨迹为椭圆 <i>x</i><sup>2</sup>/<i>b</i><sup>2</sup> + <i>k y</i><sup>2</sup>/(<i>m v</i><sub>0</sub><sup>2</sup>) = 1。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 5-3　铰接两物块（课件例题，运动学约束 + 联立求解）</div>
+  <div class="q">物块 A 和 B 的质量均为 <i>m</i>，用细杆铰接，分别置于光滑的铅垂面和水平面上（A 靠铅垂面、B 在水平面上），如图所示。若不计细杆的质量，θ = 60° 时由静止释放，求此瞬时杆 AB 所受的力。</div>
+  <div class="sol">
+    <p><strong>解题思路：</strong>两个物块分别用牛顿第二定律列式，再用"杆长不变"这一<em>运动学约束</em>把两个加速度联系起来，联立求解。</p>
+    <p><strong>① 受力与运动分析：</strong>物块 A 竖直下滑、加速度 <i>a<sub>A</sub></i> 沿铅垂方向；物块 B 水平滑动、加速度 <i>a<sub>B</sub></i> 沿水平方向。A、B 之间通过细杆传力。</p>
+    <p><strong>② 分别列矢量式：</strong></p>
+    <div class="fml left">［物块 A］<i>m</i> <b>a</b><sub>A</sub> = <i>m</i><b>g</b> + <b>F</b><sub>NA</sub> + <b>F</b><sub>AB</sub>　<span class="tag">(1)</span></div>
+    <div class="fml left">［物块 B］<i>m</i> <b>a</b><sub>B</sub> = <i>m</i><b>g</b> + <b>F</b><sub>NB</sub> + <b>F</b>′<sub>AB</sub>　<span class="tag">(2)</span></div>
+    <p><strong>③ 运动学分析（关键一步）：</strong>由杆长不变，A、B 沿杆方向的加速度投影必须相等，即沿 AB 方向有</p>
+    <div class="fml left"><i>a<sub>B</sub></i> cos θ = <i>a<sub>A</sub></i> sin θ　<span class="tag">(3)</span></div>
+    <p><strong>④ 把 (1)(2) 式向合适的方向投影：</strong>对 A 取铅垂方向（消去 <b>F</b><sub>NA</sub>），对 B 取水平方向（消去 <b>F</b><sub>NB</sub>）：</p>
+    <div class="fml left"><i>m a<sub>A</sub></i> = <i>m g</i> − <i>F</i><sub>AB</sub> sin θ　<span class="tag">(4)</span></div>
+    <div class="fml left"><i>m a<sub>B</sub></i> = <i>F</i><sub>AB</sub> cos θ　<span class="tag">(5)</span></div>
+    <p><strong>⑤ 联立 (3)(4)(5) 求解：</strong>由 (5) 得 <i>a<sub>B</sub></i> = <i>F</i><sub>AB</sub> cos θ/<i>m</i>，由 (4) 得 <i>a<sub>A</sub></i> = <i>g</i> − <i>F</i><sub>AB</sub> sin θ/<i>m</i>，代入 (3) 并整理：</p>
+    <div class="fml left"><i>F</i><sub>AB</sub> cos<sup>2</sup>θ = <i>m g</i> sin θ − <i>F</i><sub>AB</sub> sin<sup>2</sup>θ　⟹　<i>F</i><sub>AB</sub> = <i>m g</i> sin θ = (√3/2) <i>m g</i> ≈ 0.866 <i>m g</i></div>
+    <p><strong>⑥ 结果讨论：</strong><i>F</i><sub>AB</sub> 为正值，表明图中假设的指向与实际一致，杆 AB <em>受压</em>。</p>
+  </div>
+  <div class="ans"><i>F</i><sub>AB</sub> = <i>m g</i> sin θ = (√3/2) <i>m g</i> ≈ 0.866 <i>m g</i>，杆受压力。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 5-4　质点沿圆柱面滑动（课件例题，自然轴系式 + 动滑动摩擦）</div>
+  <div class="q">质点与圆柱面间的动滑动摩擦因数为 <i>f</i><sub>d</sub>，圆柱半径为 <i>r</i> = 1 m。(1) 建立质点的运动微分方程；(2) 分析其运动。</div>
+  <div class="sol">
+    <p><strong>解题思路：</strong>质点沿圆弧轨迹运动，用<em>自然轴系式</em>；摩擦力 <i>F</i><sub>d</sub> = <i>f</i><sub>d</sub><i>F</i><sub>N</sub> 依赖法向约束力，所以必须<em>先用 <i>n</i> 方向方程求出 <i>F</i><sub>N</sub>，再回代到 τ 方向方程</em>。</p>
+    <p><strong>① 取质点为研究对象</strong>，受力：重力 <i>m</i><b>g</b>、圆柱面法向力 <b>F</b><sub>N</sub>、摩擦力 <b>F</b><sub>d</sub>。按图示取角坐标 θ，列矢量式 <i>m</i><b>a</b> = <i>m</i><b>g</b> + <b>F</b><sub>N</sub> + <b>F</b><sub>d</sub>。</p>
+    <p><strong>② 投影到自然轴系：</strong></p>
+    <div class="fml left">τ：<i>m r</i> θ̈ = <i>m g</i> cos θ − <i>F</i><sub>d</sub>　<span class="tag">(1)</span></div>
+    <div class="fml left"><i>n</i>：<i>m r</i> θ̇<sup>2</sup> = −<i>m g</i> sin θ + <i>F</i><sub>N</sub>　<span class="tag">(2)</span></div>
+    <p><strong>③ 由 (2) 式解出法向力，并写出摩擦定律：</strong></p>
+    <div class="fml left"><i>F</i><sub>N</sub> = <i>m r</i> θ̇<sup>2</sup> + <i>m g</i> sin θ，　<i>F</i><sub>d</sub> = <i>f</i><sub>d</sub> <i>F</i><sub>N</sub></div>
+    <p><strong>④ 代入 (1) 式，得到只含 θ 的微分方程：</strong></p>
+    <div class="fml left"><i>m r</i> θ̈ = <i>m g</i> cos θ − <i>f</i><sub>d</sub> (<i>m r</i> θ̇<sup>2</sup> + <i>m g</i> sin θ)</div>
+    <p><strong>⑤ 分析运动：</strong>该方程为非线性方程，一般无初等解。课件取 <i>r</i> = 1 m、<i>f</i><sub>d</sub> = 0.1，初始条件 θ<sub>0</sub> = 0 rad、θ̇<sub>0</sub> = 0 rad/s，用<em>数值方法</em>给出了质点位置、速度和切向加速度随时间的变化规律：由于摩擦不断耗散能量，θ̇ 与切向加速度都随时间的推移趋于衰减。</p>
+  </div>
+  <div class="ans">运动微分方程为 <i>m r</i> θ̈ = <i>m g</i> cos θ − <i>f</i><sub>d</sub>(<i>m r</i> θ̇<sup>2</sup> + <i>m g</i> sin θ)；因含 θ̇<sup>2</sup> 项而非线性，须用数值方法求解。</div>
+</div>
+
+<div class="box warn">
+  <div class="bt">易错提醒</div>
+  <ul>
+    <li>有摩擦时，<em>先求法向力再回代切向方程</em>是固定套路；直接把 <i>f</i><sub>d</sub><i>m g</i> cos θ 当摩擦力是错的。</li>
+    <li>两个物体用杆/绳连接时，<em>运动学约束方程</em>（沿杆方向加速度投影相等）是解题的关键，别漏。</li>
+    <li>投影方向要"挑软柿子"：向约束力垂直的方向投影，可以把未知约束力消掉。</li>
+    <li>求出杆力/绳力为负值时不要慌，说明实际指向与假设相反，必须回头说明受力性质（拉还是压）。</li>
+  </ul>
+</div>
+
+<h2 id="s6">六、本章小结</h2>
+
+<div class="box exam">
+  <div class="bt">课件小结（原文要点）</div>
+  <ol>
+    <li>掌握<strong>质点动力学方程在不同坐标系下的表达式</strong>（矢量式、直角坐标式、自然轴系式）；</li>
+    <li>会<strong>建立特定问题的动力学方程</strong>。</li>
+  </ol>
+</div>
+
+<table>
+  <tr><th>考点</th><th>核心公式/方法</th><th>典型题型</th></tr>
+  <tr><td>牛顿定律的理解</td><td><i>m</i><b>a</b> = <b>F</b>（惯性系）</td><td>概念辨析</td></tr>
+  <tr><td>直角坐标式</td><td><i>m</i> ẍ = <i>F<sub>x</sub></i> 等三式</td><td>抛体、直线运动、有心力求轨迹</td></tr>
+  <tr><td>自然轴系式</td><td><i>m</i> d<i>v</i>/d<i>t</i> = Σ<i>F</i><sub>τ</sub>，<i>m v</i><sup>2</sup>/ρ = Σ<i>F<sub>n</sub></i></td><td>单摆、圆弧轨道、求绳力/约束力</td></tr>
+  <tr><td>两类问题</td><td>已知运动求力＝微分；已知力求运动＝积分＋初条件</td><td>求力、求运动规律</td></tr>
+  <tr><td>四种力函数的积分</td><td>常力／<i>F</i>(<i>x</i>)／<i>F</i>(<i>v</i>)／<i>F</i>(<i>t</i>)</td><td>弹簧、空气阻力、周期力</td></tr>
+</table>
+
+<div class="pagebreak"></div>
+
+<h2 id="s7">七、补充练习（含完整解答）</h2>
+
+<div class="box note">
+  <div class="bt">题目来源说明</div>
+  <p>以下 5 道题均为<strong>自编典型题</strong>：检索到的网络资源多为教材/题解书目条目，无法核实到具体题号与原文，故不标注任何具体书目出处，仅保证题型与本章考法一致。可作对照阅读的真实参考书（已核实存在）：《理论力学习题全解（配哈工大版〈理论力学〉第 8 版）》、《理论力学辅导及习题精解（哈工大第 7 版）》。</p>
+</div>
+
+<div class="prob">
+  <div class="pt">练 1（<i>F</i> = <i>F</i>(<i>t</i>) 型）<span class="badge o">自编典型题</span></div>
+  <div class="q">质量 <i>m</i> = 2 kg 的质点沿 <i>x</i> 轴运动，受周期力 <i>F<sub>x</sub></i> = <i>F</i><sub>0</sub> sin ω<i>t</i> 作用，其中 <i>F</i><sub>0</sub> = 4 N、ω = 2 rad/s。已知 <i>t</i> = 0 时 <i>x</i> = 0、<i>ẋ</i> = 0。求质点的运动规律，并说明速度的取值范围。</div>
+  <div class="sol">
+    <p><strong>思路：</strong>力是时间的函数，属第（4）类，连续对 <i>t</i> 积分两次，每次用初条件定常数。</p>
+    <p>① 列方程：<i>m</i> ẍ = <i>F</i><sub>0</sub> sin ω<i>t</i> ⟹ ẍ = (<i>F</i><sub>0</sub>/<i>m</i>) sin ω<i>t</i>。</p>
+    <p>② 积分一次（<i>ẋ</i><sub>0</sub> = 0）：<i>ẋ</i> = <i>ẋ</i><sub>0</sub> + (<i>F</i><sub>0</sub>/<i>m</i>ω)(1 − cos ω<i>t</i>) = (<i>F</i><sub>0</sub>/<i>m</i>ω)(1 − cos ω<i>t</i>)。</p>
+    <p>③ 再积分一次（<i>x</i><sub>0</sub> = 0）：<i>x</i> = (<i>F</i><sub>0</sub>/<i>m</i>ω<sup>2</sup>)(ω<i>t</i> − sin ω<i>t</i>)。</p>
+    <p>④ 代入数值：<i>F</i><sub>0</sub>/(<i>m</i>ω) = 4/(2×2) = 1 m/s，<i>F</i><sub>0</sub>/(<i>m</i>ω<sup>2</sup>) = 4/(2×4) = 0.5 m。</p>
+  </div>
+  <div class="ans"><i>x</i> = 0.5(2<i>t</i> − sin 2<i>t</i>) m，<i>ẋ</i> = (1 − cos 2<i>t</i>) m/s ∈ [0, 2] m/s——速度恒不反向，质点作脉动式单向运动。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">练 2（<i>F</i> = <i>F</i>(<i>x</i>) 型，分离变量法）<span class="badge o">自编典型题</span></div>
+  <div class="q">质量 <i>m</i> 的物块与劲度系数为 <i>k</i> 的弹簧相连，置于光滑水平面上。将物块拉离平衡位置到 <i>x</i><sub>0</sub> 处后无初速释放。用分离变量法求物块速度与位置的关系，并求它再次回到平衡位置 <i>x</i> = 0 时的速度大小。</div>
+  <div class="sol">
+    <p><strong>思路：</strong>弹簧力是位置的函数，用 ẍ = <i>ẋ</i> d<i>ẋ</i>/d<i>x</i> 消去时间。</p>
+    <p>① 列方程（力指向平衡位置）：<i>m</i> ẍ = −<i>k x</i>。</p>
+    <p>② 代换并分离变量：<i>m ẋ</i> (d<i>ẋ</i>/d<i>x</i>) = −<i>k x</i> ⟹ <i>m ẋ</i> d<i>ẋ</i> = −<i>k x</i> d<i>x</i>。</p>
+    <p>③ 积分（<i>x</i> = <i>x</i><sub>0</sub> 时 <i>ẋ</i> = 0）：∫<sub>0</sub><sup><i>ẋ</i></sup> <i>m ẋ</i> d<i>ẋ</i> = ∫<sub><i>x</i><sub>0</sub></sub><sup><i>x</i></sup> (−<i>k x</i>) d<i>x</i> ⟹ (1/2)<i>m ẋ</i><sup>2</sup> = (1/2)<i>k</i>(<i>x</i><sub>0</sub><sup>2</sup> − <i>x</i><sup>2</sup>)。</p>
+    <p>④ 求速度：<i>ẋ</i> = ±√(<i>k</i>/<i>m</i>) √(<i>x</i><sub>0</sub><sup>2</sup> − <i>x</i><sup>2</sup>)。</p>
+  </div>
+  <div class="ans">(1/2)<i>m ẋ</i><sup>2</sup> = (1/2)<i>k</i>(<i>x</i><sub>0</sub><sup>2</sup> − <i>x</i><sup>2</sup>)；回到平衡位置时 <i>v</i> = <i>x</i><sub>0</sub>√(<i>k</i>/<i>m</i>)。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">练 3（自然轴系式）<span class="badge o">自编典型题</span></div>
+  <div class="q">质量 <i>m</i> 的小球用长为 <i>l</i> 的细绳悬挂，在水平面内作匀速圆周运动（圆锥摆），绳与铅垂线成 θ 角。求绳的拉力 <i>F</i> 与小球运动的角速度 ω。</div>
+  <div class="sol">
+    <p><strong>思路：</strong>小球作圆周运动、轨迹已知，用自然轴系式；圆周半径 R = <i>l</i> sin θ。</p>
+    <p>① 受力分析：重力 <i>m g</i>（竖直向下）、绳拉力 <i>F</i>（沿绳指向悬点）。加速度只有指向圆心的法向分量 <i>a<sub>n</sub></i> = ω<sup>2</sup>R = ω<sup>2</sup><i>l</i> sin θ。</p>
+    <p>② 竖直方向投影（该方向无加速度）：<i>F</i> cos θ − <i>m g</i> = 0 ⟹ <i>F</i> = <i>m g</i>/cos θ。</p>
+    <p>③ 指向圆心的法向投影：<i>F</i> sin θ = <i>m</i> ω<sup>2</sup> <i>l</i> sin θ ⟹ ω = √(<i>g</i>/(<i>l</i> cos θ))。</p>
+  </div>
+  <div class="ans"><i>F</i> = <i>m g</i>/cos θ，ω = √(<i>g</i>/(<i>l</i> cos θ))。θ 越大，绳力越大、角速度也越大。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">练 4（自然轴系式 + 脱离条件）<span class="badge o">自编典型题</span></div>
+  <div class="q">质量 <i>m</i> 的小球自半径为 <i>r</i> 的固定光滑圆柱面的最高点由静止开始下滑（沿圆柱面外侧）。用本章方法求小球脱离圆柱面时的角位置 θ（θ 自最高点量起）。</div>
+  <div class="sol">
+    <p><strong>思路：</strong>轨迹已知的圆周运动，用自然轴系式；切向方程积分得 <i>v</i>(θ)，法向方程给出 <i>F</i><sub>N</sub>(θ)，脱离条件为 <i>F</i><sub>N</sub> = 0。</p>
+    <p>① 取自然轴系：τ 沿运动方向、<i>n</i> 指向圆心 O，ρ = <i>r</i>。</p>
+    <p>② 切向方程：<i>m r</i> θ̈ = <i>m g</i> sin θ。两边同乘 θ̇ 后对 <i>t</i> 积分，由初条件 θ(0) = 0、θ̇(0) = 0 得</p>
+    <div class="fml left">(1/2)<i>m r</i><sup>2</sup>θ̇<sup>2</sup> = <i>m g r</i>(1 − cos θ)　⟹　<i>v</i><sup>2</sup> = 2<i>g r</i>(1 − cos θ)</div>
+    <p>③ 法向方程：<i>m g</i> cos θ − <i>F</i><sub>N</sub> = <i>m v</i><sup>2</sup>/<i>r</i>，代入 <i>v</i><sup>2</sup> 得</p>
+    <div class="fml left"><i>F</i><sub>N</sub> = <i>m g</i> cos θ − 2<i>m g</i>(1 − cos θ) = <i>m g</i>(3 cos θ − 2)</div>
+    <p>④ 脱离条件 <i>F</i><sub>N</sub> = 0：3 cos θ − 2 = 0 ⟹ cos θ = 2/3，θ = 48.2°。</p>
+  </div>
+  <div class="ans">cos θ = 2/3，θ ≈ 48.2°；脱离时速度 <i>v</i> = √(2<i>g r</i>/3)。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">练 5（<i>F</i> = <i>F</i>(<i>v</i>) 型，线性阻力）<span class="badge o">自编典型题</span></div>
+  <div class="q">质量 <i>m</i> 的质点在水平面上沿 <i>x</i> 轴运动，所受阻力 <i>F</i><sub>x</sub> = −<i>k v</i>（<i>k</i> 为正常数，忽略摩擦）。初瞬时 <i>x</i> = 0、<i>v</i> = <i>v</i><sub>0</sub>。求速度随时间、位置的变化规律，以及质点停止前走过的总距离。</div>
+  <div class="sol">
+    <p><strong>思路：</strong>力是速度的函数，把 d<i>t</i> 与 d<i>v</i> 分离；求 <i>v</i>(<i>x</i>) 时可改用 d<i>t</i> = d<i>x</i>/<i>v</i> 分离。</p>
+    <p>① 列方程：<i>m</i> (d<i>v</i>/d<i>t</i>) = −<i>k v</i> ⟹ d<i>v</i>/<i>v</i> = −(<i>k</i>/<i>m</i>) d<i>t</i>。</p>
+    <p>② 积分（0 → <i>t</i>，<i>v</i><sub>0</sub> → <i>v</i>）：ln(<i>v</i>/<i>v</i><sub>0</sub>) = −(<i>k</i>/<i>m</i>)<i>t</i> ⟹ <i>v</i> = <i>v</i><sub>0</sub> e<sup>−(<i>k</i>/<i>m</i>)<i>t</i></sup>。</p>
+    <p>③ 再对 <i>t</i> 积分：<i>x</i> = ∫<sub>0</sub><sup><i>t</i></sup> <i>v</i> d<i>t</i> = (<i>m v</i><sub>0</sub>/<i>k</i>)(1 − e<sup>−(<i>k</i>/<i>m</i>)<i>t</i></sup>)。</p>
+    <p>④ 求 <i>v</i>(<i>x</i>) 与总距离：由 d<i>v</i>/d<i>x</i> = (d<i>v</i>/d<i>t</i>)/<i>v</i> = −<i>k</i>/<i>m</i>，积分得 <i>v</i> = <i>v</i><sub>0</sub> − (<i>k</i>/<i>m</i>)<i>x</i>；令 <i>v</i> = 0 得 <i>x</i><sub>max</sub> = <i>m v</i><sub>0</sub>/<i>k</i>，与 ③ 中 <i>t</i> → ∞ 的极限一致。</p>
+  </div>
+  <div class="ans"><i>v</i> = <i>v</i><sub>0</sub>e<sup>−(<i>k</i>/<i>m</i>)<i>t</i></sup>，<i>x</i> = (<i>m v</i><sub>0</sub>/<i>k</i>)(1 − e<sup>−(<i>k</i>/<i>m</i>)<i>t</i></sup>)；停止前走过的总距离 <i>x</i><sub>max</sub> = <i>m v</i><sub>0</sub>/<i>k</i>（理论上 <i>t</i> → ∞ 才停止）。</div>
+</div>
+
+</body>
+</html>

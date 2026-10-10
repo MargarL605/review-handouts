@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>理论力学·动力学 第2–3章 动量定理与动量矩定理</title>
+<style>
+/* ===================================================================
+   复习讲义 公共样式表  (review/shared/handout.css)
+   A4 打印友好 · 简洁明了 · 与所有讲义共用，保证风格统一
+   =================================================================== */
+@page { size: A4; margin: 14mm 13mm 12mm 13mm; }
+
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  font-size: 10.2pt;
+  line-height: 1.62;
+  color: #1b1b1b;
+  background: #fff;
+}
+p { margin: 0.38em 0; text-align: justify; }
+strong { color: #0b3d69; }
+em { font-style: normal; color: #b4451f; }
+
+/* ---------------- 封面 ---------------- */
+.cover { border: 2px solid #0b4f8a; border-radius: 6px; padding: 16px 18px; margin-bottom: 14px; }
+.cover .kicker { font-size: 9.5pt; letter-spacing: 2px; color: #0b4f8a; font-weight: bold; }
+.cover h1 { font-size: 21pt; margin: 4px 0 6px 0; color: #0b3d69; border: none; background: none; padding: 0; }
+.cover .sub { font-size: 10.5pt; color: #444; }
+.cover .meta { margin-top: 8px; font-size: 9.2pt; color: #666; border-top: 1px dashed #b9cfe2; padding-top: 6px; }
+
+/* ---------------- 标题层级 ---------------- */
+h1 { font-size: 15pt; color: #fff; background: #0b4f8a; margin: 14px 0 8px 0; padding: 6px 12px; border-radius: 3px; line-height: 1.35; }
+h2 { font-size: 12.8pt; color: #0b4f8a; margin: 13px 0 5px 0; padding: 3px 0 3px 9px; border-left: 5px solid #0b4f8a; background: #eef4fa; }
+h3 { font-size: 11pt; color: #0a3f6e; margin: 10px 0 4px 0; padding-bottom: 1px; border-bottom: 1.5px solid #c3d8ea; }
+h4 { font-size: 10.3pt; color: #14507f; margin: 8px 0 3px 0; }
+.lead { color: #555; font-size: 9.3pt; margin: -2px 0 7px 0; }
+
+/* ---------------- 提示盒 ---------------- */
+.box { border-radius: 4px; padding: 6px 10px; margin: 7px 0; page-break-inside: avoid; }
+.box > .bt { display: block; font-weight: bold; margin-bottom: 2px; }
+.key  { background: #eef4fa; border-left: 4px solid #0b4f8a; } .key > .bt  { color: #0b4f8a; }
+.def  { background: #f3f9f1; border-left: 4px solid #3d8b40; } .def > .bt  { color: #2e6b31; }
+.warn { background: #fdf2ee; border-left: 4px solid #c0492b; } .warn > .bt { color: #a83c21; }
+.exam { background: #fffaf0; border-left: 4px solid #c8912a; } .exam > .bt { color: #8f6410; }
+.note { background: #f6f6f6; border-left: 4px solid #999; }    .note > .bt { color: #555; }
+
+/* ---------------- 公式 ---------------- */
+.fml {
+  font-family: "Cambria Math", "Times New Roman", "Microsoft YaHei", serif;
+  background: #fbfbfb; border: 1px solid #e2e2e2; border-radius: 3px;
+  padding: 5px 10px; margin: 6px 0; text-align: center; font-size: 11pt;
+  page-break-inside: avoid;
+}
+.fml.left { text-align: left; }
+.fml .tag { float: right; color: #888; font-size: 9pt; }
+i, var { font-family: "Cambria Math", "Times New Roman", serif; font-style: italic; }
+sub, sup { font-size: 0.72em; }
+
+/* ---------------- 表格 ---------------- */
+table { border-collapse: collapse; width: 100%; margin: 7px 0; font-size: 9.4pt; page-break-inside: avoid; }
+th, td { border: 1px solid #c8d6e2; padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: #e8f1f9; color: #0b3d69; font-weight: bold; }
+tr:nth-child(even) td { background: #fafcfe; }
+td.c, th.c { text-align: center; }
+
+/* ---------------- 例题 / 习题 ---------------- */
+.prob { border: 1px solid #d9e6f2; border-left: 4px solid #4a90c4; border-radius: 4px; padding: 7px 10px; margin: 9px 0; page-break-inside: avoid; background: #fcfdff; }
+.prob > .pt { font-weight: bold; color: #0b4f8a; margin-bottom: 3px; }
+.prob .q { margin: 3px 0; }
+.prob .sol { margin-top: 4px; }
+.prob .ans { background: #fff6d9; border-radius: 3px; padding: 3px 7px; margin-top: 4px; font-weight: bold; color: #8a5a00; }
+ol, ul { margin: 4px 0 4px 1.5em; padding: 0; }
+li { margin: 2px 0; }
+.step { margin-left: 1.1em; }
+
+/* ---------------- 图片 ---------------- */
+figure { margin: 8px 0; text-align: center; page-break-inside: avoid; }
+figure img { max-width: 100%; border: 1px solid #dcdcdc; border-radius: 3px; }
+figcaption { font-size: 8.8pt; color: #666; margin-top: 3px; }
+
+/* ---------------- 其他 ---------------- */
+.pagebreak { page-break-before: always; }
+.toc { background: #f7fafd; border: 1px solid #d9e6f2; border-radius: 4px; padding: 8px 12px; margin: 8px 0 12px 0; }
+.toc ol { margin-left: 1.2em; }
+.toc a { color: #0b3d69; text-decoration: none; }
+.badge { display: inline-block; background: #0b4f8a; color: #fff; border-radius: 3px; padding: 0 6px; font-size: 8.8pt; margin-right: 4px; }
+.badge.g { background: #3d8b40; } .badge.o { background: #c8912a; } .badge.r { background: #c0492b; }
+hr { border: none; border-top: 1px dashed #c3d8ea; margin: 12px 0; }
+
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="kicker">理论力学 · 动力学 · 期末复习讲义</div>
+  <h1>动量定理（含质量流）与动量矩定理</h1>
+  <div class="sub">第 2 章 动量定理与质量流 ｜ 第 3 章 动量矩定理</div>
+  <div class="meta">配套课件：《动力学 2 — 动量定理 · 质量流》（25 页）、《动力学 3 — 动量矩定理》（51 页）。例题编号前缀「例 2-x / 例 3-x」，凡课件原例均照抄课件数据；自拟经典题标注<span class="badge o">补充</span>；课件未展开而按通用结论补充的内容标注<span class="badge r">拓展</span>。</div>
+</div>
+
+<div class="toc">
+  <ol>
+    <li><a href="#c2">第 2 章 动量定理与质量流</a>
+      <ol>
+        <li><a href="#s21">2.1 动量、冲量与动量定理</a></li>
+        <li><a href="#s22">2.2 质心运动定理与质心运动守恒</a></li>
+        <li><a href="#s23">2.3 定常质量流：流体与固体的相互作用</a></li>
+        <li><a href="#s24">2.4 变质量系统（落链、传送带装料、火箭）</a></li>
+      </ol>
+    </li>
+    <li><a href="#c3">第 3 章 动量矩定理</a>
+      <ol>
+        <li><a href="#s31">3.1 质点的动量矩定理</a></li>
+        <li><a href="#s32">3.2 质点系动量矩定理</a></li>
+        <li><a href="#s33">3.3 刚体定轴转动微分方程与转动惯量</a></li>
+        <li><a href="#s34">3.4 刚体平面运动微分方程与相对质心动量矩定理</a></li>
+      </ol>
+    </li>
+    <li><a href="#tabs">速查表：三大定理对照表 ｜ 常考题型与解题步骤</a></li>
+  </ol>
+</div>
+
+<div class="lead">本章复习提示：动量定理与动量矩定理是质点系动力学的两条「整体量」通道——只问外力（矩），不出现内力。期末考卷上它们的固定角色是：<strong>求约束力（尤其是含加速度的动约束力、流体冲击的附加动约束力）、求运动量守恒关系、求刚体转动/平面运动的动力学方程</strong>。做题的通用起点永远是三件事：选系统（整体／局部）、受力分析（明确内力自动抵消）、运动分析（定加速度与角加速度方向）。</div>
+
+<h1 id="c2">第 2 章 动量定理与质量流</h1>
+
+<h2 id="s21">2.1 动量、冲量与动量定理</h2>
+
+<div class="box def">
+  <span class="bt">一、三个基本量的定义</span>
+  <p><strong>质点的动量</strong>：<i><b>p</b></i> = <i>m</i><b>v</b>，矢量，方向与速度同向，单位为 kg·m/s。</p>
+  <p><strong>质点系的动量</strong>：各质点动量的矢量和<br><i><b>p</b></i> = Σ<i>m</i><sub>i</sub><b>v</b><sub>i</sub> = <i>m</i><b>v</b><sub>C</sub>（<i>m</i> = Σ<i>m</i><sub>i</sub>，<b>v</b><sub>C</sub> 为质心速度）</p>
+  <p><strong>冲量</strong>：力在一段时间内的累积效应，<b>I</b> = ∫<sub><i>t</i><sub>1</sub></sub><sup><i>t</i><sub>2</sub></sup> <b>F</b> d<i>t</i>，单位为 N·s。</p>
+</div>
+
+<div class="box key">
+  <span class="bt">二、动量定理（要背到能默写投影式）</span>
+  <p>质点：<i>m</i> d<b>v</b>/d<i>t</i> = <b>F</b>，即 d(<i>m</i><b>v</b>)/d<i>t</i> = <b>F</b>（质量恒定时两者等价）。</p>
+  <p>质点系<strong>微分形式</strong>：d<b>p</b>/d<i>t</i> = Σ<b>F</b><sub>j</sub><sup>(e)</sup>，投影式为</p>
+  <div class="fml"><span class="tag">2-1</span><p>d<i>p</i><sub>x</sub>/d<i>t</i> = Σ<i>F</i><sub>jx</sub><sup>(e)</sup>，&nbsp; d<i>p</i><sub>y</sub>/d<i>t</i> = Σ<i>F</i><sub>jy</sub><sup>(e)</sup>，&nbsp; d<i>p</i><sub>z</sub>/d<i>t</i> = Σ<i>F</i><sub>jz</sub><sup>(e)</sup></p></div>
+  <p>质点系<strong>积分形式</strong>：<b>p</b><sub>2</sub> − <b>p</b><sub>1</sub> = <b>I</b> = Σ<b>I</b><sub>j</sub>，即末动量减初动量等于外力冲量的矢量和。</p>
+  <p><strong>内力不出现在方程中</strong>：内力只能改变系统内各质点之间动量的交换，不能改变质点系的总动量。</p>
+</div>
+
+<div class="box warn">
+  <span class="bt">三、动量守恒（两种提法不要混）</span>
+  <p>若 Σ<b>F</b><sup>(e)</sup> = <b>0</b>，则 <b>p</b> = <b>p</b><sub>0</sub> = 常矢量（大小、方向都不变）。</p>
+  <p>若某轴方向 Σ<i>F</i><sub>x</sub><sup>(e)</sup> = 0，则只在该轴上 <i>p</i><sub>x</sub> = 常数（其余两轴照常列方程）。</p>
+  <p>易错点：动量守恒说的是<strong>质点系总动量</strong>不变，不是每个质点不动；爆炸、碰撞、人走船退都属于这一类。</p>
+</div>
+
+<div class="box note">
+  <span class="bt">四、常见刚体（刚体系）的动量计算</span>
+  <p>平动刚体：<b>p</b> = <i>m</i><b>v</b><sub>C</sub>；定轴转动刚体（质心在轴上）：<b>p</b> = <b>0</b>；定轴转动刚体（质心不在轴上）：<b>p</b> = <i>m</i><b>v</b><sub>C</sub>，大小为 <i>m</i>·<i>d</i>ω，方向垂直于质心到轴的连线。</p>
+  <p>刚体系：<b>p</b> = Σ<i>m</i><sub>i</sub><b>v</b><sub>Ci</sub>，逐个刚体算出再用矢量（或投影）相加。课件中的判例：半径 <i>r</i>、质量 <i>m</i> 的圆环与质量 2<i>m</i> 的圆环以同一 ω 绕轴转动，环心在轴上时前者 <i>p</i><sub>1</sub> = <i>mr</i>ω、后者 <i>p</i><sub>2</sub> = 2<i>mr</i>ω，故 <i>p</i><sub>1</sub> &lt; <i>p</i><sub>2</sub>——<strong>动量大小看的是 m·v<sub>C</sub>，与转动惯量无关</strong>。</p>
+</div>
+
+<div class="prob">
+  <div class="pt">例 2-1<span class="badge">课件原例</span>起吊机构支座约束力</div>
+  <div class="q">图示起吊机构，已知吊装物体的重量为 <i>P</i><sub>1</sub>、<i>P</i><sub>2</sub>，重物上升（下降）的加速度为 <i>a</i>，不计轮子与吊索的重量。试求支座处的约束力。</div>
+  <div class="sol">
+    <p><strong>（1）选取系统与坐标系</strong>：取 <strong>整个起吊机构 + 被吊物体</strong>为质点系（含支架、轮、吊索、重物），建立直角坐标，<i>y</i> 轴铅直向上。</p>
+    <p><strong>（2）受力分析</strong>：外力只有支座约束力 <i>F</i><sub>x</sub>、<i>F</i><sub>y</sub>，机构重量（不计轮重，只剩吊装物体的重量 <i>P</i><sub>1</sub>、<i>P</i><sub>2</sub> 与支架自重，题中不计支架重量）。绳子张力和轮轴力都是内力，自动抵消。</p>
+    <p><strong>（3）运动分析</strong>：全机构一个自由度，各点加速度都已知为 <i>a</i>（方向铅直）。列出各质点动量在 <i>y</i> 轴的投影</p>
+    <div class="fml left"><span class="tag">a</span><p><i>p</i><sub>y</sub> = (<i>P</i><sub>1</sub> − <i>P</i><sub>2</sub>)<i>v</i>/<i>g</i>&nbsp;&nbsp;(两物体速度方向相反，一个上升一个下降)</p></div>
+    <p><strong>（4）用质心运动定理（即 d<i>p</i><sub>y</sub>/d<i>t</i> = Σ<i>F</i><sub>y</sub>）</strong>：</p>
+    <div class="fml left"><span class="tag">b</span><p>(<i>P</i><sub>1</sub> − <i>P</i><sub>2</sub>)<i>a</i>/<i>g</i> = <i>F</i><sub>y</sub> − <i>P</i><sub>1</sub> − <i>P</i><sub>2</sub></p></div>
+    <p>得 <i>F</i><sub>y</sub> = <i>P</i><sub>1</sub> + <i>P</i><sub>2</sub> + (<i>P</i><sub>1</sub> − <i>P</i><sub>2</sub>)<i>a</i>/<i>g</i>；因全部外力均为铅直方向，<i>F</i><sub>x</sub> = 0。</p>
+    <p><strong>（5）讨论</strong>：令 <i>P</i><sub>1</sub> = <i>P</i><sub>2</sub> = <i>P</i>（空载或轻载），则 <i>F</i><sub>y</sub> = 2<i>P</i>，与加速度无关——这就是「静止时称出的重量」；只有当两侧物体不等重且作加速运动时才出现附加动约束力 (<i>P</i><sub>1</sub> − <i>P</i><sub>2</sub>)<i>a</i>/<i>g</i>。</p>
+  </div>
+  <div class="ans">答：<i>F</i><sub>y</sub> = <i>P</i><sub>1</sub> + <i>P</i><sub>2</sub> + (<i>P</i><sub>1</sub> − <i>P</i><sub>2</sub>)<i>a</i>/<i>g</i>（向上为正），<i>F</i><sub>x</sub> = 0，单位 N。</div>
+</div>
+
+<div class="step">
+  <strong>用动量定理解题的固定步骤</strong>
+  <ol>
+    <li>选系统：结构复杂时选<strong>整体</strong>（内力自动消去）；某处约束力不在整体方程中出现时再拆出局部。</li>
+    <li>受力分析：只画<strong>外力</strong>，逐项核对（重力、支反力、摩擦、流体压力、螺栓力……）。</li>
+    <li>运动分析：明确各刚体质心速度/加速度的方向与大小，能写出 <b>p</b> 的投影表达式。</li>
+    <li>判断守恒：某一方向外力为零且初动量为零/已知 → 直接用广义动量守恒，跳过求解过程。</li>
+    <li>代入 d<i>p</i><sub>x</sub>/d<i>t</i> = Σ<i>F</i><sub>x</sub><sup>(e)</sup>（或积分形式），解出待求量并说明方向与单位。</li>
+  </ol>
+</div>
+<h2 id="s22">2.2 质心运动定理与质心运动守恒</h2>
+
+<div class="box key">
+  <span class="bt">一、质心运动定理</span>
+  <p>由 <b>p</b> = <i>m</i><b>v</b><sub>C</sub> 代入动量定理得</p>
+  <div class="fml"><span class="tag">2-2</span><p><i>m</i><b>a</b><sub>C</sub> = Σ<b>F</b><sub>j</sub><sup>(e)</sup>&nbsp;&nbsp;即&nbsp;&nbsp;<i>m</i> d²<b>r</b><sub>C</sub>/d<i>t</i>² = Σ<b>F</b><sub>j</sub><sup>(e)</sup></p></div>
+  <p>投影式：<i>m</i><i>a</i><sub>Cx</sub> = Σ<i>F</i><sub>x</sub><sup>(e)</sup>，<i>m</i><i>a</i><sub>Cy</sub> = Σ<i>F</i><sub>y</sub><sup>(e)</sup>，<i>m</i><i>a</i><sub>Cz</sub> = Σ<i>F</i><sub>z</sub><sup>(e)</sup>。</p>
+  <p><strong>含义</strong>：质心的运动只取决于外力系的主矢，内力（爆炸力、肌肉力、齿轮啮合力、绳内张力……）无论多大都改变不了质心的运动状态。质点系质量全部「集中」在质心，外力全部「搬到」质心上——这就是把复杂系统当质点算的合法性来源。</p>
+</div>
+
+<div class="box def">
+  <span class="bt">二、质心运动守恒的两种情形（考试高频）</span>
+  <p><strong>情形 1（全守恒）</strong>：Σ<b>F</b><sup>(e)</sup> = <b>0</b> 且初速度 <b>v</b><sub>C0</sub> = <b>0</b> ⟹ <b>v</b><sub>C</sub> ≡ <b>0</b>，<b>r</b><sub>C</sub> = 常矢量，即<strong>质心位置始终不动</strong>。</p>
+  <p><strong>情形 2（沿某轴守恒）</strong>：Σ<i>F</i><sub>x</sub><sup>(e)</sup> = 0 ⟹ <i>v</i><sub>Cx</sub> = 常数；若再有 <i>v</i><sub>Cx0</sub> = 0，则 <i>x</i><sub>C</sub> = 常数，即质心在该轴上的坐标不变。</p>
+  <p>实用写法（求位移的利器）：<i>x</i><sub>C</sub> = Σ<i>m</i><sub>i</sub><i>x</i><sub>i</sub>/<i>m</i> = 常数 ⟹ Σ<i>m</i><sub>i</sub>Δ<i>x</i><sub>i</sub> = 0；反冲、人走船退、抛体空中爆炸等问题一步到位。</p>
+</div>
+
+<div class="prob">
+  <div class="pt">例 2-2<span class="badge">课件原例</span>曲柄滑块机构的铰 O 水平约束力</div>
+  <div class="q">已知曲柄 <i>OA</i> 长 <i>r</i>、质量为 <i>m</i>（均质杆），滑块 <i>A</i> 的质量为 <i>m</i>（题设已把连杆质量并入滑块），机构置于铅垂平面内，曲柄以<strong>匀角速度</strong> <i>ω</i> 绕 <i>O</i> 转动。试用质心运动定理求铰 <i>O</i> 处的水平约束力 <i>F</i><sub>Ox</sub>。</div>
+  <div class="sol">
+    <p><strong>（1）选系统</strong>：取曲柄 + 滑块为质点系（铰 <i>O</i> 与滑道的约束力成为外力）。建立坐标系：<i>x</i> 水平向右，<i>y</i> 铅直向上，圆心 <i>O</i> 为原点；设曲柄与 <i>x</i> 轴夹角 <i>φ</i> = <i>ωt</i>（匀速转动）。</p>
+    <p><strong>（2）受力分析</strong>：外力 = 铰 <i>O</i> 处的约束力 <i>F</i><sub>Ox</sub>、<i>F</i><sub>Oy</sub>，滑道的铅直约束力 <i>N</i>，两构件的重力 <i>mg</i>（铅直，故对水平方向无贡献）。</p>
+    <p><strong>（3）运动分析</strong>：杆质心 <i>C</i><sub>1</sub>：(<i>r</i>/2·cos<i>ωt</i>, <i>r</i>/2·sin<i>ωt</i>)；滑块（视为质点）<i>A</i>：(<i>r</i>cos<i>ωt</i>, 0)。于是水平动量为</p>
+    <div class="fml left"><span class="tag">a</span><p><i>p</i><sub>x</sub> = <i>m</i>[−(<i>r</i>/2)<i>ω</i>sin<i>ωt</i>] + <i>m</i>[−<i>rω</i>sin<i>ωt</i>] = −(3/2)<i>m r ω</i>sin<i>ωt</i></p></div>
+    <p><strong>（4）代入 x 方向动量定理</strong> d<i>p</i><sub>x</sub>/d<i>t</i> = Σ<i>F</i><sub>x</sub><sup>(e)</sup> = <i>F</i><sub>Ox</sub>：</p>
+    <div class="fml left"><span class="tag">b</span><p><i>F</i><sub>Ox</sub> = −(3/2)<i>m r ω</i>²cos<i>ωt</i></p></div>
+    <p><strong>（5）讨论</strong>：<i>F</i><sub>Ox</sub> 是周期函数，最大值为 (3/2)<i>m r ω</i>²，且随 ω² 增长——高速机械的动约束力必须按 ω² 校核；若把转角起点改取竖直方向，则结果写成 ±(3/2)<i>m r ω</i>²sin<i>ωt</i>，是同一结论的不同相位写法。</p>
+  </div>
+  <div class="ans">答：<i>F</i><sub>Ox</sub> = −(3/2)<i>m r ω</i>²cos<i>ωt</i>（<i>φ</i>=<i>ωt</i> 自 <i>x</i> 轴量起），最大值 (3/2)<i>m r ω</i>²，单位 N。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 2-3<span class="badge">课件原例</span>固定在基础上的电机：螺栓与基础承受的最大力</div>
+  <div class="q">电动机重 <i>Q</i><sub>1</sub>，外壳用螺栓固定在基础上；转轴上装一匀质杆，长 <i>l</i>、重 <i>Q</i><sub>2</sub>，杆端固连一重 <i>Q</i><sub>3</sub> 的小球（视为质点）。电机以匀角速度 <i>ω</i> 转动，杆在铅垂平面内。试求螺栓和基础作用于电机的最大总水平力及最大铅直力。</div>
+  <div class="sol">
+    <p><strong>（1）选系统</strong>：取<strong>电机 + 杆 + 小球</strong>整体为质点系——螺栓力、基础反力、重力都是外力，轴与杆之间的相互作用力是内力。</p>
+    <p><strong>（2）受力分析</strong>：<i>x</i> 方向只有螺栓的约束力 <i>F</i><sub>x</sub>；<i>y</i> 方向有基础反力 <i>F</i><sub>y</sub> 与三个重力 <i>Q</i><sub>1</sub>、<i>Q</i><sub>2</sub>、<i>Q</i><sub>3</sub>。</p>
+    <p><strong>（3）运动分析</strong>（设杆从水平位置开始计时，转角 <i>φ</i> = <i>ωt</i>）：杆质心坐标 = (<i>l</i>/2·cos<i>ωt</i>, <i>l</i>/2·sin<i>ωt</i>)，小球坐标 = (<i>l</i>cos<i>ωt</i>, <i>l</i>sin<i>ωt</i>)，故</p>
+    <div class="fml left"><span class="tag">a</span><p><i>p</i><sub>x</sub> = −(<i>Q</i><sub>2</sub>/2 + <i>Q</i><sub>3</sub>)(<i>lω</i>/<i>g</i>)sin<i>ωt</i>，&nbsp; <i>p</i><sub>y</sub> = (<i>Q</i><sub>2</sub>/2 + <i>Q</i><sub>3</sub>)(<i>lω</i>/<i>g</i>)cos<i>ωt</i></p></div>
+    <p><strong>（4）列两个方向的动量定理</strong>：</p>
+    <div class="fml left"><span class="tag">b</span><p><i>F</i><sub>x</sub> = d<i>p</i><sub>x</sub>/d<i>t</i> = −(<i>Q</i><sub>2</sub>/2 + <i>Q</i><sub>3</sub>)<i>lω</i>²cos<i>ωt</i>/<i>g</i></p></div>
+    <div class="fml left"><span class="tag">c</span><p><i>F</i><sub>y</sub> − <i>Q</i><sub>1</sub> − <i>Q</i><sub>2</sub> − <i>Q</i><sub>3</sub> = d<i>p</i><sub>y</sub>/d<i>t</i> ⟹ <i>F</i><sub>y</sub> = <i>Q</i><sub>1</sub> + <i>Q</i><sub>2</sub> + <i>Q</i><sub>3</sub> − (<i>Q</i><sub>2</sub>/2 + <i>Q</i><sub>3</sub>)<i>lω</i>²sin<i>ωt</i>/<i>g</i></p></div>
+    <p><strong>（5）取最大值</strong>：|<i>F</i><sub>x</sub>|<sub>max</sub> = (<i>Q</i><sub>2</sub>/2 + <i>Q</i><sub>3</sub>)<i>lω</i>²/<i>g</i>；<i>F</i><sub>y</sub> 的最大值出现在 sin<i>ωt</i> = −1，即杆转至最上方时，<i>F</i><sub>y,max</sub> = <i>Q</i><sub>1</sub>+<i>Q</i><sub>2</sub>+<i>Q</i><sub>3</sub> + (<i>Q</i><sub>2</sub>/2+<i>Q</i><sub>3</sub>)<i>lω</i>²/<i>g</i>。</p>
+  </div>
+  <div class="ans">答：最大总水平力 = (<i>Q</i><sub>2</sub>/2 + <i>Q</i><sub>3</sub>)<i>lω</i>²/<i>g</i>；最大铅直力 = <i>Q</i><sub>1</sub> + <i>Q</i><sub>2</sub> + <i>Q</i><sub>3</sub> + (<i>Q</i><sub>2</sub>/2 + <i>Q</i><sub>3</sub>)<i>lω</i>²/<i>g</i>，单位 N。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 2-4<span class="badge">课件原例</span>若螺栓不固定：电机外壳的运动规律</div>
+  <div class="q">承例 2-3，把电机<strong>不固定</strong>地放在光滑水平面上（外壳不固定），初始时刻电机静止，并取外壳中心为坐标原点。电机以匀角速度 <i>ω</i> 转动（杆长 <i>l</i>、重 <i>Q</i><sub>2</sub>，杆端小球重 <i>Q</i><sub>3</sub>）。试求外壳质心的运动规律及平面对电机的正压力。</div>
+  <div class="sol">
+    <p><strong>（1）水平方向：质心守恒</strong>。系统（外壳 + 杆 + 小球）在水平方向不受外力，且初始静止 ⟹ <i>x</i><sub>C</sub> = 常数，取 <i>x</i><sub>C</sub> = 0（以初始位置定原点）。设外壳质量为 <i>Q</i><sub>1</sub>/<i>g</i>，其质心坐标为 <i>x</i><sub>1</sub>，则杆质心与小球相对外壳的水平偏置分别为 (<i>l</i>/2)cos<i>ωt</i> 与 <i>l</i>cos<i>ωt</i>，由 Σ<i>m</i><sub>i</sub><i>x</i><sub>i</sub> = 0：</p>
+    <div class="fml left"><span class="tag">a</span><p>(<i>Q</i><sub>1</sub>+<i>Q</i><sub>2</sub>+<i>Q</i><sub>3</sub>)<i>x</i><sub>1</sub> + (<i>Q</i><sub>2</sub><i>l</i>/2 + <i>Q</i><sub>3</sub><i>l</i>)cos<i>ωt</i> = 0</p></div>
+    <div class="fml left"><span class="tag">b</span><p><i>x</i><sub>1</sub> = −(<i>Q</i><sub>2</sub>/2 + <i>Q</i><sub>3</sub>)<i>l</i>cos<i>ωt</i>/(<i>Q</i><sub>1</sub>+<i>Q</i><sub>2</sub>+<i>Q</i><sub>3</sub>)</p></div>
+    <p>即外壳作<strong>简谐往复运动</strong>，振幅为 (<i>Q</i><sub>2</sub>/2+<i>Q</i><sub>3</sub>)<i>l</i>/(<i>Q</i><sub>1</sub>+<i>Q</i><sub>2</sub>+<i>Q</i><sub>3</sub>)：杆转半圈，外壳整体倒退一个「质心不动」所要求的距离；杆转一圈，外壳回到原位。</p>
+    <p><strong>（2）铅直方向：正压力随位置变化</strong>。<i>y</i> 方向 <i>p</i><sub>y</sub> = (<i>Q</i><sub>2</sub>/2+<i>Q</i><sub>3</sub>)(<i>lω</i>/<i>g</i>)cos<i>ωt</i>（例 2-3（a）式同理），故</p>
+    <div class="fml left"><span class="tag">c</span><p><i>F</i><sub>N</sub> = <i>Q</i><sub>1</sub>+<i>Q</i><sub>2</sub>+<i>Q</i><sub>3</sub> − (<i>Q</i><sub>2</sub>/2+<i>Q</i><sub>3</sub>)<i>lω</i>²sin<i>ωt</i>/<i>g</i></p></div>
+    <p><strong>（3）讨论</strong>：当 (<i>Q</i><sub>2</sub>/2+<i>Q</i><sub>3</sub>)<i>lω</i>²/<i>g</i> &gt; <i>Q</i><sub>1</sub>+<i>Q</i><sub>2</sub>+<i>Q</i><sub>3</sub> 时 <i>F</i><sub>N</sub> 会出现负值——物理含义是电机<strong>跳离</strong>光滑面。这正是课件留下的思考题「若螺栓不固定？」的答案：外壳会一边水平往复、一边可能在高速时跳起。</p>
+  </div>
+  <div class="ans">答：<i>x</i><sub>1</sub> = −(<i>Q</i><sub>2</sub>/2+<i>Q</i><sub>3</sub>)<i>l</i>cos<i>ωt</i>/(<i>Q</i><sub>1</sub>+<i>Q</i><sub>2</sub>+<i>Q</i><sub>3</sub>)（单位 m）；<i>F</i><sub>N</sub> = <i>Q</i><sub>1</sub>+<i>Q</i><sub>2</sub>+<i>Q</i><sub>3</sub> − (<i>Q</i><sub>2</sub>/2+<i>Q</i><sub>3</sub>)<i>lω</i>²sin<i>ωt</i>/<i>g</i>（单位 N）。</div>
+</div>
+
+<div class="box exam">
+  <span class="bt">考点提醒</span>
+  <p>「已知加速度求约束力」用<b>质心运动定理</b>（例 2-1～2-3）；「外力为零求位移/运动规律」用<b>质心运动守恒</b>（例 2-4）。两者其实是同一个方程的两种用法，判断标准只有一条：待求量在方程左边（加速度）还是右边（约束力）。</p>
+</div>
+<h2 id="s23">2.3 定常质量流：流体与固体的相互作用</h2>
+
+<div class="box def">
+  <span class="bt">一、什么叫质量流</span>
+  <p><strong>质量流</strong>：非刚性、开放的质点系统（流体、砂石、传送带上的散料、燃气……）在运动过程中与外界不断交换质量。课件把质量流分成三种形式：<strong>流体形式</strong>（管道中的水、气）、<strong>颗粒形式</strong>（砂石、谷物、传送带装料）、<strong>气体形式</strong>（喷气发动机、火箭喷流）。</p>
+  <p><strong>定常质量流</strong>：在每一位置点，流体质点都具有相同的速度（不随时间变化），即流场是定常的。</p>
+  <p>课件思考题（考点式提问）：把台式电风扇放在光滑台面上通电，会发生什么？——风扇叶片把空气向后（沿轴向）加速排出，气流获得向后的动量，由动量守恒（水平方向外力为零）风扇本体必获得向前的动量，于是<strong>风扇自己沿着「吹风的反方向」在台面上滑走</strong>。</p>
+</div>
+
+<div class="box key">
+  <span class="bt">二、流量与流速的关系</span>
+  <div class="fml"><span class="tag">2-3</span><p><i>q</i><sub>V</sub> = <i>A v</i>&nbsp;&nbsp;（体积流量，m³/s）&nbsp;&nbsp;&nbsp;&nbsp; <i>q</i><sub>m</sub> = ρ<i>q</i><sub>V</sub> = ρ<i>A v</i>&nbsp;&nbsp;（质量流量，kg/s）</p></div>
+  <p>其中 ρ 为流体密度，<i>A</i> 为截面面积，<i>v</i> 为该截面上的流速。定常质量流的<strong>流量为常数</strong>，故变截面管道中 <i>A</i><sub>1</sub><i>v</i><sub>1</sub> = <i>A</i><sub>2</sub><i>v</i><sub>2</sub>（连续性条件）。</p>
+  <p>课件给出的两条理想化假设：① 质量流是<strong>不可压缩</strong>流动；② 质量流是<strong>非黏性</strong>的——忽略流层之间以及质量流与管壁之间的摩擦力。做题时若无特别说明，均按此处理。</p>
+</div>
+
+<div class="box key">
+  <span class="bt">三、定常质量流的动量定理（控制体积法，必须背熟）</span>
+  <p>取 <i>t</i> 时刻位于 1—2 两截面之间的流体为考察对象，考察 Δ<i>t</i> 内动量的改变：由于定常流动，公共部分 1′—2 的动量不变，动量改变只来自「流入 1—1′ 段」与「流出 2—2′ 段」的差别，于是</p>
+  <div class="fml"><span class="tag">2-4</span><p>Σ<b>F</b> = <i>q</i><sub>m</sub>(<b>v</b><sub>2</sub> − <b>v</b><sub>1</sub>) = ρ<i>q</i><sub>V</sub>(<b>v</b><sub>2</sub> − <b>v</b><sub>1</sub>)</p></div>
+  <p>式中 Σ<b>F</b> 是作用在<strong>这段流体</strong>上的全部外力，包括：</p>
+  <ul>
+    <li><b>F</b><sub>1</sub>、<b>F</b><sub>2</sub>——入口和出口处横截面所受<strong>相邻质量流的压力</strong>；</li>
+    <li><b>W</b>——这段质量流的重力；</li>
+    <li><b>F</b><sub>N</sub>——<strong>管壁（或固体边界）的约束力合力</strong>。</li>
+  </ul>
+  <p>即完整形式为 <b>F</b><sub>1</sub> + <b>F</b><sub>2</sub> + <b>W</b> + <b>F</b><sub>N</sub> = <i>q</i><sub>m</sub>(<b>v</b><sub>2</sub> − <b>v</b><sub>1</sub>)，由此解出 <b>F</b><sub>N</sub> 后取反作用力，即得流体对固体的作用力。</p>
+  <p><strong>附加动约束力</strong>：把约束力分解为 <b>F</b><sub>N</sub> = <b>F</b><sub>Ns</sub> + <b>F</b><sub>Nd</sub>，其中 <b>F</b><sub>Ns</sub> 是<strong>静约束力</strong>（流体静止时的约束力），</p>
+  <div class="fml"><span class="tag">2-5</span><p><b>F</b><sub>Nd</sub> = <i>q</i><sub>m</sub>(<b>v</b><sub>2</sub> − <b>v</b><sub>1</sub>)&nbsp;——流体流动时的约束力与流体静止时的约束力之差</p></div>
+  <p>它只与流量和流速改变有关，与压力无关。弯管、喷嘴、阀门、水轮机叶片所受的巨大冲击力主要来自这一项，且与流速成平方关系。</p>
+</div>
+
+<figure>
+  <svg viewBox="0 0 440 210" width="100%" xmlns="http://www.w3.org/2000/svg" role="img">
+    <line x1="120" y1="18" x2="120" y2="192" stroke="#333" stroke-width="7"/>
+    <line x1="120" y1="18" x2="120" y2="192" stroke="#bbb" stroke-width="3" stroke-dasharray="4 3"/>
+    <line x1="300" y1="105" x2="128" y2="105" stroke="#c0392b" stroke-width="3" marker-end="url(#ar)"/>
+    <line x1="128" y1="100" x2="300" y2="45" stroke="#1f5fa8" stroke-width="3" marker-end="url(#ar)"/>
+    <line x1="128" y1="110" x2="300" y2="165" stroke="#1f5fa8" stroke-width="3" marker-end="url(#ar)"/>
+    <line x1="120" y1="105" x2="196" y2="105" stroke="#2e7d32" stroke-width="3" marker-end="url(#ar)"/>
+    <text x="308" y="110" font-size="14" fill="#c0392b">v1</text>
+    <text x="306" y="42" font-size="14" fill="#1f5fa8">v2</text>
+    <text x="306" y="172" font-size="14" fill="#1f5fa8">v2</text>
+    <text x="200" y="126" font-size="13" fill="#2e7d32">F</text>
+    <text x="132" y="30" font-size="12" fill="#555">墙面/平板</text>
+    <text x="150" y="205" font-size="12" fill="#666">射流冲击：入流 v1，出流 v2 偏转 β</text>
+    <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#333"/></marker></defs>
+  </svg>
+  <figcaption>图 2-1 射流冲击固定壁面：入流动量沿 −<i>x</i>，出流偏转 β 角后动量改变，壁面受附加动约束力 <i>F</i> = ρ<i>q</i><sub>V</sub>(<i>v</i><sub>1</sub> − <i>v</i><sub>2</sub>cos β)</figcaption>
+</figure>
+
+<div class="prob">
+  <div class="pt">例 2-5<span class="badge">课件原例</span>水射流冲击墙面</div>
+  <div class="q">水泵以速度 <i>v</i><sub>1</sub> 将水垂直喷射在墙面上，水又以速度 <i>v</i><sub>2</sub> 沿两侧对称地反射出去，出流方向相对入射方向偏转 β 角。已知体积流量 <i>q</i><sub>V</sub>、水的密度 ρ。试求墙面受到的水流作用力。</div>
+  <div class="sol">
+    <p><strong>（1）选系统与坐标系</strong>：取<strong>贴在墙面上的那部分水流</strong>为控制体积，<i>x</i> 轴取水流原方向（指向墙面），<i>y</i> 轴平行墙面。</p>
+    <p><strong>（2）受力分析</strong>：外力 = 墙面对水流的约束力 <b>F</b><sub>N</sub>（沿 −<i>x</i>）、水流重力（水平方向投影为零）、入口与出口截面的压力（出口为大气，入口在射流中压力也为大气，故均为零）。</p>
+    <p><strong>（3）运动分析</strong>：入流动量沿 +<i>x</i>，大小 <i>q</i><sub>m</sub><i>v</i><sub>1</sub>；出流分成两股、每侧流量 <i>q</i><sub>m</sub>/2，两股均向 −<i>x</i> 方向退回、与 −<i>x</i> 轴成 β 角，故 <i>x</i> 向出流动量合计为 −<i>q</i><sub>m</sub><i>v</i><sub>2</sub>cos β（两股的 <i>y</i> 向分量等值反向，自动抵消）。</p>
+    <p><strong>（4）沿 x 向用定常质量流动量定理</strong>：</p>
+    <div class="fml left"><span class="tag">a</span><p>−<i>F</i><sub>N</sub> = <i>q</i><sub>m</sub>(<i>v</i><sub>2x</sub> − <i>v</i><sub>1x</sub>) = <i>q</i><sub>m</sub>(−<i>v</i><sub>2</sub>cos β − <i>v</i><sub>1</sub>)</p></div>
+    <div class="fml left"><span class="tag">b</span><p><i>F</i><sub>N</sub> = ρ<i>q</i><sub>V</sub>(<i>v</i><sub>1</sub> + <i>v</i><sub>2</sub>cos β) = ρ<i>q</i><sub>V</sub>(<i>v</i><sub>1</sub> − <i>v</i><sub>2</sub>cos β′)（β′ = 180° − β 为偏转角）</p></div>
+    <p><strong>（5）取反作用力</strong>：水对墙面的作用力与 <b>F</b><sub>N</sub> 等值反向，方向沿射流原方向，大小</p>
+    <div class="fml left"><span class="tag">c</span><p><i>F</i> = ρ<i>q</i><sub>V</sub>(<i>v</i><sub>1</sub> + <i>v</i><sub>2</sub>cos β)</p></div>
+    <p><strong>（6）两个特例（务必记住）</strong>：<br>
+    ① 水沿墙面流散（β = 90°，<i>v</i><sub>2</sub> ⊥ <i>v</i><sub>1</sub>）：<i>F</i> = ρ<i>q</i><sub>V</sub><i>v</i><sub>1</sub> = ρ<i>A v</i><sub>1</sub>²；<br>
+    ② 理想全反射（β = 0°，<i>v</i><sub>2</sub> = <i>v</i><sub>1</sub>）：<i>F</i> = 2ρ<i>q</i><sub>V</sub><i>v</i><sub>1</sub> = 2ρ<i>A v</i><sub>1</sub>²——这就是水轮机（培尔顿水斗）与喷丸强化的理论依据。</p>
+  </div>
+  <div class="ans">答：<i>F</i> = ρ<i>q</i><sub>V</sub>(<i>v</i><sub>1</sub> + <i>v</i><sub>2</sub>cos β)，方向沿射流入射方向；特例 β=90° 时 <i>F</i> = ρ<i>q</i><sub>V</sub><i>v</i><sub>1</sub>，单位 N。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 2-6<span class="badge">课件原例</span>喷嘴与管道连接的螺栓受力</div>
+  <div class="q">水流以体积流量 <i>q</i><sub>V</sub> 通过内径 <i>d</i><sub>1</sub> 的管道，由内径为 <i>d</i><sub>2</sub> 的喷嘴射入大气，管道内压力为 <i>p</i><sub>1</sub>（表压），水的密度为 ρ。管道与喷嘴之间通过法兰用 <strong>6 个螺栓</strong>相连。试求每个螺栓的受力。</div>
+  <div class="sol">
+    <p><strong>（1）选系统</strong>：取喷嘴内的水流（1—1 截面到 2—2 截面之间的流体）为考察对象，<i>x</i> 轴沿喷嘴轴线、指向出口。</p>
+    <p><strong>（2）受力分析</strong>（三项，缺一不可）：</p>
+    <ul>
+      <li>1—1 截面：上游管道内水流对它的压力 <i>p</i><sub>1</sub><i>A</i><sub>1</sub>，方向 +<i>x</i>；</li>
+      <li>2—2 截面：喷嘴右侧大气对它的压力 <i>p</i><sub>2</sub><i>A</i><sub>2</sub>，因射入大气 <i>p</i><sub>2</sub> ≈ 0（表压），此项为零；</li>
+      <li>喷嘴内壁对水流的约束力 <i>F</i><sub>N</sub>，沿喷嘴轴线方向；重力在水平方向无投影。</li>
+    </ul>
+    <p><strong>（3）运动分析</strong>（连续性方程定流速）：</p>
+    <div class="fml left"><span class="tag">a</span><p><i>v</i><sub>1</sub> = 4<i>q</i><sub>V</sub>/(π<i>d</i><sub>1</sub>²)，&nbsp; <i>v</i><sub>2</sub> = 4<i>q</i><sub>V</sub>/(π<i>d</i><sub>2</sub>²)，&nbsp; <i>A</i><sub>1</sub> = π<i>d</i><sub>1</sub>²/4</p></div>
+    <p><strong>（4）沿 x 向列定常质量流动量方程</strong>（注意出流速度大、入流速度小，动量变化项为 <i>q</i><sub>m</sub>(<i>v</i><sub>2</sub> − <i>v</i><sub>1</sub>)）：</p>
+    <div class="fml left"><span class="tag">b</span><p><i>F</i><sub>N</sub> + <i>p</i><sub>1</sub><i>A</i><sub>1</sub> − <i>p</i><sub>2</sub><i>A</i><sub>2</sub> = ρ<i>q</i><sub>V</sub>(<i>v</i><sub>2</sub> − <i>v</i><sub>1</sub>)</p></div>
+    <p><strong>（5）取反作用力求螺栓力</strong>：喷嘴内壁对水流的约束力为 <i>F</i><sub>N</sub> = <i>q</i><sub>m</sub>(<i>v</i><sub>2</sub> − <i>v</i><sub>1</sub>) − <i>p</i><sub>1</sub><i>A</i><sub>1</sub>（方向 −<i>x</i>）；水流对喷嘴的作用力与之等值反向，其沿轴线<strong>把喷嘴向外（+<i>x</i>）推的分量</strong>为</p>
+    <div class="fml left"><span class="tag">c</span><p><i>F</i><sub>N</sub>′ = <i>p</i><sub>1</sub><i>A</i><sub>1</sub> + ρ<i>q</i><sub>V</sub>(<i>v</i><sub>1</sub> − <i>v</i><sub>2</sub>) = <i>p</i><sub>1</sub><i>A</i><sub>1</sub> − ρ<i>q</i><sub>V</sub>(<i>v</i><sub>2</sub> − <i>v</i><sub>1</sub>)</p></div>
+    <p>物理解释：入口压力 <i>p</i><sub>1</sub><i>A</i><sub>1</sub> 把水向前推，其中一部分用于使水流加速（动量项 ρ<i>q</i><sub>V</sub>(<i>v</i><sub>2</sub>−<i>v</i><sub>1</sub>)），余下部分传递给喷嘴。由于 <i>d</i><sub>1</sub> &gt; <i>d</i><sub>2</sub> ⟹ <i>v</i><sub>1</sub> &lt; <i>v</i><sub>2</sub>，动量项方向朝管道一侧；正常流量下 <i>p</i><sub>1</sub><i>A</i><sub>1</sub> 占优，故 <i>F</i><sub>N</sub>′ &gt; 0，法兰<strong>螺栓受拉</strong>，每个螺栓受力为</p>
+    <div class="fml left"><span class="tag">d</span><p><i>F</i><sub>b</sub> = <i>F</i><sub>N</sub>′/6 = [<i>p</i><sub>1</sub><i>A</i><sub>1</sub> + ρ<i>q</i><sub>V</sub>(<i>v</i><sub>1</sub> − <i>v</i><sub>2</sub>)]/6</p></div>
+    <p><strong>（6）讨论</strong>：喷嘴出口越细（<i>d</i><sub>2</sub> 越小），<i>v</i><sub>2</sub> 越大，动量项 ρ<i>q</i><sub>V</sub>(<i>v</i><sub>2</sub>−<i>v</i><sub>1</sub>) 越大，螺栓受力越小甚至反向受压；反之若流量很小而压力很高，则 <i>F</i><sub>N</sub>′ ≈ <i>p</i><sub>1</sub><i>A</i><sub>1</sub> 全部由螺栓承担——这正是高压管路法兰必须按<strong>压力项</strong>校核的原因。</p>
+  </div>
+  <div class="ans">答：每个螺栓受力 <i>F</i><sub>b</sub> = [<i>p</i><sub>1</sub><i>A</i><sub>1</sub> + ρ<i>q</i><sub>V</sub>(<i>v</i><sub>1</sub> − <i>v</i><sub>2</sub>)]/6，其中 <i>v</i><sub>1</sub> = 4<i>q</i><sub>V</sub>/(π<i>d</i><sub>1</sub>²)、<i>v</i><sub>2</sub> = 4<i>q</i><sub>V</sub>/(π<i>d</i><sub>2</sub>²)，单位为 N，方向沿喷嘴轴线（正常流量下为拉力）。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 2-7<span class="badge o">补充</span>水平—铅直 90° 变径弯管的受力（含两端压力项）</div>
+  <div class="q">水在 90° 变径弯管中定常流动：由内径 <i>d</i><sub>1</sub> = 200 mm 的水平管流入（表压 <i>p</i><sub>1</sub> = 20 kPa），从内径 <i>d</i><sub>2</sub> = 100 mm 的竖直管向上流出（表压 <i>p</i><sub>2</sub> = 5 kPa），体积流量 <i>q</i><sub>V</sub> = 0.06 m³/s，ρ = 1000 kg/m³，忽略管内水的重力在水平方向的影响。求<strong>水流对弯管的作用力</strong>。</div>
+  <div class="sol">
+    <p><strong>（1）选系统与坐标系</strong>：取弯管内的水流为控制体积，<i>x</i> 轴沿入流方向（水平），<i>y</i> 轴铅直向上（沿出流方向）。</p>
+    <p><strong>（2）受力分析</strong>：① 进口截面压力 <i>p</i><sub>1</sub><i>A</i><sub>1</sub>（+<i>x</i>）；② 出口截面压力 <i>p</i><sub>2</sub><i>A</i><sub>2</sub>（−<i>y</i>，因为外侧流体沿流动反方向推该截面）；③ 弯管壁对水流的约束力 <b>R</b>；④ 水的重力（铅直向下，与压力/动量项相比很小，此处略去）。</p>
+    <p><strong>（3）运动分析</strong>：<i>A</i><sub>1</sub> = π(0.2)²/4 = 0.0314 m²，<i>A</i><sub>2</sub> = π(0.1)²/4 = 0.00785 m²；<i>q</i><sub>m</sub> = ρ<i>q</i><sub>V</sub> = 60 kg/s；<i>v</i><sub>1</sub> = <i>q</i><sub>V</sub>/<i>A</i><sub>1</sub> = 1.91 m/s，<i>v</i><sub>2</sub> = <i>q</i><sub>V</sub>/<i>A</i><sub>2</sub> = 7.64 m/s。</p>
+    <p><strong>（4）分别沿两轴列动量方程</strong>（出流速度矢量 <b>v</b><sub>2</sub> = (0, 7.64)，入流 <b>v</b><sub>1</sub> = (1.91, 0)）：</p>
+    <div class="fml left"><span class="tag">a</span><p><i>x</i> 向：<i>p</i><sub>1</sub><i>A</i><sub>1</sub> + <i>R</i><sub>x</sub> = <i>q</i><sub>m</sub>(0 − <i>v</i><sub>1</sub>) ⟹ <i>R</i><sub>x</sub> = −(<i>p</i><sub>1</sub><i>A</i><sub>1</sub> + ρ<i>q</i><sub>V</sub><i>v</i><sub>1</sub>) = −(628 + 115) = −743 N</p></div>
+    <div class="fml left"><span class="tag">b</span><p><i>y</i> 向：<i>R</i><sub>y</sub> − <i>p</i><sub>2</sub><i>A</i><sub>2</sub> = <i>q</i><sub>m</sub>(<i>v</i><sub>2</sub> − 0) ⟹ <i>R</i><sub>y</sub> = <i>p</i><sub>2</sub><i>A</i><sub>2</sub> + ρ<i>q</i><sub>V</sub><i>v</i><sub>2</sub> = 39 + 458 = 498 N</p></div>
+    <p><strong>（5）取反作用力</strong>：水流对弯管的作用力 <b>F</b> = −<b>R</b>，即</p>
+    <div class="fml left"><span class="tag">c</span><p><i>F</i><sub>x</sub> = 743 N（沿入流方向），&nbsp; <i>F</i><sub>y</sub> = −498 N（沿出流的反方向）</p></div>
+    <div class="fml left"><span class="tag">d</span><p><i>F</i> = √(743² + 498²) = 894 N，与入流方向成 33.8° 的斜下方</p></div>
+    <p><strong>（6）结论</strong>：弯管受力 = <strong>压力项</strong>（<i>p</i><sub>1</sub><i>A</i><sub>1</sub>、<i>p</i><sub>2</sub><i>A</i><sub>2</sub>）+ <strong>动量变化项</strong>（ρ<i>q</i><sub>V</sub><i>v</i><sub>1</sub>、ρ<i>q</i><sub>V</sub><i>v</i><sub>2</sub>）。高压大流量管路中压力项往往是主导项，故弯头处必须设置固定支墩。</p>
+  </div>
+  <div class="ans">答：<i>F</i> ≈ 894 N，方向与入流方向成 33.8° 斜向下（分量 <i>F</i><sub>x</sub> = 743 N、<i>F</i><sub>y</sub> = −498 N）。</div>
+</div>
+
+<div class="step">
+  <strong>流体冲击类问题解题步骤（定常质量流）</strong>
+  <ol>
+    <li>画控制体积：入口、出口各取一个垂直于流速的截面，边界包含全部与固体接触的面。</li>
+    <li>写出入流、出流的速度矢量（大小由 <i>v</i> = <i>q</i><sub>V</sub>/<i>A</i> 或连续性条件确定）。</li>
+    <li>受力分析四件套：入口压力 <i>p</i><sub>1</sub><i>A</i><sub>1</sub>、出口压力 <i>p</i><sub>2</sub><i>A</i><sub>2</sub>、重力 <b>W</b>、固体边界约束力 <b>F</b><sub>N</sub>（表压为零的截面不要写压力项）。</li>
+    <li>对每一根轴列 Σ<i>F</i> = <i>q</i><sub>m</sub>(<i>v</i><sub>2</sub> − <i>v</i><sub>1</sub>) 的投影式，先解出固体<strong>对流体</strong>的力。</li>
+    <li>取反作用力得<strong>流体对固体</strong>的力，说明方向与单位；需要时再除以螺栓数、焊缝长度等。</li>
+  </ol>
+</div>
+<h2 id="s24">2.4 变质量系统：落链、传送带装料与火箭<span class="badge r">拓展</span></h2>
+
+<div class="lead">说明：本节内容课件第 2 章只以「质量流的颗粒形式／气体形式」点出（见 2.3 节开头），未展开推导，以下按通用变质量动力学结论补充，公式与 2.3 节课件给出的 Σ<b>F</b> = <i>q</i><sub>m</sub>(<b>v</b><sub>2</sub> − <b>v</b><sub>1</sub>) 完全一致。</div>
+
+<div class="box def">
+  <span class="bt">一、变质量系统的基本方程（Meshchersky 方程）</span>
+  <p>设 <i>t</i> 时刻研究对象质量为 <i>m</i>、速度为 <b>v</b>；在 d<i>t</i> 内有质量 d<i>m</i> 并入（d<i>m</i> &gt; 0）或分出（d<i>m</i> &lt; 0），并入（分出）前该部分质量为 <b>v</b><sub>1</sub>。对「主体 + 并入/分出质量」整体用动量定理，得</p>
+  <div class="fml"><span class="tag">2-6</span><p><i>m</i> d<b>v</b>/d<i>t</i> = Σ<b>F</b> + (<b>v</b><sub>1</sub> − <b>v</b>) d<i>m</i>/d<i>t</i></p></div>
+  <p><strong>附加力项 (<b>v</b><sub>1</sub> − <b>v</b>)d<i>m</i>/d<i>t</i> 的来源</strong>：它<strong>不是</strong>新的自然界力，而是把「质量进出」折算成对主体的等效作用力——并入的质量带着自己的动量「撞进」主体，其动量改变率就是主体受到的附加反作用（推力/反推力）。因此<strong>变质量系统不能直接写 d(<i>m</i><b>v</b>)/d<i>t</i> = Σ<b>F</b></strong>（那是质量不变时的形式），必须用式（2-6）。</p>
+  <ul>
+    <li>质量并入（落链、装料、雨滴、沾湿的雪球）：d<i>m</i>/d<i>t</i> &gt; 0，附加力方向取决于 <b>v</b><sub>1</sub> − <b>v</b>；</li>
+    <li>质量分出（火箭、喷流、漏砂的沙漏车）：d<i>m</i>/d<i>t</i> &lt; 0，等效为<strong>反推力</strong>（thrust）。</li>
+  </ul>
+</div>
+
+<div class="prob">
+  <div class="pt">例 2-8<span class="badge o">补充</span>传送带装料：驱动力的「一半能量去哪了」</div>
+  <div class="q">传送带以恒定速度 <i>v</i> = 1.5 m/s 水平输送散料，料斗在带的铅直上方连续落料，落料的质量流量 <i>q</i><sub>m</sub> = 20 kg/s，落料到达带面时的水平速度为零。忽略带与托辊的摩擦，求驱动传送带所需的水平力 <i>F</i> 与驱动功率 <i>P</i>，并比较散料所获得的动能率。</div>
+  <div class="sol">
+    <p><strong>（1）选系统（控制体积）</strong>：取带面上「落料点附近、随带一起运动的散料」为控制体积——入口是铅直落下的散料，出口是随带匀速前进的散料。</p>
+    <p><strong>（2）受力与运动分析</strong>：水平方向外力只有皮带对散料的摩擦力（即驱动力 <i>F</i> 通过皮带传来）；入流水平速度 <i>v</i><sub>1x</sub> = 0，出流水平速度 <i>v</i><sub>2x</sub> = <i>v</i>。</p>
+    <p><strong>（3）沿运动方向用定常质量流动量定理</strong>：</p>
+    <div class="fml left"><span class="tag">a</span><p><i>F</i> = <i>q</i><sub>m</sub>(<i>v</i><sub>2x</sub> − <i>v</i><sub>1x</sub>) = <i>q</i><sub>m</sub><i>v</i> = 20 × 1.5 = 30 N</p></div>
+    <p><strong>（4）驱动功率</strong> <i>P</i> = <i>F v</i> = 30 × 1.5 = 45 W。</p>
+    <p><strong>（5）能量校核（易错点）</strong>：每秒落料 <i>q</i><sub>m</sub> 被加速到 <i>v</i>，其动能率 = ½<i>q</i><sub>m</sub><i>v</i>² = ½ × 20 × 1.5² = 22.5 W，只占驱动功率的一半；另一半 22.5 W 消耗在散料与皮带之间的<strong>相对滑动摩擦</strong>上（散料从 0 加速到 <i>v</i> 的过程中平均相对速度不为零）。所以此类问题<strong>不能用动能定理直接求驱动力</strong>，必须用动量定理或变质量方程。</p>
+  </div>
+  <div class="ans">答：<i>F</i> = <i>q</i><sub>m</sub><i>v</i> = 30 N（方向沿带运动方向），<i>P</i> = <i>q</i><sub>m</sub><i>v</i>² = 45 W；散料动能率仅 22.5 W。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 2-9<span class="badge o">补充</span>落链：台秤读数为什么是 3 倍重量</div>
+  <div class="q">一条长链从静止开始铅直自由下落，落到水平的秤盘上（链落到盘上后立即静止）。已知链条单位长度的质量为 λ（kg/m），重力加速度为 <i>g</i>。求链条开始下落后 <i>t</i> 时刻（链条尚未落完）台秤的读数。</div>
+  <div class="sol">
+    <p><strong>（1）选系统</strong>：取<strong>已落到秤盘上的那段链条</strong>为研究对象——它是一个质量随时间增加的系统（不断有新的链节并入）。</p>
+    <p><strong>（2）受力分析</strong>：秤盘的支持力 <i>N</i>（向上）、已落段的重力 <i>W</i> = λ<i>y g</i>（向下，<i>y</i> 为已落长度），以及<strong>新链节并入时的附加力</strong>。</p>
+    <p><strong>（3）运动分析</strong>：自由下落段 <i>y</i> = ½<i>gt</i>²，落地速度 <i>v</i> = <i>gt</i>；单位时间落下的质量 d<i>m</i>/d<i>t</i> = λ<i>v</i> = λ<i>gt</i>。</p>
+    <p><strong>（4）用变质量方程（或直接算动量流）</strong>：已落段速度恒为零（<b>v</b> = <b>0</b>），并入质量的速度 <b>v</b><sub>1</sub> 铅直向下、大小 <i>v</i>，代入式（2-6）：0 = <i>N</i> − λ<i>yg</i> + (−<i>v</i> − 0)(λ<i>v</i>) ⟹</p>
+    <div class="fml left"><span class="tag">a</span><p><i>N</i> = λ<i>yg</i> + λ<i>v</i>² = λ<i>yg</i> + λ<i>g</i>²<i>t</i>²</p></div>
+    <p><strong>（5）化简</strong>：由 <i>y</i> = ½<i>gt</i>² 得 λ<i>g</i>²<i>t</i>² = λ<i>g</i>(<i>gt</i>²) = λ<i>g</i>·2<i>y</i> = 2λ<i>yg</i>，故 <i>N</i> = 3λ<i>yg</i>：落下的冲击附加力恰好等于已落链条重量的 2 倍。</p>
+    <p><strong>（6）讨论</strong>：读完数随时间按 <i>t</i>² 增长，<i>N</i> = (3/2)λ<i>g</i>²<i>t</i>²；若链条是匀速（不是自由）落下，则附加力只有 λ<i>v</i>²，与「重力项」无关——把链条「从地面匀速提起」时所需拉力 <i>F</i> = λ<i>xg</i> + λ<i>v</i>² 同理（提链问题与落链问题互为镜像）。</p>
+  </div>
+  <div class="ans">答：<i>N</i> = 3λ<i>yg</i> = (3/2)λ<i>g</i>²<i>t</i>²，即台秤读数为已落链条重量的 3 倍，单位 N。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 2-10<span class="badge o">补充</span>火箭方程与推力来源</div>
+  <div class="q">某火箭在无外力（太空、忽略引力）中由静止起飞，燃气相对火箭的喷射速度（有效排气速度）恒为 <i>u</i> = 2000 m/s，初始质量 <i>m</i><sub>0</sub>，燃料烧完后的质量 <i>m</i> = <i>m</i><sub>0</sub>/3。求火箭的最终速度；若改为在地面铅直向上发射（重力加速度 <i>g</i>，燃烧时间 20 s），求最终速度表达式。</div>
+  <div class="sol">
+    <p><strong>（1）选系统与受力分析</strong>：取火箭（含剩余燃料）为主体，它是一个<strong>不断分出质量</strong>的系统。设喷气质量流量 <i>q</i> = −d<i>m</i>/d<i>t</i> &gt; 0，喷出气体相对火箭的速度为 <i>u</i>（方向与火箭运动方向相反）。</p>
+    <p><strong>（2）用变质量方程求推力</strong>：取主体速度 <b>v</b> 为正方向，喷出前的速度 <b>v</b><sub>1</sub> = <b>v</b> − <i>u</i>（沿正方向的分量为 <i>v</i> − <i>u</i>），d<i>m</i>/d<i>t</i> = −<i>q</i>，代入式（2-6）：</p>
+    <div class="fml left"><span class="tag">a</span><p><i>m</i> d<i>v</i>/d<i>t</i> = Σ<i>F</i> + (−<i>u</i>)(−<i>q</i>) = Σ<i>F</i> + <i>uq</i>&nbsp;&nbsp;⟹&nbsp;&nbsp;反推力 <i>F</i><sub>t</sub> = <i>uq</i> = −<i>u</i> d<i>m</i>/d<i>t</i></p></div>
+    <p><strong>（3）无外力情形的积分（火箭方程）</strong>：取 Σ<i>F</i> = 0，则 <i>m</i> d<i>v</i>/d<i>t</i> = −<i>u</i> d<i>m</i>/d<i>t</i> ⟹ d<i>v</i> = −<i>u</i> d<i>m</i>/<i>m</i>，积分得</p>
+    <div class="fml"><span class="tag">2-7</span><p><i>v</i> = <i>v</i><sub>0</sub> + <i>u</i> ln(<i>m</i><sub>0</sub>/<i>m</i>)</p></div>
+    <p>代入数据：<i>v</i> = 0 + 2000 × ln 3 = 2000 × 1.0986 = <strong>2197 m/s</strong>。可见提高末速度只有两条路：提高有效排气速度 <i>u</i>（改发动机），或提高质量比 <i>m</i><sub>0</sub>/<i>m</i>（多带燃料、减轻结构，因此需要多级火箭）。</p>
+    <p><strong>（4）地面铅直发射</strong>：Σ<i>F</i> = −<i>mg</i>，故 d<i>v</i> = −<i>u</i> d<i>m</i>/<i>m</i> − <i>g</i>d<i>t</i>，积分（<i>v</i><sub>0</sub> = 0）：</p>
+    <div class="fml left"><span class="tag">b</span><p><i>v</i> = <i>u</i> ln(<i>m</i><sub>0</sub>/<i>m</i>) − <i>gt</i> = 2197 − 9.8 × 20 = 2001 m/s</p></div>
+    <p><strong>（5）结论与提醒</strong>：推力 <i>uq</i> 只取决于排气速度与质量流量，与外界空气无关（所以火箭能在真空中工作）；反推力项是「分出的质量把动量带走」的等效结果，属于式（2-6）的附加力项，不是外加的力。</p>
+  </div>
+  <div class="ans">答：太空情形 <i>v</i> = <i>u</i> ln(<i>m</i><sub>0</sub>/<i>m</i>) = 2197 m/s；地面铅直发射 <i>v</i> = <i>u</i> ln(<i>m</i><sub>0</sub>/<i>m</i>) − <i>gt</i> = 2001 m/s（取 <i>g</i> = 9.8 m/s²，<i>t</i> = 20 s）。</div>
+</div>
+
+<div class="box key">
+  <span class="bt">第 2 章必记结论清单</span>
+  <ul>
+    <li>动量定理：d<b>p</b>/d<i>t</i> = Σ<b>F</b><sup>(e)</sup>；积分形式 <b>p</b><sub>2</sub> − <b>p</b><sub>1</sub> = <b>I</b>；<b>p</b> = <i>m</i><b>v</b><sub>C</sub>。</li>
+    <li>质心运动定理：<i>m</i><b>a</b><sub>C</sub> = Σ<b>F</b><sup>(e)</sup>；Σ<b>F</b> = 0 且初速为零 ⟹ 质心位置不变；Σ<i>F</i><sub>x</sub> = 0 ⟹ 该轴动量守恒。</li>
+    <li>定常质量流：Σ<b>F</b> = <i>q</i><sub>m</sub>(<b>v</b><sub>2</sub> − <b>v</b><sub>1</sub>)，<i>q</i><sub>m</sub> = ρ<i>Av</i>；附加动约束力 <b>F</b><sub>Nd</sub> 与 ρ<i>q</i><sub>V</sub><i>v</i> 同量级、随 <i>v</i>² 增长。</li>
+    <li>射流冲击：<i>F</i> = ρ<i>q</i><sub>V</sub>(<i>v</i><sub>1</sub> + <i>v</i><sub>2</sub>cos β)（β 为出流相对入流的偏转角的补角）；垂直冲击平板时 <i>F</i> = ρ<i>Av</i>²。</li>
+    <li>变质量：<i>m</i> d<b>v</b>/d<i>t</i> = Σ<b>F</b> + (<b>v</b><sub>1</sub> − <b>v</b>)d<i>m</i>/d<i>t</i>；推力 <i>F</i><sub>t</sub> = <i>uq</i>；火箭方程 <i>v</i> = <i>v</i><sub>0</sub> + <i>u</i> ln(<i>m</i><sub>0</sub>/<i>m</i>)。</li>
+  </ul>
+</div>
+<div class="pagebreak"></div>
+
+<h1 id="c3">第 3 章 动量矩定理</h1>
+
+<div class="lead">本章解决动量定理解决不了的问题：<strong>力矩与转动之间的关系</strong>。课件用一个判例开场——同一匀质圆盘放在光滑面上，作用力过质心时<strong>只平动不转动</strong>，作用力偏离质心时<strong>边平动边转动</strong>；动量定理对两种情形给出的 d<b>p</b>/d<i>t</i> 完全相同，无法区分，必须再补一条关于「矩」的定理。</div>
+
+<h2 id="s31">3.1 动量矩（角动量）的定义与计算</h2>
+
+<div class="box def">
+  <span class="bt">一、质点的动量矩</span>
+  <p>动量矩 = 动量对某点或某轴的矩。对任意点 <i>O</i>′（<strong>可以是动点</strong>）：</p>
+  <div class="fml"><span class="tag">3-1</span><p><b>L</b><sub>O′</sub> = <b>r</b>′ × <i>m</i><b>v</b>，&nbsp; 对 <i>z</i> 轴：<i>L</i><sub>z</sub> = <i>M</i><sub>z</sub>(<i>m</i><b>v</b>) = ±<i>m v</i>·<i>d</i></p></div>
+  <p>其中 <b>r</b>′ 是由取矩点 <i>O</i>′ 引向质点的矢径；<i>d</i> 为速度作用线到 <i>z</i> 轴的距离，正负号按右手螺旋与轴的指向一致取正。</p>
+</div>
+
+<div class="box key">
+  <span class="bt">二、质点系的动量矩（三种运动形式要分开记）</span>
+  <p>质点系对任意点 <i>O</i>′：<b>L</b><sub>O′</sub> = Σ<b>r</b>′<sub>i</sub> × <i>m</i><sub>i</sub><b>v</b><sub>i</sub>；选质心 <i>C</i> 为取矩点时，把运动分解为「随质心平动 + 相对质心转动」：</p>
+  <div class="fml"><span class="tag">3-2</span><p><b>L</b><sub>O′</sub> = <b>r</b><sub>C</sub>′ × <i>m</i><b>v</b><sub>C</sub> + <b>L</b><sub>C</sub>，&nbsp; <b>L</b><sub>C</sub> = Σ<b>r</b><sub>iC</sub> × <i>m</i><sub>i</sub><b>v</b><sub>iC</sub>（相对质心的动量矩）</p></div>
+  <ul>
+    <li><strong>平移刚体</strong>：相当于质量集中于质心的单质点问题，<b>L</b><sub>O′</sub> = <b>r</b><sub>C</sub>′ × <i>m</i><b>v</b><sub>C</sub>；</li>
+    <li><strong>定轴转动刚体（对转轴 z）</strong>：<i>L</i><sub>z</sub> = <i>J</i><sub>z</sub>ω，方向与 ω 相同（<i>J</i><sub>z</sub> = Σ<i>m</i><sub>i</sub><i>r</i><sub>i</sub>² 为刚体对 z 轴的转动惯量）；</li>
+    <li><strong>平面运动刚体（只研究垂直于运动平面的投影）</strong>：<i>L</i><sub>z</sub> = <i>J</i><sub>C</sub>ω ± <i>m v</i><sub>C</sub>·<i>d</i>，即「相对质心转动的动量矩 + 随质心平动的动量对取矩点之矩」。</li>
+  </ul>
+  <p><strong>易错提示</strong>：定轴转动刚体对<strong>转轴</strong>的动量矩是 <i>J</i><sub>z</sub>ω，但对<strong>其他点</strong>（如质心在轴上的情形对轴上另一点）则要用 <b>L</b><sub>O′</sub> = <b>r</b><sub>C</sub>′ × <i>m</i><b>v</b><sub>C</sub> + <b>L</b><sub>C</sub> 完整计算，不能张口就写 <i>J</i>ω。</p>
+</div>
+
+<div class="prob">
+  <div class="pt">例 3-1<span class="badge">课件原例</span>轮—凹面—杆系统对 O 点的动量矩</div>
+  <div class="q">半径为 <i>r</i> 的匀质轮在半径为 <i>R</i> 的固定凹面上只滚不滑，轮重 <i>Q</i>；匀质杆 <i>OC</i> 重 <i>P</i>、长 <i>l</i> = <i>R</i> − <i>r</i>，一端铰接于 <i>O</i>、另一端与轮心 <i>C</i> 相连。图示瞬时杆 <i>OC</i> 的角速度为 ω。试求系统在该瞬时对 <i>O</i> 点的动量矩。</div>
+  <div class="sol">
+    <p><strong>（1）运动分析</strong>：杆 <i>OC</i> 定轴转动，角速度 ω；轮心 <i>C</i> 的速度 <i>v</i><sub>C</sub> = <i>l</i>ω = (<i>R</i> − <i>r</i>)ω，方向垂直于 <i>OC</i>。轮与曲面只滚不滑，接触点为轮的瞬心，故由 <i>v</i><sub>C</sub> = ω<sub>轮</sub><i>r</i> 得轮的角速度 ω<sub>轮</sub> = (<i>R</i> − <i>r</i>)ω/<i>r</i>。</p>
+    <p><strong>（2）杆对 O 的动量矩</strong>（定轴转动，绕端点转动的均质杆 <i>J</i><sub>O</sub> = <i>Pl</i>²/(3<i>g</i>)）：</p>
+    <div class="fml left"><span class="tag">a</span><p><i>L</i><sub>O</sub><sup>(杆)</sup> = <i>J</i><sub>O</sub>ω = <i>Pl</i>²ω/(3<i>g</i>) = <i>P</i>(<i>R</i>−<i>r</i>)²ω/(3<i>g</i>)</p></div>
+    <p><strong>（3）轮对 O 的动量矩</strong>（平面运动，用式 3-2：相对质心 + 随质心平动）：</p>
+    <div class="fml left"><span class="tag">b</span><p><i>L</i><sub>O</sub><sup>(轮)</sup> = <i>J</i><sub>C</sub>ω<sub>轮</sub> + (<i>Q</i>/<i>g</i>)<i>v</i><sub>C</sub>·<i>l</i> = (<i>Q</i>/2<i>g</i>)<i>r</i>²·(<i>R</i>−<i>r</i>)ω/<i>r</i> + (<i>Q</i>/<i>g</i>)(<i>R</i>−<i>r</i>)²ω</p></div>
+    <div class="fml left"><span class="tag">c</span><p><i>L</i><sub>O</sub><sup>(轮)</sup> = (<i>Q</i>/<i>g</i>)(<i>R</i>−<i>r</i>)ω[<i>r</i>/2 + (<i>R</i>−<i>r</i>)] = (<i>Q</i>/<i>g</i>)(<i>R</i>−<i>r</i>)(<i>R</i> − <i>r</i>/2)ω</p></div>
+    <p><strong>（4）叠加</strong>（两部分转向相同，代数相加）：</p>
+    <div class="fml"><span class="tag">3-3</span><p><i>L</i><sub>O</sub> = ω{(<i>P</i>/3<i>g</i>)(<i>R</i>−<i>r</i>)² + (<i>Q</i>/<i>g</i>)(<i>R</i>−<i>r</i>)(<i>R</i> − <i>r</i>/2)}</p></div>
+  </div>
+  <div class="ans">答：<i>L</i><sub>O</sub> = (ω/<i>g</i>)(<i>R</i>−<i>r</i>)[<i>P</i>(<i>R</i>−<i>r</i>)/3 + <i>Q</i>(<i>R</i> − <i>r</i>/2)]，方向与 ω 同向，单位 kg·m²/s。</div>
+</div>
+
+<div class="step">
+  <strong>求动量矩的步骤</strong>
+  <ol>
+    <li>先判定每个刚体的运动形式（平移／定轴转动／平面运动），选定取矩点或取矩轴。</li>
+    <li>平移刚体：只算 <b>r</b><sub>C</sub> × <i>m</i><b>v</b><sub>C</sub>；定轴转动刚体：对转轴直接 <i>J</i><sub>z</sub>ω。</li>
+    <li>平面运动刚体：<i>L</i> = <i>J</i><sub>C</sub>ω ± <i>m v</i><sub>C</sub><i>d</i>，两项转向相同的取「+」。</li>
+    <li>多个刚体时代数（或矢量）求和，注意转向相反者要变号。</li>
+  </ol>
+</div>
+
+<h2 id="s32">3.2 质点系动量矩定理</h2>
+
+<div class="box key">
+  <span class="bt">一、对固定点（最基本形式）</span>
+  <div class="fml"><span class="tag">3-4</span><p>d<b>L</b><sub>O</sub>/d<i>t</i> = Σ<b>M</b><sub>O</sub>(<b>F</b><sub>j</sub><sup>(e)</sup>)&nbsp;&nbsp;（微分形式）&nbsp;&nbsp;&nbsp; <b>L</b><sub>2</sub> − <b>L</b><sub>1</sub> = Σ∫<sub><i>t</i><sub>1</sub></sub><sup><i>t</i><sub>2</sub></sup> <b>M</b><sub>O</sub>(<b>F</b><sub>j</sub><sup>(e)</sup>)d<i>t</i>&nbsp;（积分形式，右端称冲量矩）</p></div>
+  <p>投影式：d<i>L</i><sub>x</sub>/d<i>t</i> = Σ<i>M</i><sub>x</sub>(<b>F</b><sup>(e)</sup>)，d<i>L</i><sub>y</sub>/d<i>t</i> = Σ<i>M</i><sub>y</sub>(<b>F</b><sup>(e)</sup>)，d<i>L</i><sub>z</sub>/d<i>t</i> = Σ<i>M</i><sub>z</sub>(<b>F</b><sup>(e)</sup>)。</p>
+  <p><strong>守恒</strong>：若 Σ<b>M</b><sub>O</sub>(<b>F</b><sup>(e)</sup>) = <b>0</b>，则 <b>L</b><sub>O</sub> = 常矢量；若 Σ<i>M</i><sub>z</sub>(<b>F</b><sup>(e)</sup>) = 0，则 <i>L</i><sub>z</sub> = 常数（这就是转速与转动惯量成反比的依据：<i>J</i><sub>z</sub>ω = 常数）。</p>
+  <p><strong>内力与轴力的矩自动消去</strong>：这正是动量矩定理能跳过铰链内力、直接联系外力矩与运动的原因。</p>
+</div>
+
+<div class="box def">
+  <span class="bt">二、对动点与对质心（修正项什么时候为零）</span>
+  <p>对任意动点 <i>O</i>′（以随 <i>O</i>′ 平动的坐标系计动量矩）有</p>
+  <div class="fml"><span class="tag">3-5</span><p>d<b>L</b><sub>O′</sub>/d<i>t</i> + <i>m</i> <b>v</b><sub>O′</sub> × <b>v</b><sub>C</sub> = Σ<b>M</b><sub>O′</sub>(<b>F</b><sub>j</sub><sup>(e)</sup>)</p></div>
+  <p>左侧第二项是<strong>修正项</strong>（对应于牵连惯性力对 <i>O</i>′ 的矩）。使修正项为零的常见情形：</p>
+  <ul>
+    <li><i>O</i>′ 为<strong>固定点</strong>（<b>v</b><sub>O′</sub> = <b>0</b>）；</li>
+    <li><i>O</i>′ 为<strong>质心 C</strong>（<b>v</b><sub>O′</sub> = <b>v</b><sub>C</sub>，叉积 <b>v</b><sub>C</sub> × <b>v</b><sub>C</sub> = <b>0</b>）——于是得到最常用的<strong>相对质心的动量矩定理</strong>；</li>
+    <li><i>O</i>′ 作<strong>匀速直线运动</strong>（<b>v</b><sub>O′</sub> 为常矢量，配合质心运动定理可证）；</li>
+    <li><b>v</b><sub>O′</sub> ∥ <b>v</b><sub>C</sub>（例如轮纯滚动时的速度瞬心 <i>I</i>）。</li>
+  </ul>
+  <div class="fml"><span class="tag">3-6</span><p>相对质心：d<b>L</b><sub>C</sub>/d<i>t</i> = Σ<b>M</b><sub>C</sub>(<b>F</b><sub>j</sub><sup>(e)</sup>)；守恒条件：Σ<b>M</b><sub>C</sub>(<b>F</b><sup>(e)</sup>) = <b>0</b> ⟹ <b>L</b><sub>C</sub> = 常矢量</p></div>
+  <p><strong>两条独立方程</strong>：质心运动定理（<i>m</i><b>a</b><sub>C</sub> = Σ<b>F</b><sup>(e)</sup>）与相对质心动量矩定理（d<b>L</b><sub>C</sub>/d<i>t</i> = Σ<b>M</b><sub>C</sub>）联立，构成求解质点系平面问题的一组独立动力学方程——这是本章后半部分所有刚体动力学方程的共同来源。</p>
+</div>
+
+<div class="prob">
+  <div class="pt">例 3-2<span class="badge o">补充</span>离合器结合：动量矩守恒与动能损失（冲击类综合题）</div>
+  <div class="q">飞轮 <i>A</i> 对转轴的转动惯量 <i>J</i><sub>1</sub> = 10 kg·m²，原以角速度 ω<sub>0</sub> = 30 rad/s 转动；同轴线的从动盘 <i>B</i> 的转动惯量 <i>J</i><sub>2</sub> = 5 kg·m²，原来静止。二者通过摩擦离合器逐渐结合，结合过程中轴的摩擦力矩可忽略，结合后以同一角速度 ω 转动。求结合后的角速度 ω 以及结合过程损失的动能。</div>
+  <div class="sol">
+    <p><strong>（1）选系统与受力分析</strong>：取 <i>A</i> + <i>B</i> 为一个质点系，转轴方向无外力矩（重力、轴承反力对轴的矩为零），离合器摩擦面之间的摩擦力矩是<strong>内力矩</strong>，自动消去。</p>
+    <p><strong>（2）动量矩守恒</strong>：Σ<i>M</i><sub>z</sub>(<b>F</b><sup>(e)</sup>) = 0 ⟹ <i>L</i><sub>z</sub> = 常数：</p>
+    <div class="fml left"><span class="tag">a</span><p><i>J</i><sub>1</sub>ω<sub>0</sub> = (<i>J</i><sub>1</sub> + <i>J</i><sub>2</sub>)ω ⟹ ω = <i>J</i><sub>1</sub>ω<sub>0</sub>/(<i>J</i><sub>1</sub>+<i>J</i><sub>2</sub>) = 10×30/15 = 20 rad/s</p></div>
+    <p><strong>（3）动能核算</strong>（转动动能 <i>T</i> = ½<i>J</i>ω²）：</p>
+    <div class="fml left"><span class="tag">b</span><p><i>T</i><sub>1</sub> = ½×10×30² = 4500 J，&nbsp; <i>T</i><sub>2</sub> = ½×15×20² = 3000 J，&nbsp; Δ<i>T</i> = 1500 J</p></div>
+    <p><strong>（4）损失的能量去哪了</strong>：消耗在离合器摩擦面<strong>相对滑动</strong>上（发热、磨损）。可见动量矩守恒<strong>不等于</strong>动能守恒——这与「完全非弹性碰撞动量守恒而动能不守恒」是同一类问题；通式 Δ<i>T</i> = <i>J</i><sub>1</sub><i>J</i><sub>2</sub>ω<sub>0</sub>²/[2(<i>J</i><sub>1</sub>+<i>J</i><sub>2</sub>)] = 10×5×900/(2×15) = 1500 J，与上面一致。</p>
+    <p><strong>（5）讨论</strong>：若两轮结合后要求「无能量损失」，则必须用可控离合器按无滑动条件匹配角速度，此时动量矩与动能同时满足——实际工程中总是牺牲效率换取结构简单。</p>
+  </div>
+  <div class="ans">答：ω = <i>J</i><sub>1</sub>ω<sub>0</sub>/(<i>J</i><sub>1</sub>+<i>J</i><sub>2</sub>) = 20 rad/s；损失的动能 Δ<i>T</i> = 1500 J。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 3-3<span class="badge o">补充</span>有心力场：桌面小孔拉绳（动量矩守恒 + 能量守恒）</div>
+  <div class="q">质量 <i>m</i> = 0.1 kg 的小球在光滑水平桌面上运动，用细绳系住，绳穿过桌面中心的光滑小孔 <i>O</i> 由手拉住。初始时小球以半径 <i>r</i><sub>1</sub> = 0.5 m、速度 <i>v</i><sub>1</sub> = 2 m/s 作圆周运动。缓慢拉绳使小球的圆周半径减小到 <i>r</i><sub>2</sub> = 0.2 m。求此时小球的速度 <i>v</i><sub>2</sub>、绳中张力 <i>T</i><sub>2</sub> 以及拉力所做的功 <i>W</i>。</div>
+  <div class="sol">
+    <p><strong>（1）受力分析</strong>：小球受重力、桌面支持力（均为铅直）和绳的张力。张力始终指向小孔 <i>O</i>，对 <i>O</i> 点的矩恒为零，属于<strong>有心力</strong>；铅直方向的力对 <i>O</i> 的矩也为零。</p>
+    <p><strong>（2）对 O 点动量矩守恒</strong>（含沿轴投影）：</p>
+    <div class="fml left"><span class="tag">a</span><p><i>m v</i><sub>1</sub><i>r</i><sub>1</sub> = <i>m v</i><sub>2</sub><i>r</i><sub>2</sub> ⟹ <i>v</i><sub>2</sub> = <i>v</i><sub>1</sub><i>r</i><sub>1</sub>/<i>r</i><sub>2</sub> = 2×0.5/0.2 = 5 m/s</p></div>
+    <p><strong>（3）绳张力</strong>（沿半径方向的加速度为 <i>v</i>²/<i>r</i>，由张力提供）：</p>
+    <div class="fml left"><span class="tag">b</span><p><i>T</i><sub>2</sub> = <i>m v</i><sub>2</sub>²/<i>r</i><sub>2</sub> = 0.1×25/0.2 = 12.5 N（对比 <i>T</i><sub>1</sub> = <i>m v</i><sub>1</sub>²/<i>r</i><sub>1</sub> = 0.8 N）</p></div>
+    <p><strong>（4）能量关系</strong>：绳张力（外力）做功，故机械能增加，用动能定理：</p>
+    <div class="fml left"><span class="tag">c</span><p><i>W</i> = ½<i>m v</i><sub>2</sub>² − ½<i>m v</i><sub>1</sub>² = ½×0.1×(25 − 4) = 1.05 J</p></div>
+    <p><strong>（5）结论与推广</strong>：有心力场中<strong>角动量守恒</strong>（开普勒第二定律的实质）与<strong>能量守恒</strong>（或动能定理）联立，是不含力矩积分即可求速度的标准套路。同一套路用于平方反比引力：卫星在近地点 <i>r</i><sub>1</sub>、远地点 <i>r</i><sub>2</sub> 处速度分别为 <i>v</i><sub>1</sub><i>r</i><sub>1</sub> = <i>v</i><sub>2</sub><i>r</i><sub>2</sub> 与 ½<i>mv</i><sub>1</sub>² − <i>GMm</i>/<i>r</i><sub>1</sub> = ½<i>mv</i><sub>2</sub>² − <i>GMm</i>/<i>r</i><sub>2</sub>，联立解得 <i>v</i><sub>1</sub> = √[2<i>GM r</i><sub>2</sub>/(<i>r</i><sub>1</sub>(<i>r</i><sub>1</sub>+<i>r</i><sub>2</sub>))]。</p>
+  </div>
+  <div class="ans">答：<i>v</i><sub>2</sub> = <i>v</i><sub>1</sub><i>r</i><sub>1</sub>/<i>r</i><sub>2</sub> = 5 m/s；<i>T</i><sub>2</sub> = 12.5 N；<i>W</i> = 1.05 J。</div>
+</div>
+<h2 id="s33">3.3 刚体定轴转动微分方程与转动惯量</h2>
+
+<div class="box key">
+  <span class="bt">一、定轴转动微分方程</span>
+  <p>对可简化为平面问题的定轴转动刚体，把质心运动定理与对转轴的动量矩定理联立：质心运动定理给出轴承约束力，对转轴的动量矩定理给出转动规律——</p>
+  <div class="fml"><span class="tag">3-7</span><p><i>J</i><sub>z</sub>ε = Σ<i>M</i><sub>z</sub>(<b>F</b><sup>(e)</sup>)&nbsp;&nbsp;或&nbsp;&nbsp;<i>J</i><sub>z</sub> d²φ/d<i>t</i>² = Σ<i>M</i><sub>z</sub>(<b>F</b><sup>(e)</sup>)</p></div>
+  <p>它与平动的 <i>m</i><b>a</b> = Σ<b>F</b> 完全平行：质量 <i>m</i> ↔ 转动惯量 <i>J</i><sub>z</sub>，加速度 <b>a</b> ↔ 角加速度 ε，力 ↔ 力矩。因此<strong>转动惯量就是刚体转动惯性的度量</strong>。</p>
+  <p>定轴转动也可看作平面运动的特殊情况，故式（3-7）也可由相对质心的动量矩定理导出。</p>
+</div>
+
+<div class="box def">
+  <span class="bt">二、转动惯量与平行轴定理</span>
+  <p>定义：<i>J</i><sub>z</sub> = Σ<i>m</i><sub>i</sub><i>r</i><sub>i</sub>²（<i>r</i><sub>i</sub> 为质点到 z 轴的距离），单位 kg·m²；工程上也用回转半径 ρ<sub>z</sub> 表示：<i>J</i><sub>z</sub> = <i>m</i>ρ<sub>z</sub>²。</p>
+  <div class="fml"><span class="tag">3-8</span><p>平行轴定理：<i>J</i><sub>z</sub> = <i>J</i><sub>C</sub> + <i>m d</i>²&nbsp;&nbsp;（z ∥ z<sub>C</sub>，两轴间距为 <i>d</i>）</p></div>
+  <p>由该式可知：在所有平行轴中，<strong>对过质心的轴转动惯量最小</strong>；组合体的转动惯量可逐块计算后相加（<i>J</i><sub>z</sub> = Σ<i>J</i><sub>zi</sub>），挖去部分按负质量处理。</p>
+  <table>
+    <tr><th>刚体（均质）</th><th class="c">转轴位置</th><th class="c">转动惯量</th><th>刚体（均质）</th><th class="c">转轴位置</th><th class="c">转动惯量</th></tr>
+    <tr><td>细直杆，长 <i>l</i></td><td class="c">过质心垂直杆</td><td class="c"><i>ml</i>²/12</td><td>细直杆，长 <i>l</i></td><td class="c">过端点垂直杆</td><td class="c"><i>ml</i>²/3</td></tr>
+    <tr><td>圆环／薄壁圆筒，半径 <i>R</i></td><td class="c">中心轴</td><td class="c"><i>mR</i>²</td><td>圆盘／实心圆柱，半径 <i>R</i></td><td class="c">中心轴</td><td class="c"><i>mR</i>²/2</td></tr>
+    <tr><td>圆盘／圆柱，半径 <i>R</i></td><td class="c">直径轴</td><td class="c"><i>mR</i>²/4</td><td>实心球，半径 <i>R</i></td><td class="c">直径轴</td><td class="c">2<i>mR</i>²/5</td></tr>
+    <tr><td>球壳，半径 <i>R</i></td><td class="c">直径轴</td><td class="c">2<i>mR</i>²/3</td><td>矩形板 <i>a</i>×<i>b</i></td><td class="c">过中心垂直板面</td><td class="c"><i>m</i>(<i>a</i>²+<i>b</i>²)/12</td></tr>
+  </table>
+</div>
+
+<div class="prob">
+  <div class="pt">例 3-4<span class="badge">课件原例</span>墙角圆盘：转动停止所需时间</div>
+  <div class="q">匀质圆盘半径 <i>R</i>、质量 <i>m</i>，放置于墙角（一面竖直墙、一面水平地面），初始角速度为 ω<sub>0</sub>。由于摩擦阻力使圆盘转动减速，圆盘与墙、与地面之间的摩擦因数均为 <i>f</i>，圆盘中心不动。试求使圆盘停止转动所需的时间。</div>
+  <div class="sol">
+    <p><strong>（1）受力分析与运动分析</strong>：圆盘 1 个自由度（绕质心 C 转动），2 个约束力未知。受力：重力 <i>mg</i>（向下）、竖直墙正压力 <i>N</i><sub>1</sub>（水平）、地面正压力 <i>N</i><sub>2</sub>（向上）、两处摩擦力 <i>F</i><sub>1</sub> = <i>f N</i><sub>1</sub>（竖直）、<i>F</i><sub>2</sub> = <i>f N</i><sub>2</sub>（水平）。质心不动，故 <b>a</b><sub>C</sub> = <b>0</b>。</p>
+    <p><strong>（2）质心运动定理</strong>（<i>x</i> 水平、<i>y</i> 铅直）：</p>
+    <div class="fml left"><span class="tag">a</span><p><i>x</i> 向：<i>N</i><sub>1</sub> − <i>F</i><sub>2</sub> = 0，&nbsp; <i>y</i> 向：<i>N</i><sub>2</sub> + <i>F</i><sub>1</sub> − <i>mg</i> = 0</p></div>
+    <p><strong>（3）力的补充方程</strong>（滑动摩擦）：<i>F</i><sub>1</sub> = <i>f N</i><sub>1</sub>，<i>F</i><sub>2</sub> = <i>f N</i><sub>2</sub>，代入（a）解得</p>
+    <div class="fml left"><span class="tag">b</span><p><i>N</i><sub>2</sub> = <i>mg</i>/(1+<i>f</i>²)，&nbsp; <i>N</i><sub>1</sub> = <i>f mg</i>/(1+<i>f</i>²)，&nbsp; <i>F</i><sub>1</sub> + <i>F</i><sub>2</sub> = <i>f mg</i>(1+<i>f</i>)/(1+<i>f</i>²)</p></div>
+    <p><strong>（4）对质心的动量矩定理</strong>（两处摩擦力的矩方向相同，均为阻力矩，力臂都是 <i>R</i>）：</p>
+    <div class="fml left"><span class="tag">c</span><p>½<i>mR</i>²ε = −<i>R</i>(<i>F</i><sub>1</sub>+<i>F</i><sub>2</sub>) ⟹ ε = −2<i>fg</i>(1+<i>f</i>)/[<i>R</i>(1+<i>f</i>²)]</p></div>
+    <p><strong>（5）积分求时间</strong>：ε 为常量，ω = ω<sub>0</sub> + ε<i>t</i>，令 ω = 0 得</p>
+    <div class="fml"><span class="tag">3-9</span><p><i>t</i> = ω<sub>0</sub>/|ε| = ω<sub>0</sub><i>R</i>(1+<i>f</i>²)/[2<i>fg</i>(1+<i>f</i>)]</p></div>
+    <p><strong>（6）讨论</strong>：<i>t</i> 与初角速度成正比、与摩擦因数近似成反比（注意式中 <i>f</i> 同时出现在分子与分母，摩擦因数过大时 <i>N</i><sub>1</sub> 增大反而使总阻力矩的增速变缓）。本题是「质心运动定理 + 对质心动量矩定理 + 摩擦补充方程」三件套的标准范例。</p>
+  </div>
+  <div class="ans">答：<i>t</i> = ω<sub>0</sub><i>R</i>(1+<i>f</i>²)/[2<i>fg</i>(1+<i>f</i>)]，单位 s。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 3-5<span class="badge o">补充</span>定滑轮—绳—物块系统</div>
+  <div class="q">定滑轮为匀质圆盘，质量 <i>M</i> = 4 kg、半径 <i>R</i> = 0.2 m，可绕光滑水平轴转动。绳绕在轮缘上，一端悬挂质量 <i>m</i> = 6 kg 的物块，绳不打滑、绳的质量不计。取 <i>g</i> = 9.8 m/s²。求物块下落的加速度 <i>a</i> 与绳中张力 <i>T</i>。</div>
+  <div class="sol">
+    <p><strong>（1）选系统与受力分析</strong>：绳不可伸长且不打滑，系统只有 1 个自由度。物块受重力 <i>mg</i> 与绳张力 <i>T</i>；滑轮受重力、轴承约束力、绳的拉力 <i>T</i>（绳两端张力相等，因绳质量不计且轮缘无摩擦）。</p>
+    <p><strong>（2）物块（平动，用牛顿第二定律）</strong>：</p>
+    <div class="fml left"><span class="tag">a</span><p><i>mg</i> − <i>T</i> = <i>ma</i></p></div>
+    <p><strong>（3）滑轮（定轴转动，用式 3-7）</strong>，<i>J</i><sub>O</sub> = ½<i>MR</i>²：</p>
+    <div class="fml left"><span class="tag">b</span><p>½<i>MR</i>²·ε = <i>T R</i></p></div>
+    <p><strong>（4）运动学补充方程</strong>（绳不打滑）：<i>a</i> = <i>R</i>ε，代入（b）得 <i>T</i> = ½<i>Ma</i>；再代入（a）：</p>
+    <div class="fml left"><span class="tag">c</span><p><i>mg</i> = (<i>m</i> + <i>M</i>/2)<i>a</i> ⟹ <i>a</i> = <i>mg</i>/(<i>m</i>+<i>M</i>/2) = 6×9.8/(6+2) = 7.35 m/s²</p></div>
+    <div class="fml left"><span class="tag">d</span><p><i>T</i> = <i>Mmg</i>/(2<i>m</i>+<i>M</i>) = 4×6×9.8/(12+4) = 14.7 N</p></div>
+    <p><strong>（5）讨论</strong>：<i>a</i> &lt; <i>g</i>，且 <i>T</i> = 14.7 N 远小于物块重量 58.8 N —— <strong>绳中张力不等于悬挂物重量</strong>，这是本章与上一章衔接处最容易失分的地方。若滑轮质量可忽略（<i>M</i> → 0），则 <i>a</i> → <i>g</i>、<i>T</i> → 0，退化为自由落体式结论。</p>
+  </div>
+  <div class="ans">答：<i>a</i> = 7.35 m/s²（向下），<i>T</i> = 14.7 N。</div>
+</div>
+
+<div class="step">
+  <strong>定轴转动刚体动力学解题步骤</strong>
+  <ol>
+    <li>确认刚体（或系统）的自由度，选取广义坐标 φ（或 <i>s</i>）。</li>
+    <li>受力分析：把每个约束力都画出来，特别注意摩擦力的方向由相对滑动趋势决定。</li>
+    <li>写方程：转动部分用 <i>J</i><sub>z</sub>ε = Σ<i>M</i><sub>z</sub>；需要求轴承约束力时再补质心运动定理。</li>
+    <li>补运动学关系：绳不打滑 <i>a</i> = <i>R</i>ε；摩擦用 <i>F</i> = <i>f N</i>；纯滚动用 <i>a</i><sub>C</sub> = <i>R</i>ε。</li>
+    <li>解出 ε（或 <i>a</i>）后按需积分求 ω、φ、时间，用初始条件定积分常数。</li>
+  </ol>
+</div>
+
+<h2 id="s34">3.4 刚体平面运动微分方程</h2>
+
+<div class="box key">
+  <span class="bt">一、平面运动微分方程（三个方程一套）</span>
+  <p>对可简化为平面问题的平面运动刚体，用「质心运动定理 + 相对质心动量矩定理」：</p>
+  <div class="fml"><span class="tag">3-10</span><p><i>m a</i><sub>Cx</sub> = Σ<i>F</i><sub>x</sub><sup>(e)</sup>，&nbsp; <i>m a</i><sub>Cy</sub> = Σ<i>F</i><sub>y</sub><sup>(e)</sup>，&nbsp; <i>J</i><sub>C</sub>ε = Σ<i>M</i><sub>C</sub>(<b>F</b><sup>(e)</sup>)</p></div>
+  <p>说明：① 取质心为动量矩的取矩点是关键，因为此时式（3-5）的修正项为零；② 平动刚体问题取 ε = 0，即退化为质点动力学；③ 定轴转动是它的特殊情况（质心到轴的距离不变）。</p>
+  <p><strong>纯滚动（只滚不滑）补充条件</strong>：<i>v</i><sub>C</sub> = <i>R</i>ω，<i>a</i><sub>C</sub> = <i>R</i>ε，摩擦力为静摩擦力（大小由方程解出，不能用 <i>f N</i> 硬套，只能用于检验是否打滑）。</p>
+</div>
+
+<div class="prob">
+  <div class="pt">例 3-6<span class="badge o">补充</span>圆柱沿斜面纯滚动：加速度与最小摩擦因数</div>
+  <div class="q">均质实心圆柱质量 <i>m</i>、半径 <i>R</i>，沿倾角 θ = 30° 的固定斜面由静止无滑动地滚下。取 <i>g</i> = 9.8 m/s²。求质心加速度 <i>a</i><sub>C</sub>、角加速度 ε、斜面对圆柱的摩擦力 <i>F</i><sub>f</sub>，以及保持纯滚动所需的最小摩擦因数 <i>f</i><sub>min</sub>。</div>
+  <div class="sol">
+    <p><strong>（1）受力分析</strong>：重力 <i>mg</i>（铅直向下）、斜面正压力 <i>N</i>（垂直斜面）、摩擦力 <i>F</i><sub>f</sub>（沿斜面向上，正是它提供转动的力矩）。坐标：<i>x</i> 轴沿斜面向下，<i>y</i> 轴垂直斜面向外。</p>
+    <p><strong>（2）平面运动微分方程</strong>（<i>J</i><sub>C</sub> = ½<i>mR</i>²）：</p>
+    <div class="fml left"><span class="tag">a</span><p><i>x</i> 向：<i>mg</i>sin θ − <i>F</i><sub>f</sub> = <i>m a</i><sub>C</sub>；&nbsp; <i>y</i> 向：<i>N</i> − <i>mg</i>cos θ = 0</p></div>
+    <div class="fml left"><span class="tag">b</span><p>对质心：<i>F</i><sub>f</sub><i>R</i> = ½<i>mR</i>²ε</p></div>
+    <p><strong>（3）纯滚动补充条件</strong>：<i>a</i><sub>C</sub> = <i>R</i>ε ⟹ <i>F</i><sub>f</sub> = ½<i>ma</i><sub>C</sub>，代入（a）：</p>
+    <div class="fml left"><span class="tag">c</span><p><i>mg</i>sin θ = (3/2)<i>ma</i><sub>C</sub> ⟹ <i>a</i><sub>C</sub> = (2/3)<i>g</i>sin θ = 3.27 m/s²</p></div>
+    <div class="fml left"><span class="tag">d</span><p>ε = <i>a</i><sub>C</sub>/<i>R</i>，&nbsp; <i>F</i><sub>f</sub> = (1/3)<i>mg</i>sin θ</p></div>
+    <p><strong>（4）检验是否打滑</strong>：<i>F</i><sub>f</sub> ≤ <i>f N</i> = <i>f mg</i>cos θ ⟹</p>
+    <div class="fml left"><span class="tag">e</span><p><i>f</i><sub>min</sub> = (1/3)tan θ = (1/3)×0.577 = 0.192</p></div>
+    <p><strong>（5）讨论</strong>：① 若换成薄壁圆筒（<i>J</i><sub>C</sub> = <i>mR</i>²），则 <i>a</i><sub>C</sub> = ½<i>g</i>sin θ、<i>F</i><sub>f</sub> = ½<i>mg</i>sin θ、<i>f</i><sub>min</sub> = ½tan θ——<strong>转动惯量越大，滚得越慢、越需要摩擦</strong>；② 斜面光滑时 <i>F</i><sub>f</sub> = 0，则 ε = 0，圆柱只滑不滚，<i>a</i><sub>C</sub> = <i>g</i>sin θ，这正回答课件开头「光滑面上圆盘有无转动」的问题。</p>
+  </div>
+  <div class="ans">答：<i>a</i><sub>C</sub> = (2/3)<i>g</i>sin θ = 3.27 m/s²，ε = 2<i>g</i>sin θ/(3<i>R</i>)，<i>F</i><sub>f</sub> = (1/3)<i>mg</i>sin θ，<i>f</i><sub>min</sub> = (1/3)tan θ = 0.192。</div>
+</div>
+
+<div class="box exam">
+  <span class="bt">本章高频考点小结</span>
+  <ul>
+    <li><strong>求动量矩</strong>：分清平移／定轴转动／平面运动三种算法（例 3-1）；定轴转动对转轴直接用 <i>J</i><sub>z</sub>ω。</li>
+    <li><strong>守恒类</strong>：<i>L</i><sub>z</sub> = 常数 ⟹ <i>J</i><sub>1</sub>ω<sub>1</sub> = <i>J</i><sub>2</sub>ω<sub>2</sub>（例 3-2、3-3）；有心力（力矩为零）是角动量守恒的典型场景。</li>
+    <li><strong>定轴转动动力学</strong>：<i>J</i><sub>z</sub>ε = Σ<i>M</i><sub>z</sub> 配上运动学补充条件（绳不打滑、纯滚动）（例 3-4、3-5）。</li>
+    <li><strong>平面运动动力学</strong>：三方程 + 补充条件，摩擦力是「由方程求出的未知量」而不是 <i>f N</i>（例 3-6）。</li>
+  </ul>
+</div>
+<hr class="pagebreak">
+
+<h2 id="tables">附录 A　两大定理统一形式对照表</h2>
+
+<table>
+  <tr>
+    <th style="width:14%">定理</th>
+    <th style="width:24%">微分形式</th>
+    <th style="width:20%">积分形式</th>
+    <th style="width:20%">守恒条件</th>
+    <th>典型问题</th>
+  </tr>
+  <tr>
+    <td><strong>动量定理</strong><br>（质点系）</td>
+    <td>d<b>p</b>/d<i>t</i> = Σ<b>F</b><sup>(e)</sup><br>质心式：<i>m</i><b>a</b><sub>C</sub> = Σ<b>F</b><sup>(e)</sup><br>（<b>p</b> = <i>m</i><b>v</b><sub>C</sub>）</td>
+    <td><b>p</b><sub>2</sub> − <b>p</b><sub>1</sub> = <b>I</b> = Σ∫<b>F</b>d<i>t</i><br>定常质量流：<br>Σ<b>F</b> = <i>q</i><sub>m</sub>(<b>v</b><sub>2</sub> − <b>v</b><sub>1</sub>)</td>
+    <td>Σ<b>F</b><sup>(e)</sup> = <b>0</b> ⟹ <b>p</b> = 常矢量<br>某轴：Σ<i>F</i><sub>x</sub> = 0 ⟹ <i>p</i><sub>x</sub> = 常量<br>质心守恒：初静止则 <b>r</b><sub>C</sub> 不变</td>
+    <td>碰撞与冲击、求平均冲击力；流体／颗粒的动量变化与附加动约束力；由质心运动定理求支座、螺栓、轴承约束力；求质心运动规律</td>
+  </tr>
+  <tr>
+    <td><strong>动量矩定理</strong><br>（质点系）</td>
+    <td>d<b>L</b><sub>O</sub>/d<i>t</i> = Σ<b>M</b><sub>O</sub>(<b>F</b><sup>(e)</sup>)<br>对质心：d<b>L</b><sub>C</sub>/d<i>t</i> = Σ<b>M</b><sub>C</sub><br>定轴：<i>J</i><sub>z</sub>ε = Σ<i>M</i><sub>z</sub></td>
+    <td><b>L</b><sub>2</sub> − <b>L</b><sub>1</sub> = Σ∫<b>M</b><sub>O</sub>d<i>t</i><br>（冲量矩／角冲量）</td>
+    <td>Σ<b>M</b><sub>O</sub>(<b>F</b><sup>(e)</sup>) = <b>0</b> ⟹ <b>L</b><sub>O</sub> = 常矢量<br>某轴：Σ<i>M</i><sub>z</sub> = 0 ⟹ <i>L</i><sub>z</sub> = 常量<br>力矩为零的四种取矩点（见 3.1）</td>
+    <td>定轴转动刚体动力学（绳—滑轮—物块、机房卷扬）；平面运动刚体（纯滚动）；角动量守恒求 ω、<i>v</i>；有心力场（行星、圆锥摆、绳绕柱）；冲击类问题的冲量矩</td>
+  </tr>
+  <tr>
+    <td><strong>动能定理</strong><br><span class="badge">后续章节，仅作对照</span></td>
+    <td>d<i>T</i> = Σδ<i>W</i><sub>i</sub><br>（<i>T</i> 为系统动能）</td>
+    <td><i>T</i><sub>2</sub> − <i>T</i><sub>1</sub> = Σ<i>W</i><sub>i</sub></td>
+    <td>只有势力做功：<i>T</i> + <i>V</i> = 常量<br>（机械能守恒）</td>
+    <td>已知力与路径求速度、位移；与动量矩守恒联立解有心力轨道问题（本章例 3-3 第(4)步仅用到这一条结论）</td>
+  </tr>
+</table>
+
+<div class="box note">
+  <span class="bt">一张图记住三者的分工</span>
+  <p>三个定理都是「把牛顿第二定律做一次积累」，区别只在<strong>用什么去积累、积累了得到什么</strong>：</p>
+  <ul>
+    <li>力对<strong>时间</strong>的积累（冲量）→ 改变<strong>动量</strong>（矢量式，2～3 个投影方程）；</li>
+    <li>力矩对<strong>时间</strong>的积累（冲量矩）→ 改变<strong>动量矩</strong>（矢量式，对点 3 个／对轴 1 个方程）；</li>
+    <li>力对<strong>路径</strong>的积累（功）→ 改变<strong>动能</strong>（标量式，只有 1 个方程）。</li>
+  </ul>
+  <p>因此：<strong>求未知力（约束力）优先用动量定理（质心运动定理）；求转动规律优先用动量矩定理；只要问「速度多大、转多快、能否到达」先看守恒条件。</strong></p>
+</div>
+
+<h2 id="types">附录 B　本章常考题型与解题步骤</h2>
+
+<table>
+  <tr><th style="width:20%">题型</th><th style="width:26%">识别特征</th><th style="width:24%">首选方程</th><th>解题步骤要点</th></tr>
+  <tr>
+    <td>求系统动量／动量矩</td>
+    <td>给出各刚体质量与运动量（ω、<i>v</i><sub>C</sub>），要求写出 <b>p</b> 或 <b>L</b><sub>O</sub> 的表达式</td>
+    <td><b>p</b> = <i>m</i><b>v</b><sub>C</sub>；平移 <i>L</i> = <i>mvd</i>；定轴 <i>L</i><sub>z</sub> = <i>J</i><sub>z</sub>ω；平面运动 <i>L</i><sub>O</sub> = <i>J</i><sub>C</sub>ω + <b>r</b><sub>C</sub>×<i>m</i><b>v</b><sub>C</sub></td>
+    <td>① 定坐标与正负号；② 逐刚体判断运动形式（平移／定轴／平面）；③ 定轴转动只算 <i>J</i><sub>z</sub>ω，平移只算 <i>mvd</i>，别重复计算；④ 合成时按矢量加</td>
+  </tr>
+  <tr>
+    <td>求约束力（含附加动约束力）</td>
+    <td>已知运动求支座、螺栓、轴承、绳的力</td>
+    <td><i>m</i><b>a</b><sub>C</sub> = Σ<b>F</b><sup>(e)</sup>（整体为研究对象）</td>
+    <td>① 取整体为研究对象，内外力一次分清（内力不出现）；② 逐个刚体做运动分析、写出质心加速度；③ 投影列方程、解未知约束力；④ 流体问题把约束力拆成静约束力 + 附加动约束力 <i>q</i><sub>m</sub>(<b>v</b><sub>2</sub>−<b>v</b><sub>1</sub>)</td>
+  </tr>
+  <tr>
+    <td>已知力求运动</td>
+    <td>给出力或力矩，求 <i>a</i>、ε、ω(<i>t</i>)、φ(<i>t</i>)、时间</td>
+    <td>质心运动定理 + <i>J</i><sub>z</sub>ε = Σ<i>M</i><sub>z</sub>（或平面运动三方程）</td>
+    <td>① 判自由度、选广义坐标；② 列微分方程；③ 补运动学关系（<i>a</i> = <i>R</i>ε、纯滚动 <i>a</i><sub>C</sub> = <i>R</i>ε、摩擦 <i>F</i> = <i>fN</i>）；④ 解出 ε 后积分，用初始条件定常数</td>
+  </tr>
+  <tr>
+    <td>守恒类（求速度／角度／位移）</td>
+    <td>出现「水平方向不受力」「光滑水平面」「转轴光滑」「有心力」「绳突然绷紧」</td>
+    <td>Σ<i>F</i><sub>x</sub> = 0 ⟹ <i>p</i><sub>x</sub> 守恒；Σ<i>M</i><sub>z</sub> = 0 ⟹ <i>L</i><sub>z</sub> 守恒</td>
+    <td>① 先判断哪个方向、对哪一点的矩为零；② 写出守恒方程（同时刻的初、末状态）；③ 只有一个未知量时可直接求解；④ 需要两个未知量时与能量积分联立（如例 3-3）</td>
+  </tr>
+  <tr>
+    <td>定轴转动系统（绳—滑轮—物块）</td>
+    <td>轮轴 + 绳 + 物块；常问绳张力、角加速度、物体加速度</td>
+    <td>对轮：<i>J</i><sub>O</sub>ε = Σ<i>M</i><sub>O</sub>；对物块：牛顿第二定律；绳不打滑 <i>a</i> = <i>R</i>ε</td>
+    <td>① 绳张力<strong>不能</strong>默认等于物重；② 绳质量不计时轮两侧张力相等；③ 联立消去 <i>T</i> 得 <i>a</i>，再回代求 <i>T</i>；④ 求出 <i>a</i> 后检验极限情形（<i>M</i>→0 时 <i>a</i>→<i>g</i>）</td>
+  </tr>
+  <tr>
+    <td>平面运动刚体（纯滚动）</td>
+    <td>圆柱／圆盘在斜面或水平面上只滚不滑</td>
+    <td>三方程 + <i>a</i><sub>C</sub> = <i>R</i>ε</td>
+    <td>① 摩擦力方向先假设，解出为负再改向；② 静摩擦力<strong>不能</strong>用 <i>fN</i> 直接代入，只能用来检验是否打滑；③ 转动惯量越大，滚动越慢（圆环 &lt; 圆盘 &lt; 球）</td>
+  </tr>
+  <tr>
+    <td>流体的动量变化</td>
+    <td>射流冲击平板／斜板／叶片，管道弯管、喷嘴、变径管，已知流量与压力</td>
+    <td>Σ<b>F</b> = <i>q</i><sub>m</sub>(<b>v</b><sub>2</sub> − <b>v</b><sub>1</sub>)，<i>q</i><sub>m</sub> = ρ<i>Av</i></td>
+    <td>① 取<strong>控制体积</strong>并画受力图：压力项（入出口截面）＋重力＋约束力；② 用连续性方程 <i>A</i><sub>1</sub><i>v</i><sub>1</sub> = <i>A</i><sub>2</sub><i>v</i><sub>2</sub> 把两个速度都算出；③ 沿流向投影列方程；④ 流体受到的力与固壁受到的力大小相等方向相反，答话要说清「谁对谁」</td>
+  </tr>
+  <tr>
+    <td>变质量系统</td>
+    <td>落链落到秤台／台面、传送带装料、火箭喷气、洒水车、绳子被拉起</td>
+    <td><i>m</i> d<b>v</b>/d<i>t</i> = Σ<b>F</b> + (<b>v</b><sub>1</sub> − <b>v</b>) d<i>m</i>/d<i>t</i></td>
+    <td>① 明确研究对象的<strong>边界</strong>（含哪些质量）与增减情况；② 找对「并入／分出部分的速度 <b>v</b><sub>1</sub>」——它一般不等于 <b>v</b>，这正是附加力项的来源；③ 火箭用喷气相对速度 <i>u</i> 写方程并积分得 <i>v</i> = <i>v</i><sub>0</sub> + <i>u</i>ln(<i>m</i><sub>0</sub>/<i>m</i>)；④ 落链接地问题速度突变为零，用微分形式的动量定理比用动能定理更稳妥</td>
+  </tr>
+  <tr>
+    <td>有心力与角动量守恒</td>
+    <td>行星轨道、绳绕过竖直轴、圆锥摆、行星运动的 <i>r</i>、<i>v</i>、<i>θ</i> 关系</td>
+    <td><i>L</i><sub>O</sub> = <b>r</b>×<i>m</i><b>v</b> = 常矢量（力矩为零）</td>
+    <td>① 先证明力矩为零（力与矢径共线）；② 写出 <i>r</i><sub>1</sub><i>v</i><sub>1</sub>sin α<sub>1</sub> = <i>r</i><sub>2</sub><i>v</i><sub>2</sub>sin α<sub>2</sub>；③ 需要第二个方程时联立能量守恒；④ 圆锥摆问题用「法向投影式 <i>m</i><b>a</b><sub>n</sub> = Σ<i>F</i><sub>n</sub> + 角动量守恒」最快</td>
+  </tr>
+  <tr>
+    <td>冲击／碰撞类</td>
+    <td>两轴离合器、子弹打杆、锤击、绳突然绷紧</td>
+    <td>动量矩的积分形式：<i>L</i><sub>2</sub> − <i>L</i><sub>1</sub> = Σ冲量矩</td>
+    <td>① 取对同一轴、同一取矩点写方程；② 冲击过程极短，非冲击力（重力等）的冲量忽略；③ 判断是「完全非弹性」（共速）还是「弹性」（有恢复）；④ 有固定轴的碰撞问题用对轴的 <i>L</i><sub>z</sub> 守恒或冲量矩定理，避免出现轴的反力冲量</td>
+  </tr>
+</table>
+
+<div class="box key">
+  <span class="bt">考前 10 分钟必背清单</span>
+  <div class="fml left"><span class="tag">1</span><p><b>p</b> = Σ<i>m</i><sub>i</sub><b>v</b><sub>i</sub> = <i>m</i><b>v</b><sub>C</sub>&nbsp;&nbsp;|&nbsp;&nbsp;d<b>p</b>/d<i>t</i> = Σ<b>F</b><sup>(e)</sup>&nbsp;&nbsp;|&nbsp;&nbsp;<b>p</b><sub>2</sub> − <b>p</b><sub>1</sub> = <b>I</b></p></div>
+  <div class="fml left"><span class="tag">2</span><p><i>m</i><b>a</b><sub>C</sub> = Σ<b>F</b><sup>(e)</sup>&nbsp;&nbsp;|&nbsp;&nbsp;Σ<b>F</b> = 0 且初速为零 ⟹ 质心位置不变</p></div>
+  <div class="fml left"><span class="tag">3</span><p><i>q</i><sub>m</sub> = ρ<i>Av</i>&nbsp;&nbsp;|&nbsp;&nbsp;Σ<b>F</b> = <i>q</i><sub>m</sub>(<b>v</b><sub>2</sub> − <b>v</b><sub>1</sub>)&nbsp;&nbsp;|&nbsp;&nbsp;<b>F</b><sub>Nd</sub> = ρ<i>q</i><sub>V</sub>(<b>v</b><sub>2</sub> − <b>v</b><sub>1</sub>)</p></div>
+  <div class="fml left"><span class="tag">4</span><p><i>m</i> d<b>v</b>/d<i>t</i> = Σ<b>F</b> + (<b>v</b><sub>1</sub> − <b>v</b>)d<i>m</i>/d<i>t</i>&nbsp;&nbsp;|&nbsp;&nbsp;<i>v</i> = <i>v</i><sub>0</sub> + <i>u</i>ln(<i>m</i><sub>0</sub>/<i>m</i>)</p></div>
+  <div class="fml left"><span class="tag">5</span><p><b>L</b><sub>O</sub> = <b>r</b>×<i>m</i><b>v</b>&nbsp;&nbsp;|&nbsp;&nbsp;d<b>L</b><sub>O</sub>/d<i>t</i> = Σ<b>M</b><sub>O</sub>(<b>F</b><sup>(e)</sup>)&nbsp;&nbsp;|&nbsp;&nbsp;d<b>L</b><sub>C</sub>/d<i>t</i> = Σ<b>M</b><sub>C</sub></p></div>
+  <div class="fml left"><span class="tag">6</span><p>平移 <i>L</i><sub>O</sub> = <i>mvd</i>&nbsp;&nbsp;|&nbsp;&nbsp;定轴 <i>L</i><sub>z</sub> = <i>J</i><sub>z</sub>ω&nbsp;&nbsp;|&nbsp;&nbsp;平面运动 <i>L</i><sub>O</sub> = <i>J</i><sub>C</sub>ω + <b>r</b><sub>C</sub>×<i>m</i><b>v</b><sub>C</sub></p></div>
+  <div class="fml left"><span class="tag">7</span><p><i>J</i><sub>z</sub>ε = Σ<i>M</i><sub>z</sub>(<b>F</b><sup>(e)</sup>)&nbsp;&nbsp;|&nbsp;&nbsp;<i>J</i><sub>z</sub> = <i>J</i><sub>C</sub> + <i>md</i>²&nbsp;&nbsp;|&nbsp;&nbsp;<i>J</i><sub>z</sub> = <i>m</i>ρ<sub>z</sub>²</p></div>
+  <div class="fml left"><span class="tag">8</span><p><i>m a</i><sub>Cx</sub> = Σ<i>F</i><sub>x</sub>，<i>m a</i><sub>Cy</sub> = Σ<i>F</i><sub>y</sub>，<i>J</i><sub>C</sub>ε = Σ<i>M</i><sub>C</sub>；纯滚动 <i>a</i><sub>C</sub> = <i>R</i>ε</p></div>
+</div>
+
+<div class="box warn">
+  <span class="bt">易错点提醒（阅卷常见扣分处）</span>
+  <ul>
+    <li>把「动量」当成标量：动量、动量矩都是矢量，投影时先定正方向，答案中负号要有物理解释。</li>
+    <li>用质心运动定理时忘了「整体为研究对象」：只取一个物体、写错外力，是最常见的错误。</li>
+    <li>绳中张力直接写成物重 <i>mg</i>：有质量的滑轮、有加速度的系统都不成立（见例 3-5）。</li>
+    <li>纯滚动问题里用 <i>F</i><sub>f</sub> = <i>fN</i> 直接代入：静摩擦力大小应由方程解出，<i>f</i> 只用于检验是否打滑。</li>
+    <li>平行轴定理用错轴：必须是「过质心的轴」与其他轴的平行关系，<i>d</i> 是两轴之间的垂直距离。</li>
+    <li>流体问题漏掉压力项：弯管、喷嘴类题目中入出口的压力 <i>p</i><sub>1</sub><i>A</i><sub>1</sub>、<i>p</i><sub>2</sub><i>A</i><sub>2</sub> 必须进入控制体的受力分析。</li>
+    <li>变质量问题的研究对象边界不清：先写清「研究哪部分质量」，再判断并入／分出部分的速度 <b>v</b><sub>1</sub>，否则附加力项符号必错。</li>
+    <li>守恒条件没说清就写守恒：要写明「对哪一点、沿哪个方向、为什么力矩为零」。</li>
+  </ul>
+</div>
+
+<div class="box exam">
+  <span class="bt">三句话收束全章</span>
+  <p>① <strong>外力主矢</strong>决定质心怎么动（动量定理／质心运动定理）；② <strong>外力主矩</strong>决定绕质心怎么转（动量矩定理）；③ 外力为零或力矩为零时，对应的动量、动量矩就<strong>守恒</strong>——把这三句话记牢，本章所有题目都能找到入口。</p>
+</div>
+
+</body>
+</html>

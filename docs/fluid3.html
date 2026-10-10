@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>流体力学A2 第3章 一元流体动力学基础</title>
+<style>
+/* ===================================================================
+   复习讲义 公共样式表  (review/shared/handout.css)
+   A4 打印友好 · 简洁明了 · 与所有讲义共用，保证风格统一
+   =================================================================== */
+@page { size: A4; margin: 14mm 13mm 12mm 13mm; }
+
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  font-size: 10.2pt;
+  line-height: 1.62;
+  color: #1b1b1b;
+  background: #fff;
+}
+p { margin: 0.38em 0; text-align: justify; }
+strong { color: #0b3d69; }
+em { font-style: normal; color: #b4451f; }
+
+/* ---------------- 封面 ---------------- */
+.cover { border: 2px solid #0b4f8a; border-radius: 6px; padding: 16px 18px; margin-bottom: 14px; }
+.cover .kicker { font-size: 9.5pt; letter-spacing: 2px; color: #0b4f8a; font-weight: bold; }
+.cover h1 { font-size: 21pt; margin: 4px 0 6px 0; color: #0b3d69; border: none; background: none; padding: 0; }
+.cover .sub { font-size: 10.5pt; color: #444; }
+.cover .meta { margin-top: 8px; font-size: 9.2pt; color: #666; border-top: 1px dashed #b9cfe2; padding-top: 6px; }
+
+/* ---------------- 标题层级 ---------------- */
+h1 { font-size: 15pt; color: #fff; background: #0b4f8a; margin: 14px 0 8px 0; padding: 6px 12px; border-radius: 3px; line-height: 1.35; }
+h2 { font-size: 12.8pt; color: #0b4f8a; margin: 13px 0 5px 0; padding: 3px 0 3px 9px; border-left: 5px solid #0b4f8a; background: #eef4fa; }
+h3 { font-size: 11pt; color: #0a3f6e; margin: 10px 0 4px 0; padding-bottom: 1px; border-bottom: 1.5px solid #c3d8ea; }
+h4 { font-size: 10.3pt; color: #14507f; margin: 8px 0 3px 0; }
+.lead { color: #555; font-size: 9.3pt; margin: -2px 0 7px 0; }
+
+/* ---------------- 提示盒 ---------------- */
+.box { border-radius: 4px; padding: 6px 10px; margin: 7px 0; page-break-inside: avoid; }
+.box > .bt { display: block; font-weight: bold; margin-bottom: 2px; }
+.key  { background: #eef4fa; border-left: 4px solid #0b4f8a; } .key > .bt  { color: #0b4f8a; }
+.def  { background: #f3f9f1; border-left: 4px solid #3d8b40; } .def > .bt  { color: #2e6b31; }
+.warn { background: #fdf2ee; border-left: 4px solid #c0492b; } .warn > .bt { color: #a83c21; }
+.exam { background: #fffaf0; border-left: 4px solid #c8912a; } .exam > .bt { color: #8f6410; }
+.note { background: #f6f6f6; border-left: 4px solid #999; }    .note > .bt { color: #555; }
+
+/* ---------------- 公式 ---------------- */
+.fml {
+  font-family: "Cambria Math", "Times New Roman", "Microsoft YaHei", serif;
+  background: #fbfbfb; border: 1px solid #e2e2e2; border-radius: 3px;
+  padding: 5px 10px; margin: 6px 0; text-align: center; font-size: 11pt;
+  page-break-inside: avoid;
+}
+.fml.left { text-align: left; }
+.fml .tag { float: right; color: #888; font-size: 9pt; }
+i, var { font-family: "Cambria Math", "Times New Roman", serif; font-style: italic; }
+sub, sup { font-size: 0.72em; }
+
+/* ---------------- 表格 ---------------- */
+table { border-collapse: collapse; width: 100%; margin: 7px 0; font-size: 9.4pt; page-break-inside: avoid; }
+th, td { border: 1px solid #c8d6e2; padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: #e8f1f9; color: #0b3d69; font-weight: bold; }
+tr:nth-child(even) td { background: #fafcfe; }
+td.c, th.c { text-align: center; }
+
+/* ---------------- 例题 / 习题 ---------------- */
+.prob { border: 1px solid #d9e6f2; border-left: 4px solid #4a90c4; border-radius: 4px; padding: 7px 10px; margin: 9px 0; page-break-inside: avoid; background: #fcfdff; }
+.prob > .pt { font-weight: bold; color: #0b4f8a; margin-bottom: 3px; }
+.prob .q { margin: 3px 0; }
+.prob .sol { margin-top: 4px; }
+.prob .ans { background: #fff6d9; border-radius: 3px; padding: 3px 7px; margin-top: 4px; font-weight: bold; color: #8a5a00; }
+ol, ul { margin: 4px 0 4px 1.5em; padding: 0; }
+li { margin: 2px 0; }
+.step { margin-left: 1.1em; }
+
+/* ---------------- 图片 ---------------- */
+figure { margin: 8px 0; text-align: center; page-break-inside: avoid; }
+figure img { max-width: 100%; border: 1px solid #dcdcdc; border-radius: 3px; }
+figcaption { font-size: 8.8pt; color: #666; margin-top: 3px; }
+
+/* ---------------- 其他 ---------------- */
+.pagebreak { page-break-before: always; }
+.toc { background: #f7fafd; border: 1px solid #d9e6f2; border-radius: 4px; padding: 8px 12px; margin: 8px 0 12px 0; }
+.toc ol { margin-left: 1.2em; }
+.toc a { color: #0b3d69; text-decoration: none; }
+.badge { display: inline-block; background: #0b4f8a; color: #fff; border-radius: 3px; padding: 0 6px; font-size: 8.8pt; margin-right: 4px; }
+.badge.g { background: #3d8b40; } .badge.o { background: #c8912a; } .badge.r { background: #c0492b; }
+hr { border: none; border-top: 1px dashed #c3d8ea; margin: 12px 0; }
+
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="kicker">流体力学 A2 · 期末复习讲义</div>
+  <h1>第 3 章　一元流体动力学基础</h1>
+  <div class="sub">描述流体运动的两种方法 · 定常与非定常 · 流线与迹线 · 一元流动模型 · 连续性方程 · 恒定元流能量方程 · 过流断面压强分布 · 恒定总流能量方程式 · 能量方程的应用 · 总水头线与测压管水头线</div>
+  <div class="meta">
+    对应课件：《流体力学A2_第3章_一元流体动力学基础-3.1-3.6》共 97 页（P6–P97 为 3.1–3.6 节）、《流体力学A2_第3章_一元流体动力学基础-3.7-3.10》共 68 页（P4–P68 为 3.7–3.10 节）｜
+    节次编排以课件为准：3.1 描述流体运动的方法 → 3.2 定常流动和非定常流动 → 3.3 流线和迹线 → 3.4 一元流动模型 → 3.5 连续性方程 → 3.6 恒定元流能量方程 → 3.7 过流断面的压强分布 → 3.8 恒定总流能量方程式 → 3.9 能量方程的应用 → 3.10 总水头线和测压管水头线｜
+    正文覆盖 3.1–3.10；附录 A 给出三大方程对照速查与解题流程，附录 B 补充「恒定流动量方程（课件 3.13 节内容）」要点与例题，供期末联动复习。
+  </div>
+</div>
+
+<div class="toc">
+  <strong>本讲内容</strong>
+  <ol>
+    <li>描述流体运动的方法（预备知识 · 拉格朗日法 · 欧拉法 · 质点导数 · 两种方法对比）</li>
+    <li>定常流动和非定常流动（判据 · 相对性 · 与坐标系的关系）</li>
+    <li>流线和迹线（迹线 · 流线 · 染色线 · 流管与流量）</li>
+    <li>一元流动模型（元流 · 总流 · 过流断面 · 断面平均流速）</li>
+    <li>连续性方程（可压缩与不可压缩 · 分支管路）</li>
+    <li>恒定元流能量方程（系统与控制体 · 功能原理推导 · 物理与几何意义 · 小孔出流与皮托管）</li>
+    <li>过流断面的压强分布（均匀流 · 渐变流与急变流 · 弯管流量计）</li>
+    <li>恒定总流能量方程式（三类积分 · 动能修正系数 α · 适用条件 · 泵与水轮机）</li>
+    <li>能量方程的应用（文丘里流量计 · 气蚀校核 · 虹吸 · 泵与管路）</li>
+    <li>总水头线和测压管水头线（画法 · 沿程损失与局部损失 · 四线关系）</li>
+    <li>附录 A：三大方程对照速查表 + 解题流程图</li>
+    <li>附录 B：恒定流动量方程（3.13 节）要点与典型题</li>
+    <li>补充练习 6 道（含完整解答）</li>
+  </ol>
+</div>
+
+<div class="box key"><div class="bt">全章主线：一条定理、三个方程、四个水头</div>
+<p><strong>一条定理</strong>——质量守恒、能量守恒（功能原理）、动量守恒三条守恒定律在一元流动中的具体化。<strong>三个方程</strong>——连续性方程（§3.5）、能量方程/伯努利方程（§3.6 元流 → §3.8 总流）、动量方程（课件 3.13 节，见附录 B）。<strong>四个水头</strong>——位置水头 <i>z</i>、压强水头 <i>p</i>/γ、速度水头 <i>v</i><sup>2</sup>/2<i>g</i>、水头损失 <i>h</i><sub><i>w</i></sub>。</p>
+<p>课件的逻辑链是：<em>先建立描述流动的语言</em>（§3.1–3.4）→ <em>再用守恒定律写方程</em>（§3.5 连续性、§3.6–3.8 能量）→ <em>最后用方程解决工程问题并图形化</em>（§3.9–3.10）。复习时凡遇到"套不上公式"，绝大多数是<strong>断面没取在渐变流处</strong>或<strong>基准面/压强基准不统一</strong>。</p>
+</div>
+
+<h1>1　描述流体运动的方法（课件 3.1）</h1>
+<p class="lead">课件 3.1 节共 32 页（P6–P32），是整章的"语言课"：先补齐研究流动所必需的力学与场的概念，再给出拉格朗日、欧拉两套描述方法，并把欧拉法与质点导数（物质导数）配套建立起来。</p>
+
+<h2>1.1　预备知识：质点受力与流体动压强</h2>
+
+<h3>1.1.1　流体质点所受的力</h3>
+<div class="box def"><div class="bt">两种分类（概念题高频）</div>
+<p><span class="badge">按作用方式</span><strong>质量力</strong>（与质量成正比、作用于每一个质点上，如重力、惯性力）与<strong>表面力</strong>（与作用面积成正比，如压力、切应力）。</p>
+<p><span class="badge g">按物理意义</span><strong>惯性力</strong>——由质点本身的流速变化所产生；<strong>粘性力</strong>——由流层与流层之间、质点与质点之间存在流速差异所引起。</p>
+<p>课件原话："流体由静到动，就会产生惯性力、粘性力，这两种力由流速在空间的分布和随时间的变化所决定。"这句话正是 §3.1 要引入速度场的根本原因——<strong>流速场的分布决定了流体所受力</strong>。</p>
+</div>
+
+<h3>1.1.2　流体动压强</h3>
+<div class="fml"><span class="tag">课件 P7、P8</span>
+<p><i>p</i><sub><i>xx</i></sub> + <i>p</i><sub><i>yy</i></sub> + <i>p</i><sub><i>zz</i></sub> = <i>p</i><sub>ξξ</sub> + <i>p</i><sub>ηη</sub> + <i>p</i><sub>ζζ</sub> = 常量，&nbsp;&nbsp; 粘性流体：<i>p</i> = (1/3)(<i>p</i><sub><i>xx</i></sub> + <i>p</i><sub><i>yy</i></sub> + <i>p</i><sub><i>zz</i></sub>)</p>
+</div>
+<ul>
+  <li>任何一点在三个正交方向的压强的<strong>平均值是一个常数</strong>，不随这三个正交方向的选取而改变，该平均值即该点的压强值。</li>
+  <li>下角标约定：<strong>第一个下角标表示作用面的方位，第二个表示应力的方向</strong>（如 <i>p</i><sub><i>xy</i></sub> 为作用在 <i>x</i> 面上、沿 <i>y</i> 方向的应力）。</li>
+  <li>无粘性流体动压强 <i>p</i> = <i>p</i>(<i>x</i>, <i>y</i>, <i>z</i>, <i>t</i>)；粘性流体 <i>p</i><sub><i>xx</i></sub> ≠ <i>p</i><sub><i>yy</i></sub> ≠ <i>p</i><sub><i>zz</i></sub>，取三者平均为动压强。</li>
+  <li>课件特别声明：<strong>流体流动时的压强和流体静压强，一律称为压强</strong>（不再分"静压强/动压强"两套名字）。</li>
+</ul>
+
+<h3>1.1.3　场与流场</h3>
+<p><strong>场（field）</strong>：布满了某种物理量的空间，且该物理量光滑连续。<strong>流场</strong>：充满运动的连续流体的空间，流场中每个流体质点均有确定的运动要素。流体的运动参数包括速度 <i>u</i>、加速度 <i>a</i>、压强 <i>p</i>、密度 ρ、温度 <i>T</i>、力 <i>F</i> 等。课件 P4 的学习目标给出了本章的"总纲"：</p>
+<div class="fml"><span class="tag">课件 P4</span>
+<p>ρ = ρ(<i>x</i>,<i>y</i>,<i>z</i>,<i>t</i>)，&nbsp; <i>p</i> = <i>p</i>(<i>x</i>,<i>y</i>,<i>z</i>,<i>t</i>)，&nbsp; <b>V</b> = <b>V</b>(<i>x</i>,<i>y</i>,<i>z</i>,<i>t</i>)，&nbsp; <i>T</i> = <i>T</i>(<i>x</i>,<i>y</i>,<i>z</i>,<i>t</i>)</p>
+</div>
+<p>求解流体流动问题实际上就是求解上述函数的问题——<strong>函数一旦确定，流动即确定</strong>。</p>
+
+<h2>1.2　拉格朗日法（随体法、质点法）</h2>
+<p><strong>着眼点</strong>：跟踪每一个流体质点，通过追踪每个质点的运动历程来获得整个流场的运动规律（课件用"警察抓小偷""长时间曝光"作比喻）。<i>t</i> = <i>t</i><sub>0</sub> 时各质点处于不同位置，用初始坐标 (<i>a</i>, <i>b</i>, <i>c</i>) 作为区分不同质点的"标签"，任一质点的轨迹为</p>
+<div class="fml"><span class="tag">拉格朗日表达式</span>
+<p><b>S</b> = <b>S</b>(<i>a</i>,<i>b</i>,<i>c</i>,<i>t</i>)：&nbsp;&nbsp; <i>x</i> = <i>x</i>(<i>a</i>,<i>b</i>,<i>c</i>,<i>t</i>)，&nbsp; <i>y</i> = <i>y</i>(<i>a</i>,<i>b</i>,<i>c</i>,<i>t</i>)，&nbsp; <i>z</i> = <i>z</i>(<i>a</i>,<i>b</i>,<i>c</i>,<i>t</i>)</p>
+</div>
+<p>(<i>a</i>, <i>b</i>, <i>c</i>, <i>t</i>) 称为<strong>拉格朗日变数</strong>。两种读法：①(<i>a</i>, <i>b</i>, <i>c</i>) 取定 → 上式代表<strong>该质点的运动轨迹（迹线）</strong>；②<i>t</i> 取定 → 代表 <i>t</i> 时刻各流体质点的位置分布。</p>
+<p>由于 (<i>a</i>, <i>b</i>, <i>c</i>) 与 <i>t</i> 无关，速度与加速度就是轨迹对时间的偏导数：</p>
+<div class="fml"><span class="tag">速度、加速度</span>
+<p><b>V</b> = ∂<b>S</b>/∂<i>t</i>：&nbsp; <i>u</i> = ∂<i>x</i>/∂<i>t</i>，&nbsp; <i>v</i> = ∂<i>y</i>/∂<i>t</i>，&nbsp; <i>w</i> = ∂<i>z</i>/∂<i>t</i></p>
+<p><b>a</b> = ∂<sup>2</sup><b>S</b>/∂<i>t</i><sup>2</sup>：&nbsp; <i>a</i><sub><i>x</i></sub> = ∂<i>u</i>/∂<i>t</i> = ∂<sup>2</sup><i>x</i>/∂<i>t</i><sup>2</sup>，&nbsp; <i>a</i><sub><i>y</i></sub> = ∂<i>v</i>/∂<i>t</i>，&nbsp; <i>a</i><sub><i>z</i></sub> = ∂<i>w</i>/∂<i>t</i></p>
+</div>
+<p>其他物理量也写成拉格朗日形式：ρ = ρ(<i>a</i>,<i>b</i>,<i>c</i>,<i>t</i>)，<i>p</i> = <i>p</i>(<i>a</i>,<i>b</i>,<i>c</i>,<i>t</i>)，<i>T</i> = <i>T</i>(<i>a</i>,<i>b</i>,<i>c</i>,<i>t</i>)。</p>
+<div class="box note"><div class="bt">小结（课件 P17）</div>
+<p>优点是沿用理论力学的质点分析法、易于理解；缺点是 <i>x</i> = <i>x</i>(<i>a</i>,<i>b</i>,<i>c</i>,<i>t</i>) 这类函数<strong>极难找到</strong>，实际操作很复杂困难，因此流体力学研究中很少使用。</p>
+</div>
+
+<h2>1.3　欧拉法（空间点法）</h2>
+<p><strong>着眼点</strong>：着眼于不同流体质点通过空间固定点的流动行为，观察者相对坐标系固定不动。先分析某一空间点上不同时刻的流动参数（实际是不同时刻流经该处的流体质点的流动参数），再转向另一空间点，直至遍历所有空间点。欧拉法把流动参数写成空间坐标与时间的函数：</p>
+<div class="fml"><span class="tag">欧拉表达式</span>
+<p>ρ = ρ(<i>x</i>,<i>y</i>,<i>z</i>,<i>t</i>)，&nbsp; <i>p</i> = <i>p</i>(<i>x</i>,<i>y</i>,<i>z</i>,<i>t</i>)，&nbsp; <i>T</i> = <i>T</i>(<i>x</i>,<i>y</i>,<i>z</i>,<i>t</i>)，&nbsp; <b>V</b> = <i>u</i><b>i</b> + <i>v</i><b>j</b> + <i>w</i><b>k</b></p>
+<p><i>u</i> = <i>u</i>(<i>x</i>,<i>y</i>,<i>z</i>,<i>t</i>)，&nbsp; <i>v</i> = <i>v</i>(<i>x</i>,<i>y</i>,<i>z</i>,<i>t</i>)，&nbsp; <i>w</i> = <i>w</i>(<i>x</i>,<i>y</i>,<i>z</i>,<i>t</i>)</p>
+</div>
+<p>(<i>x</i>, <i>y</i>, <i>z</i>, <i>t</i>) 称为<strong>欧拉变数</strong>。读法：①(<i>x</i>, <i>y</i>, <i>z</i>) 取定 → 代表不同时刻流过该点的<strong>不同流体质点</strong>的速度；②<i>t</i> 取定 → 代表各空间位置上流体质点的速度空间分布，即<strong>速度场</strong>。</p>
+<div class="box warn"><div class="bt">三条必须记住的提醒（课件 P21）</div>
+<ol>
+  <li>同一空间点，不同时刻流经该处的<strong>质点不同</strong>；</li>
+  <li>同一时刻，不同空间点上流经的<strong>质点也不同</strong>；</li>
+  <li>欧拉法不需全程跟踪流体质点，但<strong>研究具体物理过程时需局部跟踪研究对象</strong>，否则无意义。</li>
+</ol>
+<p><strong>两种方法同名不同角色的陷阱</strong>：两式都含 (<i>x</i>, <i>y</i>, <i>z</i>)，但拉格朗日法中 (<i>x</i>, <i>y</i>, <i>z</i>) 是质点运动轨迹的三个分量、是<strong>因变量</strong>；欧拉法中 (<i>x</i>, <i>y</i>, <i>z</i>) 是坐标位置、是<strong>自变量</strong>。这是概念题的高频考点。</p>
+</div>
+<p>课件小结：欧拉法可广泛应用场论知识、数学困难较少、实验中易于测量，因此被普遍采用——<strong>本课程全部采用欧拉法</strong>。（课件 P18 历史注记：欧拉 1755 年建立理想不可压流体运动微分方程组即欧拉方程；六年后拉格朗日引入流函数概念、建立理想流体无旋运动的动力学条件并提出复位势法。）</p>
+
+<h2>1.4　质点导数（随体导数、物质导数）——本章最重要的推导</h2>
+<p><strong>定义</strong>：流体质点的物理量对时间的变化率，称为该物理量的质点导数。在拉格朗日法中，某物理量的质点导数就是该物理量对时间的偏导数，故 D<b>S</b>/D<i>t</i> = <b>V</b>、D<b>V</b>/D<i>t</i> = <b>a</b>。但在欧拉法中给出的是<em>空间分布</em>，同一空间点在不同时刻被不同流体质点占据，因此<strong>不能把质点导数简单理解为对时间的偏导数</strong>。</p>
+<h3>1.4.1　推导（课件 P26）</h3>
+<p><i>t</i> 时刻某质点位于 <i>M</i>(<i>x</i>, <i>y</i>, <i>z</i>)，速度为 <b>v</b> = <i>u</i><b>i</b> + <i>v</i><b>j</b> + <i>w</i><b>k</b>；设流场中某物理量为 <i>B</i>(<i>x</i>, <i>y</i>, <i>z</i>, <i>t</i>)。经 Δ<i>t</i> 后该质点运动到 <i>N</i>(<i>x</i> + <i>u</i>Δ<i>t</i>, <i>y</i> + <i>v</i>Δ<i>t</i>, <i>z</i> + <i>w</i>Δ<i>t</i>)，该物理量变为 <i>B</i>(<i>x</i> + <i>u</i>Δ<i>t</i>, <i>y</i> + <i>v</i>Δ<i>t</i>, <i>z</i> + <i>w</i>Δ<i>t</i>, <i>t</i> + Δ<i>t</i>)。由定义</p>
+<div class="fml left">
+<p>D<i>B</i>/D<i>t</i> = lim<sub>Δ<i>t</i>→0</sub> [ <i>B</i>(<i>x</i>+<i>u</i>Δ<i>t</i>, <i>y</i>+<i>v</i>Δ<i>t</i>, <i>z</i>+<i>w</i>Δ<i>t</i>, <i>t</i>+Δ<i>t</i>) − <i>B</i>(<i>x</i>,<i>y</i>,<i>z</i>,<i>t</i>) ] / Δ<i>t</i></p>
+</div>
+<p>把分子作泰勒级数展开并略去高阶项，取 Δ<i>t</i> → 0，得</p>
+<div class="fml"><span class="tag">质点导数公式</span>
+<p>D<i>B</i>/D<i>t</i> = ∂<i>B</i>/∂<i>t</i> + <i>u</i>·∂<i>B</i>/∂<i>x</i> + <i>v</i>·∂<i>B</i>/∂<i>y</i> + <i>w</i>·∂<i>B</i>/∂<i>z</i>&nbsp;&nbsp;=&nbsp;&nbsp; ∂<i>B</i>/∂<i>t</i> + (<b>v</b>·∇)<i>B</i></p>
+<p>D/D<i>t</i> = ∂/∂<i>t</i> + (<b>v</b>·∇)　称<strong>物质导数算子</strong></p>
+</div>
+<h3>1.4.2　两项的物理意义</h3>
+<table>
+  <tr><th style="width:22%">项</th><th style="width:26%">名称</th><th style="width:34%">物理含义</th><th>为 0 时表示</th></tr>
+  <tr><td>∂<i>B</i>/∂<i>t</i></td><td>局部导数（当地导数）</td><td>固定空间点上因时间变化引起的物理量变化</td><td>反映流场的<strong>非定常性</strong>；为 0 表示 <i>B</i> 不随时间变化</td></tr>
+  <tr><td>(<b>v</b>·∇)<i>B</i></td><td>迁移导数（对流导数）</td><td>同一时刻因空间位置变化引起的物理量变化</td><td>反映流场的<strong>非均匀性</strong>；为 0 表示 <i>B</i> 在空间均匀分布</td></tr>
+</table>
+<p>课件 P29–P30 用四张图说明：图 1 质点由 <i>A</i> 到 <i>B</i> 速度不变；图 2 因<strong>水位下降</strong>引起速度减小；图 3 因<strong>管道收缩</strong>引起速度增加；图 4 两者共同引起速度变化。结论：<strong>水位下降表示流场的非定常性，管道收缩表示流场的不均匀性</strong>。一维情形有</p>
+<div class="fml"><span class="tag">一维特例</span>
+<p>d<i>u</i>/d<i>t</i> = ∂<i>u</i>/∂<i>t</i> + <i>u</i>·∂<i>u</i>/∂<i>x</i>，&nbsp;&nbsp; 沿流线：<i>a</i><sub><i>s</i></sub> = ∂<i>v</i>/∂<i>t</i> + <i>v</i>·∂<i>v</i>/∂<i>s</i></p>
+</div>
+<div class="box warn"><div class="bt">易错提醒</div>
+<p>① 定常流动中<strong>当地</strong>加速度为零，但<strong>迁移</strong>加速度不一定为零（定常非均匀流中质点仍在加速，如渐缩管恒定流动）；② 均匀流动中迁移加速度为零，但当地加速度不一定为零（如等径管中流量缓慢变化）。③ 求加速度时漏写迁移项，是最常见的失分点。</p>
+</div>
+
+<h2>1.5　不可压流体与均质流体的概念澄清</h2>
+<div class="box def"><div class="bt">三个层次严格区分（课件 P31–P32）</div>
+<p><span class="badge">不可压流体</span>每个流体质点的密度在流动过程中保持不变，即 dρ/d<i>t</i> = ∂ρ/∂<i>t</i> + <i>u</i>∂ρ/∂<i>x</i> + <i>v</i>∂ρ/∂<i>y</i> + <i>w</i>∂ρ/∂<i>z</i> = 0，但密度<strong>可以</strong>随时间和空间位置变化（分层流动）。</p>
+<p><span class="badge g">均质流体</span>密度在空间上处处相等，∂ρ/∂<i>x</i> = ∂ρ/∂<i>y</i> = ∂ρ/∂<i>z</i> = 0。</p>
+<p><span class="badge o">不可压均质流体</span>只有它才是 ρ = 常量（既不随时间也不随空间变化）。工程上绝大部分不可压流体属于均质流体，因此<strong>工程上一说"不可压流体"就理解为 ρ = const</strong>。</p>
+</div>
+
+<h2>1.6　两种方法对比与例 3-1</h2>
+<table>
+  <tr><th style="width:16%">比较项</th><th style="width:42%">拉格朗日法</th><th>欧拉法</th></tr>
+  <tr><td>研究对象</td><td>每一个流体质点（跟踪质点）</td><td>空间点（固定观察点）</td></tr>
+  <tr><td>自变量</td><td>(<i>a</i>, <i>b</i>, <i>c</i>, <i>t</i>)；(<i>x</i>,<i>y</i>,<i>z</i>) 是因变量</td><td>(<i>x</i>, <i>y</i>, <i>z</i>, <i>t</i>)</td></tr>
+  <tr><td>数学工具</td><td>常微分方程、理论力学质点运动学</td><td>场论（梯度、散度、旋度），<strong>本课程采用</strong></td></tr>
+  <tr><td>速度/加速度</td><td><i>u</i> = ∂<i>x</i>/∂<i>t</i>，<i>a</i><sub><i>x</i></sub> = ∂<sup>2</sup><i>x</i>/∂<i>t</i><sup>2</sup></td><td><i>a</i><sub><i>x</i></sub> = ∂<i>u</i>/∂<i>t</i> + <i>u</i>∂<i>u</i>/∂<i>x</i> + <i>v</i>∂<i>u</i>/∂<i>y</i> + <i>w</i>∂<i>u</i>/∂<i>z</i></td></tr>
+  <tr><td>与线的对应</td><td>直接给出<strong>迹线</strong></td><td>直接给出<strong>流线</strong>（瞬时流谱）</td></tr>
+  <tr><td>优缺点</td><td>物理直观；函数族极难确定，工程上很少用</td><td>便于用场论、实验易测量、数学困难少，普遍采用</td></tr>
+</table>
+
+<div class="prob">
+  <div class="pt">例 3-1（课件 P48–P51）求流线与迹线</div>
+  <div class="q"><strong>题目</strong>：已知流场中的速度分布 <b>V</b> = (<i>x</i> + <i>t</i>)<b>i</b> + (−<i>y</i> + <i>t</i>)<b>j</b>，即 <i>u</i> = <i>x</i> + <i>t</i>、<i>v</i> = −<i>y</i> + <i>t</i>。求 <i>t</i> = 0 时刻过 <i>A</i> 点（−1, −1）的<strong>流线</strong>方程与<strong>迹线</strong>方程。</div>
+  <div class="sol">
+    <p><span class="badge">① 求流线</span>（<i>t</i> 视为常数）二维流线方程</p>
+    <div class="fml left"><p>d<i>x</i>/(<i>x</i> + <i>t</i>) = d<i>y</i>/(−<i>y</i> + <i>t</i>)&nbsp; ⟹ &nbsp;ln(<i>x</i> + <i>t</i>) = −ln(<i>t</i> − <i>y</i>) + <i>C</i>&nbsp; ⟹ &nbsp;<b>(<i>x</i> + <i>t</i>)(<i>t</i> − <i>y</i>) = <i>C</i></b>（双曲线族）</p></div>
+    <p>代入 <i>t</i> = 0、(<i>x</i>, <i>y</i>) = (−1, −1) 得 <i>C</i> = 1，故所求流线为 <b><i>xy</i> = 1</b>。<br>
+    流线<strong>方向</strong>由速度方向定：把 <i>t</i> = 0、(1, 1) 代入得 <i>u</i> = −1（沿 <i>x</i> 负方向）、<i>v</i> = +1（沿 <i>y</i> 正方向），合速度方向即流线方向。</p>
+    <p><span class="badge g">② 求迹线</span>（<i>t</i> 是自变量）二维迹线方程</p>
+    <div class="fml left"><p>d<i>x</i>/d<i>t</i> = <i>x</i> + <i>t</i>，&nbsp; d<i>y</i>/d<i>t</i> = −<i>y</i> + <i>t</i>　（均为标准的一阶线性微分方程 d<i>y</i>/d<i>t</i> + <i>P</i>(<i>t</i>)<i>y</i> = <i>Q</i>(<i>t</i>)）</p></div>
+    <p>解得 <i>x</i> = <i>C</i><sub>1</sub>e<sup><i>t</i></sup> − <i>t</i> − 1、<i>y</i> = <i>C</i><sub>2</sub>e<sup>−<i>t</i></sup> + <i>t</i> − 1；由 <i>t</i> = 0 时 <i>x</i> = −1、<i>y</i> = −1 得 <i>C</i><sub>1</sub> = <i>C</i><sub>2</sub> = 0，</p>
+    <div class="fml left"><p><i>x</i> = −<i>t</i> − 1，&nbsp; <i>y</i> = <i>t</i> − 1&nbsp; ⟹ &nbsp;<b>过 <i>A</i> 点的迹线方程 <i>x</i> + <i>y</i> = −2</b></p></div>
+    <p><span class="badge o">③ 思考（课件 P51）</span>若在已知速度表达式中除去 <i>t</i> 项、变为定常流动 <b>V</b> = <i>x</i><b>i</b> − <i>y</i><b>j</b>，则流线方程 d<i>x</i>/<i>x</i> = d<i>y</i>/(−<i>y</i>) 与迹线方程 d<i>x</i>/d<i>t</i> = <i>x</i>、d<i>y</i>/d<i>t</i> = −<i>y</i> 都得 <i>xy</i> = 1，<strong>二者重合</strong>——这与 §3.3 的结论一致：定常流动中流线、迹线、染色线三线合一。</p>
+  </div>
+  <div class="ans">答：流线 <i>xy</i> = 1（<i>t</i> = 0 时刻过 <i>A</i> 点）；迹线 <i>x</i> + <i>y</i> = −2。</div>
+</div>
+
+<div class="pagebreak"></div>
+<h1>2　定常流动和非定常流动（课件 3.2）</h1>
+<p class="lead">课件 3.2 节共 5 页（P33–P37），只讲一件事：怎样判断流动是否定常，以及"定常"这个概念的两个重要陷阱。</p>
+
+<h2>2.1　定义与判据</h2>
+<div class="box def"><div class="bt">定义</div>
+<p>若流场中<strong>任一空间点</strong> (<i>x</i>, <i>y</i>, <i>z</i>) 上<strong>各个流动参数</strong>都不随 <i>t</i> 变化，即 ∂ρ/∂<i>t</i> = ∂<i>p</i>/∂<i>t</i> = ∂<b>V</b>/∂<i>t</i> = ∂<i>T</i>/∂<i>t</i> = 0，则称<strong>定常（恒定）流动</strong>，否则称<strong>非定常流动</strong>。定常流动的参数表达式不再含 <i>t</i>：ρ = ρ(<i>x</i>,<i>y</i>,<i>z</i>)、<i>p</i> = <i>p</i>(<i>x</i>,<i>y</i>,<i>z</i>)、<b>V</b> = <b>V</b>(<i>x</i>,<i>y</i>,<i>z</i>)。</p>
+</div>
+<p>课件列举的非定常例子：室内空气在<strong>打开或关闭窗门瞬间</strong>的流动；海洋<strong>涨潮落潮</strong>时的流动；管道在<strong>开闭期间</strong>所产生的压力波动。本课程<strong>以定常流动为主</strong>——后面 §3.5 的连续性方程、§3.6–3.8 的能量方程都建立在定常前提上。</p>
+
+<h2>2.2　两条重要注意</h2>
+<div class="box key"><div class="bt">必记</div>
+<ol>
+  <li><strong>非定常流动是绝对的，定常流动是相对的。</strong>各空间点参数随时间变化不显著时，可视为定常流动——这是一种简化处理（例如水箱水位下降极慢时的出流常按定常计算）。</li>
+  <li><strong>流动是否定常与坐标系的选择有关。</strong>判断方法：观测任一<strong>固定空间点</strong>处的流速是否随时间变化。</li>
+</ol>
+</div>
+<div class="prob">
+  <div class="pt">例（课件 P37）船在水中航行</div>
+  <div class="q"><strong>题目</strong>：船以恒定速度在水中航行，船体周围的绕流是定常流动还是非定常流动？</div>
+  <div class="sol">
+    <p><span class="badge">情形 1</span>人在岸上，坐标建立在岸上：船体相对观察者不断改变位置，固定空间点处的速度随时间变化 → <strong>非定常流动</strong>。</p>
+    <p><span class="badge g">情形 2</span>人在船上，坐标建立在船上：各空间点处的速度不随时间变化 → <strong>定常流动</strong>。</p>
+    <p>二者描述的是同一个物理现象，差别只在于坐标系的选择，涉及<strong>坐标变换与相对运动原理</strong>。</p>
+  </div>
+  <div class="ans">答：与坐标系选择有关——岸上观察为非定常，船上观察为定常。</div>
+</div>
+<div class="box note"><div class="bt">与 §3.1 的呼应：定常 ≠ 均匀</div>
+<p>课件 §3.2 只解决"随时间变不变"的问题；"随空间位置变不变"的问题在 §3.7 用均匀流/非均匀流、渐变流/急变流来回答。四个组合（定常均匀、定常非均匀、非定常均匀、非定常非均匀）是概念题的常客：<strong>等直径长直管的恒定流动</strong>是定常均匀流；<strong>恒定流动中的渐缩管</strong>是定常非均匀流（当地加速度为 0，迁移加速度不为 0）。</p>
+</div>
+
+<h1>3　流线和迹线（课件 3.3）</h1>
+<p class="lead">课件 3.3 节（P38–P53）给出三种"线"的定义与方程、流线的三条性质，以及流管、流面与流量的概念。这一节是运动学的核心，也是概念题的富矿。</p>
+
+<h2>3.1　迹线</h2>
+<p><strong>定义</strong>：任一流体质点在流场中的运动轨迹，属<strong>拉格朗日</strong>描述方法。设 <i>t</i> 时刻过 <i>A</i>(<i>x</i>, <i>y</i>, <i>z</i>) 的微元迹线为 d<b>s</b> = d<i>x</i><b>i</b> + d<i>y</i><b>j</b> + d<i>z</i><b>k</b>，速度 <b>V</b> = <i>u</i><b>i</b> + <i>v</i><b>j</b> + <i>w</i><b>k</b>，由 d<b>s</b> = <b>V</b>d<i>t</i> 得</p>
+<div class="fml"><span class="tag">迹线方程</span>
+<p>d<i>x</i>/<i>u</i> = d<i>y</i>/<i>v</i> = d<i>z</i>/<i>w</i> = d<i>t</i>&nbsp;&nbsp;（等价于 d<i>x</i> = <i>u</i>d<i>t</i>，d<i>y</i> = <i>v</i>d<i>t</i>，d<i>z</i> = <i>w</i>d<i>t</i>）</p>
+</div>
+<p>这里 <i>x</i>、<i>y</i>、<i>z</i> 是 <i>t</i> 的函数，需要<strong>求解微分方程</strong>才能得到迹线；<i>t</i> 是自变量，是"时间过程"的记录。</p>
+
+<h2>3.2　流线</h2>
+<p><strong>定义</strong>：某一时刻，流场中的一条假想曲线，曲线上各点的速度矢量方向与该点的切线方向相同，属<strong>欧拉</strong>描述方法。由 d<b>s</b> 与 <b>V</b> 方向一致、对应分量成比例得</p>
+<div class="fml"><span class="tag">流线方程</span>
+<p>d<i>x</i>/<i>u</i> = d<i>y</i>/<i>v</i> = d<i>z</i>/<i>w</i>&nbsp;&nbsp;（<i>t</i> 为常数、作参数处理）</p>
+</div>
+<ul>
+  <li>任何瞬时流场中可绘制无数条流线；流线的引入对定性刻画流场具有重要意义（类比磁场中的磁力线）。</li>
+  <li><strong>流线密处流速大、疏处流速小</strong>——这是从流线图读流速的依据。</li>
+  <li>流线形状随 <i>t</i> 改变（非定常流动）；定常流动中流线形状与位置不随时间变化。</li>
+</ul>
+<h3>流线的重要性质（课件 P44–P45）</h3>
+<div class="box key"><div class="bt">性质一：流线通常彼此不相交</div>
+<p>理由：若两条流线相交，则交点处将有两个不同的速度方向，与该点速度唯一矛盾。</p>
+</div>
+<div class="box key"><div class="bt">性质二：过某一点有多条流线，不外乎三种情况</div>
+<ol>
+  <li><b>V</b> = 0 —— 交点为<strong>驻点</strong>（如机翼前缘、钝体正前方的滞止点，三条流线在此交汇）；</li>
+  <li><b>V</b> → ∞ —— 交点是<strong>源或汇</strong>；</li>
+  <li><strong>两条流线相切</strong>（切点流速唯一且相同）。</li>
+</ol>
+<p>除这三种情况外，流线不能相交、不能分支、不能转折。</p>
+</div>
+
+<h2>3.3　染色线（脉线、纹线）</h2>
+<p><strong>定义</strong>：在一段时间内，从流场中<strong>同一固定点</strong>连续注入的染料（或示踪物质）所形成的线，反映的是不同时刻通过该点的<strong>不同流体质点</strong>在某一瞬时的位置连线。课件指出：<strong>染色线目前还没有确切的数学方程</strong>。工程实例：尖拱细长旋成体背风面旋涡流动、三角翼前缘涡、翼尖涡的染色液显示。</p>
+
+<h2>3.4　迹线、流线、染色线的区别与联系（必考）</h2>
+<table>
+  <tr><th style="width:14%">名称</th><th style="width:34%">定义</th><th style="width:32%">数学方程</th><th>描述方法</th></tr>
+  <tr><td><strong>迹线</strong></td><td>同一流体质点在不同时刻所处位置的连线</td><td>d<i>x</i>/<i>u</i> = d<i>y</i>/<i>v</i> = d<i>z</i>/<i>w</i> = d<i>t</i></td><td>拉格朗日：<i>t</i> 变、质点不变</td></tr>
+  <tr><td><strong>流线</strong></td><td>同一时刻流线上不同流体质点的速度方向线</td><td>d<i>x</i>/<i>u</i> = d<i>y</i>/<i>v</i> = d<i>z</i>/<i>w</i></td><td>欧拉：<i>t</i> 不变、质点变</td></tr>
+  <tr><td><strong>染色线</strong></td><td>不同时刻流过同一点的不同流体质点的连线</td><td>无确切方程</td><td>混合：<i>t</i> 变、质点也变</td></tr>
+</table>
+<div class="fml"><span class="tag">结论</span>
+<p>非定常流动：流线 ≠ 迹线 ≠ 染色线；&nbsp;&nbsp; <b>定常流动：流线 = 迹线 = 染色线</b></p>
+</div>
+<div class="box warn"><div class="bt">易错提醒</div>
+<p>① 三条"线"只是几何图像，<strong>不能说明流体是否在加速，也不能直接给出流量</strong>；② 判断"流线与迹线是否重合"必须先判断流动是否定常；③ 流线方程中 <i>t</i> 是常数，迹线方程中 <i>t</i> 是自变量——两者的微分方程形式相同但含义截然不同，这是例 3-1 中二者结果不同的根本原因。</p>
+</div>
+
+<h2>3.5　流面、流管与流量</h2>
+<div class="box def"><div class="bt">定义</div>
+<p><strong>流面</strong>：某一时刻 <i>t</i>，在流场中取一条<em>不是流线</em>的曲线，通过曲线上所有点的流线组成的面。</p>
+<p><strong>流管</strong>：某一时刻 <i>t</i>，在流场中取一条<strong>封闭</strong>的、不是流线的曲线，通过曲线上所有点的流线组成的管状体；流管的流面也称<strong>管壁</strong>。</p>
+<p><strong>流管性质</strong>：某一时刻流体<strong>不会穿越管壁</strong>——因为管壁由流线组成，沿管壁法向速度为零。流管可以是假想的，也可以是真实的（一维管道流动中管壁即为真实流管）。定常流动中流管的形状和位置不随时间变化。</p>
+</div>
+<p><strong>流量</strong>：体积流量＝单位时间内流过某一面积的流体的体积（m<sup>3</sup>/s）；质量流量＝单位时间内流过某一面积的流体的质量（kg/s）；<strong>通量＝单位面积内的流量</strong>。在流管任一截面 <i>A</i> 上取微元面积 d<i>A</i>、法向单位矢量 <b>n</b>、速度矢量 <b>v</b>，则</p>
+<div class="fml"><span class="tag">课件 P53</span>
+<p>d<i>Q</i> = <b>v</b>·<b>n</b> d<i>A</i>，&nbsp; d<i>m</i> = ρ<b>v</b>·<b>n</b> d<i>A</i>；&nbsp;&nbsp; <i>Q</i> = ∫<sub><i>A</i></sub> <b>v</b>·<b>n</b> d<i>A</i>，&nbsp; <i>Q</i><sub><i>m</i></sub> = ∫<sub><i>A</i></sub> ρ<b>v</b>·<b>n</b> d<i>A</i></p>
+</div>
+
+<div class="pagebreak"></div>
+<h1>4　一元流动模型（课件 3.4）</h1>
+<p class="lead">课件 3.4 节（P54–P59）回答一个关键问题：真实的流动是三元（三维、非均匀）的，怎样才能用代数方程求解？答案是引入"元流—总流—断面平均流速"这一套一元化模型。</p>
+
+<h2>4.1　一维、二维、三维流动</h2>
+<table>
+  <tr><th style="width:22%">流动维数</th><th style="width:40%">数学特征</th><th>典型例子</th></tr>
+  <tr><td>三维（三元）流动</td><td><i>u</i> = <i>u</i>(<i>x</i>, <i>y</i>, <i>z</i>, <i>t</i>)</td><td>绕机翼、绕船体的流动</td></tr>
+  <tr><td>二维（二元）流动</td><td>∂<i>u</i><sub><i>x</i></sub>/∂<i>z</i> = ∂<i>u</i><sub><i>y</i></sub>/∂<i>z</i> = 0，即 <i>u</i> = <i>u</i>(<i>x</i>, <i>y</i>, <i>t</i>)</td><td>无限宽平板间流动、长直渠道中的流动</td></tr>
+  <tr><td>一维（一元）流动</td><td>流动参数只是<strong>一个空间坐标</strong>和时间变量的函数，<i>u</i> = <i>u</i>(<i>s</i>, <i>t</i>)</td><td>管道、明渠中的断面平均流动</td></tr>
+</table>
+
+<h2>4.2　流束、过流断面、元流与总流</h2>
+<div class="box def"><div class="bt">四个概念</div>
+<p><strong>流束</strong>：充满流管的一束流体。<strong>过流断面</strong>：垂直于流束的断面。</p>
+<p><strong>元流</strong>：流束的过流断面无限小时，这根流束称为元流。对元流来说 <i>u</i> = <i>f</i>(<i>s</i>)，<strong>三元流动就转变为一元流动问题</strong>。</p>
+<p><strong>总流</strong>：把整个流动看作由无数元流相加，则该流动称为总流（整根管道、整条渠道中的流动）。</p>
+<p><strong>总流的过流断面</strong>：垂直于总流<strong>全部</strong>流线的断面——课件特别强调它<strong>不都是平面</strong>（只有在渐变流段才可近似取为平面）。</p>
+</div>
+
+<h2>4.3　断面流量与断面平均流速</h2>
+<p>元流的体积流量 d<i>Q</i> = <i>u</i> d<i>A</i>；整个过流断面 <i>A</i> 上的体积流量为</p>
+<div class="fml"><span class="tag">课件 P58</span>
+<p><i>Q</i> = ∫<sub><i>A</i></sub> <i>u</i> d<i>A</i>&nbsp;&nbsp;（m<sup>3</sup>/s）</p>
+</div>
+<p><strong>断面平均流速</strong>是一个<em>假想的流速</em>：假定在过流断面上各点都以相同的平均流速流过，这时通过该过流断面的体积流量仍与各点以真实流速流动时所得到的体积流量相同。于是</p>
+<div class="fml"><span class="tag">一元化的关键公式</span>
+<p><i>v</i> = <i>Q</i>/<i>A</i> = (1/<i>A</i>)∫<sub><i>A</i></sub> <i>u</i> d<i>A</i>，&nbsp;&nbsp; <b><i>Q</i> = <i>vA</i></b>，&nbsp;&nbsp; 且 <i>v</i> = <i>v</i>(<i>s</i>)</p>
+</div>
+<div class="box warn"><div class="bt">易错提醒</div>
+<p>① 必须区分<strong>点速度 <i>u</i></strong>（元流、流线上的速度）与<strong>断面平均流速 <i>v</i></strong>（总流参数），连续性方程 <i>v</i><sub>1</sub><i>A</i><sub>1</sub> = <i>v</i><sub>2</sub><i>A</i><sub>2</sub> 中的 <i>v</i> 必须是断面平均值；② 一元化是有代价的——它为补偿断面流速分布不均而引入了<strong>动能修正系数 α</strong>（§3.8）与<strong>动量修正系数 β</strong>（附录 B），工程上常近似取 α ≈ 1、β ≈ 1，但题目给出具体值时必须代入。</p>
+</div>
+
+<h1>5　连续性方程（课件 3.5）</h1>
+<p class="lead">课件 3.5 节（P60–P65）是质量守恒在一元流动中的表达式，形式最简单、适用最广，是所有流动问题求解的第一步。</p>
+
+<h2>5.1　连续性条件与理论依据</h2>
+<p><strong>连续性条件</strong>：流体连续地充满所占据的空间，当流体流动时在其内部不形成空隙。<strong>理论依据</strong>是质量守恒定律——若在某一定时间内流出的流体质量和流入的流体质量不相等，则这封闭曲面内一定会有流体密度的变化，以便使流体仍然充满整个封闭曲面内的空间；如果流体不可压缩，则流出的流体质量必然等于流入的流体质量。</p>
+
+<h2>5.2　推导</h2>
+<p>在管道中取过流断面 1-1、2-2（面积 <i>A</i><sub>1</sub>、<i>A</i><sub>2</sub>），假定流体的运动是连续的、定常的。d<i>t</i> 时间内：流入质量 ρ<sub>1</sub><i>A</i><sub>1</sub><i>v</i><sub>1</sub>d<i>t</i> = ρ<sub>1</sub><i>Q</i><sub>1</sub>d<i>t</i>，流出质量 ρ<sub>2</sub><i>A</i><sub>2</sub><i>v</i><sub>2</sub>d<i>t</i> = ρ<sub>2</sub><i>Q</i><sub>2</sub>d<i>t</i>。由质量守恒</p>
+<div class="fml"><span class="tag">恒定总流连续性方程</span>
+<p>可压缩流体：&nbsp; ρ<sub>1</sub><i>Q</i><sub>1</sub> = ρ<sub>2</sub><i>Q</i><sub>2</sub>&nbsp;&nbsp;即&nbsp;&nbsp; <b>ρ<sub>1</sub><i>v</i><sub>1</sub><i>A</i><sub>1</sub> = ρ<sub>2</sub><i>v</i><sub>2</sub><i>A</i><sub>2</sub></b></p>
+<p>不可压缩流体：&nbsp; <b><i>Q</i><sub>1</sub> = <i>Q</i><sub>2</sub></b>&nbsp;&nbsp;即&nbsp;&nbsp; <b><i>v</i><sub>1</sub><i>A</i><sub>1</sub> = <i>v</i><sub>2</sub><i>A</i><sub>2</sub></b>&nbsp;&nbsp;（元流与总流均适用）</p>
+</div>
+
+<h2>5.3　推广形式与分支管路</h2>
+<ul>
+  <li>沿程多个断面：<i>Q</i><sub>1</sub> = <i>Q</i><sub>2</sub> = … = <i>Q</i>，<i>v</i><sub>1</sub><i>A</i><sub>1</sub> = <i>v</i><sub>2</sub><i>A</i><sub>2</sub> = … = <i>vA</i> = 常数；</li>
+  <li>由此得 <strong><i>v</i><sub>1</sub> : <i>v</i><sub>2</sub> : <i>v</i><sub>3</sub> : … = 1/<i>A</i><sub>1</sub> : 1/<i>A</i><sub>2</sub> : 1/<i>A</i><sub>3</sub> : …</strong>，即<strong>断面平均流速与断面面积成反比</strong>；</li>
+  <li>有分支时（三通管道分流）：<strong><i>Q</i><sub>1</sub> = <i>Q</i><sub>2</sub> + <i>Q</i><sub>3</sub></strong>，即 <i>v</i><sub>1</sub><i>A</i><sub>1</sub> = <i>v</i><sub>2</sub><i>A</i><sub>2</sub> + <i>v</i><sub>3</sub><i>A</i><sub>3</sub>；合流时反号（一般形式 ∑<i>Q</i><sub>入</sub> = ∑<i>Q</i><sub>出</sub>）。</li>
+</ul>
+<p>课件结论：通过总流各过流断面的体积流量相等；<strong>连续性方程确立了总流断面平均流速沿流向随断面面积的变化规律</strong>。（与三元微分形式的联系：∂ρ/∂<i>t</i> + ∂(ρ<i>u</i>)/∂<i>x</i> + ∂(ρ<i>v</i>)/∂<i>y</i> + ∂(ρ<i>w</i>)/∂<i>z</i> = 0，不可压时 ∇·<b>V</b> = 0。）</p>
+<div class="box warn"><div class="bt">易错提醒</div>
+<p>连续性方程只要求<strong>连续、定常、断面间无质量源汇</strong>，<strong>不要求无粘、也不要求不可压缩</strong>（可压缩时用密度形式）。它给出的是平均流速（流量）关系，<strong>不能替代能量方程求压强</strong>——求流速+压强必须两个方程联立。</p>
+</div>
+<div class="prob">
+  <div class="pt">例 5-1（自编典型题）串联与分支管路的流量分配</div>
+  <div class="q"><strong>题目</strong>：水在管路中作恒定流动。断面 1-1 处管径 <i>d</i><sub>1</sub> = 300 mm，断面平均流速 <i>v</i><sub>1</sub> = 1.2 m/s；下游先后经过渐缩管与三通：断面 2-2 管径 <i>d</i><sub>2</sub> = 200 mm，随后分为两支，支管 A 的管径 <i>d</i><sub>A</sub> = 150 mm、断面平均流速 <i>v</i><sub>A</sub> = 2.0 m/s，支管 B 的管径 <i>d</i><sub>B</sub> = 100 mm。求断面 2-2 的流速 <i>v</i><sub>2</sub>、总流量 <i>Q</i><sub>1</sub> 与支管 B 的流速 <i>v</i><sub>B</sub>。</div>
+  <div class="sol">
+    <p><span class="badge">①</span>面积与总流量（不可压）：<i>A</i><sub>1</sub> = π<i>d</i><sub>1</sub><sup>2</sup>/4 = π×0.3<sup>2</sup>/4 = 0.07069 m<sup>2</sup>，<i>Q</i><sub>1</sub> = <i>v</i><sub>1</sub><i>A</i><sub>1</sub> = 1.2×0.07069 = <strong>0.0848 m<sup>3</sup>/s</strong>。</p>
+    <p><span class="badge g">②</span>断面 2-2（在分支之前，全部流量通过）：<i>A</i><sub>2</sub> = π×0.2<sup>2</sup>/4 = 0.03142 m<sup>2</sup>，<i>v</i><sub>2</sub> = <i>Q</i><sub>1</sub>/<i>A</i><sub>2</sub> = 0.0848/0.03142 = <strong>2.70 m/s</strong>（也可由 <i>v</i><sub>2</sub> = <i>v</i><sub>1</sub>(<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>2</sup> = 1.2×1.5<sup>2</sup> = 2.70 m/s 直接得到）。</p>
+    <p><span class="badge o">③</span>分支：<i>A</i><sub>A</sub> = π×0.15<sup>2</sup>/4 = 0.01767 m<sup>2</sup>，<i>Q</i><sub>A</sub> = 2.0×0.01767 = 0.03534 m<sup>3</sup>/s；<i>A</i><sub>B</sub> = π×0.1<sup>2</sup>/4 = 0.007854 m<sup>2</sup>，<i>Q</i><sub>B</sub> = <i>Q</i><sub>1</sub> − <i>Q</i><sub>A</sub> = 0.0848 − 0.03534 = 0.04946 m<sup>3</sup>/s；<i>v</i><sub>B</sub> = <i>Q</i><sub>B</sub>/<i>A</i><sub>B</sub> = 0.04946/0.007854 = <strong>6.30 m/s</strong>。</p>
+    <p><strong>校核</strong>：<i>v</i><sub>A</sub><i>A</i><sub>A</sub> + <i>v</i><sub>B</sub><i>A</i><sub>B</sub> = 0.03534 + 0.04946 = 0.0848 = <i>v</i><sub>1</sub><i>A</i><sub>1</sub> ✔</p>
+  </div>
+  <div class="ans">答：<i>v</i><sub>2</sub> = 2.70 m/s；<i>Q</i><sub>1</sub> = 0.0848 m<sup>3</sup>/s；<i>v</i><sub>B</sub> = 6.30 m/s。</div>
+</div>
+
+<div class="pagebreak"></div>
+<h1>6　恒定元流能量方程（课件 3.6）</h1>
+<p class="lead">课件 3.6 节共 32 页（P66–P97），是本章的第一个重点。它先建立系统与控制体两个基本概念，再用功能原理推出理想流体元流的伯努利方程，最后给出两个经典应用（小孔出流、皮托管）与四个例题。</p>
+
+<h2>6.1　系统与控制体</h2>
+<table>
+  <tr><th style="width:16%">比较项</th><th style="width:42%">系统（System）</th><th>控制体（Control Volume）</th></tr>
+  <tr><td>定义</td><td>包含着确定不变物质的任何集合体；流体力学中指由任何确定流体质点组成的团体</td><td>被流体所流过、相对于某个坐标系而言<strong>固定不变</strong>的任何体积；其边界称控制面</td></tr>
+  <tr><td>边界</td><td>边界随流体一起运动，边界上<strong>没有质量交换</strong></td><td>边界相对坐标系固定；控制面上<strong>可以发生质量交换</strong>（流体可流进流出）</td></tr>
+  <tr><td>受力</td><td>边界上受到外界的表面力</td><td>控制面上受到外界作用于控制体内流体上的力</td></tr>
+  <tr><td>能量</td><td>边界上存在能量的交换</td><td>控制面上存在能量的交换</td></tr>
+  <tr><td>与 <i>F</i> = <i>ma</i> 对应</td><td><i>F</i> 为作用于系统上所有外力的合力，<i>a</i> 为系统的平均加速度</td><td><i>F</i> 为作用于控制体边界面上所有作用于流体上外力的合力</td></tr>
+  <tr><td>对应观点</td><td><strong>Lagrange 观点</strong></td><td><strong>Euler 观点</strong></td></tr>
+</table>
+<p>控制体是不变的，但占据控制体的流体质点随时间变化；控制体的形状可根据需要而定。从控制体角度来说，连续性方程就是在系统内不存在源和汇的情况下系统的质量不随时间变化，即 d<i>m</i>/d<i>t</i> = 0，(d/d<i>t</i>)∫∫∫ρ dτ = 0。</p>
+
+<h2>6.2　伯努利方程的推导（功能原理）</h2>
+<p><strong>元流特性</strong>：在恒定流条件下元流的形状不随时间变化。<strong>依据</strong>：功能原理——d<i>t</i> 时间内该段元流外力所作的功，等于流段机械能量的增量。</p>
+<p><strong>系统与控制体的选取</strong>：取 <i>t</i> 时刻元流 1-2 中所有流体质点作为系统；取元流 1-2 断面之间的空间体积为控制体，<i>t</i> 时刻系统与控制体重合。d<i>t</i> 后断面 1-1 移至 1′-1′、2-2 移至 2′-2′。</p>
+<div class="box key"><div class="bt">三步推导</div>
+<p><span class="badge">① 压力作功</span>断面 1-1′：高度 <i>Z</i><sub>1</sub>、面积 d<i>A</i><sub>1</sub>、速度 <i>u</i><sub>1</sub>，d<i>t</i> 内位移 <i>u</i><sub>1</sub>d<i>t</i>，受压力 <i>p</i><sub>1</sub>d<i>A</i><sub>1</sub>，作<strong>正功</strong> <i>p</i><sub>1</sub>d<i>A</i><sub>1</sub><i>u</i><sub>1</sub>d<i>t</i>；断面 2-2′：受压力 <i>p</i><sub>2</sub>d<i>A</i><sub>2</sub>，作<strong>负功</strong> <i>p</i><sub>2</sub>d<i>A</i><sub>2</sub><i>u</i><sub>2</sub>d<i>t</i>。侧壁压力垂直于流线不做功。净功</p>
+<div class="fml left"><p>(<i>p</i><sub>1</sub> − <i>p</i><sub>2</sub>) d<i>Q</i> d<i>t</i></p></div>
+<p><span class="badge g">② 机械能增量</span>d<i>t</i> 内 1′-1′ 与 2-2 之间公共空间的位能没变、定常流动时该空间内各点流速也没变，故能量变化只包括 2′-2′ 段的增加量与 1′-1′ 段的减少量。两段体积均为 d<i>Q</i>d<i>t</i>，质量 <i>m</i> = ρd<i>Q</i>d<i>t</i>，动能 (1/2)<i>mv</i><sup>2</sup>，位能 <i>mgz</i>：</p>
+<div class="fml left"><p>动能增量 = γd<i>Q</i>d<i>t</i>[<i>u</i><sub>2</sub><sup>2</sup>/(2<i>g</i>) − <i>u</i><sub>1</sub><sup>2</sup>/(2<i>g</i>)]，&nbsp;&nbsp; 位能增量 = γd<i>Q</i>d<i>t</i>(<i>Z</i><sub>2</sub> − <i>Z</i><sub>1</sub>)</p></div>
+<p><span class="badge o">③ 令压力作功 = 动能增量 + 位能增量</span></p>
+<div class="fml left"><p>(<i>p</i><sub>1</sub> − <i>p</i><sub>2</sub>)d<i>Q</i>d<i>t</i> = γd<i>Q</i>d<i>t</i>(<i>Z</i><sub>2</sub> − <i>Z</i><sub>1</sub>) + γd<i>Q</i>d<i>t</i>(<i>u</i><sub>2</sub><sup>2</sup> − <i>u</i><sub>1</sub><sup>2</sup>)/(2<i>g</i>)</p></div>
+</div>
+<div class="fml"><span class="tag">总能量方程式（课件 P77）</span>
+<p>(<i>p</i><sub>1</sub> + γ<i>Z</i><sub>1</sub> + γ<i>u</i><sub>1</sub><sup>2</sup>/2<i>g</i>) d<i>Q</i> = (<i>p</i><sub>2</sub> + γ<i>Z</i><sub>2</sub> + γ<i>u</i><sub>2</sub><sup>2</sup>/2<i>g</i>) d<i>Q</i></p>
+</div>
+<p>两边除以 γd<i>Q</i>（即化为<strong>单位重量流体</strong>的能量），得理想不可压缩流体恒定流元流能量方程：</p>
+<div class="fml"><span class="tag">伯努利方程（元流 / 流线）</span>
+<p><i>z</i><sub>1</sub> + <i>p</i><sub>1</sub>/(ρ<i>g</i>) + <i>u</i><sub>1</sub><sup>2</sup>/(2<i>g</i>) = <i>z</i><sub>2</sub> + <i>p</i><sub>2</sub>/(ρ<i>g</i>) + <i>u</i><sub>2</sub><sup>2</sup>/(2<i>g</i>) = 常数&nbsp;&nbsp;（沿同一元流 / 同一流线）</p>
+</div>
+<p>等价形式：单位质量能量 <i>gz</i> + <i>p</i>/ρ + <i>u</i><sup>2</sup>/2 = 常数（J/kg）；单位体积能量 ρ<i>gz</i> + <i>p</i> + ρ<i>u</i><sup>2</sup>/2 = 常数（Pa，即静压 + 动压 = 总压）。另一条等价推导路线：沿流线对欧拉运动微分方程 −(1/ρ)∂<i>p</i>/∂<i>s</i> − <i>g</i>∂<i>z</i>/∂<i>s</i> = <i>u</i>∂<i>u</i>/∂<i>s</i> 积分即得同一方程。</p>
+
+<h2>6.3　适用条件（6 条，缺一不可）</h2>
+<div class="box key"><div class="bt">理想流体元流伯努利方程的适用范围</div>
+<ol>
+  <li><strong>理想流体</strong>（无粘性）；</li>
+  <li><strong>不可压缩均质流体</strong>；</li>
+  <li>在<strong>重力</strong>作用下；</li>
+  <li><strong>定常流动</strong>；</li>
+  <li>沿<strong>同一流线</strong>（或同一微元流束）流动；</li>
+  <li>控制体内<strong>无流体机械</strong>做功。</li>
+</ol>
+<p>物理含义：无粘流体的定常流动，沿同一元流（沿同一流线），<strong>单位重量流体的机械能守恒</strong>。</p>
+</div>
+
+<h2>6.4　控制体内有流体机械时的功率</h2>
+<p>设流体机械（泵、风机、水轮机）的功率为 <i>W</i><sub><i>S</i></sub>，则</p>
+<div class="fml"><span class="tag">课件 P80</span>
+<p><i>W</i><sub><i>S</i></sub> = <i>mg</i>[ ( <i>z</i><sub>1</sub> + <i>p</i><sub>1</sub>/(ρ<i>g</i>) + <i>V</i><sub>1</sub><sup>2</sup>/(2<i>g</i>) ) − ( <i>z</i><sub>2</sub> + <i>p</i><sub>2</sub>/(ρ<i>g</i>) + <i>V</i><sub>2</sub><sup>2</sup>/(2<i>g</i>) ) ]</p>
+</div>
+<ul>
+  <li><i>W</i><sub><i>S</i></sub> 也称为流体机械的<strong>轴功率</strong>；</li>
+  <li>流体机械对流体做功时（<strong>泵、风扇</strong>）<strong><i>W</i><sub><i>S</i></sub> &gt; 0</strong>；</li>
+  <li>流体对流体机械做功时（<strong>涡轮、风力发电机的风轮</strong>）<strong><i>W</i><sub><i>S</i></sub> &lt; 0</strong>；</li>
+  <li>只要知道单位时间净流出控制体的流体机械能，就可以得到流体机械的功率。</li>
+</ul>
+
+<h2>6.5　物理意义与几何意义</h2>
+<table>
+  <tr><th style="width:16%">项</th><th style="width:30%">物理意义（单位重量流体的能量）</th><th style="width:30%">几何意义（水头）</th><th>别称</th></tr>
+  <tr><td><i>z</i></td><td>位能（重力势能）——单位位能</td><td>位置水头、高度水头</td><td>比位能</td></tr>
+  <tr><td><i>p</i>/(ρ<i>g</i>)</td><td>压能（压强势能）——单位压能</td><td>压强水头、测压管高度</td><td>比压能</td></tr>
+  <tr><td><i>u</i><sup>2</sup>/(2<i>g</i>)</td><td>动能——单位动能</td><td>速度水头、流速高度</td><td>比动能</td></tr>
+  <tr><td><i>H</i><sub><i>p</i></sub> = <i>z</i> + <i>p</i>/(ρ<i>g</i>)</td><td>单位势能</td><td><strong>测压管水头</strong>（静力水头）</td><td>—</td></tr>
+  <tr><td><i>H</i> = <i>z</i> + <i>p</i>/(ρ<i>g</i>) + <i>u</i><sup>2</sup>/(2<i>g</i>)</td><td>单位机械能</td><td><strong>总水头</strong></td><td>—</td></tr>
+</table>
+<p><strong>物理意义</strong>：理想不可压缩的重力流体作定常流动时，在同一流线的不同点上或同一微元流束的不同截面上，单位重量流体的位能、压强势能和动能之和<strong>等于常数</strong>。<strong>几何意义</strong>：沿同一流线（或微元流束）各点的位置水头、压强水头和速度水头之和保持不变，即<strong>总水头是一常数</strong>——无粘性流体的恒定流动，沿同一元流各断面的总水头相等，<strong>总水头线是水平线</strong>。</p>
+<p><strong>测压管水头（静力水头）</strong> <i>H</i><sub><i>p</i></sub> = <i>z</i> + <i>p</i>/(ρ<i>g</i>) 表明断面测压管水面相对于基准面的高度，表示单位重量流体具有的势能，称单位势能。（与 §3.10 的呼应：<i>H</i> = <i>H</i><sub><i>p</i></sub> + <i>u</i><sup>2</sup>/(2<i>g</i>)，即<strong>由总水头线减去速度水头即可得测压管水头线</strong>。）</p>
+
+<h2>6.6　应用一：小孔出流（托里拆利公式）</h2>
+<p>一贮液容器侧壁开一小孔形成自由射流，求孔口速度。设想一条流线，在流线上取两点：①位于自由液面，②位于出孔截面。</p>
+<div class="fml"><span class="tag">课件 P84</span>
+<p>①处：<i>p</i><sub>1</sub> = <i>p</i><sub>a</sub>，<i>V</i><sub>1</sub> = 0；②处（出口外紧邻出口）：<i>p</i><sub>2</sub> = <i>p</i><sub>a</sub>，<i>V</i><sub>2</sub> = <i>V</i>；<i>z</i><sub>1</sub> − <i>z</i><sub>2</sub> = <i>h</i></p>
+<p><b><i>V</i> = √(2<i>gh</i>)</b>&nbsp;&nbsp;（理论值，托里拆利公式）&nbsp;&nbsp;→&nbsp;&nbsp; <b><i>V</i> = <i>c</i><sub><i>v</i></sub>√(2<i>gh</i>)</b></p>
+</div>
+<p>成立的理由（三条假设）：小孔出流时自由面的水位下降速度 <i>V</i><sub>1</sub> 与小孔出流速度相比可以忽略不计，流动可假设是定常的；不计粘性损失；由于是小孔，中心点处速度可以近似代表小孔速度。实际流动中粘性不可忽略，实际速度略低于理论值，引入<strong>速度系数 <i>c</i><sub><i>v</i></sub></strong>，实验表明 <strong><i>c</i><sub><i>v</i></sub> ≈ 0.97</strong>。</p>
+
+<h2>6.7　应用二：皮托管（测速管）</h2>
+<p>a 点压强水头由<strong>测速管</strong>量测（管口正对来流，测得总压/滞止压强），b 点压强水头由<strong>测压管</strong>量测（测得静压）。对 a、b 两点列无粘性流体元流伯努利方程（b 点为驻点，速度为零）：</p>
+<div class="fml"><span class="tag">课件 P85–P87</span>
+<p><i>z</i> + <i>p</i><sub><i>a</i></sub>/γ + 0 = <i>z</i> + <i>p</i><sub><i>b</i></sub>/γ + <i>u</i><sup>2</sup>/(2<i>g</i>)&nbsp; ⟹ &nbsp;<i>u</i><sup>2</sup>/(2<i>g</i>) = (<i>p</i><sub><i>a</i></sub> − <i>p</i><sub><i>b</i></sub>)/γ = <i>h</i><sub><i>V</i></sub></p>
+<p><b><i>u</i> = √(2<i>g</i>(<i>p</i><sub><i>a</i></sub> − <i>p</i><sub><i>b</i></sub>)/γ) = √(2<i>gh</i><sub><i>V</i></sub>)</b>&nbsp;&nbsp;→&nbsp;&nbsp; <b><i>u</i> = φ√(2<i>gh</i><sub><i>V</i></sub>)</b></p>
+</div>
+<p>φ 为<strong>流速修正系数</strong>（考虑粘性效应及探头对流场的干扰），一般由实验确定，<strong>通常 φ = 0.98～1.05</strong>。<strong>皮托管测定气流</strong>时：</p>
+<div class="fml"><span class="tag">气体用皮托管</span>
+<p><i>u</i> = φ√( 2γ′<i>h</i><sub><i>V</i></sub> / ρ )，&nbsp;&nbsp; 其中 <b><i>p</i><sub><i>a</i></sub> − <i>p</i><sub><i>b</i></sub> = (γ′ − γ)<i>h</i><sub><i>V</i></sub></b>，γ′ 为测压管内工作液体重度</p>
+</div>
+<p>对于气体有 γ ≪ γ′，故 <i>p</i><sub><i>a</i></sub> − <i>p</i><sub><i>b</i></sub> ≈ γ′<i>h</i><sub><i>V</i></sub>。注意：<strong>皮托管测的是点速度 <i>u</i></strong>，要得到流量还需配合断面流速分布积分（<i>Q</i> = ∫<i>u</i>d<i>A</i>）。</p>
+
+<h2>6.8　例题</h2>
+<div class="prob">
+  <div class="pt">例 3-2（课件 P89–P90）机翼绕流求三点压强</div>
+  <div class="q"><strong>题目</strong>：在海平面上不可压均质理想气流流过一个机翼，远前方来流静压 <i>p</i><sub>∞</sub> = 101200 N/m<sup>2</sup>、流速 <i>V</i><sub>∞</sub> = 100 m/s；机翼上 <i>A</i>、<i>B</i>、<i>C</i> 三点的速度分别为 <i>V</i><sub><i>A</i></sub> = 0、<i>V</i><sub><i>B</i></sub> = 150 m/s、<i>V</i><sub><i>C</i></sub> = 50 m/s，空气密度 ρ = 1.255 kg/m<sup>3</sup>，流动定常。求三点的压强。</div>
+  <div class="sol">
+    <p><span class="badge">思路</span>流动定常、理想、不可压，且不计重力（或三点同高），故<strong>伯努利常数（总压）在全流场通用</strong>：先由远前方条件定出该常数，再逐点求压强。用总压形式 <i>p</i> + ρ<i>V</i><sup>2</sup>/2 = <i>p</i><sub>0</sub>。</p>
+    <div class="fml left"><p><i>p</i><sub>0</sub> = <i>p</i><sub>∞</sub> + ρ<i>V</i><sub>∞</sub><sup>2</sup>/2 = 101200 + 1.225×(100)<sup>2</sup>/2 = 101200 + 6125 = 107325 Pa</p></div>
+    <p>（课件在数值计算中取 ρ = 1.225 kg/m<sup>3</sup>。）</p>
+    <ul>
+      <li><i>A</i> 点为驻点（<i>V</i><sub><i>A</i></sub> = 0）：<i>p</i><sub><i>A</i></sub> = <i>p</i><sub>0</sub> = <strong>107325 Pa</strong>；</li>
+      <li><i>p</i><sub><i>B</i></sub> = <i>p</i><sub>0</sub> − ρ<i>V</i><sub><i>B</i></sub><sup>2</sup>/2 = 107325 − 0.6125×22500 = <strong>93825 Pa</strong>；</li>
+      <li><i>p</i><sub><i>C</i></sub> = <i>p</i><sub>0</sub> − ρ<i>V</i><sub><i>C</i></sub><sup>2</sup>/2 = 107325 − 1531 = <strong>105794 Pa</strong>。</li>
+    </ul>
+    <p><strong>物理结论</strong>：流速大的地方压强小（<i>B</i> 点流速最大、压强最低），这正是机翼升力与空化现象的根源。</p>
+  </div>
+  <div class="ans">答：<i>p</i><sub><i>A</i></sub> = 107325 Pa，<i>p</i><sub><i>B</i></sub> = 93825 Pa，<i>p</i><sub><i>C</i></sub> = 105794 Pa。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 3-3（课件 P91–P92）绕固定轴旋转流动：证明伯努利常数是 <i>r</i> 的函数</div>
+  <div class="q"><strong>题目</strong>：二维绕固定轴旋转流动，周向速度 <i>v</i><sub>θ</sub> 正比于半径 <i>r</i>，即 <i>v</i><sub>θ</sub> = <i>kr</i>（理想不可压流体，不考虑重力影响）。试证明伯努利常数 <i>C</i> 是 <i>r</i> 的函数。</div>
+  <div class="sol">
+    <p><span class="badge">①</span>沿流线（等半径圆周）写伯努利方程：<i>p</i> + (1/2)ρ<i>v</i><sub>θ</sub><sup>2</sup> = <i>C</i>；对半径取导数</p>
+    <div class="fml left"><p>∂<i>C</i>/∂<i>r</i> = ∂<i>p</i>/∂<i>r</i> + ρ<i>v</i><sub>θ</sub>·∂<i>v</i><sub>θ</sub>/∂<i>r</i></p></div>
+    <p><span class="badge g">②</span>在半径 <i>r</i> 处取微元流体 <i>ABCD</i>（径向 dr、周向 dθ）作受力分析：法向压力必须平衡微元的离心力，即"<strong>外侧压力 − 两侧面压力的径向投影 − 内侧压力 = 微元离心力</strong>"，略去高阶小量得</p>
+    <div class="fml left"><p>∂<i>p</i>/∂<i>r</i> = ρ<i>v</i><sub>θ</sub><sup>2</sup>/<i>r</i>　（这就是流体作圆周运动时的径向压强梯度公式）</p></div>
+    <p><span class="badge o">③</span>代入 <i>v</i><sub>θ</sub> = <i>kr</i>：</p>
+    <div class="fml left"><p>∂<i>C</i>/∂<i>r</i> = ρ<i>k</i><sup>2</sup><i>r</i> + ρ<i>kr</i>·<i>k</i> = <b>2ρ<i>k</i><sup>2</sup><i>r</i> ≠ 0</b></p></div>
+    <p>∂<i>C</i>/∂<i>r</i> ≠ 0 说明 <i>C</i> 随 <i>r</i> 变化，即<strong>伯努利常数在全流场不是同一个常数</strong>（只在同一条流线上为常数）——这正是"伯努利方程只能沿同一流线使用"的原因。</p>
+  </div>
+  <div class="ans">答：∂<i>p</i>/∂<i>r</i> = ρ<i>v</i><sub>θ</sub><sup>2</sup>/<i>r</i>，代入 <i>v</i><sub>θ</sub> = <i>kr</i> 得 ∂<i>C</i>/∂<i>r</i> = 2ρ<i>k</i><sup>2</sup><i>r</i> ≠ 0，故 <i>C</i> 是 <i>r</i> 的函数。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 3-3 拓展（课件 P93–P94）Lamb 涡模型：<i>v</i><sub>θ</sub> = <i>K</i>/<i>r</i></div>
+  <div class="q"><strong>题目</strong>：如果速度场是 <i>v</i><sub>θ</sub> = <i>K</i>/<i>r</i>，试证明能量方程的积分常数对整个流场是不变的。</div>
+  <div class="sol">
+    <p>仍用 ∂<i>C</i>/∂<i>r</i> = ∂<i>p</i>/∂<i>r</i> + ρ<i>v</i><sub>θ</sub>∂<i>v</i><sub>θ</sub>/∂<i>r</i>，并代入圆周运动的 ∂<i>p</i>/∂<i>r</i> = ρ<i>v</i><sub>θ</sub><sup>2</sup>/<i>r</i>：</p>
+    <div class="fml left"><p>∂<i>C</i>/∂<i>r</i> = ρ<i>v</i><sub>θ</sub><sup>2</sup>/<i>r</i> + ρ<i>v</i><sub>θ</sub>(−<i>K</i>/<i>r</i><sup>2</sup>) = ρ<i>K</i><sup>2</sup>/<i>r</i><sup>3</sup> − ρ<i>K</i><sup>2</sup>/<i>r</i><sup>3</sup> = <b>0</b></p></div>
+    <p>故 <i>C</i> 与 <i>r</i> 无关，<strong>伯努利常数在全流场统一</strong>——这就是 <strong>Lamb 涡模型</strong>：涡核内速度场为 <i>v</i><sub>θ</sub> = <i>kr</i>（有旋、<i>C</i> 随 <i>r</i> 变），涡核外速度场为 <i>v</i><sub>θ</sub> = <i>K</i>/<i>r</i>（无旋、<i>C</i> 全场统一）。</p>
+  </div>
+  <div class="ans">答：∂<i>C</i>/∂<i>r</i> = 0，积分常数在全流场不变（无旋流动中伯努利常数全场通用）。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">例 3-4（课件 P95）装有泵的管路求泵的功率</div>
+  <div class="q"><strong>题目</strong>：装有泵的管路，已知泵进口表压 <i>p</i><sub>1<i>b</i></sub> = 250 mmHg（真空度）、出口表压 <i>p</i><sub>2<i>b</i></sub> = 275×10<sup>3</sup> Pa，进口管径 <i>d</i><sub>1</sub> = 200 mm、出口管径 <i>d</i><sub>2</sub> = 150 mm，出口断面比进口断面高 <i>h</i> = 3 m，水 ρ = 1000 kg/m<sup>3</sup>，流量 <i>Q</i> = 0.15 m<sup>3</sup>/s。求泵的功率 <i>W</i><sub><i>P</i></sub>。</div>
+  <div class="sol">
+    <p><span class="badge">思路</span>取泵的进口断面 1-1、出口断面 2-2 为计算断面，两断面之间只有泵这一台流体机械，用含泵的能量方程</p>
+    <div class="fml left"><p><i>W</i><sub><i>P</i></sub> = ρ<i>gQ</i>[ ( <i>z</i><sub>2</sub> + <i>p</i><sub>2</sub>/γ + <i>V</i><sub>2</sub><sup>2</sup>/(2<i>g</i>) ) − ( <i>z</i><sub>1</sub> + <i>p</i><sub>1</sub>/γ + <i>V</i><sub>1</sub><sup>2</sup>/(2<i>g</i>) ) ]</p></div>
+    <ul>
+      <li><i>V</i><sub>1</sub> = <i>Q</i>/<i>A</i><sub>1</sub> = 4<i>Q</i>/(π<i>d</i><sub>1</sub><sup>2</sup>) = 4×0.15/(π×0.2<sup>2</sup>) = <strong>4.77 m/s</strong>；</li>
+      <li><i>V</i><sub>2</sub> = <i>Q</i>/<i>A</i><sub>2</sub> = 4<i>Q</i>/(π<i>d</i><sub>2</sub><sup>2</sup>) = 4×0.15/(π×0.15<sup>2</sup>) = <strong>8.47 m/s</strong>；</li>
+      <li>两断面的位置水头差 <i>z</i><sub>2</sub> − <i>z</i><sub>1</sub> = 3 m；</li>
+      <li>代入数值算得 <strong><i>W</i><sub><i>P</i></sub> = 54.4 kW</strong>。</li>
+    </ul>
+    <p><strong>要点</strong>：①泵进口为真空（表压为负，用 mmHg 表示时须换算，1 mmHg ≈ 133.3 Pa）；②速度水头差不能漏（<i>d</i><sub>1</sub> ≠ <i>d</i><sub>2</sub> 时这一项相当可观）；③算出的功率是<strong>泵对流体的有效功率</strong>，若给出泵效率 η，则轴功率为 <i>W</i><sub><i>P</i></sub>/η。</p>
+  </div>
+  <div class="ans">答：<i>W</i><sub><i>P</i></sub> = 54.4 kW。</div>
+</div>
+
+<div class="box exam"><div class="bt">随堂作业（课件 P96，建议自测）</div>
+<p>水库中的水推动涡轮机工作，已知断面 1-1（上游水库水面）与断面 2-2（下游）压强均为大气压 <i>p</i><sub>1</sub> = <i>p</i><sub>2</sub> = <i>p</i><sub><i>a</i></sub>，<i>d</i><sub>1</sub> = 1.5 m、<i>d</i><sub>2</sub> = 2.0 m、<i>V</i><sub>2</sub> = 19 m/s、<i>Q</i> = 25 m<sup>3</sup>/s、<i>h</i><sub>1</sub> = 4 m、<i>h</i><sub>2</sub> = 2 m。求：①涡轮机输出功率 <i>W</i><sub><i>T</i></sub>；②如果无涡轮，流量 <i>Q</i> = ?</p>
+<p><strong>提示</strong>：①对 1-1、2-2 列含能量输出的能量方程 <i>z</i><sub>1</sub> + <i>p</i><sub>1</sub>/γ + α<sub>1</sub><i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> = <i>z</i><sub>2</sub> + <i>p</i><sub>2</sub>/γ + α<sub>2</sub><i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> + <i>H</i><sub>0</sub> + <i>h</i><sub><i>w</i></sub>，取断面 1-1 为水库自由液面（<i>v</i><sub>1</sub> ≈ 0），则 <i>H</i><sub>0</sub> = (<i>h</i><sub>1</sub> + <i>h</i><sub>2</sub>) − <i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i>；②无涡轮时全部势能用于提供动能与克服损失，而损失随 <i>v</i><sup>2</sup> 增大，必须与 <i>h</i><sub><i>w</i></sub> = <i>k</i><i>v</i><sup>2</sup>/2<i>g</i> 联立求解，不能直接用 √(2<i>gH</i>)。</p>
+</div>
+
+<h2>6.9　粘性流体元流的伯努利方程</h2>
+<p>实际流体流动时克服阻力做功，<strong>机械能不可逆地转化为热能</strong>，机械能不守恒，<strong>总水头线沿程下降</strong>。由能量守恒：</p>
+<div class="fml"><span class="tag">课件 P97</span>
+<p><i>z</i><sub>1</sub> + <i>p</i><sub>1</sub>/(ρ<i>g</i>) + <i>u</i><sub>1</sub><sup>2</sup>/(2<i>g</i>) = <i>z</i><sub>2</sub> + <i>p</i><sub>2</sub>/(ρ<i>g</i>) + <i>u</i><sub>2</sub><sup>2</sup>/(2<i>g</i>) + <b><i>h</i>′<sub><i>l</i>1−2</sub></b></p>
+</div>
+<p><i>h</i>′<sub><i>l</i>1−2</sub> 为<strong>元流的水头损失</strong>（单位重量流体在 1-2 段内损失的机械能）。这条方程的物理含义是：<strong>上游总水头 = 下游总水头 + 水头损失</strong>。它是 §3.8 总流能量方程的直接来源。</p>
+<div class="box warn"><div class="bt">本节易错提醒汇总</div>
+<ul>
+  <li>把伯努利方程用在<strong>不同流线</strong>上（例 3-3 已经证明伯努利常数一般随流线变化）；</li>
+  <li>理想流体方程里漏掉 <i>h</i><sub><i>w</i></sub>，或把实际流体当作"总水头线水平"处理；</li>
+  <li>小孔出流中把"孔口断面"当作压强为大气压的断面（正确做法见 §3.9 的孔口收缩断面讨论）；</li>
+  <li>皮托管测的是<strong>点速度</strong>，且需乘流速修正系数 φ；</li>
+  <li>求流体机械功率时，用高程差代替<strong>总水头差</strong>（速度水头项不能漏）。</li>
+</ul>
+</div>
+
+<div class="pagebreak"></div>
+<h1>7　过流断面的压强分布（课件 3.7）</h1>
+<p class="lead">课件 3.7 节共 20 页（P4–P23），回答一个此前被回避的问题：<strong>压强在垂直于流线的方向上怎样变化？</strong>结论是"渐变流过流断面上压强按静水规律分布"，这正是总流能量方程能把 <i>z</i> + <i>p</i>/γ 提出积分号的前提。</p>
+
+<h2>7.1　问题的提出：流速变化的两种方式</h2>
+<p>流体质点受力包括压强、粘性力、惯性力、重力。惯性力与质点流速有关，因此需要考虑流速的变化。总流中流速的变化包括两部分：</p>
+<ul>
+  <li><strong>流速大小的变化</strong> → 出现<strong>直线惯性力</strong> → 压强沿流向变化（§3.6 元流能量方程已处理）；</li>
+  <li><strong>流速方向的变化</strong> → 出现<strong>离心惯性力</strong> → 压强<strong>沿断面变化</strong>（本节要处理的内容）。</li>
+</ul>
+
+<h2>7.2　均匀流动与非均匀流动</h2>
+<table>
+  <tr><th style="width:20%">类型</th><th style="width:34%">数学判据</th><th>几何与物理特征</th></tr>
+  <tr><td><strong>均匀流动</strong></td><td>(<b>u</b>·∇)<b>u</b> = 0，<strong>迁移加速度为零</strong></td><td>质点流速的大小和方向均不变；<strong>流线为相互平行的直线，过流断面为平面</strong></td></tr>
+  <tr><td><strong>非均匀流动</strong></td><td>(<b>u</b>·∇)<b>u</b> ≠ 0，迁移加速度不为零</td><td>流速随流向变化，又分<strong>渐变流</strong>与<strong>急变流</strong></td></tr>
+</table>
+<p>课件的均匀流例子：<i>u</i><sub><i>x</i></sub> = <i>u</i><sub><i>x</i></sub>(<i>y</i>)，<i>u</i><sub><i>y</i></sub> = <i>u</i><sub><i>z</i></sub> = 0，且 ∂<i>u</i><sub><i>x</i></sub>/∂<i>x</i> = ∂<i>u</i><sub><i>z</i></sub>/∂<i>z</i> = 0（两平板间、管中层流）。</p>
+<div class="box warn"><div class="bt">极易混淆：均匀流 ≠ 等速直线流动</div>
+<p>应把<strong>均匀流</strong>与"完全不随空间位置而变的等速直线流动 <i>u</i> = const"相区别：前者指流动<strong>沿着流线方向</strong>不变（但沿垂直流线方向可以变，如管内层流的速度剖面），后者指流动<strong>沿着空间任何方向</strong>都不变。<strong>后者只是均匀流的一个特例。</strong></p>
+</div>
+<p>均匀流中不存在惯性力，因此在均匀流空间是<strong>重力、压力和粘性力的平衡</strong>。特别地，<strong>在均匀流过流断面上，粘性力对垂直于流速方向的过流断面上的压强变化不起作用</strong>——此时过流断面上仅需考虑重力和压力的平衡，<strong>与静止流体所考虑的一致</strong>。这正是下面结论的物理依据。</p>
+
+<h2>7.3　核心结论：均匀流过流断面上压强按静水规律分布</h2>
+<p><strong>推导（课件 P10–P11）</strong>：取轴线 <i>n</i>-<i>n</i> 位于均匀流断面上的微小柱体为控制体，柱体长 <i>l</i>、横断面 Δ<i>A</i>、与铅直方向成倾角 α，两断面高程 <i>Z</i><sub>1</sub>、<i>Z</i><sub>2</sub>，压强 <i>p</i><sub>1</sub>、<i>p</i><sub>2</sub>。受力分析：</p>
+<ul>
+  <li>柱体重力在 <i>n</i>-<i>n</i> 方向的分量 <i>G</i>cos α = ρ<i>gl</i>Δ<i>A</i>cos α；</li>
+  <li>作用在柱体两端的压力 <i>p</i><sub>1</sub>Δ<i>A</i> 与 <i>p</i><sub>2</sub>Δ<i>A</i>；</li>
+  <li>侧表面压力垂直于 <i>n</i>-<i>n</i> 轴，在 <i>n</i>-<i>n</i> 轴上的投影为 0；两端的切向力在 <i>n</i>-<i>n</i> 轴上的投影也为 0。</li>
+</ul>
+<div class="fml"><span class="tag">力平衡（课件 P11）</span>
+<p><i>p</i><sub>1</sub>Δ<i>A</i> + γ·<i>l</i>Δ<i>A</i>cos α = <i>p</i><sub>2</sub>Δ<i>A</i>，&nbsp; 而 <i>l</i>cos α = <i>Z</i><sub>1</sub> − <i>Z</i><sub>2</sub></p>
+<p>⟹ &nbsp;<i>p</i><sub>1</sub> + γ(<i>Z</i><sub>1</sub> − <i>Z</i><sub>2</sub>) = <i>p</i><sub>2</sub>&nbsp; ⟹ &nbsp;<b><i>Z</i><sub>1</sub> + <i>p</i><sub>1</sub>/γ = <i>Z</i><sub>2</sub> + <i>p</i><sub>2</sub>/γ</b></p>
+</div>
+<div class="box key"><div class="bt">结论（本节最重要的一句话）</div>
+<p><strong>均匀流过流断面上压强分布服从流体静力学规律</strong>，即断面上各点的测压管水头 <i>z</i> + <i>p</i>/γ = 常数、压强按 <i>p</i> = <i>p</i><sub>0</sub> + ρ<i>gh</i> 分布。注意：<strong>不同断面上的测压管水头并不相同</strong>，考虑黏性后下游断面的水头降低（所以总水头线与测压管水头线才有坡度，见 §3.10）。</p>
+</div>
+
+<h2>7.4　渐变流与急变流</h2>
+<table>
+  <tr><th style="width:16%">类型</th><th style="width:44%">定义与判据</th><th>压强分布特征</th></tr>
+  <tr><td><strong>渐变流</strong>（缓变流）</td><td>非严格的均匀流、接近于均匀流。四条定义：①流线近似于平行直线；②<strong>惯性力忽略不计</strong>；③过流断面近似于平面；④过流断面上压强分布可认为服从流体静力学规律</td><td>断面上 <i>z</i> + <i>p</i>/γ = 常数，<strong>测压管水头是常数</strong>；压强按静水规律分布</td></tr>
+  <tr><td><strong>急变流</strong></td><td>流速沿流向变化显著的流动（弯管、闸门后、突扩突缩、阀门、孔口边缘处）</td><td><strong>断面上测压管水头不是常数</strong>；流线明显弯曲，离心力方向压强增加、流速减小</td></tr>
+</table>
+<div class="box warn"><div class="bt">关键判断</div>
+<p><strong>渐变流和急变流之间没有明确的界限</strong>，取决于惯性力是否可以忽略。工程上的取断面经验：把计算断面取在<strong>直管段</strong>、距弯头/阀件/进出口<strong>不小于 3～5 倍管径</strong>处，并保证断面与流线垂直。</p>
+</div>
+<h3>急变流实例：锐缘孔口的压强分布（课件 P17–P18）</h3>
+<p>当孔口边缘为<strong>锐缘</strong>时，流线在边沿处发生显著弯曲：<strong>边缘 <i>A</i> 点与大气相连，故该点处压强为 0</strong>；沿离心力方向（指向流束中心）压强迅速增大；到达孔口流束中心时流速接近于 0、压强几乎达到水箱底部的压强值。课件用虚线表示静压强分布——这说明<strong>孔口断面上 <i>z</i> + <i>p</i>/γ 远非常数</strong>，直接把"孔口断面压强等于大气压"当作条件使用是错误的。</p>
+
+<h2>7.5　急变流的工程应用：弯管流量计</h2>
+<div class="prob">
+  <div class="pt">例 3-5（课件 P19–P22）弯管流量计</div>
+  <div class="q"><strong>题目</strong>：利用弯管（弯头）内外侧的压强差来测量流量。已知弯管中心线曲率半径 <i>R</i>、管径 <i>D</i>、内外侧测压管液面差 <i>h</i>，流体密度 ρ。试导出流量公式。</div>
+  <div class="sol">
+    <p><span class="badge">① 取控制体</span>半径 <i>r</i> 处的微元，径向厚度 d<i>r</i>、所对应的圆心角 dθ、管道轴向宽度 <i>b</i>。</p>
+    <p><span class="badge g">② 受力与离心力平衡</span>（课件原式，注意红线下划出的三项）</p>
+    <div class="fml left"><p>(<i>p</i> + d<i>p</i>)(<i>r</i> + d<i>r</i>)dθ·<i>b</i>&nbsp; −&nbsp; (<i>p</i> + ½d<i>p</i>)d<i>r</i>·½dθ·2<i>b</i>&nbsp; −&nbsp; <i>p</i>·<i>r</i>dθ·<i>b</i>&nbsp; =&nbsp; ρ<i>r</i>dθd<i>r</i><i>b</i>·<i>v</i><sup>2</sup>/<i>r</i></p>
+    <p>（左起三项依次为：<strong>外侧压力</strong>、<strong>控制体两侧面压力的径向投影</strong>、<strong>内侧压力</strong>；右端为<strong>控制体的离心力</strong>。）</p></div>
+    <p>整理得 <strong>d<i>p</i>/d<i>r</i> = ρ<i>v</i><sup>2</sup>/<i>r</i></strong>——课件特别标注：<em>这里的速度是截面速度的平均流速</em>。</p>
+    <p><span class="badge o">③ 积分求流量</span>（<i>v</i> 视为常数）</p>
+    <div class="fml left"><p>∫<sub><i>p</i><sub><i>i</i></sub></sub><sup><i>p</i><sub><i>o</i></sub></sup> d<i>p</i> = ∫<sub><i>r</i><sub><i>i</i></sub></sub><sup><i>r</i><sub><i>o</i></sub></sup> ρ(<i>v</i><sup>2</sup>/<i>r</i>)d<i>r</i>&nbsp; ⟹ &nbsp;<i>p</i><sub><i>o</i></sub> − <i>p</i><sub><i>i</i></sub> = ρ<i>v</i><sup>2</sup>ln(<i>r</i><sub><i>o</i></sub>/<i>r</i><sub><i>i</i></sub>)</p>
+    <p>由测压管读数 <i>p</i><sub><i>o</i></sub> − <i>p</i><sub><i>i</i></sub> = ρ<i>gh</i>&nbsp; ⟹ &nbsp;<i>v</i> = √( <i>gh</i> / ln(<i>r</i><sub><i>o</i></sub>/<i>r</i><sub><i>i</i></sub>) )</p>
+    <p><b><i>Q</i> = <i>vA</i> = (π<i>D</i><sup>2</sup>/4)·√( <i>gh</i> / ln(<i>r</i><sub><i>o</i></sub>/<i>r</i><sub><i>i</i></sub>) )</b></p></div>
+    <p>通常弯管的中心线曲率半径记为 <i>R</i>，则 <i>r</i><sub><i>o</i></sub> = <i>R</i> + <i>D</i>/2、<i>r</i><sub><i>i</i></sub> = <i>R</i> − <i>D</i>/2，故</p>
+    <div class="fml left"><p><b><i>Q</i> = (π<i>D</i><sup>2</sup>/4)·√( <i>gh</i> / ln[ (<i>R</i> + <i>D</i>/2)/(<i>R</i> − <i>D</i>/2) ] )</b></p></div>
+    <p>实际情况下弯管内存在速度分布、二次流和弯曲损失，所以通常写成带修正系数的形式 <i>Q</i> = ξ(π<i>D</i><sup>2</sup>/4)√( <i>gh</i> / ln(<i>r</i><sub><i>o</i></sub>/<i>r</i><sub><i>i</i></sub>) )，ξ 由实验标定。</p>
+  </div>
+  <div class="ans">答：d<i>p</i>/d<i>r</i> = ρ<i>v</i><sup>2</sup>/<i>r</i>；<i>Q</i> = (π<i>D</i><sup>2</sup>/4)√( <i>gh</i>/ln(<i>r</i><sub><i>o</i></sub>/<i>r</i><sub><i>i</i></sub>) )，工程形式 <i>Q</i> = ξ(π<i>D</i><sup>2</sup>/4)√( <i>gh</i>/ln(<i>r</i><sub><i>o</i></sub>/<i>r</i><sub><i>i</i></sub>) )。</div>
+</div>
+<div class="prob">
+  <div class="pt">例 3-6（课件 P23）均匀流动中某点压强的求法</div>
+  <div class="q"><strong>题目</strong>：水在管中作均匀流动，管路上装有水柱测压管（<i>B</i>、<i>C</i>）与水银测压计（<i>D</i>、<i>E</i>），已知各液面高度，求管中 <i>A</i> 点的压强 <i>p</i><sub><i>A</i></sub>。</div>
+  <div class="sol">
+    <p><span class="badge">关键认识</span>水在管中<strong>均匀流动</strong>时，过流断面上压强服从流体静力学规律，即 <i>z</i> + <i>p</i>/(ρ<i>g</i>) = <i>c</i>。因此可以<strong>像静力学那样逐段用等压面与液柱高度换算</strong>，由测压管读数反求 <i>p</i><sub><i>A</i></sub>。</p>
+    <p><span class="badge r">注意</span>要区分<strong>静止流体与运动流动</strong>：静止流体中同一水平面（同种连通流体）压强相等；而运动流动中只有<strong>均匀流（渐变流）过流断面</strong>上才成立 <i>z</i> + <i>p</i>/γ = <i>c</i>，非均匀流的急变流断面上不能这样用。</p>
+  </div>
+  <div class="ans">答：由 <i>z</i> + <i>p</i>/γ = <i>c</i> 沿测压管逐段换算即得 <i>p</i><sub><i>A</i></sub>（具体数值取决于图中液面高度）。</div>
+</div>
+<div class="box warn"><div class="bt">本节易错提醒</div>
+<ul>
+  <li>在<strong>急变流</strong>区取计算断面（弯头、阀门、突扩突缩、闸门、孔口边沿处），此时断面内 <i>z</i> + <i>p</i>/γ 不是常数，能量方程失效；</li>
+  <li>把"均匀流"当成"等速直线流动"，或反过来把等速直线流动的特殊结论套到管道均匀流上；</li>
+  <li>把"不同断面测压管水头相同"当成结论——黏性流体中它<strong>沿程降低</strong>；</li>
+  <li>忽略"流速方向变化引起离心惯性力"这一项，直接沿用过流断面压强静水分布的结论去处理弯管内侧的低压区（弯管内侧是空化高发区）。</li>
+</ul>
+</div>
+
+<div class="pagebreak"></div>
+<h1>8　恒定总流能量方程式（课件 3.8）</h1>
+<p class="lead">课件 3.8 节共 17 页（P24–P43），把元流伯努利方程沿断面"放大"为总流能量方程——关键是三类积分的处理，其中动能积分引入了动能修正系数 α。</p>
+
+<h2>8.1　从元流到总流：方程两边乘以 ρg dQ 后积分</h2>
+<p>出发点（含损失的实际流体元流方程，断面 1-1、2-2 取<strong>渐变流断面</strong>）：</p>
+<div class="fml"><span class="tag">元流方程</span>
+<p><i>z</i><sub>1</sub> + <i>p</i><sub>1</sub>/(ρ<i>g</i>) + <i>u</i><sub>1</sub><sup>2</sup>/(2<i>g</i>) = <i>z</i><sub>2</sub> + <i>p</i><sub>2</sub>/(ρ<i>g</i>) + <i>u</i><sub>2</sub><sup>2</sup>/(2<i>g</i>) + <i>h</i>′<sub><i>l</i>1−2</sub></p>
+</div>
+<p>两边同乘以 ρ<i>g</i>d<i>Q</i>，并在断面（流量）上积分：</p>
+<div class="fml left"><span class="tag">课件 P28</span>
+<p>∫<sub><i>A</i><sub>1</sub></sub>(<i>Z</i><sub>1</sub> + <i>p</i><sub>1</sub>/(ρ<i>g</i>) + <i>u</i><sub>1</sub><sup>2</sup>/(2<i>g</i>))ρ<i>g</i>d<i>Q</i> = ∫<sub><i>A</i><sub>2</sub></sub>(<i>Z</i><sub>2</sub> + <i>p</i><sub>2</sub>/(ρ<i>g</i>) + <i>u</i><sub>2</sub><sup>2</sup>/(2<i>g</i>))ρ<i>g</i>d<i>Q</i> + ∫<sub><i>Q</i></sub> <i>h</i>′<sub><i>l</i>1−2</sub>ρ<i>g</i>d<i>Q</i></p>
+</div>
+<p>即 ∫<sub><i>A</i><sub>1</sub></sub>(<i>p</i><sub>1</sub> + γ<i>Z</i><sub>1</sub> + γ<i>u</i><sub>1</sub><sup>2</sup>/2<i>g</i>)d<i>Q</i> = ∫<sub><i>A</i><sub>2</sub></sub>(<i>p</i><sub>2</sub> + γ<i>Z</i><sub>2</sub> + γ<i>u</i><sub>2</sub><sup>2</sup>/2<i>g</i>)d<i>Q</i> + ∫<sub><i>Q</i></sub>γ<i>h</i>′<sub><i>l</i>1−2</sub>d<i>Q</i>。<strong>下面分三种类型分别积分。</strong></p>
+
+<h2>8.2　三类积分</h2>
+<h3>一、势能积分（可用静水分布直接提出积分号）</h3>
+<p>因为在渐变流断面上压强分布服从静水规律，<i>Z</i> + <i>p</i>/γ = <i>C</i>（常数），故</p>
+<div class="fml left"><p>∫(<i>p</i><sub>1</sub> + γ<i>Z</i><sub>1</sub>)d<i>Q</i> = ∫(<i>p</i><sub>1</sub>/γ + <i>Z</i><sub>1</sub>)γd<i>Q</i> = (<i>p</i><sub>1</sub>/γ + <i>Z</i><sub>1</sub>)∫γd<i>Q</i> = <b>(<i>p</i><sub>1</sub>/γ + <i>Z</i><sub>1</sub>)γ<i>Q</i></b></p>
+<p>表示单位时间通过该断面的流体<strong>势能</strong>。</p></div>
+<h3>二、动能积分（必须引入动能修正系数 α）</h3>
+<div class="fml left"><p>∫<sub><i>Q</i></sub>γ<i>u</i><sub>1</sub><sup>2</sup>/(2<i>g</i>)d<i>Q</i> = ∫<sub><i>A</i></sub>γ<i>u</i><sub>1</sub><sup>3</sup>/(2<i>g</i>)d<i>A</i> = (γ/2<i>g</i>)∫<sub><i>A</i></sub><i>u</i><sub>1</sub><sup>3</sup>d<i>A</i></p></div>
+<p>用断面平均流速 <i>v</i> = <i>Q</i>/<i>A</i> = ∫<sub><i>A</i></sub><i>u</i>d<i>A</i>/<i>A</i>，引入<strong>动能修正系数 α</strong>：</p>
+<div class="fml"><span class="tag">动能修正系数</span>
+<p><b>α = ∫<sub><i>A</i></sub><i>u</i><sup>3</sup>d<i>A</i> / ∫<sub><i>A</i></sub><i>v</i><sup>3</sup>d<i>A</i> = ∫<sub><i>A</i></sub><i>u</i><sup>3</sup>d<i>A</i> / (<i>v</i><sup>3</sup><i>A</i>)</b></p>
+<p>(γ/2<i>g</i>)∫<sub><i>A</i></sub><i>u</i><sup>3</sup>d<i>A</i> = (γ/2<i>g</i>)·α<i>v</i><sup>3</sup><i>A</i> = <b>γ<i>Q</i>·α<i>v</i><sup>2</sup>/(2<i>g</i>)</b></p>
+</div>
+<p>表示单位时间通过该断面的流体<strong>动能</strong>（用断面平均流速表示的动能须乘 α 才是真实动能）。</p>
+<table>
+  <tr><th style="width:40%">断面流速分布</th><th style="width:20%">α 值</th><th>备注</th></tr>
+  <tr><td>流速均匀分布</td><td class="c"><strong>α = 1</strong></td><td>理想化的活塞式流动</td></tr>
+  <tr><td>圆管内充分发展的层流</td><td class="c"><strong>α = 2</strong></td><td>抛物线分布，<i>u</i><sub>max</sub> = 2<i>v</i>，见下</td></tr>
+  <tr><td>一般湍流（紊流）</td><td class="c"><strong>α = 1.05～1.1 ≈ 1</strong></td><td>工程计算常取 1</td></tr>
+</table>
+<div class="box note"><div class="bt">补充：泊肃叶流动（Poiseuille flow）与 α = 2 的来源</div>
+<p>泊肃叶流动是圆管内<strong>充分发展、定常、不可压、牛顿流体的层流</strong>。最典型的特征是：<strong>速度在圆管截面上不是均匀分布，而是抛物线分布</strong>。对于压差驱动的泊肃叶流动，d<i>p</i>/d<i>x</i> 前带负号是为了保证 <i>u</i> &gt; 0（流动方向上压力降低）；圆管中最大速度与平均速度的关系为 <i>u</i><sub>max</sub> = 2<i>v</i>。把抛物线速度分布代入 α 的定义式积分即得 α = 2。</p>
+</div>
+<h3>三、能量损失积分</h3>
+<div class="fml left"><p>∫<sub><i>Q</i></sub>γ<i>h</i>′<sub><i>l</i>1−2</sub>d<i>Q</i> = <b><i>h</i><sub><i>l</i>1−2</sub>γ<i>Q</i></b>，&nbsp; <i>h</i><sub><i>l</i>1−2</sub> 为<strong>平均单位能量损失</strong>（按流量加权的平均值）</p>
+<p>表示单位时间通过该断面的流体克服 1-2 段阻力做功所损失的能量。</p></div>
+
+<h2>8.3　总流能量方程（本章第二个核心公式）</h2>
+<div class="fml"><span class="tag">总流总能量方程</span>
+<p>(<i>Z</i><sub>1</sub> + <i>p</i><sub>1</sub>/γ + α<sub>1</sub><i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i>)γ<i>Q</i> = (<i>Z</i><sub>2</sub> + <i>p</i><sub>2</sub>/γ + α<sub>2</sub><i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i>)γ<i>Q</i> + <i>h</i><sub><i>l</i>1−2</sub>γ<i>Q</i></p>
+</div>
+<p>物理含义：<strong>单位时间流入上游断面的能量 = 单位时间流出下游断面的能量 + 流段所损失的能量</strong>。令断面全部单位机械能 <i>H</i> = <i>Z</i> + <i>p</i>/γ + α<i>v</i><sup>2</sup>/(2<i>g</i>)，则 <i>H</i><sub>1</sub>γ<i>Q</i> = <i>H</i><sub>2</sub>γ<i>Q</i> + <i>h</i><sub><i>l</i>1−2</sub>γ<i>Q</i>。两边除以 γ<i>Q</i> 得<strong>单位重量流体的能量方程</strong>：</p>
+<div class="fml"><span class="tag">恒定总流能量方程式 / 恒定总流伯努利方程</span>
+<p><b><i>Z</i><sub>1</sub> + <i>p</i><sub>1</sub>/γ + α<sub>1</sub><i>v</i><sub>1</sub><sup>2</sup>/(2<i>g</i>) = <i>Z</i><sub>2</sub> + <i>p</i><sub>2</sub>/γ + α<sub>2</sub><i>v</i><sub>2</sub><sup>2</sup>/(2<i>g</i>) + <i>h</i><sub><i>l</i>1−2</sub></b></p>
+</div>
+<table>
+  <tr><th style="width:16%">符号</th><th>含义与取值要求</th></tr>
+  <tr><td><i>Z</i><sub>1</sub>、<i>Z</i><sub>2</sub></td><td>选定的 1、2 <strong>渐变流断面上任一点</strong>相对于选定基准面的高程</td></tr>
+  <tr><td><i>p</i><sub>1</sub>、<i>p</i><sub>2</sub></td><td>相应断面<strong>同一选定点</strong>的压强，且必须<strong>同时用相对压强或同时用绝对压强</strong></td></tr>
+  <tr><td><i>v</i><sub>1</sub>、<i>v</i><sub>2</sub></td><td>相应断面的<strong>平均流速</strong></td></tr>
+  <tr><td>α<sub>1</sub>、α<sub>2</sub></td><td>相应断面的动能修正系数</td></tr>
+  <tr><td><i>h</i><sub><i>l</i>1−2</sub></td><td>1、2 两断面间的<strong>平均单位水头损失</strong></td></tr>
+</table>
+<div class="box def"><div class="bt">水头损失的两种成分</div>
+<p><strong>沿程水头损失</strong>：沿管长均匀发生的均匀流损失（写在水头线上是斜直线）。<strong>局部水头损失</strong>：局部障碍引起的急变流损失，如<strong>管道弯头、接头、闸阀、水表</strong>等（写在水头线上是台阶式的铅直下降）。</p>
+</div>
+
+<h2>8.4　适用条件</h2>
+<ol>
+  <li><strong>定常流动</strong>——对于流速随时间变化缓慢的流动，方程仍然适用；</li>
+  <li><strong>不可压缩流体</strong>——包括压缩性极小的液体流动与 <strong><i>Ma</i> ≤ 0.3 的气体流动</strong>；</li>
+  <li>适用于<strong>渐变流断面</strong>——对于管路系统进口处的急变流动不适用；但对于断面流速不大、离心惯性力不显著，或者断面流速项在能量方程中占比很小的情况，可将断面划在急变流处<strong>近似</strong>求解。</li>
+</ol>
+
+<h2>8.5　有能量输入/输出的实用形式</h2>
+<div class="fml"><span class="tag">泵、风机（输入能量 H_i）</span>
+<p><i>Z</i><sub>1</sub> + <i>p</i><sub>1</sub>/γ + α<sub>1</sub><i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> + <b><i>H</i><sub><i>i</i></sub></b> = <i>Z</i><sub>2</sub> + <i>p</i><sub>2</sub>/γ + α<sub>2</sub><i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> + <i>h</i><sub><i>l</i>1−2</sub></p>
+<p><i>H</i><sub><i>i</i></sub>——输入的单位能量（扬程，m）</p>
+</div>
+<div class="fml"><span class="tag">水轮机、汽轮机（输出能量 H₀）</span>
+<p><i>Z</i><sub>1</sub> + <i>p</i><sub>1</sub>/γ + α<sub>1</sub><i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> = <i>Z</i><sub>2</sub> + <i>p</i><sub>2</sub>/γ + α<sub>2</sub><i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> + <b><i>H</i><sub>0</sub></b> + <i>h</i><sub><i>l</i>1−2</sub></p>
+<p><i>H</i><sub>0</sub>——输出的单位能量（工作水头，m）</p>
+</div>
+<div class="fml"><span class="tag">功率换算（课件原话）</span>
+<p><b>单位能量 × ρgQ = 功率</b>，即 <i>N</i><sub>泵</sub> = ρ<i>gQH</i><sub><i>i</i></sub>/η，&nbsp; <i>N</i><sub>水轮机</sub> = ρ<i>gQH</i><sub>0</sub>·η（η 为机械效率）</p>
+</div>
+
+<h2>8.6　流动分流</h2>
+<p>当管路在中间分流时（1 分为 2、3 两支），对 1-2 与 1-3 分别列能量方程：</p>
+<div class="fml left"><p><i>Z</i><sub>1</sub> + <i>p</i><sub>1</sub>/γ + α<sub>1</sub><i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> = <i>Z</i><sub>2</sub> + <i>p</i><sub>2</sub>/(ρ<i>g</i>) + α<sub>2</sub><i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> + <i>h</i><sub><i>l</i>1−2</sub>&nbsp;&nbsp;与&nbsp;&nbsp; = <i>Z</i><sub>3</sub> + <i>p</i><sub>3</sub>/(ρ<i>g</i>) + α<sub>2</sub><i>v</i><sub>3</sub><sup>2</sup>/2<i>g</i> + <i>h</i><sub><i>l</i>1−3</sub></p></div>
+<p><strong>分流影响的是 <i>h</i><sub><i>l</i>1−2</sub>、<i>h</i><sub><i>l</i>1−3</sub>，但不影响总流能量方程的表达形式。</strong></p>
+<div class="box warn"><div class="bt">本节易错提醒（最高频）</div>
+<ul>
+  <li><strong>断面上的压强 <i>p</i> 和位置高度 <i>Z</i> 必须取同一点的值</strong>。例如明渠流动可取在液面，也可取在渠底，但一条方程中必须统一为同一点；</li>
+  <li>两个断面取了不同基准面，或一端用相对压强、一端用绝对压强；</li>
+  <li>题给 α = 1.1 等具体值时漏乘 α，或把 α 同时乘在方程两边；</li>
+  <li>把"总水头线水平"的理想流体结论套用到实际（黏性）流体；</li>
+  <li>求流量时忘掉 <i>h</i><sub><i>w</i></sub> 中含有未知 <i>v</i>，应当与 <i>h</i><sub><i>w</i></sub> = ζ<i>v</i><sup>2</sup>/2<i>g</i> 联立。</li>
+</ul>
+</div>
+
+<h1>9　能量方程的应用（课件 3.9）</h1>
+<p class="lead">课件 3.9 节共 16 页（P44–P59），把总流能量方程用到四类工程问题上：文丘里流量计、气蚀校核、虹吸与泵管路。方法是"能量方程 + 连续性方程联立"。</p>
+
+<h2>9.1　解题步骤（课件 P47，必背）</h2>
+<div class="box key"><div class="bt">四步法</div>
+<ol>
+  <li><strong>分析流动</strong>——判断是否定常、是否渐变流、有无机械与分支；</li>
+  <li><strong>划分断面</strong>——取已知压强或已知压差的断面（一般取自由液面、管道进出口）；</li>
+  <li><strong>选择基准面</strong>——一般选择最低点，使 <i>z</i> ≥ 0；</li>
+  <li><strong>写出方程</strong>——必要时与连续性方程联立求解。</li>
+</ol>
+<p>课件补充：断面<strong>可取在管流出口以后，也可取在有压管流中</strong>。结合连续性方程之后，能量方程可以求 ◆<strong>流速</strong> ◆<strong>压强</strong> ◆<strong>流速和压强</strong>。</p>
+</div>
+
+<h2>9.2　文丘里流量计</h2>
+<p>取进口断面 1-1（面积 <i>A</i><sub>1</sub>、直径 <i>d</i><sub>1</sub>）与喉部断面 2-2（面积 <i>A</i><sub>2</sub>、直径 <i>d</i><sub>2</sub>），取基准面使 <i>Z</i> = 0、略去损失：</p>
+<div class="fml"><span class="tag">能量方程 + 连续性方程</span>
+<p>0 + <i>p</i><sub>1</sub>/γ + <i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> = 0 + <i>p</i><sub>2</sub>/γ + <i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i>&nbsp; ⟹ &nbsp;<b><i>p</i><sub>1</sub>/γ − <i>p</i><sub>2</sub>/γ = <i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> − <i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> = Δ<i>h</i></b></p>
+<p><i>v</i><sub>1</sub>(π/4)<i>d</i><sub>1</sub><sup>2</sup> = <i>v</i><sub>2</sub>(π/4)<i>d</i><sub>2</sub><sup>2</sup>&nbsp; ⟹ &nbsp;<i>v</i><sub>2</sub>/<i>v</i><sub>1</sub> = (<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>2</sup>&nbsp; ⟹ &nbsp;<i>v</i><sub>2</sub><sup>2</sup>/<i>v</i><sub>1</sub><sup>2</sup> = (<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>4</sup></p>
+</div>
+<p>代入得 (<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>4</sup>·<i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> − <i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> = Δ<i>h</i>，故</p>
+<div class="fml"><span class="tag">文丘里流量计（水平放置）</span>
+<p><b><i>v</i><sub>1</sub> = √(2<i>g</i>Δ<i>h</i>) / √[ (<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>4</sup> − 1 ]</b></p>
+<p><b><i>Q</i> = <i>v</i><sub>1</sub>(π/4)<i>d</i><sub>1</sub><sup>2</sup> = (π/4)<i>d</i><sub>1</sub><sup>2</sup>·√(2<i>g</i>Δ<i>h</i>) / √[ (<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>4</sup> − 1 ] = <i>K</i>√(Δ<i>h</i>)</b></p>
+<p><strong>仪器常数</strong> <i>K</i> = (π/4)<i>d</i><sub>1</sub><sup>2</sup>·√(2<i>g</i>) / √[ (<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>4</sup> − 1 ]，<strong><i>K</i> 只和 <i>d</i><sub>1</sub>、<i>d</i><sub>2</sub> 有关</strong></p>
+</div>
+<p>以上是<strong>基于理想流体模型</strong>的结果。实际流动有水头损失与结构误差，引入<strong>流量系数 μ</strong> 修正：</p>
+<div class="fml"><span class="tag">实际流量</span>
+<p><b><i>Q</i> = μ<i>K</i>√(Δ<i>h</i>)</b>，&nbsp; μ = 0.95～0.98（课件 P52 写 0.95~0.98，P54 写 0.96~0.98）</p>
+</div>
+<h3>斜放文丘里流量计（课件 P53–P54）</h3>
+<div class="fml left"><p><i>v</i><sub>1</sub> = 1/√[ (<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>4</sup> − 1 ] · √( 2<i>g</i>[ (<i>z</i><sub>1</sub> + <i>p</i><sub>1</sub>/(ρ<i>g</i>)) − (<i>z</i><sub>2</sub> + <i>p</i><sub>2</sub>/(ρ<i>g</i>)) ] )</p>
+<p><i>Q</i> = <i>v</i><sub>1</sub><i>A</i><sub>1</sub> = [ (π<i>d</i><sub>1</sub><sup>2</sup>/4) / √((<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>4</sup> − 1) ]·√( 2<i>g</i>[ (<i>z</i><sub>1</sub> + <i>p</i><sub>1</sub>/ρ<i>g</i>) − (<i>z</i><sub>2</sub> + <i>p</i><sub>2</sub>/ρ<i>g</i>) ] ) = <i>K</i>√(Δ<i>h</i>)，同样 <i>Q</i> = μ<i>K</i>√(Δ<i>h</i>)</p>
+<p>注意读数换算：<strong>Δ<i>h</i> → ((ρ′ − ρ)/ρ)Δ<i>h</i></strong>（水 ρ—水银 ρ′；气 ρ—液体 ρ′）</p>
+</div>
+<h3>压差计读数换算（课件 P55，推导必会）</h3>
+<p>设 U 形压差计内液体重度 γ′、读数差 Δ<i>h</i>，两侧液面高 <i>h</i><sub>1</sub>、<i>h</i><sub>2</sub>，则</p>
+<div class="fml left"><p><i>p</i><sub>1</sub> + ρ<i>gh</i><sub>1</sub> = <i>p</i><sub>2</sub> + ρ<i>gh</i><sub>2</sub> + ρ′<i>g</i>Δ<i>h</i>&nbsp; ⟹ &nbsp;(<i>p</i><sub>1</sub>/(ρ<i>g</i>) + <i>h</i><sub>1</sub>) − (<i>p</i><sub>2</sub>/(ρ<i>g</i>) + <i>h</i><sub>2</sub>) = (ρ′/ρ)Δ<i>h</i></p>
+<p>而 <i>h</i><sub>1</sub> − <i>h</i><sub>2</sub> = <i>Z</i><sub>1</sub> − <i>Z</i><sub>2</sub> + Δ<i>h</i>，故&nbsp; (<i>p</i><sub>1</sub>/(ρ<i>g</i>) + <i>Z</i><sub>1</sub>) − (<i>p</i><sub>2</sub>/(ρ<i>g</i>) + <i>Z</i><sub>2</sub>) = ((ρ′ − ρ)/ρ)Δ<i>h</i></p>
+</div>
+<p>特例：水—水银（ρ′/ρ = 13.6）时 Δ<i>h</i> → 12.6Δ<i>h</i>；测气体时 ρ ≪ ρ′，近似 Δ<i>h</i> ≈ (ρ′/ρ)Δ<i>h</i>。</p>
+
+<h2>9.3　关于气蚀（空化、空蚀）</h2>
+<div class="box def"><div class="bt">什么是气蚀</div>
+<p>低压区产生<strong>汽化</strong>，高压区气泡<strong>破灭空化</strong>；它造成流量减小，对机械壁面造成<strong>疲劳破坏</strong>，这种有害作用称<strong>气蚀（空蚀）</strong>。凡是流速大、压强低的部位（文丘里喉部、泵吸入口、虹吸管顶部、水轮机尾水管、弯管内侧）都要作气蚀校核，判据是<strong>该点绝对压强必须大于当地温度的汽化压强 <i>p</i><sub><i>v</i></sub></strong>。</p>
+</div>
+<div class="prob">
+  <div class="pt">例 3-7（课件 P56–P58）文丘里收缩管的气蚀校核</div>
+  <div class="q"><strong>题目</strong>：大气压强 97.3 kPa，粗管径 <i>d</i><sub>1</sub> = 150 mm，水温 40 ℃，收缩管直径 <i>d</i><sub>2</sub> 应限制在什么条件下才能保证不出现空化（不考虑损失）？</div>
+  <div class="sol">
+    <p><span class="badge">① 查物性</span>水温 40 ℃ 查表得 ρ = 992.2 kg/m<sup>3</sup>、汽化压强 <i>p</i><sub><i>v</i></sub> = 7.38 kPa。换算为水头：</p>
+    <div class="fml left"><p><i>p</i><sub><i>a</i></sub>/(ρ<i>g</i>) = 97.3×10<sup>3</sup>/(992.2×9.807) = <b>10 m</b>，&nbsp; <i>p</i><sub><i>v</i></sub>/(ρ<i>g</i>) = 7.38×10<sup>3</sup>/(992.2×9.807) = <b>0.76 m</b></p></div>
+    <p><span class="badge g">② 对 1-1（水库自由液面）与 2-2（喉部）列能量方程——必须用绝对压强</span></p>
+    <div class="fml left"><p>10 + 10 = <i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> + 0.76&nbsp; ⟹ &nbsp;<i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> = 19.24 m</p></div>
+    <p><span class="badge o">③ 对 1-1 与 3-3（出口）列能量方程——可用相对压强</span>：10 = <i>v</i><sub>3</sub><sup>2</sup>/2<i>g</i>，故 <i>v</i><sub>3</sub><sup>2</sup> = 2×9.807×10 = 196.1，<i>v</i><sub>3</sub> = √196.1 = 14.00 m/s。</p>
+    <p><span class="badge r">④ 连续性方程联立</span><i>v</i><sub>2</sub>/<i>v</i><sub>3</sub> = (<i>d</i><sub>3</sub>/<i>d</i><sub>2</sub>)<sup>2</sup> = (150/<i>d</i><sub>2</sub>)<sup>2</sup>；由 <i>v</i><sub>2</sub> = √(2×9.807×19.24) = 19.43 m/s 得</p>
+    <div class="fml left"><p>(150/<i>d</i><sub>2</sub>)<sup>2</sup> = 19.43/14.00 = 1.387&nbsp; ⟹ &nbsp;150/<i>d</i><sub>2</sub> = 1.178&nbsp; ⟹ &nbsp;<i>d</i><sub>2</sub> = 127.3 mm</p></div>
+  </div>
+  <div class="ans">答：<i>d</i><sub>2</sub> ≥ 127 mm（收缩管直径不得小于约 127 mm，否则喉部将发生空化）。</div>
+</div>
+<div class="box exam"><div class="bt">课件作业提示（课件 P59）</div>
+<p>第二次作业题号：<strong>3-3、3-6、3-10、3-12、3-13、3-14、3-17、3-19</strong>（下周四一二节课前交）。这些题目集中考查连续性方程 + 能量方程 + 水头损失联立求解，建议按 §9.1 的四步法逐题演练。</p>
+</div>
+
+<h2>9.4　文丘里流量计算例</h2>
+<div class="prob">
+  <div class="pt">例 9-1（自编典型题，数据参照教材通行例题）文丘里流量计测流量</div>
+  <div class="q"><strong>题目</strong>：水平安装的文丘里流量计，进口直径 <i>d</i><sub>1</sub> = 100 mm，喉部直径 <i>d</i><sub>2</sub> = 50 mm，进口与喉部间接一 U 形水银压差计，读数 Δ<i>h</i> = 100 mm。水的重度 γ = 9.8 kN/m<sup>3</sup>，水银重度 γ′ = 13.6γ，流量系数 μ = 0.96。求管道流量 <i>Q</i>。</div>
+  <div class="sol">
+    <p><span class="badge">① 读数换算</span>(<i>p</i><sub>1</sub> − <i>p</i><sub>2</sub>)/γ = (γ′/γ − 1)Δ<i>h</i> = (13.6 − 1)×0.1 = <strong>1.26 m 水柱</strong>。</p>
+    <p><span class="badge g">② 能量方程与连续性</span>取管轴线为基准面（<i>z</i><sub>1</sub> = <i>z</i><sub>2</sub>），<i>v</i><sub>2</sub> = <i>v</i><sub>1</sub>(<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>2</sup> = 4<i>v</i><sub>1</sub>，</p>
+    <div class="fml left"><p>(<i>p</i><sub>1</sub> − <i>p</i><sub>2</sub>)/γ = (<i>v</i><sub>2</sub><sup>2</sup> − <i>v</i><sub>1</sub><sup>2</sup>)/2<i>g</i> = (16<i>v</i><sub>1</sub><sup>2</sup> − <i>v</i><sub>1</sub><sup>2</sup>)/2<i>g</i> = 15<i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i></p>
+    <p>⟹ 15<i>v</i><sub>1</sub><sup>2</sup>/(2×9.8) = 1.26&nbsp; ⟹ &nbsp;<i>v</i><sub>1</sub> = √(2×9.8×1.26/15) = <b>1.28 m/s</b></p></div>
+    <p><span class="badge o">③ 流量</span><i>Q</i><sub>理</sub> = <i>v</i><sub>1</sub><i>A</i><sub>1</sub> = 1.28×π×0.1<sup>2</sup>/4 = 1.005×10<sup>−2</sup> m<sup>3</sup>/s；<i>Q</i> = μ<i>Q</i><sub>理</sub> = 0.96×1.005×10<sup>−2</sup> = <strong>9.65×10<sup>−3</sup> m<sup>3</sup>/s ≈ 9.6 L/s</strong></p>
+    <p><strong>校验</strong>：直接用通式 <i>Q</i> = μ<i>A</i><sub>1</sub>√( 2<i>g</i>Δ<i>h</i> / [1 − (<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>4</sup>] ) = 0.96×0.007854×√(19.6×1.26/0.9375) = 9.57×10<sup>−3</sup> m<sup>3</sup>/s，与上一致 ✔</p>
+  </div>
+  <div class="ans">答：<i>Q</i> ≈ 9.6×10<sup>−3</sup> m<sup>3</sup>/s（约 9.6 L/s）。</div>
+</div>
+
+<h2>9.5　虹吸管</h2>
+<div class="prob">
+  <div class="pt">例 9-2（自编典型题，数据参照教材通行例题）虹吸管的流量与最高点真空度</div>
+  <div class="q"><strong>题目</strong>：图示虹吸管，管径 <i>d</i> = 100 mm，上游水面到下游水面的高差 <i>H</i> = 3 m，虹吸管最高点 <i>A</i> 高出上游水面 <i>h</i> = 2 m。已知自上游水面至 <i>A</i> 断面的水头损失 <i>h</i><sub><i>w</i>1<i>A</i></sub> = 0.5 m，自上游水面至出口断面的总水头损失 <i>h</i><sub><i>w</i></sub> = 1.0 m。求：①管内流速与流量；②<i>A</i> 点真空度；③校核 <i>A</i> 点是否会发生汽化（20 ℃ 水汽化压强 <i>p</i><sub><i>v</i></sub> = 2.4 kPa，大气压 <i>p</i><sub><i>a</i></sub> = 98 kPa）。</div>
+  <div class="sol">
+    <p><span class="badge">① 取上游水面 1-1 与出口断面 2-2</span>（两断面 <i>p</i> = 0 表压、<i>v</i> ≈ 0 或出口为大气压）列能量方程：</p>
+    <div class="fml left"><p><i>H</i> = <i>v</i><sup>2</sup>/2<i>g</i> + <i>h</i><sub><i>w</i></sub>&nbsp; ⟹ &nbsp;<i>v</i><sup>2</sup>/2<i>g</i> = 3 − 1.0 = 2.0 m&nbsp; ⟹ &nbsp;<i>v</i> = √(2×9.8×2.0) = <b>6.26 m/s</b></p>
+    <p><i>Q</i> = <i>vA</i> = 6.26×π×0.1<sup>2</sup>/4 = <b>4.92×10<sup>−2</sup> m<sup>3</sup>/s ≈ 49.2 L/s</b></p></div>
+    <p><span class="badge g">② 由 1-1 到 <i>A</i> 断面列能量方程</span>（<i>A</i> 断面 <i>z</i><sub><i>A</i></sub> = <i>H</i> + <i>h</i>）：</p>
+    <div class="fml left"><p><i>H</i> = <i>z</i><sub><i>A</i></sub> + <i>p</i><sub><i>A</i></sub>/γ + <i>v</i><sup>2</sup>/2<i>g</i> + <i>h</i><sub><i>w</i>1<i>A</i></sub>&nbsp; ⟹ &nbsp;<i>p</i><sub><i>A</i></sub>/γ = −<i>h</i> − <i>v</i><sup>2</sup>/2<i>g</i> − <i>h</i><sub><i>w</i>1<i>A</i></sub> = −2 − 2.0 − 0.5 = <b>−4.5 m</b></p>
+    <p><i>p</i><sub><i>A</i></sub> = −4.5×9.8 = <strong>−44.1 kPa（表压）</strong>，即真空度 44.1 kPa（等价 4.5 m 水柱）</p></div>
+    <p><span class="badge o">③ 汽化校核</span>绝对压强 <i>p</i><sub><i>A</i>,abs</sub> = 98 − 44.1 = 53.9 kPa ≫ <i>p</i><sub><i>v</i></sub> = 2.4 kPa，<strong>不会发生汽化，虹吸作用可靠</strong>。若把 <i>A</i> 点抬高，使真空度接近 (<i>p</i><sub><i>a</i></sub> − <i>p</i><sub><i>v</i></sub>)/γ ≈ 9.8 m 水柱，则虹吸管将因水柱断裂而失效——这就是工程上<strong>虹吸高度一般不超过 7 m</strong> 的原因。</p>
+  </div>
+  <div class="ans">答：<i>v</i> = 6.26 m/s，<i>Q</i> ≈ 49.2 L/s；<i>A</i> 点真空度 44.1 kPa；不会汽化。</div>
+</div>
+
+<h2>9.6　泵与管路</h2>
+<div class="prob">
+  <div class="pt">例 9-3（自编典型题，数据参照教材通行例题）水泵扬程与功率</div>
+  <div class="q"><strong>题目</strong>：水泵自水池抽水，吸水管与压水管直径均为 <i>d</i> = 50 mm，流量 <i>Q</i> = 10 L/s。水池液面高程 <i>z</i><sub>1</sub> = 0，出水池液面高程 <i>z</i><sub>2</sub> = 20 m（两液面均与大气相通、面积很大）。已知自水池液面至出水池液面的总水头损失 <i>h</i><sub><i>w</i></sub> = 3 m，水泵效率 η = 0.85。求：①水泵扬程 <i>H</i><sub><i>p</i></sub>；②泵的有效功率与轴功率。</div>
+  <div class="sol">
+    <p><span class="badge">① 取两液面为计算断面</span>（<i>p</i><sub>1</sub> = <i>p</i><sub>2</sub> = 0 表压、<i>v</i><sub>1</sub> ≈ <i>v</i><sub>2</sub> ≈ 0），在两断面间加入泵的输入水头 <i>H</i><sub><i>p</i></sub>：</p>
+    <div class="fml left"><p><i>z</i><sub>1</sub> + <i>p</i><sub>1</sub>/γ + α<sub>1</sub><i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> + <i>H</i><sub><i>p</i></sub> = <i>z</i><sub>2</sub> + <i>p</i><sub>2</sub>/γ + α<sub>2</sub><i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> + <i>h</i><sub><i>w</i></sub></p>
+    <p><i>H</i><sub><i>p</i></sub> = <i>z</i><sub>2</sub> − <i>z</i><sub>1</sub> + <i>h</i><sub><i>w</i></sub> = 20 + 3 = <b>23 m</b></p></div>
+    <p><span class="badge g">② 功率</span>管内流速 <i>v</i> = <i>Q</i>/<i>A</i> = 0.01/1.963×10<sup>−3</sup> = 5.09 m/s，但其速度水头在两液面断面均为零，故不出现。</p>
+    <div class="fml left"><p><i>N</i><sub>有效</sub> = γ<i>QH</i><sub><i>p</i></sub> = 9.8×10<sup>3</sup>×0.01×23 = 2.254×10<sup>3</sup> W = <b>2.25 kW</b></p>
+    <p><i>N</i><sub>轴</sub> = <i>N</i><sub>有效</sub>/η = 2.25/0.85 = <b>2.65 kW</b></p></div>
+    <p><strong>结论</strong>：扬程由<strong>静扬程（液面高差）与管路水头损失之和</strong>决定，与泵本身的安装位置无关；出水池液面升高或管路阻力增大（流量增大、管径减小、弯头增多），所需扬程均随之增大。</p>
+  </div>
+  <div class="ans">答：<i>H</i><sub><i>p</i></sub> = 23 m；<i>N</i><sub>有效</sub> = 2.25 kW；<i>N</i><sub>轴</sub> = 2.65 kW。</div>
+</div>
+<div class="prob">
+  <div class="pt">例 9-4（自编典型题，数据参照教材通行例题）泵的吸上高度与汽蚀校核</div>
+  <div class="q"><strong>题目</strong>：离心泵从敞口水池抽 20 ℃ 的水，流量 <i>Q</i> = 30 L/s，吸水管直径 <i>d</i> = 150 mm，吸水管总水头损失 <i>h</i><sub><i>w</i></sub> = 1.2 m，泵样本给出的允许吸上真空度 [<i>H</i><sub><i>s</i></sub>] = 6.0 m，当地大气压 <i>p</i><sub><i>a</i></sub> = 98 kPa，20 ℃ 水汽化压强 <i>p</i><sub><i>v</i></sub> = 2.4 kPa。求：①吸水管内流速；②泵的最大允许安装高度 <i>H</i><sub><i>g</i></sub>。</div>
+  <div class="sol">
+    <p><span class="badge">① 流速与水头</span><i>A</i> = π×0.15<sup>2</sup>/4 = 1.767×10<sup>−2</sup> m<sup>2</sup>，<i>v</i> = <i>Q</i>/<i>A</i> = 0.03/0.01767 = <strong>1.70 m/s</strong>，<i>v</i><sup>2</sup>/2<i>g</i> = 1.70<sup>2</sup>/19.6 = 0.147 m。</p>
+    <p><span class="badge g">② 由允许吸上真空度定义</span>[<i>H</i><sub><i>s</i></sub>] = <i>H</i><sub><i>g</i></sub> + <i>v</i><sup>2</sup>/2<i>g</i> + <i>h</i><sub><i>w</i></sub>（教材通行写法），故</p>
+    <div class="fml left"><p><i>H</i><sub><i>g</i></sub> = [<i>H</i><sub><i>s</i></sub>] − <i>v</i><sup>2</sup>/2<i>g</i> − <i>h</i><sub><i>w</i></sub> = 6.0 − 0.147 − 1.2 = <b>4.65 m</b></p></div>
+    <p><span class="badge r">③ 校核</span>泵进口处绝对压强水头 <i>p</i><sub><i>s</i></sub>/γ = <i>p</i><sub><i>a</i></sub>/γ − [<i>H</i><sub><i>s</i></sub>] = 98×10<sup>3</sup>/9.8×10<sup>3</sup> − 6.0 = 10.0 − 6.0 = 4.0 m，远大于 <i>p</i><sub><i>v</i></sub>/γ = 2.4×10<sup>3</sup>/9.8×10<sup>3</sup> = 0.245 m，故不会汽蚀。若水温升高或海拔升高（<i>p</i><sub><i>a</i></sub> 降低），须对 [<i>H</i><sub><i>s</i></sub>] 作修正后再计算。</p>
+  </div>
+  <div class="ans">答：<i>v</i> = 1.70 m/s；最大允许安装高度 <i>H</i><sub><i>g</i></sub> ≈ 4.65 m。</div>
+</div>
+
+<div class="pagebreak"></div>
+<h1>10　总水头线和测压管水头线（课件 3.10）</h1>
+<p class="lead">课件 3.10 节共 9 页（P60–P68），把能量方程"图形化"。它解决的是能量方程本身解决不了的问题：能量方程只能算出<strong>某些断面</strong>的流速与压强，要了解<strong>全线</strong>的流速与压强分布，就要画水头线。</p>
+
+<h2>10.1　为什么需要水头线</h2>
+<p>用能量方程求解一元流动，可以求出某些断面的流速和压强，<strong>但并不能给出一元流动全线的流速和压强</strong>；解决这个问题需要画出总水头线和测压管水头线。</p>
+<div class="box def"><div class="bt">两条线的定义</div>
+<p><strong>总水头线</strong>：以水流本身高度的尺寸比例，直接绘在水流上，这样连成的线为总水头线；<strong>总水头线用沿水流线逐段减去水头损失给出</strong>。</p>
+<p><strong>测压管水头线</strong>：各断面测压管连成的线即为测压管水头线，<strong>由总水头线减去流速水头画出</strong>。</p>
+<p>课件 P65 强调：<strong>4 根线具有能量意义——总水头线、测压管水头线、水流轴线、基准面线</strong>。</p>
+</div>
+
+<h2>10.2　基本关系式</h2>
+<div class="fml"><span class="tag">课件 P62</span>
+<p>总水头 <i>H</i> = <i>z</i> + <i>p</i>/γ + α<i>v</i><sup>2</sup>/2<i>g</i>&nbsp;&nbsp;（位置水头 + 压强水头 + 流速水头）</p>
+<p><i>H</i><sub>1</sub> = <i>H</i><sub>2</sub> + <i>h</i><sub><i>l</i>1−2</sub>&nbsp;&nbsp;或&nbsp;&nbsp; <b><i>H</i><sub>2</sub> = <i>H</i><sub>1</sub> − <i>h</i><sub><i>l</i>1−2</sub></b>&nbsp;&nbsp;（总水头沿程只减不增）</p>
+<p>测压管水头 <b><i>H</i><sub><i>p</i></sub> = <i>H</i> − α<i>v</i><sup>2</sup>/(2<i>g</i>)</b>&nbsp;&nbsp;（即总水头线向下量取流速水头高度）</p>
+</div>
+<p>课件 P63 的图 3-28 给出了各量的几何含义：基准面以上量取 <i>Z</i><sub>1</sub>、<i>Z</i><sub>2</sub>（水流轴线高度）；<i>H</i><sub><i>p</i>1</sub>、<i>H</i><sub><i>p</i>2</sub>（测压管水头）位于水流轴线之上 <i>p</i><sub>1</sub>/γ、<i>p</i><sub>2</sub>/γ 处；再向上量取 α<sub>1</sub><i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i>、α<sub>2</sub><i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> 即得总水头 <i>H</i><sub>1</sub>、<i>H</i><sub>2</sub>；两断面总水头之差就是该段的<strong>水头损失 <i>h</i><sub><i>l</i>1−2</sub></strong>。</p>
+
+<h2>10.3　沿程损失与局部损失的不同画法</h2>
+<div class="box key"><div class="bt">画水头线的两条规则</div>
+<ul>
+  <li><strong>沿程损失</strong>可假设为沿管线均匀发生，在总水头线上表现为<strong>沿管长倾斜下降的直线</strong>；</li>
+  <li><strong>局部损失</strong>假设在局部障碍物处集中发生，表现为<strong>在障碍物处铅直下降的台阶</strong>。</li>
+  <li>对于渐缩/渐扩管，可近似处理为将水头损失看做在全长上均匀分布，而不是集中在一点。</li>
+</ul>
+</div>
+<p>课件 P64 的图 3-29（水头损失的计算）给出了一个典型管路的损失构成：水箱出口<strong>入口损失 0.5<i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i></strong>；渐缩管段<strong>沿程损失 3.5<i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i></strong>；大小头处<strong>局部损失 0.1<i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i></strong>；第二管段<strong>沿程损失 2<i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i></strong>；两个断面的高差为 8.2 m。作水头线时，逐段把上述损失从总水头中减去即可。</p>
+
+<h2>10.4　作水头线的方法与要点</h2>
+<ol>
+  <li>先定<strong>基准面</strong>，画出水流轴线（=位置水头线 <i>z</i>）；</li>
+  <li>从起始断面（一般取自由液面，此时 <i>H</i> 就等于液面高程）出发，向上量取 <i>H</i><sub>1</sub>；</li>
+  <li>沿流向<strong>逐段减去水头损失</strong>得总水头线：沿程段画斜直线，局部障碍处画铅直台阶；</li>
+  <li>由总水头线向下量取各断面的流速水头 α<i>v</i><sup>2</sup>/2<i>g</i>（流速大的地方量得多、流速小的地方量得少）得测压管水头线；</li>
+  <li>校核三条规律：<strong>总水头线只降不升</strong>；<strong>测压管水头线可升可降</strong>（渐缩管中流速增大、压强下降，<i>H</i><sub><i>p</i></sub> 线下降；渐扩管中相反）；测压管水头线可高于或低于水流轴线（低于轴线表示出现真空/负压，如虹吸管顶部、泵吸入口）。</li>
+</ol>
+<div class="prob">
+  <div class="pt">例 3-8（课件 P66–P68）水箱引水管：求流量并作水头线</div>
+  <div class="q"><strong>题目</strong>：用直径 <i>d</i> = 100 mm 的水管从水箱引水，水管水面与管道出口断面中心高差 <i>H</i> = 4 m，水位保持恒定，水头损失 <i>h</i><sub><i>w</i></sub> = 3 m 水柱。试求水管流量，并作出水头线。</div>
+  <div class="sol">
+    <p><span class="badge">① 列能量方程</span>以 0-0 为基准面（取管道出口断面中心所在水平面），取水箱自由液面 1-1（<i>p</i><sub>1</sub> = 0、<i>v</i><sub>1</sub> ≈ 0、<i>z</i><sub>1</sub> = <i>H</i>）与管道出口断面 2-2（<i>p</i><sub>2</sub> = 0、<i>z</i><sub>2</sub> = 0）：</p>
+    <div class="fml left"><p><i>H</i> + 0 + 0 = <i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> + <i>h</i><sub><i>w</i></sub>&nbsp; ⟹ &nbsp;<i>v</i><sub>2</sub> = √(2<i>g</i>(<i>H</i> − <i>h</i><sub><i>w</i></sub>)) = √(2×9.8×1) = <b>4.43 m/s</b></p>
+    <p><i>Q</i> = <i>v</i><sub>2</sub><i>A</i><sub>2</sub> = 4.43×(π×0.1<sup>2</sup>/4) = <b>0.035 m<sup>3</sup>/s</b>（课件写 0.35 m<sup>3</sup>/s，系课件笔误，按 <i>A</i><sub>2</sub> = 7.854×10<sup>−3</sup> m<sup>2</sup> 计算应为 0.035 m<sup>3</sup>/s）</p></div>
+    <p><span class="badge g">② 作水头线</span>（课件图，见下）总水头线由液面高程 <i>H</i> = 4 m 起，沿管长<strong>线性下降</strong>到出口断面的 1 m（下降量恰为 <i>h</i><sub><i>w</i></sub> = 3 m）；测压管水头线由 <i>H</i> − <i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> = 4 − 1 = 3 m 起，同样线性下降到出口断面的 1 m。<strong>出口断面处两线重合</strong>，因为按本例数据恰有 <i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> = <i>H</i> − <i>h</i><sub><i>w</i></sub> = 1 m；一般情形下出口断面处测压管水头线与水流轴线相交（<i>p</i> = 0），总水头线仍在轴线之上 <i>v</i><sup>2</sup>/2<i>g</i> 处。</p>
+  </div>
+  <div class="ans">答：<i>v</i><sub>2</sub> = 4.43 m/s，<i>Q</i> = 0.035 m<sup>3</sup>/s；总水头线由 4 m 线性降到 1 m，测压管水头线由 3 m 线性降到 1 m。</div>
+</div>
+<div class="box exam"><div class="bt">定性作水头线的常见题型（课件 P67–P68）</div>
+<p>给定管路纵剖面图（水箱、渐缩段、弯头、阀门、出口、下游水池等），要求<strong>定性画出总水头线与测压管水头线</strong>。解题套路：①起点取上游液面（总水头 = 液面高程）；②在进口、弯头、阀门、突扩突缩处画<strong>铅直下降台阶</strong>；③在等直径管段画<strong>斜直线</strong>；④终点落在下游液面高程（若出口淹没）或出口断面的总水头处；⑤测压管水头线 = 总水头线 − 流速水头，注意<strong>流速大处两线间距大</strong>、<strong>渐扩管中测压管水头线可能出现上升</strong>、<strong>测压管水头线低于管轴线表示该处为负压（真空）</strong>。</p>
+</div>
+<div class="box warn"><div class="bt">本节易错提醒</div>
+<ul>
+  <li>把总水头线画成"沿程升高"或在有泵处画成升高时的方向错误（有泵时总水头线在该处<strong>铅直上升</strong>，上升量等于泵的扬程；有阀门/弯头处铅直下降）；</li>
+  <li>等直径管段误画成水平（实际有水头损失，应画成斜直线）；</li>
+  <li>测压管水头线与总水头线之间的间距漏掉 α 或当成常数（间距 = 该断面的流速水头，随流速变化）；</li>
+  <li>把明渠流动的"测压管水头线即水面线"结论套到有压管流上。</li>
+</ul>
+</div>
+
+<div class="pagebreak"></div>
+<h1>附录 A　三大方程对照速查表与解题流程</h1>
+
+<h2>A.1　三大方程对照速查表</h2>
+<table>
+  <tr><th style="width:12%">方程</th><th style="width:24%">表达式</th><th style="width:20%">适用条件</th><th style="width:22%">物理意义</th><th>典型用途</th></tr>
+  <tr>
+    <td><strong>连续性方程</strong><br>（质量守恒）<br><span class="badge g">§3.5</span></td>
+    <td><i>v</i><sub>1</sub><i>A</i><sub>1</sub> = <i>v</i><sub>2</sub><i>A</i><sub>2</sub>（不可压）<br>ρ<sub>1</sub><i>v</i><sub>1</sub><i>A</i><sub>1</sub> = ρ<sub>2</sub><i>v</i><sub>2</sub><i>A</i><sub>2</sub>（可压）<br>∑<i>Q</i><sub>入</sub> = ∑<i>Q</i><sub>出</sub>（分支）</td>
+    <td>连续介质、定常、两断面间<strong>无质量源汇</strong>；<em>不要求无粘、不要求不可压</em></td>
+    <td>质量守恒：流入 = 流出，故流量沿程不变、<strong>断面平均流速与面积成反比</strong></td>
+    <td>求未知断面流速/管径/流量分配；能量方程求解的必备联立方程</td>
+  </tr>
+  <tr>
+    <td><strong>能量方程</strong><br>（伯努利方程）<br><span class="badge">§3.6 → §3.8</span></td>
+    <td>元流：<i>z</i> + <i>p</i>/γ + <i>u</i><sup>2</sup>/2<i>g</i> = 常数<br>总流：<i>Z</i><sub>1</sub> + <i>p</i><sub>1</sub>/γ + α<sub>1</sub><i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> = <i>Z</i><sub>2</sub> + <i>p</i><sub>2</sub>/γ + α<sub>2</sub><i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> + <i>h</i><sub><i>w</i></sub></td>
+    <td>①定常（缓变非定常可近似）②不可压（<i>Ma</i> ≤ 0.3 的气体可用）③重力场 ④<strong>两断面取在渐变流处</strong>⑤两断面间无流量分出（有分支须分别列）⑥元流式为无粘、无机械做功；总流式可含 <i>h</i><sub><i>w</i></sub> 与 <i>H</i><sub><i>i</i></sub>/<i>H</i><sub>0</sub></td>
+    <td>能量守恒（功能原理）：单位重量流体的<strong>位能 + 压能 + 动能 = 常数</strong>；实际流体沿程机械能不可逆地转化为热能，总水头只减不增</td>
+    <td>求流速、压强、流量、水头损失；扬程与轴功率；文丘里、皮托管、孔口、虹吸、泵与管路；水头线绘制</td>
+  </tr>
+  <tr>
+    <td><strong>动量方程</strong><br>（动量守恒）<br><span class="badge o">课件 3.13 节</span></td>
+    <td>∑<b>F</b> = ρ<i>Q</i>(β<sub>2</sub><b>v</b><sub>2</sub> − β<sub>1</sub><b>v</b><sub>1</sub>)<br>（分量式见附录 B）</td>
+    <td>定常、不可压（或可压用质量流量）、<strong>控制体</strong>取法正确；须是<strong>矢量式</strong>，且不计及控制体内流体的动量变化率（定常时为零）</td>
+    <td>动量守恒（牛顿第二定律的积分形式）：单位时间<strong>流出与流入控制体的动量差 = 作用于控制体上所有外力的合力</strong></td>
+    <td>求<strong>流体与固体边界的相互作用力</strong>：弯管（管壁受力）、渐缩渐扩管、射流冲击平板/叶片、闸门动水压力、喷嘴反推力</td>
+  </tr>
+</table>
+<div class="box key"><div class="bt">符号约定（全章统一，与课件一致）</div>
+<table>
+  <tr><th style="width:20%">符号</th><th style="width:46%">含义</th><th>取值/备注</th></tr>
+  <tr><td><i>u</i>（<i>u</i>, <i>v</i>, <i>w</i>）</td><td><strong>点速度</strong>（元流、流线上某点的速度）</td><td>元流能量方程中用 <i>u</i></td></tr>
+  <tr><td><i>v</i></td><td><strong>断面平均流速</strong>（<i>v</i> = <i>Q</i>/<i>A</i>）</td><td>总流方程、连续性方程中用 <i>v</i></td></tr>
+  <tr><td>α</td><td><strong>动能修正系数</strong> α = ∫<i>u</i><sup>3</sup>d<i>A</i>/(<i>v</i><sup>3</sup><i>A</i>)</td><td>均匀流 1；圆管层流 2；湍流 1.05~1.1 ≈ 1</td></tr>
+  <tr><td>β</td><td><strong>动量修正系数</strong> β = ∫<i>u</i><sup>2</sup>d<i>A</i>/(<i>v</i><sup>2</sup><i>A</i>)</td><td>圆管层流 4/3；湍流约 1.02~1.05</td></tr>
+  <tr><td><i>h</i><sub><i>w</i></sub></td><td><strong>水头损失</strong>（单位重量流体的机械能损失）</td><td><i>h</i><sub><i>w</i></sub> = <i>h</i><sub><i>f</i></sub>（沿程）+ <i>h</i><sub><i>j</i></sub>（局部）；元流式写作 <i>h</i>′<sub><i>l</i>1−2</sub>，总流式写作 <i>h</i><sub><i>l</i>1−2</sub> 或 <i>h</i><sub><i>w</i></sub></td></tr>
+  <tr><td><i>H</i>、<i>H</i><sub><i>p</i></sub></td><td>总水头、测压管水头</td><td><i>H</i> = <i>z</i> + <i>p</i>/γ + α<i>v</i><sup>2</sup>/2<i>g</i>；<i>H</i><sub><i>p</i></sub> = <i>z</i> + <i>p</i>/γ = <i>H</i> − α<i>v</i><sup>2</sup>/2<i>g</i></td></tr>
+  <tr><td>γ</td><td>重度，γ = ρ<i>g</i></td><td>水 γ = 9.8 kN/m<sup>3</sup>；<i>p</i>/γ 与 <i>p</i>/(ρ<i>g</i>) 等价</td></tr>
+</table>
+</div>
+
+<h2>A.2　解题流程图（四步法）</h2>
+<div class="fml left"><span class="tag">一元流动问题通用流程</span>
+<p><strong>① 取控制体</strong>（确定研究范围：断面 1-1 到 2-2 之间的流段；判断其中有无泵/水轮机、有无分支、有无急变流区段）</p>
+<p class="step">↓</p>
+<p><strong>② 选断面</strong>（两端断面必须取在<strong>渐变流</strong>处，距弯头/阀件/进出口 ≥ 3~5<i>d</i>；优先取自由液面、进出口断面等已知量多的断面）</p>
+<p class="step">↓</p>
+<p><strong>③ 定基准面</strong>（取水平面，习惯取最低断面或管轴线所在水平面，使 <i>z</i> ≥ 0；一条方程内只允许一个基准面；同时统一压强基准：全用相对压强或全用绝对压强）</p>
+<p class="step">↓</p>
+<p><strong>④ 列方程</strong>（连续性方程 + 总流能量方程联立；有机械时加 <i>H</i><sub><i>i</i></sub> 或 <i>H</i><sub>0</sub>；损失含未知 <i>v</i> 时用 <i>h</i><sub><i>w</i></sub> = ζ<i>v</i><sup>2</sup>/2<i>g</i> 或 <i>h</i><sub><i>w</i></sub> = λ(<i>L</i>/<i>d</i>)<i>v</i><sup>2</sup>/2<i>g</i> 一并联立）</p>
+<p class="step">↓</p>
+<p><strong>⑤ 求解并检验</strong>（量纲检查、数量级检查；压强不得小于汽化压强 → 气蚀校核；流速不得出现物理上不可能的负值；必要时画出水头线复核能量变化是否合理）</p>
+</div>
+<div class="box exam"><div class="bt">取断面的经验口诀</div>
+<p><strong>液面优先</strong>（<i>p</i> = 0、<i>v</i> ≈ 0、<i>z</i> 已知）；<strong>出口次之</strong>（射入大气时 <i>p</i> = 0）；<strong>进口再加泵</strong>（求扬程时断面取在泵或水轮机的进出口、或上下游水池液面，使轴功项显式出现）；<strong>避开急变流</strong>（弯头、阀门、闸门、突扩突缩处断面内 <i>z</i> + <i>p</i>/γ 非常数，方程失效）。</p>
+</div>
+
+<h2>A.3　常用数值与系数速查</h2>
+<table>
+  <tr><th style="width:34%">量</th><th style="width:30%">取值</th><th>说明</th></tr>
+  <tr><td>重力加速度 <i>g</i></td><td class="c">9.8 m/s<sup>2</sup></td><td>本章计算统一取 9.8</td></tr>
+  <tr><td>水的重度 γ / 密度 ρ</td><td class="c">9.8 kN/m<sup>3</sup> / 1000 kg/m<sup>3</sup></td><td>—</td></tr>
+  <tr><td>水银相对密度</td><td class="c">13.6</td><td>水—水银压差计读数换算 Δ<i>h</i> → 12.6Δ<i>h</i></td></tr>
+  <tr><td>小孔出流速度系数 <i>c</i><sub><i>v</i></sub></td><td class="c">0.97</td><td>课件值；收缩系数 <i>c</i><sub><i>c</i></sub> ≈ 0.62~0.64，流量系数 μ = <i>c</i><sub><i>v</i></sub><i>c</i><sub><i>c</i></sub> ≈ 0.60~0.62</td></tr>
+  <tr><td>皮托管流速修正系数 φ</td><td class="c">0.98~1.05</td><td>考虑粘性与探头对流场的干扰</td></tr>
+  <tr><td>文丘里流量系数 μ</td><td class="c">0.95~0.98</td><td>课件 P52 写 0.95~0.98、P54 写 0.96~0.98；<strong>与小孔出流的 μ 同名不同值</strong></td></tr>
+  <tr><td>动能修正系数 α</td><td class="c">1 / 2 / 1.05~1.1</td><td>均匀流 / 圆管层流 / 一般湍流</td></tr>
+  <tr><td>动量修正系数 β</td><td class="c">1 / 4/3 / 1.02~1.05</td><td>均匀流 / 圆管层流 / 一般湍流</td></tr>
+  <tr><td>虹吸管允许最大高度</td><td class="c">约 7 m</td><td>受汽化压强限制（20 ℃ 水理论极限约 10.1 m，扣速度水头与损失后实际更小）</td></tr>
+  <tr><td>不可压近似的气体流速上限</td><td class="c"><i>Ma</i> ≤ 0.3</td><td>课件对总流能量方程适用范围的明确界定</td></tr>
+</table>
+
+<div class="pagebreak"></div>
+<h1>附录 B　恒定流动量方程（课件 3.13 节）要点与典型题</h1>
+<p class="lead">📌 <strong>范围说明</strong>：课件第 3 章目录共 13 项，动量方程为第 13 项（3.13 节），<strong>不在本次讲义正文 3.1–3.10 的范围内</strong>。为满足"三大方程对照速查"与期末联动复习的需要，此处仅给出要点、公式与一道典型题；正式讲授与作业以课件 3.13 节为准。</p>
+
+<h2>B.1　动量方程的形式与符号</h2>
+<div class="fml"><span class="tag">恒定总流动量方程（矢量式）</span>
+<p>∑<b>F</b> = ρ<i>Q</i>( β<sub>2</sub><b>v</b><sub>2</sub> − β<sub>1</sub><b>v</b><sub>1</sub> )</p>
+</div>
+<div class="fml left"><span class="tag">直角坐标分量式（最常用）</span>
+<p>∑<i>F</i><sub><i>x</i></sub> = ρ<i>Q</i>( β<sub>2</sub><i>v</i><sub>2<i>x</i></sub> − β<sub>1</sub><i>v</i><sub>1<i>x</i></sub> )</p>
+<p>∑<i>F</i><sub><i>y</i></sub> = ρ<i>Q</i>( β<sub>2</sub><i>v</i><sub>2<i>y</i></sub> − β<sub>1</sub><i>v</i><sub>1<i>y</i></sub> )</p>
+<p>∑<i>F</i><sub><i>z</i></sub> = ρ<i>Q</i>( β<sub>2</sub><i>v</i><sub>2<i>z</i></sub> − β<sub>1</sub><i>v</i><sub>1<i>z</i></sub> )</p>
+</div>
+<p>β 为<strong>动量修正系数</strong> β = ∫<sub><i>A</i></sub><i>u</i><sup>2</sup>d<i>A</i>/(<i>v</i><sup>2</sup><i>A</i>)，含义是"真实动量 / 以断面平均流速计算的动量"；圆管层流 β = 4/3，湍流 β ≈ 1.02~1.05，工程计算常取 β ≈ 1。</p>
+<div class="box key"><div class="bt">正确使用动量方程的四条约定</div>
+<ol>
+  <li><strong>取控制体</strong>并画出控制面；<strong>动量方程是矢量方程</strong>，必须先规定坐标正向（或投影方向），再定正负；</li>
+  <li>∑<b>F</b> 是作用于<strong>控制体内流体</strong>上的一切外力：两端断面的压力、控制体表面的切力（常忽略）、重力、以及<strong>固体边界对流体的作用力 R</strong>；</li>
+  <li>求出的 <b>R</b> 是"<strong>管壁（或固体）作用在流体上的力</strong>"；题目若问"水流对管壁的作用力"，答案是 <b>−R</b>（大小相等、方向相反，牛顿第三定律）；</li>
+  <li>动量方程只给出<strong>合力</strong>关系，断面压强通常还要用<strong>能量方程</strong>先求出——所以动量问题往往是"能量方程 + 连续性方程 + 动量方程"三式联用。</li>
+</ol>
+</div>
+
+<h2>B.2　典型题：渐变弯管中水流对管壁的作用力</h2>
+<div class="prob">
+  <div class="pt">典型题（自编典型题，题型参照《水力学》《工程流体力学》通行例题，"水流对弯管的作用力"）</div>
+  <div class="q"><strong>题目</strong>：水平放置的渐缩弯管，水流由断面 1-1 流向断面 2-2 并在水平面内转 90° 弯。已知 <i>d</i><sub>1</sub> = 200 mm、<i>d</i><sub>2</sub> = 150 mm，流量 <i>Q</i> = 0.1 m<sup>3</sup>/s，断面 1-1 中心相对压强 <i>p</i><sub>1</sub> = 20 kPa，断面 2-2 中心相对压强 <i>p</i><sub>2</sub> = 15 kPa，水的密度 ρ = 1000 kg/m<sup>3</sup>，不计弯管段的水头损失与重力影响（管轴水平）。取 β<sub>1</sub> = β<sub>2</sub> = 1。求<strong>水流对弯管的作用力</strong>。</div>
+  <div class="sol">
+    <p><span class="badge">① 连续性方程求流速</span></p>
+    <div class="fml left"><p><i>A</i><sub>1</sub> = π×0.2<sup>2</sup>/4 = 3.142×10<sup>−2</sup> m<sup>2</sup>，<i>v</i><sub>1</sub> = <i>Q</i>/<i>A</i><sub>1</sub> = 0.1/0.03142 = <b>3.18 m/s</b></p>
+    <p><i>A</i><sub>2</sub> = π×0.15<sup>2</sup>/4 = 1.767×10<sup>−2</sup> m<sup>2</sup>，<i>v</i><sub>2</sub> = <i>Q</i>/<i>A</i><sub>2</sub> = 0.1/0.01767 = <b>5.66 m/s</b></p></div>
+    <p><span class="badge g">② 规定坐标与投影方向</span>设 <i>x</i> 轴沿断面 1-1 的流速方向（进口流向），<i>y</i> 轴沿断面 2-2 的流速方向（出口流向）。则</p>
+    <div class="fml left"><p><i>v</i><sub>1</sub>：( <i>v</i><sub>1<i>x</i></sub>, <i>v</i><sub>1<i>y</i></sub> ) = ( 3.18, 0 )；&nbsp; <i>v</i><sub>2</sub>：( <i>v</i><sub>2<i>x</i></sub>, <i>v</i><sub>2<i>y</i></sub> ) = ( 0, 5.66 )</p></div>
+    <p><span class="badge o">③ 受力分析</span>作用于控制体内流体上的外力（水平面内）：断面 1-1 的压力 <i>p</i><sub>1</sub><i>A</i><sub>1</sub>（沿 +<i>x</i>）、断面 2-2 的压力 <i>p</i><sub>2</sub><i>A</i><sub>2</sub>（沿 −<i>y</i>），以及<strong>管壁对流体的作用力 <i>R</i></strong>（设分量为 <i>R</i><sub><i>x</i></sub>、<i>R</i><sub><i>y</i></sub>）。</p>
+    <p><span class="badge r">④ 列动量方程</span></p>
+    <div class="fml left"><p><i>x</i> 向：<i>p</i><sub>1</sub><i>A</i><sub>1</sub> + <i>R</i><sub><i>x</i></sub> = ρ<i>Q</i>(<i>v</i><sub>2<i>x</i></sub> − <i>v</i><sub>1<i>x</i></sub>) = 1000×0.1×(0 − 3.18) = −318 N</p>
+    <p><i>p</i><sub>1</sub><i>A</i><sub>1</sub> = 20×10<sup>3</sup>×3.142×10<sup>−2</sup> = 628.4 N&nbsp; ⟹ &nbsp;<i>R</i><sub><i>x</i></sub> = −318 − 628.4 = <b>−946.4 N</b></p>
+    <p><i>y</i> 向：−<i>p</i><sub>2</sub><i>A</i><sub>2</sub> + <i>R</i><sub><i>y</i></sub> = ρ<i>Q</i>(<i>v</i><sub>2<i>y</i></sub> − <i>v</i><sub>1<i>y</i></sub>) = 1000×0.1×(5.66 − 0) = 566 N</p>
+    <p><i>p</i><sub>2</sub><i>A</i><sub>2</sub> = 15×10<sup>3</sup>×1.767×10<sup>−2</sup> = 265.1 N&nbsp; ⟹ &nbsp;<i>R</i><sub><i>y</i></sub> = 566 + 265.1 = <b>831.1 N</b></p></div>
+    <p><span class="badge">⑤ 合力与方向</span></p>
+    <div class="fml left"><p><i>R</i> = √(946.4<sup>2</sup> + 831.1<sup>2</sup>) = √(895 672 + 690 727) = √1 586 399 = <b>1259.5 N ≈ 1.26 kN</b></p>
+    <p>方向与 +<i>x</i> 轴的夹角：tan θ = 831.1/(−946.4) ⟹ θ = 180° − 41.3° = <b>138.7°</b>（即指向第二象限、斜向后上方）</p></div>
+    <p><span class="badge g">⑥ 由牛顿第三定律</span><strong>水流对弯管的作用力 <i>F</i> = −<i>R</i></strong>：大小 1.26 kN，方向与 <i>R</i> 相反（θ′ = 138.7° − 180° = −41.3°，即与进口流速方向成 −41.3°、斜向弯管的外侧），相当于把弯管<strong>往出口流向的反侧推</strong>——这正是弯管处必须设置镇墩（固定支墩）的原因。</p>
+  </div>
+  <div class="ans">答：水流对弯管的作用力大小约 <strong>1.26 kN</strong>，方向与进口流速方向成 −41.3°（斜向前下方）；管壁对流体的作用力与之等值反向，指向第二象限、与进口流速方向成 138.7°。</div>
+</div>
+<div class="box warn"><div class="bt">动量方程类题目易错提醒</div>
+<ul>
+  <li><strong>矢量性</strong>：忘记投影、把矢量当标量直接相加，或未统一坐标正向；</li>
+  <li><strong>对象混淆</strong>：求出的 <i>R</i> 是"固体给流体的力"，题目要"水流对固体的力"时必须取反；</li>
+  <li><strong>漏掉端面压力</strong>：动量方程右端是动量差（通常很小，几百牛），左端的压力项（几百千牛量级）绝不能漏，否则结果相差几个数量级；</li>
+  <li><strong>压强未先求</strong>：端面压强必须用能量方程 + 连续性方程先算出（或由题给），不能凭空设为零（射流冲击自由射流才可用 <i>p</i> = 0）；</li>
+  <li>把 β 漏乘（题给 β ≠ 1 时），或把 α 误用到动量方程中。</li>
+</ul>
+</div>
+
+<div class="pagebreak"></div>
+<h1>补充练习（6 道，含完整解答）</h1>
+<p class="lead">以下 6 题覆盖本章全部核心方法：连续性方程、元流/总流能量方程、文丘里流量计、气蚀校核、虹吸与泵管路、水头线、动量方程。题目为<strong>参照通行教材例题题型自编</strong>（第 1、4 题的数据与题型见《一元流体动力学基础_参考资料.md》所整理的教材通行例题；第 6 题题型参照《水力学》《工程流体力学》中"水流对弯管的作用力"经典例题），数值均已复核。</p>
+
+<div class="prob">
+  <div class="pt">练习 1　文丘里流量计 + 压差计读数换算（自编典型题）</div>
+  <div class="q"><strong>题目</strong>：水平安装的文丘里流量计，进口直径 <i>d</i><sub>1</sub> = 200 mm，喉部直径 <i>d</i><sub>2</sub> = 100 mm，进出口之间接水银 U 形压差计，读数 Δ<i>h</i> = 120 mm。水的重度 γ = 9.8 kN/m<sup>3</sup>，水银重度 γ′ = 13.6γ，流量系数 μ = 0.96。求：①进口断面平均流速 <i>v</i><sub>1</sub>；②管道流量 <i>Q</i>；③仪器常数 <i>K</i>，并验证 <i>Q</i> = μ<i>K</i>√(Δ<i>h</i>′)。</div>
+  <div class="sol">
+    <p><span class="badge">① 读数换算</span>Δ<i>h</i>′ = (γ′/γ − 1)Δ<i>h</i> = (13.6 − 1)×0.120 = <strong>1.512 m 水柱</strong></p>
+    <p><span class="badge g">② 由能量方程求流速</span>取管轴线为基准面，<i>v</i><sub>2</sub> = <i>v</i><sub>1</sub>(<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>2</sup> = 4<i>v</i><sub>1</sub>：</p>
+    <div class="fml left"><p><i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> − <i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> = (16 − 1)<i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> = Δ<i>h</i>′</p>
+    <p><i>v</i><sub>1</sub> = √( 2×9.8×1.512/15 ) = √1.9757 = <b>1.406 m/s</b></p></div>
+    <p><span class="badge o">③ 流量</span><i>Q</i><sub>理</sub> = <i>v</i><sub>1</sub><i>A</i><sub>1</sub> = 1.406×(π×0.2<sup>2</sup>/4) = 1.406×0.031416 = 0.04417 m<sup>3</sup>/s；<i>Q</i> = μ<i>Q</i><sub>理</sub> = 0.96×0.04417 = <strong>0.0424 m<sup>3</sup>/s ≈ 42.4 L/s</strong></p>
+    <p><span class="badge">④ 仪器常数校验</span><i>K</i> = (<i>A</i><sub>1</sub>√(2<i>g</i>))/√[(<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>4</sup> − 1] = 0.031416×4.427/√15 = 0.03591；<i>Q</i> = μ<i>K</i>√(Δ<i>h</i>′) = 0.96×0.03591×√1.512 = 0.96×0.03591×1.2297 = 0.0424 m<sup>3</sup>/s ✔</p>
+  </div>
+  <div class="ans">答：<i>v</i><sub>1</sub> = 1.41 m/s；<i>Q</i> = 4.24×10<sup>−2</sup> m<sup>3</sup>/s（42.4 L/s）；<i>K</i> = 0.0359，与 <i>Q</i> = μ<i>K</i>√(Δ<i>h</i>′) 一致。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">练习 2　虹吸管：流量、最高点真空度与汽化校核（自编典型题）</div>
+  <div class="q"><strong>题目</strong>：虹吸管管径 <i>d</i> = 150 mm，上游水面到下游水面的高差 <i>H</i> = 4 m，虹吸管最高点 <i>A</i> 高出上游水面 3 m，自上游水面到出口的总水头损失 <i>h</i><sub><i>w</i></sub> = 1.5 m，自上游水面到 <i>A</i> 点水头损失 <i>h</i><sub><i>w</i>1<i>A</i></sub> = 0.8 m。20 ℃ 水的汽化压强 <i>p</i><sub><i>v</i></sub> = 2.4 kPa，当地大气压 <i>p</i><sub><i>a</i></sub> = 98 kPa。求：①管内流速与流量；②<i>A</i> 点真空度；③判断能否正常工作。</div>
+  <div class="sol">
+    <p><span class="badge">① 能量方程求流速</span>取上游水面 1-1 与出口断面 2-2：</p>
+    <div class="fml left"><p><i>H</i> = <i>v</i><sup>2</sup>/2<i>g</i> + <i>h</i><sub><i>w</i></sub>&nbsp; ⟹ &nbsp;<i>v</i><sup>2</sup>/2<i>g</i> = 4 − 1.5 = 2.5 m&nbsp; ⟹ &nbsp;<i>v</i> = √(19.6×2.5) = <b>7.00 m/s</b></p>
+    <p><i>A</i> = π×0.15<sup>2</sup>/4 = 1.767×10<sup>−2</sup> m<sup>2</sup>，<i>Q</i> = <i>vA</i> = 7.00×1.767×10<sup>−2</sup> = <b>0.1237 m<sup>3</sup>/s ≈ 123.7 L/s</b></p></div>
+    <p><span class="badge g">② <i>A</i> 点真空度</span>由 1-1 到 <i>A</i> 断面（<i>z</i><sub><i>A</i></sub> = <i>H</i> + 3 = 7 m）：</p>
+    <div class="fml left"><p><i>H</i> = <i>z</i><sub><i>A</i></sub> + <i>p</i><sub><i>A</i></sub>/γ + <i>v</i><sup>2</sup>/2<i>g</i> + <i>h</i><sub><i>w</i>1<i>A</i></sub>&nbsp; ⟹ &nbsp;<i>p</i><sub><i>A</i></sub>/γ = 4 − 7 − 2.5 − 0.8 = <b>−6.3 m</b></p>
+    <p><i>p</i><sub><i>A</i></sub> = −6.3×9.8 = <strong>−61.7 kPa（表压）</strong>，真空度 61.7 kPa</p></div>
+    <p><span class="badge o">③ 校核</span><i>p</i><sub><i>A</i>,abs</sub> = 98 − 61.7 = 36.3 kPa &gt; <i>p</i><sub><i>v</i></sub> = 2.4 kPa，<strong>不会汽化，虹吸管能正常工作</strong>。但真空度已接近 6.3 m 水柱，若再抬高 <i>A</i> 点或增大流量（损失增大），则水柱可能断裂。</p>
+  </div>
+  <div class="ans">答：<i>v</i> = 7.00 m/s，<i>Q</i> = 0.124 m<sup>3</sup>/s；<i>A</i> 点真空度 61.7 kPa；能正常工作。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">练习 3　水泵装置：扬程与功率（自编典型题）</div>
+  <div class="q"><strong>题目</strong>：水泵将水从水池 1 送到水池 2，两水池液面高差 5 m（水池 2 的液面标高 5 m，水池 1 液面标高 0），两液面均与大气相通、面积很大。管路总水头损失 <i>h</i><sub><i>w</i></sub> = 8 m，流量 <i>Q</i> = 0.5 m<sup>3</sup>/s，水的重度 γ = 9.8 kN/m<sup>3</sup>，泵的效率 η = 0.82，传动效率取 1.0。求：①泵的扬程 <i>H</i><sub><i>p</i></sub>；②泵的有效功率与轴功率；③配套电机功率（取裕量 1.1）。</div>
+  <div class="sol">
+    <p><span class="badge">① 扬程</span>取两液面为断面，得 <i>H</i><sub><i>p</i></sub> = <i>z</i><sub>2</sub> − <i>z</i><sub>1</sub> + <i>h</i><sub><i>w</i></sub> = 5 + 8 = <strong>13 m</strong>。</p>
+    <p><span class="badge g">② 功率</span></p>
+    <div class="fml left"><p><i>N</i><sub>有效</sub> = γ<i>QH</i><sub><i>p</i></sub> = 9.8×10<sup>3</sup>×0.5×13 = 6.37×10<sup>4</sup> W = <b>63.7 kW</b></p>
+    <p><i>N</i><sub>轴</sub> = <i>N</i><sub>有效</sub>/η = 63.7/0.82 = <b>77.7 kW</b></p></div>
+    <p><span class="badge o">③ 配套电机</span><i>N</i><sub>电机</sub> = 1.1<i>N</i><sub>轴</sub> = 1.1×77.7 = <strong>85.5 kW</strong>（选标准 90 kW 电机）。</p>
+    <p><strong>要点</strong>：扬程 = 静扬程（液面高差）+ 水头损失，与安装位置无关；功率换算一律用"单位能量 × ρ<i>gQ</i>"。</p>
+  </div>
+  <div class="ans">答：<i>H</i><sub><i>p</i></sub> = 13 m；<i>N</i><sub>有效</sub> = 63.7 kW，<i>N</i><sub>轴</sub> = 77.7 kW；配套电机约 85.5 kW。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">练习 4　文丘里管的空化（气蚀）校核（自编典型题）</div>
+  <div class="q"><strong>题目</strong>：水（20 ℃，ρ = 998 kg/m<sup>3</sup>，汽化压强 <i>p</i><sub><i>v</i></sub> = 2.4 kPa）沿水平管路流动，管路直径 <i>d</i><sub>1</sub> = 150 mm，进口断面中心相对压强 <i>p</i><sub>1</sub> = 40 kPa，流量 <i>Q</i> = 0.05 m<sup>3</sup>/s，当地大气压 <i>p</i><sub><i>a</i></sub> = 98 kPa。管路中接入一文丘里收缩段，为保证不出现空化，收缩段（喉部）直径 <i>d</i><sub>2</sub> 至少应为多少？（不计收缩段水头损失）</div>
+  <div class="sol">
+    <p><span class="badge">① 进口流速</span><i>A</i><sub>1</sub> = π×0.15<sup>2</sup>/4 = 1.767×10<sup>−2</sup> m<sup>2</sup>，<i>v</i><sub>1</sub> = <i>Q</i>/<i>A</i><sub>1</sub> = 0.05/0.01767 = 2.83 m/s，<i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> = 2.83<sup>2</sup>/19.6 = 0.409 m。</p>
+    <p><span class="badge g">② 允许的最低绝对压强</span>喉部压强不得低于汽化压强，取极限条件 <i>p</i><sub>2,abs</sub> = <i>p</i><sub><i>v</i></sub> = 2.4 kPa。进口绝对压强 <i>p</i><sub>1,abs</sub> = <i>p</i><sub><i>a</i></sub> + <i>p</i><sub>1</sub> = 98 + 40 = 138 kPa。（<strong>求绝对压强时须加大气压；也可全程用绝对压强列方程</strong>）</p>
+    <p><span class="badge o">③ 能量方程（用绝对压强，水平管 <i>z</i><sub>1</sub> = <i>z</i><sub>2</sub>）</span></p>
+    <div class="fml left"><p><i>p</i><sub>1,abs</sub>/γ + <i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i> = <i>p</i><sub>2,abs</sub>/γ + <i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i></p>
+    <p><i>p</i><sub>1,abs</sub>/γ = 138×10<sup>3</sup>/(998×9.8) = 14.11 m，&nbsp; <i>p</i><sub>2,abs</sub>/γ = 2.4×10<sup>3</sup>/(998×9.8) = 0.245 m</p>
+    <p><i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i> = 14.11 + 0.409 − 0.245 = 14.27 m&nbsp; ⟹ &nbsp;<i>v</i><sub>2</sub> = √(19.6×14.27) = <b>16.72 m/s</b></p></div>
+    <p><span class="badge r">④ 连续性方程定直径</span><i>v</i><sub>2</sub>/<i>v</i><sub>1</sub> = (<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>2</sup> ⟹ (<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>2</sup> = 16.72/2.83 = 5.91 ⟹ <i>d</i><sub>1</sub>/<i>d</i><sub>2</sub> = 2.431</p>
+    <div class="fml left"><p><i>d</i><sub>2</sub> = 150/2.431 = <b>61.7 mm</b>&nbsp; ⟹ &nbsp;为保证不空化，应取 <i>d</i><sub>2</sub> ≥ 62 mm</p></div>
+    <p><strong>要点</strong>：①涉及汽化/空化的计算<strong>必须统一用绝对压强</strong>，进口表压要加大气压；②喉部流速越大、压强越低，因此收缩比不能过大；③工程上除限制 <i>d</i><sub>2</sub> 外，还可提高进口压强或降低水温（降低 <i>p</i><sub><i>v</i></sub>）。</p>
+  </div>
+  <div class="ans">答：<i>d</i><sub>2</sub> ≥ 61.7 mm（取不小于 62 mm），否则喉部压强将降至汽化压强以下而发生空化。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">练习 5　等直径管路：流量 + 水头线绘制（自编典型题）</div>
+  <div class="q"><strong>题目</strong>：水箱通过直径 <i>d</i> = 100 mm、长 <i>L</i> = 50 m 的水平管路向大气自由出流，水箱液面高出管道出口中心 <i>H</i> = 5 m，水箱液面保持恒定（面积很大）。已知管路沿程阻力系数 λ = 0.025，出口局部损失系数 ζ = 1.0，进口损失忽略不计。取 <i>g</i> = 9.8 m/s<sup>2</sup>。求：①管内流速与流量；②沿程水头损失与局部水头损失；③画出总水头线与测压管水头线的关键数值。</div>
+  <div class="sol">
+    <p><span class="badge">① 能量方程 + 损失表达式联立</span>取水箱液面 1-1（<i>p</i><sub>1</sub> = 0、<i>v</i><sub>1</sub> ≈ 0、<i>z</i><sub>1</sub> = 5 m）与出口断面 2-2（<i>p</i><sub>2</sub> = 0、<i>z</i><sub>2</sub> = 0）：</p>
+    <div class="fml left"><p><i>H</i> = <i>v</i><sup>2</sup>/2<i>g</i> + <i>h</i><sub><i>w</i></sub>，&nbsp; <i>h</i><sub><i>w</i></sub> = λ(<i>L</i>/<i>d</i>)<i>v</i><sup>2</sup>/2<i>g</i> + ζ<i>v</i><sup>2</sup>/2<i>g</i> = (0.025×50/0.1 + 1.0)<i>v</i><sup>2</sup>/2<i>g</i> = 13.5<i>v</i><sup>2</sup>/2<i>g</i></p>
+    <p>⟹ 5 = (1 + 13.5)<i>v</i><sup>2</sup>/2<i>g</i> = 14.5<i>v</i><sup>2</sup>/2<i>g</i>&nbsp; ⟹ &nbsp;<i>v</i><sup>2</sup>/2<i>g</i> = 5/14.5 = 0.3448 m&nbsp; ⟹ &nbsp;<i>v</i> = √(19.6×0.3448) = <b>2.60 m/s</b></p>
+    <p><i>Q</i> = <i>vA</i> = 2.60×(π×0.1<sup>2</sup>/4) = 2.60×7.854×10<sup>−3</sup> = <b>0.0204 m<sup>3</sup>/s ≈ 20.4 L/s</b></p></div>
+    <p><span class="badge g">② 损失分配</span><i>h</i><sub><i>f</i></sub> = 12.5×0.3448 = <strong>4.31 m</strong>（沿程）；<i>h</i><sub><i>j</i></sub> = 1.0×0.3448 = <strong>0.345 m</strong>（局部，出口）。校核：<i>h</i><sub><i>w</i></sub> = 4.31 + 0.345 = 4.655 m，<i>H</i> − <i>v</i><sup>2</sup>/2<i>g</i> = 5 − 0.345 = 4.655 m ✔</p>
+    <p><span class="badge o">③ 水头线关键数值</span>（基准面取管道轴线）</p>
+    <ul>
+      <li><strong>总水头线</strong>：起点在进口断面处 <i>H</i> = 5 m，沿程<strong>均匀线性下降</strong> 4.31 m，到出口前降至 5 − 4.31 = 0.69 m；出口局部损失处再<strong>铅直下降</strong> 0.345 m，到出口断面为 0.345 m（= <i>v</i><sup>2</sup>/2<i>g</i>，与水流轴线的高度差即为流速水头）；</li>
+      <li><strong>测压管水头线</strong> = 总水头线 − 流速水头（本例各断面流速相同，流速水头恒为 0.345 m，两线平行），故 <i>H</i><sub><i>p</i></sub> 由进口的 5 − 0.345 = 4.655 m 线性降至出口前的 0.345 m，出口断面处 <i>H</i><sub><i>p</i></sub> = 0（与水流轴线相交，即出口压强为大气压）；</li>
+      <li>校核规律：<strong>总水头线只降不升 ✔</strong>；<strong>出口断面测压管水头线落在水流轴线上（<i>p</i> = 0）✔</strong>；沿程段两线平行（等直径、流速不变）✔。</li>
+    </ul>
+    <p><strong>要点</strong>：凡"损失与流速有关"的题目，必须把能量方程与 <i>h</i><sub><i>w</i></sub> = (λ<i>L</i>/<i>d</i> + ∑ζ)<i>v</i><sup>2</sup>/2<i>g</i> 联立求解——不能把 <i>h</i><sub><i>w</i></sub> 当作已知常数代入。</p>
+  </div>
+  <div class="ans">答：<i>v</i> = 2.60 m/s，<i>Q</i> = 0.0204 m<sup>3</sup>/s；<i>h</i><sub><i>f</i></sub> = 4.31 m，<i>h</i><sub><i>j</i></sub> = 0.345 m；总水头线由 5 m 线性降至 0.345 m（出口前 0.69 m 处再铅直下降 0.345 m），测压管水头线由 4.655 m 降至出口的 0（与轴线相交）。</div>
+</div>
+
+<div class="prob">
+  <div class="pt">练习 6　动量方程：水平等径 90° 弯管中水流对管壁的作用力（自编典型题，题型参照通行教材"水流对弯管的作用力"经典例题）</div>
+  <div class="q"><strong>题目</strong>：水平放置的等直径 90° 弯管（管轴在水平面内），管径 <i>d</i> = 200 mm，水流量 <i>Q</i> = 0.10 m<sup>3</sup>/s，弯管进口断面 中心相对压强 <i>p</i><sub>1</sub> = 20 kPa，弯管出口断面中心相对压强 <i>p</i><sub>2</sub> = 18 kPa，水的密度 ρ = 1000 kg/m<sup>3</sup>，取 β<sub>1</sub> = β<sub>2</sub> = 1.0，不计弯管段水头损失。求水流对弯管的作用力（大小与方向）。</div>
+  <div class="sol">
+    <p><span class="badge">① 流速（等径管，进出口流速大小相同）</span><i>A</i> = π×0.2<sup>2</sup>/4 = 3.142×10<sup>−2</sup> m<sup>2</sup>，<i>v</i> = <i>Q</i>/<i>A</i> = 0.1/0.03142 = <strong>3.18 m/s</strong></p>
+    <p><span class="badge g">② 规定坐标</span>取 <i>x</i> 轴沿进口流速方向，<i>y</i> 轴沿出口流速方向（两者垂直）。则 <i>v</i><sub>1</sub> = (3.18, 0)、<i>v</i><sub>2</sub> = (0, 3.18)。</p>
+    <p><span class="badge o">③ 外力分析</span>断面 1-1 的压力 <i>p</i><sub>1</sub><i>A</i> 沿 +<i>x</i>；断面 2-2 的压力 <i>p</i><sub>2</sub><i>A</i> 沿 −<i>y</i>；管壁对流体的作用力 <i>R</i>（分量 <i>R</i><sub><i>x</i></sub>、<i>R</i><sub><i>y</i></sub>）；重力与管轴垂直（水平弯管）不影响水平面内的平衡。</p>
+    <p><span class="badge r">④ 动量方程</span></p>
+    <div class="fml left"><p><i>x</i> 向：<i>p</i><sub>1</sub><i>A</i> + <i>R</i><sub><i>x</i></sub> = ρ<i>Q</i>(0 − <i>v</i>) = 1000×0.1×(0 − 3.18) = −318 N</p>
+    <p><i>p</i><sub>1</sub><i>A</i> = 20×10<sup>3</sup>×3.142×10<sup>−2</sup> = 628.4 N&nbsp; ⟹ &nbsp;<i>R</i><sub><i>x</i></sub> = −318 − 628.4 = <b>−946.4 N</b></p>
+    <p><i>y</i> 向：−<i>p</i><sub>2</sub><i>A</i> + <i>R</i><sub><i>y</i></sub> = ρ<i>Q</i>(<i>v</i> − 0) = 318 N</p>
+    <p><i>p</i><sub>2</sub><i>A</i> = 18×10<sup>3</sup>×3.142×10<sup>−2</sup> = 565.6 N&nbsp; ⟹ &nbsp;<i>R</i><sub><i>y</i></sub> = 318 + 565.6 = <b>883.6 N</b></p></div>
+    <p><span class="badge">⑤ 合力</span><i>R</i> = √(946.4<sup>2</sup> + 883.6<sup>2</sup>) = √(895 672 + 780 749) = √1 676 421 = <strong>1294.8 N ≈ 1.29 kN</strong></p>
+    <p>这是<strong>管壁作用在流体上的力</strong>，方向与 +<i>x</i> 成 θ = 180° − arctan(883.6/946.4) = 180° − 43.1° = 136.9°。</p>
+    <p><span class="badge g">⑥ 牛顿第三定律</span><strong>水流对弯管的作用力</strong>大小同为 <strong>1.29 kN</strong>，方向与进口流速方向成 136.9° − 180° = <strong>−43.1°</strong>，即斜向弯管的外侧。工程意义：弯管处必须设置镇墩（固定支墩）承受这一推力；管径大、流速高、压强高时该力可达数十千牛。</p>
+  </div>
+  <div class="ans">答：水流对弯管的作用力约 <strong>1.29 kN</strong>，方向与进口流速方向成 −43.1°（斜向弯管外侧）。</div>
+</div>
+
+<hr>
+<div class="box key"><div class="bt">全章复习自检清单（打勾法）</div>
+<ol>
+  <li>能写出拉格朗日与欧拉两套表达式，并指出各式中 (<i>x</i>, <i>y</i>, <i>z</i>) 是因变量还是自变量；</li>
+  <li>能独立推导质点导数公式 D<i>B</i>/D<i>t</i> = ∂<i>B</i>/∂<i>t</i> + (<b>v</b>·∇)<i>B</i>，并说明两项各自的物理意义；</li>
+  <li>能说出流线不相交的三个例外（驻点、源/汇、相切），并解释"定常流动三线合一"；</li>
+  <li>能写出并解释 <i>v</i> = <i>Q</i>/<i>A</i> = ∫<i>u</i>d<i>A</i>/<i>A</i>，说明一元化的代价；</li>
+  <li>能写出连续性方程的三种形式并处理分支管路；</li>
+  <li>能用功能原理完整推导元流伯努利方程，说出 6 条适用条件；</li>
+  <li>能说明"均匀流过流断面上压强按静水规律分布"的推导与物理依据；</li>
+  <li>能完成势能、动能、能量损失三类积分，写出含 α 的总流能量方程；</li>
+  <li>能说出动能修正系数 α 与动量修正系数 β 的定义、物理含义与典型取值；</li>
+  <li>能独立导出文丘里流量公式，并正确换算 U 形压差计读数；</li>
+  <li>会用四步法解"流速 + 压强"联立问题，并作气蚀校核（统一用绝对压强）；</li>
+  <li>能画出总水头线与测压管水头线，区分沿程损失（斜直线）与局部损失（铅直台阶）；</li>
+  <li>能写出动量方程并求解弯管、射流冲击类问题的作用力（附录 B）。</li>
+</ol>
+</div>
+
+</body>
+</html>

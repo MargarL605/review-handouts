@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>工程热力学 知识点简答题作答讲义（前8周）</title>
+<style>
+/* ===================================================================
+   复习讲义 公共样式表  (review/shared/handout.css)
+   A4 打印友好 · 简洁明了 · 与所有讲义共用，保证风格统一
+   =================================================================== */
+@page { size: A4; margin: 14mm 13mm 12mm 13mm; }
+
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  font-size: 10.2pt;
+  line-height: 1.62;
+  color: #1b1b1b;
+  background: #fff;
+}
+p { margin: 0.38em 0; text-align: justify; }
+strong { color: #0b3d69; }
+em { font-style: normal; color: #b4451f; }
+
+/* ---------------- 封面 ---------------- */
+.cover { border: 2px solid #0b4f8a; border-radius: 6px; padding: 16px 18px; margin-bottom: 14px; }
+.cover .kicker { font-size: 9.5pt; letter-spacing: 2px; color: #0b4f8a; font-weight: bold; }
+.cover h1 { font-size: 21pt; margin: 4px 0 6px 0; color: #0b3d69; border: none; background: none; padding: 0; }
+.cover .sub { font-size: 10.5pt; color: #444; }
+.cover .meta { margin-top: 8px; font-size: 9.2pt; color: #666; border-top: 1px dashed #b9cfe2; padding-top: 6px; }
+
+/* ---------------- 标题层级 ---------------- */
+h1 { font-size: 15pt; color: #fff; background: #0b4f8a; margin: 14px 0 8px 0; padding: 6px 12px; border-radius: 3px; line-height: 1.35; }
+h2 { font-size: 12.8pt; color: #0b4f8a; margin: 13px 0 5px 0; padding: 3px 0 3px 9px; border-left: 5px solid #0b4f8a; background: #eef4fa; }
+h3 { font-size: 11pt; color: #0a3f6e; margin: 10px 0 4px 0; padding-bottom: 1px; border-bottom: 1.5px solid #c3d8ea; }
+h4 { font-size: 10.3pt; color: #14507f; margin: 8px 0 3px 0; }
+.lead { color: #555; font-size: 9.3pt; margin: -2px 0 7px 0; }
+
+/* ---------------- 提示盒 ---------------- */
+.box { border-radius: 4px; padding: 6px 10px; margin: 7px 0; page-break-inside: avoid; }
+.box > .bt { display: block; font-weight: bold; margin-bottom: 2px; }
+.key  { background: #eef4fa; border-left: 4px solid #0b4f8a; } .key > .bt  { color: #0b4f8a; }
+.def  { background: #f3f9f1; border-left: 4px solid #3d8b40; } .def > .bt  { color: #2e6b31; }
+.warn { background: #fdf2ee; border-left: 4px solid #c0492b; } .warn > .bt { color: #a83c21; }
+.exam { background: #fffaf0; border-left: 4px solid #c8912a; } .exam > .bt { color: #8f6410; }
+.note { background: #f6f6f6; border-left: 4px solid #999; }    .note > .bt { color: #555; }
+
+/* ---------------- 公式 ---------------- */
+.fml {
+  font-family: "Cambria Math", "Times New Roman", "Microsoft YaHei", serif;
+  background: #fbfbfb; border: 1px solid #e2e2e2; border-radius: 3px;
+  padding: 5px 10px; margin: 6px 0; text-align: center; font-size: 11pt;
+  page-break-inside: avoid;
+}
+.fml.left { text-align: left; }
+.fml .tag { float: right; color: #888; font-size: 9pt; }
+i, var { font-family: "Cambria Math", "Times New Roman", serif; font-style: italic; }
+sub, sup { font-size: 0.72em; }
+
+/* ---------------- 表格 ---------------- */
+table { border-collapse: collapse; width: 100%; margin: 7px 0; font-size: 9.4pt; page-break-inside: avoid; }
+th, td { border: 1px solid #c8d6e2; padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: #e8f1f9; color: #0b3d69; font-weight: bold; }
+tr:nth-child(even) td { background: #fafcfe; }
+td.c, th.c { text-align: center; }
+
+/* ---------------- 例题 / 习题 ---------------- */
+.prob { border: 1px solid #d9e6f2; border-left: 4px solid #4a90c4; border-radius: 4px; padding: 7px 10px; margin: 9px 0; page-break-inside: avoid; background: #fcfdff; }
+.prob > .pt { font-weight: bold; color: #0b4f8a; margin-bottom: 3px; }
+.prob .q { margin: 3px 0; }
+.prob .sol { margin-top: 4px; }
+.prob .ans { background: #fff6d9; border-radius: 3px; padding: 3px 7px; margin-top: 4px; font-weight: bold; color: #8a5a00; }
+ol, ul { margin: 4px 0 4px 1.5em; padding: 0; }
+li { margin: 2px 0; }
+.step { margin-left: 1.1em; }
+
+/* ---------------- 图片 ---------------- */
+figure { margin: 8px 0; text-align: center; page-break-inside: avoid; }
+figure img { max-width: 100%; border: 1px solid #dcdcdc; border-radius: 3px; }
+figcaption { font-size: 8.8pt; color: #666; margin-top: 3px; }
+
+/* ---------------- 其他 ---------------- */
+.pagebreak { page-break-before: always; }
+.toc { background: #f7fafd; border: 1px solid #d9e6f2; border-radius: 4px; padding: 8px 12px; margin: 8px 0 12px 0; }
+.toc ol { margin-left: 1.2em; }
+.toc a { color: #0b3d69; text-decoration: none; }
+.badge { display: inline-block; background: #0b4f8a; color: #fff; border-radius: 3px; padding: 0 6px; font-size: 8.8pt; margin-right: 4px; }
+.badge.g { background: #3d8b40; } .badge.o { background: #c8912a; } .badge.r { background: #c0492b; }
+hr { border: none; border-top: 1px dashed #c3d8ea; margin: 12px 0; }
+
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="kicker">工程热力学 · 4 学分 · 第 1—8 周</div>
+  <h1>《知识点简答题·前 8 周》标准作答 25 题</h1>
+  <div class="sub">第一章 基本概念 · 第二章 理想气体与实际气体 · 第三章 热力学第一定律 · 第四章 理想气体基本热力过程 · 第五章 热力学第二定律 · 第六章 压气机</div>
+  <div class="meta">适用：期末复习 · 闭卷简答与推导题　|　写法：先给系统简图 → 再列一般式 → 再代条件化简 → 最后写过程特征与结论　|　公式以课件为准，按 <i>q</i>、<i>w</i> 取“工质吸热、对外作功为正”的符号约定</div>
+</div>
+
+<div class="toc">
+  <strong>目录</strong>
+  <ol>
+    <li>牛顿力学和热力学主要差别</li>
+    <li>热力学第零定律及意义</li>
+    <li>工质热力性质、物态稳定必要条件</li>
+    <li>工质闭口系统能量方程推导</li>
+    <li>吉布斯方程（<i>u</i>、<i>h</i> 形式）</li>
+    <li>推导 δ<i>q</i> + δ<i>w</i><sub>diss</sub> = <i>T</i>d<i>s</i></li>
+    <li>一个入口一个出口稳定流动开口系统能量方程的两种形式（助记导出）</li>
+    <li>热交换器：简图、能量方程、过程特征</li>
+    <li>喷管、扩压管：两种形式能量方程、过程特性</li>
+    <li>绝热混合：简图、能量方程、过程特性</li>
+    <li>压气机、透平机：简图、能量方程</li>
+    <li>绝热节流：简图、能量方程、<i>T</i>-<i>s</i> 图</li>
+    <li>推导理想气体定熵过程特征公式</li>
+    <li><i>p</i>-<i>v</i> 图：一组定温线、定熵线（关系特征）</li>
+    <li><i>T</i>-<i>s</i> 图：一组定压线、定容线（垂直、水平关系特征）</li>
+    <li><i>p</i>-<i>v</i> 图、<i>T</i>-<i>s</i> 图：多变过程线斜率公式推导</li>
+    <li>多变比热计算式，并进一步求 <i>q</i>、<i>w</i>、<i>w</i><sub>t</sub></li>
+    <li><i>p</i>-<i>v</i> 图、<i>T</i>-<i>s</i> 图：卡诺正、逆循环，<i>η</i>、<i>ε</i><sub>1</sub>、<i>ε</i><sub>2</sub></li>
+    <li>卡诺定理、克劳修斯不等式</li>
+    <li>一个入口一个出口、绝热稳定流动：熵方程（开口、闭口）</li>
+    <li>不可逆损失</li>
+    <li>压气机不可逆压气功（<i>T</i>-<i>s</i> 图，全表示 / 半表示）</li>
+    <li>压气机不可逆压气功（<i>p</i>-<i>v</i> 图表示）</li>
+    <li>余隙容积影响，用 <i>p</i>-<i>V</i> 图（示功图）表示</li>
+    <li>多级压缩中间冷却：使用场合、优点</li>
+  </ol>
+  <p>附录 A　高频考点自测清单　·　附录 B　1—8 周公式总表</p>
+</div>
+
+<h1>第一部分　基本概念与第一定律（第 1—7 题）</h1>
+
+<div class="lead">本部分是全卷推导的“地基”：第 1、2 题是概念定性题，第 3 题是状态与稳定性，第 4—7 题是能量方程的主干链条（闭口 → 吉布斯 → 熵 → 开口 → 两种形式）。四条主线必须能默写：<i>q</i> = Δ<i>u</i> + <i>w</i>；δ<i>q</i> = <i>T</i>d<i>s</i>；<i>q</i> = Δ<i>h</i> + <i>w</i><sub>t</sub>；<i>q</i> = Δ<i>h</i> + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub>。</div>
+
+<div class="box key"><span class="bt">通用答题模板（所有“简图 + 能量方程 + 过程特征”题都照这个顺序写）</span>
+<p><span class="badge">1</span>画系统简图并画虚线边界，标出入口 1、出口 2，标出 <i>q</i> 与 <i>w</i><sub>s</sub> 的方向；<span class="badge">2</span>写出一般式 <i>q</i> = Δ<i>h</i> + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub>；<span class="badge">3</span>按题给条件逐项划零（绝热 <i>q</i>=0；刚性不动 <i>w</i><sub>s</sub>=0；忽略宏观动能势能差 ½Δ<i>c</i><sup>2</sup>=<i>g</i>Δ<i>z</i>=0）；<span class="badge">4</span>整理出简化式；<span class="badge">5</span>写过程特征（定压 / 定温 / 定熵 / 定焓、可逆还是不可逆、压差与温差的方向）。</p></div>
+
+<div class="prob">
+  <div class="pt">第 1 题　牛顿力学和热力学主要差别</div>
+  <div class="q">说明牛顿力学与热力学在研究对象、基本定律、时间方向性等方面的主要差别。</div>
+  <div class="sol">
+    <p><strong>（1）研究对象不同。</strong>牛顿力学研究单个（或少数）质点和刚体的机械运动，状态由位置与速度完全确定，是<b>确定性、可逆</b>的描述；热力学研究由大量分子组成的<b>宏观系统</b>，其状态用 <i>p</i>、<i>v</i>、<i>T</i>、<i>u</i>、<i>s</i> 等宏观物理量描述，属于<b>统计性</b>描述。单个分子的运动服从牛顿力学，但大量分子集体表现出的热现象不能由牛顿力学直接给出。</p>
+    <p><strong>（2）基本定律与内容不同。</strong>牛顿力学以牛顿三定律为基础，核心是力与运动、功与机械能的转换；热力学以<b>热力学第零、第一、第二定律</b>为基础，核心是<b>能量及其转换规律</b>与<b>能量品质的差别</b>：第一定律给出能量在数量上的守恒（能量方程），第二定律指出能量存在形式有品质高低之分，给出转换效率的极限与过程进行的方向。</p>
+    <p><strong>（3）时间的方向性（可逆性）不同。</strong>牛顿力学的方程对时间 <i>t</i> → −<i>t</i> 对称，过程原则上可以完全反向复现；热力学第二定律指出<b>一切自发过程都是不可逆的</b>（摩擦耗散、温差传热、压差传功、浓度差传质、化学势差反应……），过程只能朝<b>熵增大</b>的方向发展。因此热力学给出了“时间箭头”，这是牛顿力学所没有的。</p>
+    <p><strong>（4）状态量与过程量的区分不同。</strong>牛顿力学中功与路径无关（保守力）的情况很常见；热力学中必须区分<b>状态参数</b>（<i>p</i>、<i>v</i>、<i>T</i>、<i>u</i>、<i>h</i>、<i>s</i>，其微元是全微分）与<b>过程量</b>（<i>q</i>、<i>w</i>，其微元用 δ 表示，与路径有关）。</p>
+    <p><strong>（5）研究方法不同。</strong>热力学有两条路：以宏观物理量为基础、以经验性物理定律为依据的<b>经典（宏观）方法</b>（本课程内容）；以及从物质微观结构出发、建立宏观性质与微观本质联系的<b>微观统计方法</b>（统计物理学）。</p>
+    <p><strong>（6）两者的联系。</strong>热力学并不否定牛顿力学：热力学第一定律正是能量守恒与转换定律在热现象中的推广，机械能与其他形式能量（内能）之间可以相互转换，转换中总能量守恒。</p>
+  </div>
+  <div class="ans">得分点：① 单个/少量质点 vs 大量分子宏观系统（统计性）；② 三定律 vs 三定律（能量守恒 + 品质与方向）；③ 时间可逆 vs 自发过程不可逆、熵增方向；④ 状态量与过程量的区分；⑤ 宏观与微观两种研究方法。一句话结论：牛顿力学研究可逆的机械运动，热力学研究能量的数量守恒与品质贬值（方向性）。</div>
+</div>
+<div class="box exam"><span class="bt">答题模板（“差别类”简答题五步法）</span>
+<p>研究对象 → 基本定律 → 状态描述（状态量/过程量）→ 时间方向性（可逆/不可逆）→ 联系与补充（研究方法）。每一条写 1—2 句即可，切勿只写一句“热力学研究热现象”。</p></div>
+
+<div class="prob">
+  <div class="pt">第 2 题　热力学第零定律及意义</div>
+  <div class="q">叙述热力学第零定律，并说明它的意义。</div>
+  <div class="sol">
+    <p><strong>（1）定律表述。</strong>如果两个系统分别与第三个系统处于<b>热平衡</b>，那么这两个系统彼此必然处于<b>热平衡</b>。</p>
+    <p><strong>（2）物理图像。</strong>系统 <i>A</i> 与系统 <i>B</i> 用绝热壁隔开、互不接触，让第三系统 <i>C</i>（温度计）先与 <i>A</i> 达到热平衡，再与 <i>B</i> 达到热平衡；则 <i>A</i> 与 <i>B</i> 若被导热壁连通，彼此不再发生净热交换，说明两者处于同一热平衡状态。</p>
+    <figure>
+      <svg viewBox="0 0 600 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <rect x="34" y="42" width="122" height="86" fill="#eef4fa" stroke="#0b4f8a" stroke-width="2"/>
+        <rect x="444" y="42" width="122" height="86" fill="#eef4fa" stroke="#0b4f8a" stroke-width="2"/>
+        <rect x="240" y="86" width="120" height="62" fill="#fff1cc" stroke="#c8912a" stroke-width="2"/>
+        <line x1="156" y1="117" x2="240" y2="117" stroke="#c0492b" stroke-width="3"/>
+        <line x1="360" y1="117" x2="444" y2="117" stroke="#c0492b" stroke-width="3"/>
+        <text x="95" y="90" font-size="15" text-anchor="middle" fill="#0b3d69">系统 A</text>
+        <text x="505" y="90" font-size="15" text-anchor="middle" fill="#0b3d69">系统 B</text>
+        <text x="300" y="112" font-size="14" text-anchor="middle" fill="#8f6410">温度计 C</text>
+        <text x="300" y="170" font-size="13" text-anchor="middle" fill="#666">A、B 分别与 C 热平衡 ⇒ A、B 彼此热平衡</text>
+      </svg>
+      <figcaption>图 1-1　热力学第零定律示意：绝热壁隔开 <i>A</i>、<i>B</i>，用第三系统 <i>C</i>（温度计）作“中介”传递热平衡关系。</figcaption>
+    </figure>
+    <p><strong>（3）意义。</strong></p>
+    <p class="step"><span class="badge">①</span>　它给出了<b>温度</b>这一状态参数存在的逻辑依据：互为热平衡的所有系统具有一个共同的、数值相等的状态量，这个量就是<b>温度</b>。</p>
+    <p class="step"><span class="badge">②</span>　它使<b>温度测量成为可能</b>：温度计可以“代表”被测系统与其他系统比较，即测温的物理基础；这也是它被称为“第零定律”的原因——逻辑上它先于第一、第二定律，是热力学的<b>起始公式</b>之一。</p>
+    <p class="step"><span class="badge">③</span>　它给出了热平衡的<b>判据</b>：<i>T</i><sub>A</sub> = <i>T</i><sub>B</sub> ⇔ <i>A</i>、<i>B</i> 热平衡；温差是传热的推动力，无温差则无净传热，这是判断过程方向与可逆性的基础。</p>
+    <p class="step"><span class="badge">④</span>　它与第一定律（能量守恒）、第二定律（方向与品质）共同构成热力学的<b>公理体系</b>，是整个宏观热力学的逻辑起点。</p>
+  </div>
+  <div class="ans">得分点：① 准确复述“与第三系统热平衡 ⇒ 彼此热平衡”；② 温度（态函数）的存在性依据；③ 测温原理与温度计的理论基础；④ 热平衡判据 <i>T</i><sub>A</sub>=<i>T</i><sub>B</sub>。一句话结论：第零定律解决了“温度是什么、温度能不能测”的问题，是热力学的起始公式。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① 三个系统必须是<b>两两与第三个</b>热平衡，不能写成“两个系统温度相等所以热平衡”（那是结论不是定律）。② 第零定律只讲<b>热平衡</b>，不讲力平衡与化学平衡。③ 不要与第一定律混答：第零定律不涉及能量数量关系，它只给出温度这一状态参数的存在性。</p></div>
+
+<div class="prob">
+  <div class="pt">第 3 题　工质热力性质、物态稳定必要条件</div>
+  <div class="q">什么是工质的热力性质？物态稳定的必要条件是什么？</div>
+  <div class="sol">
+    <p><strong>（1）工质与热力性质。</strong>在热力设备中实现能量转换的<b>媒介物质</b>称工质（工作介质）。工质的热力性质指工质各状态参数之间的相互关系，即</p>
+    <div class="fml"><span class="tag">状态方程</span><p><i>f</i>(<i>p</i>, <i>v</i>, <i>T</i>) = 0</p></div>
+    <p>以及由此派生的其他热力学关系 <i>u</i> = <i>u</i>(<i>v</i>,<i>T</i>)、<i>h</i> = <i>h</i>(<i>p</i>,<i>T</i>)、<i>s</i> = <i>s</i>(<i>p</i>,<i>T</i>)、<i>c</i><sub>p</sub>、<i>c</i><sub>v</sub> 等。按<b>状态公理</b>：对单元单相简单可压缩系统，独立状态参数只有 <b>2</b> 个，确定这两个参数，其余参数与全部热力性质就都随之确定。</p>
+    <p>“物态”即工质所处的<b>相</b>（固相、液相、气相）。工质可能出现的物态与其热力性质密切相关，可用 <i>p</i>-<i>v</i>-<i>T</i> 图（三维状态图）表示：图上有固、液、气三个单相区，以及固–液、液–气、固–气三个<b>两相共存区</b>，三区交线汇于<b>三相点</b>，液–气共存线终止于<b>临界点</b>。</p>
+    <p><strong>（2）物态稳定的必要条件。</strong>物态稳定即系统处于<b>热力学平衡状态</b>，其必要条件（也是热力学平衡的四个条件）是：</p>
+    <div class="fml left"><span class="tag">平衡条件</span><p>
+      <span class="badge">①</span> 热平衡：系统各部分<b>无温差</b>，<i>T</i> = 常数（无传热推动力）；<br>
+      <span class="badge">②</span> 力平衡：系统各部分<b>无压差</b>，<i>p</i> = 常数（无传功推动力）；<br>
+      <span class="badge">③</span> 相平衡：各相之间<b>无相变净迁移</b>，对两相共存必须满足 <i>p</i> = <i>f</i>(<i>T</i>)；<br>
+      <span class="badge">④</span> 化学平衡：无化学势差，不发生净化学反应。
+    </p></div>
+    <p><strong>（3）稳定性的进一步说明。</strong>上述四条件保证系统宏观状态不随时间变化、内部不存在任何不平衡势（系统内无统计意义上的宏观物质流与能量流）。对<b>两相共存</b>的物态，还要求该状态位于两相区内且满足 <i>p</i> = <i>f</i>(<i>T</i>)：温度、压力只有一个独立，不能任意给定。此外，稳定平衡还要求处于<b>稳定平衡</b>而非亚稳（如过热液体、过冷蒸汽）——后者虽可短暂存在，一旦受扰动即失稳。</p>
+    <div class="fml"><span class="tag">两相平衡</span><p><i>p</i> = <i>f</i>(<i>T</i>)　（饱和压力是饱和温度的单值函数）</p></div>
+  </div>
+  <div class="ans">得分点：① 工质=实现能量转换的媒介物质，热力性质=<i>f</i>(<i>p</i>,<i>v</i>,<i>T</i>)=0 及派生的 <i>u</i>、<i>h</i>、<i>s</i>、<i>c</i><sub>p</sub>、<i>c</i><sub>v</sub> 关系；② 状态公理：单元单相简单可压缩系统只需 2 个独立状态参数；③ 物态稳定=热力学平衡，四条件：热平衡、力平衡、相平衡（<i>p</i>=<i>f</i>(<i>T</i>)）、化学平衡。一句话结论：无温差、无压差、无相变净迁移、无化学势差 ⇒ 宏观状态不随时间变化、内部无不平衡势。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① “物态稳定”≠“状态参数不变”：必须强调<b>内部不存在不平衡势</b>（否则准静态过程的中间状态也会被误认为平衡态）。② 两相共存时独立参数只有 <b>1</b> 个（<i>p</i> 与 <i>T</i> 不独立），不能与单相的 2 个混淆。③ 只说“温度和压力不变”不够，还要写相平衡与化学平衡，才叫完整的必要条件。</p></div>
+
+<div class="prob">
+  <div class="pt">第 4 题　工质闭口系统能量方程推导</div>
+  <div class="q">推导闭口系统的能量方程，并说明其各种形式及适用条件。</div>
+  <div class="sol">
+    <p><strong>（1）系统与假设。</strong>取闭口系统（<b>控制质量</b>）：与外界只交换热量和容积变化功，与外界无物质交换，边界可以是移动的。设系统在过程中从外界吸热 <i>Q</i>，对外作总功 <i>W</i>。</p>
+    <p><strong>（2）能量的储存形式。</strong>闭口系统的能量储存有：</p>
+    <div class="fml left"><p>宏观动能 <i>E</i><sub>k</sub> = ½<i>m</i><i>c</i><sup>2</sup>　；　宏观势能 <i>E</i><sub>p</sub> = <i>m</i><i>g</i><i>z</i>　；　<b>热力学能（内能）</b> <i>U</i></p></div>
+    <p>其中只有<b>内能</b> <i>U</i> 是工质的热力性质（状态参数），动能与势能属于宏观机械能。注意：<i>U</i> 的实际数值不可知也不可测，<b>只有 Δ<i>u</i>、d<i>u</i> 才有物理意义</b>。</p>
+    <p><strong>（3）推导（从能量守恒出发）。</strong>对闭口系统，进入系统的能量 − 离开系统的能量 = 系统储存能量的变化量，即</p>
+    <div class="fml"><span class="tag">一般式</span><p><i>Q</i> = Δ<i>U</i> + Δ<i>E</i><sub>k</sub> + Δ<i>E</i><sub>p</sub> + <i>W</i></p></div>
+    <p>若系统宏观静止且无宏观位能变化（Δ<i>E</i><sub>k</sub> = Δ<i>E</i><sub>p</sub> = 0），则得<b>闭口系统热力学能量方程</b>（最常用形式）：</p>
+    <div class="fml"><span class="tag">基本形式</span><p><i>Q</i> = Δ<i>U</i> + <i>W</i>　；　对单位质量：<i>q</i> = Δ<i>u</i> + <i>w</i></p></div>
+    <p>写成微元形式（过程中间任意微元段）：</p>
+    <div class="fml"><p>δ<i>q</i> = d<i>u</i> + δ<i>w</i></p></div>
+    <p><strong>（4）总功的分解。</strong>闭口系统获得/作出的<b>总功</b>由两部分组成：</p>
+    <div class="fml"><p>δ<i>w</i> = <i>p</i>d<i>v</i> − δ<i>w</i><sub>diss</sub>　（可逆过程 δ<i>w</i><sub>diss</sub> = 0）</p></div>
+    <p>式中 <i>p</i>d<i>v</i> 为<b>容积变化功（体积功）</b>；δ<i>w</i><sub>diss</sub> 为<b>耗散功（摩擦功）</b>——摩擦、扰动、内部势差等不可逆因素把一部分机械能耗散为内能，这部分功不能输出给外界，故从总功中扣除（前面取负号），且 δ<i>w</i><sub>diss</sub> 恒为正值。可逆过程无摩擦耗散且内部无势差，此时 <i>p</i> 既是系统压力也是边界上的外压力，于是</p>
+    <div class="fml"><span class="tag">可逆过程</span><p>δ<i>q</i> = d<i>u</i> + <i>p</i>d<i>v</i>　⇒　<i>q</i> = Δ<i>u</i> + ∫<sub>1</sub><sup>2</sup><i>p</i>d<i>v</i></p></div>
+    <p><strong>（5）用焓表示的形式。</strong>由焓的定义 <i>h</i> = <i>u</i> + <i>p</i><i>v</i>，取微分 d<i>h</i> = d<i>u</i> + <i>p</i>d<i>v</i> + <i>v</i>d<i>p</i>，代入 δ<i>q</i> = d<i>u</i> + <i>p</i>d<i>v</i>（可逆）得</p>
+    <div class="fml"><p>δ<i>q</i> = d<i>h</i> − <i>v</i>d<i>p</i>　⇒　<i>q</i> = Δ<i>h</i> − ∫<sub>1</sub><sup>2</sup><i>v</i>d<i>p</i></p></div>
+    <p><strong>（6）适用条件小结。</strong>能量方程 <i>q</i> = Δ<i>u</i> + <i>w</i> 对闭口系统的<b>任何过程</b>（可逆与不可逆）都成立（第一定律的普遍形式）；而 δ<i>q</i> = d<i>u</i> + <i>p</i>d<i>v</i> 只对<b>可逆过程</b>成立（此时 <i>w</i> = ∫<i>p</i>d<i>v</i>）。若还有动能、势能变化，必须回到一般式 <i>Q</i> = Δ<i>U</i> + Δ<i>E</i><sub>k</sub> + Δ<i>E</i><sub>p</sub> + <i>W</i>。</p>
+  </div>
+  <div class="ans">得分点：① 闭口（控制质量）系统定义；② 能量守恒式 <i>Q</i> = Δ<i>U</i> + Δ<i>E</i><sub>k</sub> + Δ<i>E</i><sub>p</sub> + <i>W</i> → 忽略宏观机械能 → <i>q</i> = Δ<i>u</i> + <i>w</i> → δ<i>q</i> = d<i>u</i> + δ<i>w</i>；③ 总功分解 δ<i>w</i> = <i>p</i>d<i>v</i> − δ<i>w</i><sub>diss</sub>（δ<i>w</i><sub>diss</sub> ≥ 0 为耗散功）；④ 可逆时才可写 δ<i>q</i> = d<i>u</i> + <i>p</i>d<i>v</i>；⑤ 焓形式 δ<i>q</i> = d<i>h</i> − <i>v</i>d<i>p</i>。一句话结论：<i>q</i> = Δ<i>u</i> + <i>w</i> 普遍成立，<i>w</i> = ∫<i>p</i>d<i>v</i> 只对可逆过程成立。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① 把 <i>w</i> = ∫<i>p</i>d<i>v</i> 当成普遍式：不可逆过程中 <i>w</i> ≠ ∫<i>p</i>d<i>v</i>，多了耗散功这一项（且数值上还要用<b>外力</b>计算）。② 内能 <i>u</i> 的绝对值没有物理意义，不要写“系统含有多少内能”，只写 Δ<i>u</i>。③ 符号规定必须交代：这里取 <b>工质吸热 <i>q</i> 为正、对外作功 <i>w</i> 为正</b>，与 δ<i>q</i> = d<i>u</i> + <i>p</i>d<i>v</i> 一致；若改用“外界对工质作功为正”，则方程写成 <i>q</i> = Δ<i>u</i> − <i>w</i>，务必前后统一。</p></div>
+
+<div class="prob">
+  <div class="pt">第 5 题　吉布斯方程（<i>u</i>、<i>h</i> 形式）</div>
+  <div class="q">写出并说明吉布斯方程，给出内能形式与焓形式。</div>
+  <div class="sol">
+    <p><strong>（1）方程形式。</strong>吉布斯（Gibbs）方程是可逆过程下第一定律与第二定律的联合表达式，它把只有<b>状态参数</b>的微分联系了起来：</p>
+    <div class="fml"><span class="tag">u 形式</span><p>d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i></p></div>
+    <div class="fml"><span class="tag">h 形式</span><p>d<i>h</i> = <i>T</i>d<i>s</i> + <i>v</i>d<i>p</i></p></div>
+    <p><strong>（2）推导。</strong>由可逆过程的第一定律与第二定律：</p>
+    <p class="step">①　δ<i>q</i> = d<i>u</i> + <i>p</i>d<i>v</i>　（可逆，无耗散）</p>
+    <p class="step">②　δ<i>q</i> = <i>T</i>d<i>s</i>　（可逆过程的熵定义式）</p>
+    <p class="step">③　两式消去 δ<i>q</i>：<b>d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i></b>　——<i>u</i> 形式。</p>
+    <p class="step">④　再对 <i>h</i> = <i>u</i> + <i>p</i><i>v</i> 取微分：d<i>h</i> = d<i>u</i> + <i>p</i>d<i>v</i> + <i>v</i>d<i>p</i>，把 ③ 代入即得 <b>d<i>h</i> = <i>T</i>d<i>s</i> + <i>v</i>d<i>p</i></b>　——<i>h</i> 形式。</p>
+    <p><strong>（3）由方程直接得到的结论（考试常考）。</strong></p>
+    <div class="fml left"><p>
+      <span class="badge">①</span> 定熵过程 <b>d<i>s</i> = 0</b> ⇒ d<i>u</i> = −<i>p</i>d<i>v</i>，即绝热可逆过程中内能的减少全部用于对外作容积功（<i>w</i> = −Δ<i>u</i>）。<br>
+      <span class="badge">②</span> 定容过程 <b>d<i>v</i> = 0</b> ⇒ d<i>u</i> = <i>T</i>d<i>s</i>，即 (<i>∂u</i>/<i>∂s</i>)<sub>v</sub> = <i>T</i>。<br>
+      <span class="badge">③</span> 定压过程 <b>d<i>p</i> = 0</b> ⇒ d<i>h</i> = <i>T</i>d<i>s</i>，即 (<i>∂h</i>/<i>∂s</i>)<sub>p</sub> = <i>T</i>。<br>
+      <span class="badge">④</span> 定熵过程 <b>d<i>s</i> = 0</b> ⇒ d<i>h</i> = <i>v</i>d<i>p</i>，即绝热可逆稳定流动中技术功 <i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i> = −Δ<i>h</i>。
+    </p></div>
+    <p><strong>（4）由方程得到的偏导数（便于记忆）。</strong></p>
+    <div class="fml"><p>(<i>∂u</i>/<i>∂v</i>)<sub>s</sub> = −<i>p</i>　；　(<i>∂u</i>/<i>∂s</i>)<sub>v</sub> = <i>T</i>　；　(<i>∂h</i>/<i>∂p</i>)<sub>s</sub> = <i>v</i>　；　(<i>∂h</i>/<i>∂s</i>)<sub>p</sub> = <i>T</i></p></div>
+    <p><strong>（5）意义。</strong>吉布斯方程的左右两边都是状态参数的微分（全微分），因此它对<b>任意两状态之间</b>都成立，与过程是否可逆无关（推导时用了可逆条件，但结果只含状态参数，故可作为状态参数间的普遍关系使用）。它是导出马克斯韦尔关系、<i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> 关系、<i>T</i>d<i>s</i> 方程等全部热力学微分关系的基础。</p>
+    <p><strong>（6）由它导出的两个常用 <i>T</i>d<i>s</i> 方程（第一、第二 <i>T</i>d<i>s</i> 方程）。</strong>把 d<i>u</i> = <i>c</i><sub>v</sub>d<i>T</i> + [<i>T</i>(<i>∂p</i>/<i>∂T</i>)<sub>v</sub> − <i>p</i>]d<i>v</i> 代入 <i>u</i> 形式，得</p>
+    <div class="fml left"><p>第一 <i>T</i>d<i>s</i> 方程：<i>T</i>d<i>s</i> = <i>c</i><sub>v</sub>d<i>T</i> + <i>T</i>(<i>∂p</i>/<i>∂T</i>)<sub>v</sub> d<i>v</i>　；　第二 <i>T</i>d<i>s</i> 方程：<i>T</i>d<i>s</i> = <i>c</i><sub>p</sub>d<i>T</i> − <i>T</i>(<i>∂v</i>/<i>∂T</i>)<sub>p</sub> d<i>p</i></p></div>
+    <p>对理想气体 <i>p</i><i>v</i> = <i>R</i><sub>g</sub><i>T</i>，即化为后面第 13、15 题反复使用的 d<i>s</i> = <i>c</i><sub>v</sub>d<i>T</i>/<i>T</i> + <i>R</i><sub>g</sub>d<i>v</i>/<i>v</i> 与 d<i>s</i> = <i>c</i><sub>p</sub>d<i>T</i>/<i>T</i> − <i>R</i><sub>g</sub>d<i>p</i>/<i>p</i>。</p>
+  </div>
+  <div class="ans">得分点：① <i>u</i> 形式 d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i>；② <i>h</i> 形式 d<i>h</i> = <i>T</i>d<i>s</i> + <i>v</i>d<i>p</i>；③ 推导两步（δ<i>q</i>=d<i>u</i>+<i>p</i>d<i>v</i> 与 δ<i>q</i>=<i>T</i>d<i>s</i> 消 δ<i>q</i>；焓定义微分）；④ 由它读出的定熵/定容/定压结论。一句话结论：吉布斯方程是“可逆过程条件下导出的、但只含状态参数”的普遍微分关系，是全部热力学微分关系的出发点。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① 符号写反：<i>u</i> 形式中 <i>p</i>d<i>v</i> 前是<b>负号</b>，<i>h</i> 形式中 <i>v</i>d<i>p</i> 前是<b>正号</b>——记忆口诀“内能看容积（负），焓看压力（正）”。② 用 δ<i>q</i> = <i>T</i>d<i>s</i> 时必须是<b>可逆</b>过程（或两状态之间可逆路径），不可逆过程 δ<i>q</i> &lt; <i>T</i>d<i>s</i>。③ 不要写成 d<i>q</i> = <i>T</i>d<i>s</i>：<i>q</i> 是过程量，其微元必须写 δ<i>q</i>（或 đ<i>q</i>），而 d<i>s</i> 是全微分。</p></div>
+
+<div class="prob">
+  <div class="pt">第 6 题　推导 δ<i>q</i> + δ<i>w</i><sub>diss</sub> = <i>T</i>d<i>s</i></div>
+  <div class="q">由第一定律与第二定律推导 δ<i>q</i> + δ<i>w</i><sub>diss</sub> = <i>T</i>d<i>s</i>，并说明各项含义。</div>
+  <div class="sol">
+    <p><strong>（1）出发点：两条定律。</strong></p>
+    <div class="fml left"><p>第一定律（任何过程）：δ<i>q</i> = d<i>u</i> + δ<i>w</i>　；　第二定律（熵的普遍定义）：d<i>s</i> = δ<i>q</i><sub>rev</sub>/<i>T</i>，且对同两状态 δ<i>q</i> ≤ <i>T</i>d<i>s</i>（可逆取等号）</p></div>
+    <p><strong>（2）把总功分解为容积功与耗散功。</strong>闭口系统通过边界对外作出的<b>总功</b>中，一部分是<b>容积变化功</b> <i>p</i>d<i>v</i>（可对外输出、可利用），另一部分是摩擦、涡流、内部势差等不可逆因素造成的<b>耗散功（摩擦功）</b> δ<i>w</i><sub>diss</sub>——它把一部分机械能就地耗散为内能、不能输出，故应从总功中扣除：</p>
+    <div class="fml"><p>δ<i>w</i> = <i>p</i>d<i>v</i> − δ<i>w</i><sub>diss</sub>　（δ<i>w</i><sub>diss</sub> ≥ 0，可逆过程为零）</p></div>
+    <p><strong>（3）推导。</strong>把上式代入第一定律，再与吉布斯方程联立，消去 d<i>u</i> 与 <i>p</i>d<i>v</i>：</p>
+    <p class="step">①　δ<i>q</i> = d<i>u</i> + δ<i>w</i> = d<i>u</i> + <i>p</i>d<i>v</i> − δ<i>w</i><sub>diss</sub></p>
+    <p class="step">②　移项，把不可逆项单独移到左边：d<i>u</i> + <i>p</i>d<i>v</i> = δ<i>q</i> + δ<i>w</i><sub>diss</sub></p>
+    <p class="step">③　由吉布斯方程（可逆关系式，但只含状态参数，故对任意两状态都成立）：d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i> ⇒ <i>T</i>d<i>s</i> = d<i>u</i> + <i>p</i>d<i>v</i></p>
+    <p class="step">④　把 ② 代入 ③ 的右边：</p>
+    <div class="fml"><span class="tag">结果</span><p><i>T</i>d<i>s</i> = δ<i>q</i> + δ<i>w</i><sub>diss</sub>　（即 δ<i>q</i> + δ<i>w</i><sub>diss</sub> = <i>T</i>d<i>s</i>）</p></div>
+    <p><strong>（4）物理含义与几点说明。</strong></p>
+    <p class="step"><span class="badge">①</span>　<b>δ<i>q</i> 项</b>：由外界传热引起的熵变（<b>熵流</b>）。对系统加热使 <i>s</i> 增大，放热使 <i>s</i> 减小。</p>
+    <p class="step"><span class="badge">②</span>　<b>δ<i>w</i><sub>diss</sub> 项</b>：由<b>不可逆性</b>引起的熵变（<b>熵产</b>）。耗散功是机械能不可逆地退化为内能的过程，它<b>总是使熵增大</b>（δ<i>w</i><sub>diss</sub> ≥ 0），这一项与外界是否传热无关。</p>
+    <p class="step"><span class="badge">③</span>　可逆过程 δ<i>w</i><sub>diss</sub> = 0，方程退化为 δ<i>q</i> = <i>T</i>d<i>s</i>（可逆过程的熵定义式）。</p>
+    <p class="step"><span class="badge">④</span>　绝热过程 δ<i>q</i> = 0，则 d<i>s</i> = δ<i>w</i><sub>diss</sub>/<i>T</i> ≥ 0：<b>绝热过程熵只增不减</b>（可逆绝热即定熵）。</p>
+    <p class="step"><span class="badge">⑤</span>　该式与第二定律另一写法 d<i>s</i> = δ<i>q</i>/<i>T</i><sub>源</sub> + δ<i>s</i><sub>g</sub>（δ<i>s</i><sub>g</sub> ≥ 0 为熵产）完全一致：比较两式得 δ<i>s</i><sub>g</sub> = δ<i>w</i><sub>diss</sub>/<i>T</i>，把<b>熵产</b>与<b>机械能损失（耗散功）</b>定量联系起来。</p>
+    <div class="fml"><span class="tag">推论</span><p>δ<i>s</i><sub>g</sub> = δ<i>w</i><sub>diss</sub> / <i>T</i> ≥ 0　；　不可逆过程 δ<i>q</i> &lt; <i>T</i>d<i>s</i>（因 δ<i>w</i><sub>diss</sub> &gt; 0）</p></div>
+  </div>
+  <div class="ans">得分点：① 起手写 δ<i>q</i> = d<i>u</i> + δ<i>w</i> 与 d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i>；② 关键一步 δ<i>w</i> = <i>p</i>d<i>v</i> − δ<i>w</i><sub>diss</sub>（δ<i>w</i><sub>diss</sub> ≥ 0，把不可逆性单独提出）；③ 代入消去 d<i>u</i>、d<i>v</i> 得 <i>T</i>d<i>s</i> = δ<i>q</i> + δ<i>w</i><sub>diss</sub>；④ 指出 δ<i>q</i> 是熵流、δ<i>w</i><sub>diss</sub> 是熵产的来源且恒 ≥ 0；⑤ 可逆时退化为 δ<i>q</i> = <i>T</i>d<i>s</i>，绝热时 d<i>s</i> ≥ 0。一句话结论：熵变 = 传热引起的熵流 + 不可逆耗散引起的熵产，后者永远不会为负。</div>
+</div>
+<div class="box exam"><span class="bt">答题模板（“推导类”简答题）</span>
+<p>四步写全：<span class="badge">1</span>写清假设与符号约定；<span class="badge">2</span>列原始方程（第一定律、第二定律各自的原式，不要跳步）；<span class="badge">3</span>逐步代入、消元，每一步都写出中间式；<span class="badge">4</span>对结果逐项解释物理意义，并给可逆/绝热等特例。阅卷按“原式 + 关键中间式 + 结果 + 讨论”给分，跳步最易失分。</p></div>
+
+<div class="prob">
+  <div class="pt">第 7 题　一个入口一个出口稳定流动开口系统能量方程的两种形式（助记导出）</div>
+  <div class="q">写出一个入口、一个出口稳定流动开口系统能量方程的两种形式，并说明其助记方法。</div>
+  <div class="sol">
+    <p><strong>（1）系统简图。</strong>取包围设备的虚线为控制体（开口系统），工质由截面 1 流入、截面 2 流出，设备对外输出轴功 <i>w</i><sub>s</sub>，外界向工质传热 <i>q</i>。</p>
+    <figure>
+      <svg viewBox="0 0 600 210" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <path d="M250,46 L350,46 A44,44 0 0 1 350,134 L250,134 A44,44 0 0 1 250,46 Z" fill="#eef4fa" stroke="#0b4f8a" stroke-width="2.5"/>
+        <line x1="30" y1="90" x2="246" y2="90" stroke="#0b4f8a" stroke-width="2.5"/>
+        <polygon points="246,90 232,83 232,97" fill="#0b4f8a"/>
+        <text x="60" y="78" font-size="14" fill="#0b3d69">1 入口</text>
+        <text x="60" y="118" font-size="13" fill="#666">p₁ T₁ c₁</text>
+        <line x1="350" y1="90" x2="566" y2="90" stroke="#0b4f8a" stroke-width="2.5"/>
+        <polygon points="566,90 552,83 552,97" fill="#0b4f8a"/>
+        <text x="478" y="78" font-size="14" fill="#0b3d69">2 出口</text>
+        <text x="470" y="118" font-size="13" fill="#666">p₂ T₂ c₂</text>
+        <line x1="300" y1="46" x2="300" y2="18" stroke="#c0492b" stroke-width="2.5"/>
+        <polygon points="300,18 293,32 307,32" fill="#c0492b"/>
+        <text x="312" y="28" font-size="14" fill="#a83c21">q 吸热</text>
+        <line x1="300" y1="134" x2="300" y2="188" stroke="#c0492b" stroke-width="2.5"/>
+        <polygon points="300,188 293,174 307,174" fill="#c0492b"/>
+        <text x="312" y="182" font-size="14" fill="#a83c21">wₛ 轴功</text>
+      </svg>
+      <figcaption>图 7-1　一个入口、一个出口的稳定流动开口系统（控制体）。工质流入系统所携带的能量包含焓、宏观动能与宏观势能三部分。</figcaption>
+    </figure>
+    <p><strong>（2）进、出口工质携带的能量。</strong>单位质量工质流入（或流出）控制体时带入（带出）的能量为</p>
+    <div class="fml"><p><i>e</i> = <i>u</i> + <i>p</i><i>v</i> + ½<i>c</i><sup>2</sup> + <i>g</i><i>z</i> = <i>h</i> + ½<i>c</i><sup>2</sup> + <i>g</i><i>z</i></p></div>
+    <p>其中 <i>u</i> + <i>p</i><i>v</i> = <i>h</i> 是内能与<b>流动功</b>之和。<b>流动功</b>（推入功 <i>p</i><sub>1</sub><i>v</i><sub>1</sub> 与推出功 <i>p</i><sub>2</sub><i>v</i><sub>2</sub> 的代数和）为 <i>p</i><sub>2</sub><i>v</i><sub>2</sub> − <i>p</i><sub>1</sub><i>v</i><sub>1</sub>，它是维持工质连续流经控制体所必须付出的代价。把内能与流动功合并成焓，是“开口系能量方程比闭口系多出流动功、因而自然出现焓”的关键。</p>
+    <p><strong>（3）形式一（焓形式，标准形式）。</strong>取控制体，对稳定流动（进、出口状态及流量不随时间变化），由能量守恒与质量守恒 <i>q</i><sub>m1</sub> = <i>q</i><sub>m2</sub> = <i>q</i><sub>m</sub>，单位质量工质有</p>
+    <div class="fml"><span class="tag">开口系标准式</span><p><i>q</i> = Δ<i>h</i> + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub></p></div>
+    <p>式中 Δ<i>h</i> = <i>h</i><sub>2</sub> − <i>h</i><sub>1</sub>，Δ<i>c</i><sup>2</sup> = <i>c</i><sub>2</sub><sup>2</sup> − <i>c</i><sub>1</sub><sup>2</sup>，Δ<i>z</i> = <i>z</i><sub>2</sub> − <i>z</i><sub>1</sub>，<i>w</i><sub>s</sub> 为轴功（对外作功为正）。这是<b>第一种形式</b>。</p>
+    <p><strong>（4）形式二（用内能、不含 <i>u</i>、<i>h</i> 的形式）。</strong>由 <i>h</i> = <i>u</i> + <i>p</i><i>v</i> 代入上式：</p>
+    <div class="fml"><p><i>q</i> = Δ<i>u</i> + (<i>p</i><sub>2</sub><i>v</i><sub>2</sub> − <i>p</i><sub>1</sub><i>v</i><sub>1</sub>) + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub></p></div>
+    <p><strong>（5）形式三（技术功形式）。</strong>定义<b>技术功</b>为动能差、势能差与轴功之和：</p>
+    <div class="fml"><span class="tag">技术功定义</span><p><i>w</i><sub>t</sub> = ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub></p></div>
+    <p>于是能量方程写成极为简洁的形式，且对<b>可逆过程</b>有 <i>w</i><sub>t</sub> = −∫<sub>1</sub><sup>2</sup><i>v</i>d<i>p</i>：</p>
+    <div class="fml"><span class="tag">技术功形式</span><p><i>q</i> = Δ<i>h</i> + <i>w</i><sub>t</sub>　；　可逆时 <i>w</i><sub>t</sub> = −∫<sub>1</sub><sup>2</sup><i>v</i>d<i>p</i>　（<i>p</i>-<i>v</i> 图上技术功为过程线左侧的面积）</p></div>
+    <p>它与闭口系统方程 <i>q</i> = Δ<i>u</i> + ∫<i>p</i>d<i>v</i> 形式完全对称，二者的关系为</p>
+    <div class="fml"><p><i>w</i><sub>t</sub> = <i>q</i> − Δ<i>h</i> = (Δ<i>u</i> + <i>w</i>) − (Δ<i>u</i> + Δ(<i>p</i><i>v</i>)) = <i>w</i> − Δ(<i>p</i><i>v</i>)　；　可逆时 <i>w</i><sub>t</sub> = <i>w</i> − Δ(<i>p</i><i>v</i>) = ∫<i>p</i>d<i>v</i> − Δ(<i>p</i><i>v</i>) = −∫<i>v</i>d<i>p</i></p></div>
+    <p><strong>（6）助记导出（考试“助记法”）。</strong></p>
+    <div class="box note"><span class="bt">助记：两种形式互换，只换“一对字母”</span>
+    <p>①　<b>闭口系 ↔ 开口系</b>：<i>q</i> = Δ<i>u</i> + ∫<i>p</i>d<i>v</i>（闭口）　→　<i>q</i> = Δ<i>h</i> + <i>w</i><sub>t</sub>（开口）。把 <b><i>u</i> → <i>h</i></b>、<b><i>p</i>d<i>v</i> → −<i>v</i>d<i>p</i></b>（即 ∫<i>p</i>d<i>v</i> → −∫<i>v</i>d<i>p</i>）即成对替换，这就是“两种形式”。</p>
+    <p>②　<b>口诀“内能配容积，焓配压力”</b>：<i>u</i> 与 <i>v</i> 配对出现在闭口系，<i>h</i> 与 <i>p</i> 配对出现在开口系；微分号互换 <i>v</i> 与 <i>p</i> 时符号变号（因 d(<i>p</i><i>v</i>) = <i>p</i>d<i>v</i> + <i>v</i>d<i>p</i> 的分拆）。</p>
+    <p>③　<b>“流动功被焓吞掉”</b>：开口系比闭口系多出进、出口流动功 <i>p</i><sub>2</sub><i>v</i><sub>2</sub> − <i>p</i><sub>1</sub><i>v</i><sub>1</sub>；把它与 Δ<i>u</i> 合并，正好得到 Δ<i>h</i>——这就是开口系方程出现焓、闭口系出现内能的根本原因。</p>
+    <p>④　<b>简化口诀“绝热、不动、不差”</b>：绝热 <i>q</i> = 0；无轴功、无转动 <i>w</i><sub>s</sub> = 0；忽略动能势能差 ½Δ<i>c</i><sup>2</sup> = <i>g</i>Δ<i>z</i> = 0。多数热工设备（换热器、混合室、节流阀）正是靠这三条化简到只剩焓差。</p></div>
+    <p><strong>（7）稳定流动的附加条件（写全才给满分）。</strong>① 进、出口工质的质量流量相等且不随时间变化；② 进、出口截面上工质的状态参数及流速不随时间变化；③ 控制体内总储存能不随时间变化（不随时间积累）；④ 控制体与外界交换的热量与功不随时间变化。</p>
+  </div>
+  <div class="ans">得分点：① 写出稳定流动假设；② 形式一 <i>q</i> = Δ<i>h</i> + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub>；③ 形式二 <i>q</i> = Δ<i>u</i> + Δ(<i>p</i><i>v</i>) + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub>（不含 <i>h</i>）或技术功形式 <i>q</i> = Δ<i>h</i> + <i>w</i><sub>t</sub>、<i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i>；④ 助记法：<i>u</i>↔<i>h</i>、<i>p</i>d<i>v</i>↔−<i>v</i>d<i>p</i> 成对替换（流动功被焓“吞掉”）。一句话结论：开口系标准式是“焓差 + 动能差 + 势能差 + 轴功”，与闭口系“内能差 + 容积功”成对偶记忆。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① 忘记写 ½Δ<i>c</i><sup>2</sup>、<i>g</i>Δ<i>z</i> 就直接写 <i>q</i> = Δ<i>h</i> + <i>w</i><sub>s</sub>——只有在忽略宏观动能、势能差时才成立（喷管、扩压管恰恰不能忽略）。② 把 <i>w</i><sub>s</sub> 与 <i>w</i><sub>t</sub> 混用：<i>w</i><sub>t</sub> = ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub>。③ 技术功 <i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i> 只对<b>可逆</b>过程成立；不可逆时轴功大于该值。④ <i>p</i>-<i>v</i> 图上 ∫<i>p</i>d<i>v</i> 是过程线<b>下</b>方面积，−∫<i>v</i>d<i>p</i> 是过程线<b>左</b>方面积，两者不可混画。</p></div>
+
+<div class="pagebreak"></div>
+<h1>第二部分　稳定流动与典型热力设备（第 8—12 题）</h1>
+
+<div class="lead">本部分把第一定律用到最常见的几类稳定流动设备上：热交换器、喷管与扩压管、绝热混合、压气机与透平机、绝热节流。这五题一律按同一顺序作答：<b>画虚线控制体简图（标进出口、标 <i>q</i> 与 <i>w</i><sub>s</sub> 方向）→ 写一般式 <i>q</i> = Δ<i>h</i> + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub> → 按题给条件逐项划零 → 写出简化式 → 说明过程特征（压差与温差的方向、是否作轴功、是否可逆）</b>。注意技术功 <i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i> 只在可逆时可用，不可逆过程必须回到焓差。</div>
+
+<div class="prob">
+  <div class="pt">第 8 题　热交换器：简图、能量方程、过程特征</div>
+  <div class="q">画出热交换器（换热器）的系统简图，写出能量方程并说明过程特征。</div>
+  <div class="sol">
+    <p><strong>（1）系统简图（以逆流换热器为例）。</strong>取虚线为控制体，两种流体在壁面两侧互不混合，高温流体 1→2 放热，低温流体 3→4 吸热。对每一种流体各自取一个控制体：</p>
+    <figure>
+      <svg viewBox="0 0 600 190" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <rect x="200" y="46" width="200" height="34" fill="#fdf2ee" stroke="#c0492b" stroke-width="2"/>
+        <rect x="200" y="106" width="200" height="34" fill="#eef4fa" stroke="#0b4f8a" stroke-width="2"/>
+        <line x1="30" y1="63" x2="196" y2="63" stroke="#c0492b" stroke-width="2.5"/>
+        <polygon points="196,63 182,56 182,70" fill="#c0492b"/>
+        <text x="34" y="50" font-size="14" fill="#a83c21">1 高温进</text>
+        <line x1="404" y1="63" x2="566" y2="63" stroke="#c0492b" stroke-width="2.5"/>
+        <polygon points="566,63 552,56 552,70" fill="#c0492b"/>
+        <text x="470" y="50" font-size="14" fill="#a83c21">2 高温出</text>
+        <line x1="566" y1="123" x2="404" y2="123" stroke="#0b4f8a" stroke-width="2.5"/>
+        <polygon points="404,123 418,116 418,130" fill="#0b4f8a"/>
+        <text x="470" y="152" font-size="14" fill="#0b3d69">3 低温进</text>
+        <line x1="196" y1="123" x2="30" y2="123" stroke="#0b4f8a" stroke-width="2.5"/>
+        <polygon points="30,123 44,116 44,130" fill="#0b4f8a"/>
+        <text x="34" y="152" font-size="14" fill="#0b3d69">4 低温出</text>
+        <text x="300" y="100" font-size="13" text-anchor="middle" fill="#666">壁面导热</text>
+      </svg>
+      <figcaption>图 8-1　逆流式热交换器简图：高温流体沿 1→2 放热，低温流体沿 3→4 吸热，两者流动方向相反。</figcaption>
+    </figure>
+    <p><strong>（2）能量方程。</strong>热交换器对外无轴功、忽略宏观动能与势能差（<i>w</i><sub>s</sub> = 0，½Δ<i>c</i><sup>2</sup> = <i>g</i>Δ<i>z</i> = 0），由开口系标准式得</p>
+    <div class="fml"><span class="tag">一般式</span><p><i>q</i> = Δ<i>h</i> = <i>h</i><sub>2</sub> − <i>h</i><sub>1</sub></p></div>
+    <p>对<b>高温流体</b>（放热，<i>q</i><sub>1</sub> &lt; 0）：<i>q</i><sub>1</sub> = <i>h</i><sub>2</sub> − <i>h</i><sub>1</sub> = <i>c</i><sub>p</sub>(<i>T</i><sub>2</sub> − <i>T</i><sub>1</sub>)；对<b>低温流体</b>（吸热，<i>q</i><sub>3</sub> &gt; 0）：<i>q</i><sub>3</sub> = <i>h</i><sub>4</sub> − <i>h</i><sub>3</sub> = <i>c</i><sub>p</sub>(<i>T</i><sub>4</sub> − <i>T</i><sub>3</sub>)。对整个换热器（绝热外壳）作能量平衡：</p>
+    <div class="fml"><span class="tag">热平衡式</span><p><i>q</i><sub>m1</sub>(<i>h</i><sub>1</sub> − <i>h</i><sub>2</sub>) = <i>q</i><sub>m3</sub>(<i>h</i><sub>4</sub> − <i>h</i><sub>3</sub>)　；　即 Φ = <i>q</i><sub>m1</sub><i>c</i><sub>p1</sub>(<i>T</i><sub>1</sub> − <i>T</i><sub>2</sub>) = <i>q</i><sub>m3</sub><i>c</i><sub>p3</sub>(<i>T</i><sub>4</sub> − <i>T</i><sub>3</sub>)</p></div>
+    <p><strong>（3）过程特征。</strong></p>
+    <p class="step"><span class="badge">①</span>　两种流体分别进行<b>定压过程</b>（<i>p</i><sub>1</sub> ≈ <i>p</i><sub>2</sub>、<i>p</i><sub>3</sub> ≈ <i>p</i><sub>4</sub>，忽略流道阻力），故 <i>q</i> = Δ<i>h</i>，且 <i>w</i><sub>s</sub> = 0。<b>因此换热器中流体吸收（放出）的热量等于焓的变化</b>——这就是“定压过程 <i>q</i><sub>p</sub> = Δ<i>h</i>”的工程意义。</p>
+    <p class="step"><span class="badge">②</span>　能量传递形式是<b>热量</b>（通过壁面导热与对流），不是功；流体之间只有热量的传递，无机械功的输入输出。</p>
+    <p class="step"><span class="badge">③</span>　壁面两侧存在<b>温差</b> Δ<i>T</i> = <i>T</i><sub>热</sub> − <i>T</i><sub>冷</sub> &gt; 0，是传热的推动力，也正是<b>不可逆性</b>的来源：<i>q</i> 由高温流向低温，熵产 δ<i>s</i><sub>g</sub> &gt; 0，故过程<b>不可逆</b>；逆流布置可使全段平均传热温差更均匀。<b>极限情况</b>：若换热面积无限大且逆流，<i>T</i><sub>2</sub> 可趋近 <i>T</i><sub>3</sub>、<i>T</i><sub>4</sub> 趋近 <i>T</i><sub>1</sub>，即传热温差趋近于零。</p>
+    <p class="step"><span class="badge">④</span>　过程的方向：热流体温度必然下降（<i>T</i><sub>2</sub> &lt; <i>T</i><sub>1</sub>），冷流体温度必然上升（<i>T</i><sub>4</sub> &gt; <i>T</i><sub>3</sub>），绝不会自发反向。</p>
+    <p class="step"><span class="badge">⑤</span>　稳定流动：各截面状态、流量与换热量均不随时间变化，控制体内无能量积累。</p>
+  </div>
+  <div class="ans">得分点：① 简图标出两股流体、进/出口编号与方向；② 能量方程 <i>q</i> = Δ<i>h</i>（<i>w</i><sub>s</sub>=0、动能势能差忽略）＋整体热平衡式；③ 过程特征：定压过程各股流体、只传热不传功、温差引起不可逆、热流体降温冷流体升温。一句话结论：换热器是“定压吸/放热”设备，其能量方程就是 <i>q</i> = Δ<i>h</i>，对应定压过程 <i>q</i><sub>p</sub> = Δ<i>h</i>。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① 误写 <i>q</i> = Δ<i>u</i>：换热器是开口系，进出口有流动功，必须用焓。② 忘记“两种流体各取一个控制体”与“整体热平衡”。③ 把换热器的“定压”理解为压力绝对不变——实际有流动阻力，<i>p</i><sub>2</sub> 略小于 <i>p</i><sub>1</sub>，只是换热计算中按定压处理。④ 说“换热器可逆”不对：壁面两侧有温差，必然是<b>不可逆</b>过程。</p></div>
+
+<div class="prob">
+  <div class="pt">第 9 题　喷管、扩压管：两种形式能量方程、过程特性</div>
+  <div class="q">画出喷管（扩压管）简图，写出两种形式的能量方程，并说明过程特性。</div>
+  <div class="sol">
+    <p><strong>（1）系统简图。</strong>喷管是使气流<b>降压增速</b>的通道（<i>p</i><sub>2</sub> &lt; <i>p</i><sub>1</sub>，<i>c</i><sub>2</sub> &gt; <i>c</i><sub>1</sub>）；扩压管是使气流<b>增速降压</b>反向的设备，即<b>降速增压</b>（<i>c</i><sub>2</sub> &lt; <i>c</i><sub>1</sub>，<i>p</i><sub>2</sub> &gt; <i>p</i><sub>1</sub>）。两者结构上互为反向，能量方程完全相同。</p>
+    <figure>
+      <svg viewBox="0 0 600 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <path d="M60,66 L300,96 L60,156 Z" fill="#eef4fa" stroke="#0b4f8a" stroke-width="2.5"/>
+        <line x1="18" y1="111" x2="58" y2="111" stroke="#0b4f8a" stroke-width="2.5"/>
+        <polygon points="58,111 44,104 44,118" fill="#0b4f8a"/>
+        <text x="18" y="94" font-size="14" fill="#0b3d69">1 进口</text>
+        <text x="18" y="140" font-size="13" fill="#666">p₁ 大</text>
+        <line x1="302" y1="96" x2="360" y2="96" stroke="#0b4f8a" stroke-width="2.5"/>
+        <polygon points="360,96 346,89 346,103" fill="#0b4f8a"/>
+        <text x="330" y="78" font-size="14" fill="#0b3d69">2 出口</text>
+        <text x="330" y="126" font-size="13" fill="#666">p₂ 小</text>
+        <text x="150" y="188" font-size="13" text-anchor="middle" fill="#666">喷管：降压增速　（扩压管反向：降速增压）</text>
+        <text x="150" y="46" font-size="14" text-anchor="middle" fill="#a83c21">绝热 q=0，wₛ=0</text>
+      </svg>
+      <figcaption>图 9-1　渐缩喷管简图：气流由 1 流向 2，压力降低、速度升高。扩压管形状相反，流动方向也可相反。</figcaption>
+    </figure>
+    <p><strong>（2）能量方程的两种形式。</strong>喷管、扩压管中：与外界<b>绝热</b>（<i>q</i> = 0）、无轴功（<i>w</i><sub>s</sub> = 0），但<b>宏观动能变化必须保留</b>，位能变化一般可忽略（<i>g</i>Δ<i>z</i> ≈ 0）。由开口系标准式：</p>
+    <div class="fml"><span class="tag">形式一（焓 + 动能）</span><p><i>h</i><sub>1</sub> + ½<i>c</i><sub>1</sub><sup>2</sup> = <i>h</i><sub>2</sub> + ½<i>c</i><sub>2</sub><sup>2</sup>　⇒　½(<i>c</i><sub>2</sub><sup>2</sup> − <i>c</i><sub>1</sub><sup>2</sup>) = <i>h</i><sub>1</sub> − <i>h</i><sub>2</sub></p></div>
+    <p>即“进、出口截面上工质的<b>焓与动能之和</b>（滞止焓）相等”，这是最常用的形式。若取进口速度很小（<i>c</i><sub>1</sub> ≈ 0），则 <i>c</i><sub>2</sub> = √(2(<i>h</i><sub>1</sub> − <i>h</i><sub>2</sub>))。</p>
+    <div class="fml"><span class="tag">形式二（内能 + 流动功 + 动能）</span><p><i>u</i><sub>1</sub> + <i>p</i><sub>1</sub><i>v</i><sub>1</sub> + ½<i>c</i><sub>1</sub><sup>2</sup> = <i>u</i><sub>2</sub> + <i>p</i><sub>2</sub><i>v</i><sub>2</sub> + ½<i>c</i><sub>2</sub><sup>2</sup></p></div>
+    <p>对<b>可逆（定熵）</b>流动还有技术功形式：<i>q</i> = Δ<i>h</i> + <i>w</i><sub>t</sub> = 0 ⇒ <i>w</i><sub>t</sub> = −Δ<i>h</i> = ½Δ<i>c</i><sup>2</sup>，即<b>技术功全部转变为气流的动能增加</b>；且 <i>w</i><sub>t</sub> = −∫<sub>1</sub><sup>2</sup><i>v</i>d<i>p</i> &gt; 0（因 d<i>p</i> &lt; 0）。</p>
+    <p><strong>（3）过程特性。</strong></p>
+    <p class="step"><span class="badge">①</span>　<b>绝热</b>：<i>q</i> = 0（流速高、停留时间短，来不及与外界换热）。</p>
+    <p class="step"><span class="badge">②</span>　<b>无轴功</b>：<i>w</i><sub>s</sub> = 0（只有管道，无叶轮）；动能与焓之间直接相互转换。</p>
+    <p class="step"><span class="badge">③</span>　<b>压力与速度的反向变化</b>：喷管 <i>p</i><sub>2</sub> &lt; <i>p</i><sub>1</sub>、<i>c</i><sub>2</sub> &gt; <i>c</i><sub>1</sub>；扩压管 <i>p</i><sub>2</sub> &gt; <i>p</i><sub>1</sub>、<i>c</i><sub>2</sub> &lt; <i>c</i><sub>1</sub>。故喷管是<b>降压增速</b>，扩压管是<b>降速增压</b>。</p>
+    <p class="step"><span class="badge">④</span>　<b>理想（可逆）情况为定熵过程</b>：<i>s</i><sub>2</sub> = <i>s</i><sub>1</sub>，<i>T</i>-<i>s</i> 图上是一条垂直线（喷管降温，<i>T</i><sub>2</sub> &lt; <i>T</i><sub>1</sub>）；实际有摩擦时 <i>s</i><sub>2</sub> &gt; <i>s</i><sub>1</sub>，出口速度减小、出口温度略高，过程<b>不可逆</b>。</p>
+    <p class="step"><span class="badge">⑤</span>　<b>流速与截面积的关系</b>：由连续性方程 <i>q</i><sub>m</sub><i>v</i> = <i>cA</i> 与能量方程 d<i>c</i>/<i>c</i> = −d<i>p</i>/(<i>ρc</i><sup>2</sup>) 可得 d<i>A</i>/<i>A</i> = (d<i>p</i>/<i>ρc</i><sup>2</sup>)(<i>Ma</i><sup>2</sup> − 1)。故亚声速（<i>Ma</i> &lt; 1）时用<b>渐缩</b>喷管；超声速（<i>Ma</i> &gt; 1）时必须用<b>渐缩–渐扩（拉瓦尔）喷管</b>，喉部达临界压力 <i>p</i><sub>cr</sub>。</p>
+    <p class="step"><span class="badge">⑥</span>　<b>扩压管</b>：与喷管过程相反，动能转变为焓（压力升高），理想情况同样为定熵过程（<i>T</i>-<i>s</i> 图上的垂直线，气流沿熵不变方向升温升压）。</p>
+  </div>
+  <div class="ans">得分点：① 简图（喷管收缩形、标进出口与压力、速度变化方向）；② 形式一 <i>h</i><sub>1</sub>+½<i>c</i><sub>1</sub><sup>2</sup> = <i>h</i><sub>2</sub>+½<i>c</i><sub>2</sub><sup>2</sup>；③ 形式二含内能与流动功的式子；④ 过程特性：绝热、无轴功、降压增速（扩压管相反）、理想为定熵（<i>s</i> 不变垂直线）、实际有摩擦不可逆 <i>s</i><sub>2</sub>&gt;<i>s</i><sub>1</sub>。一句话结论：喷管与扩压管都是“绝热、无轴功”的流道，其能量方程就是<b>焓 + 动能守恒</b>。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① <b>绝对不能</b>把 ½Δ<i>c</i><sup>2</sup> 当小量忽略——这正是喷管问题的核心项。② 写“定熵过程”时要注意：只有<b>可逆绝热</b>才是定熵；实际喷管 <i>q</i>=0 但 <i>s</i><sub>2</sub> &gt; <i>s</i><sub>1</sub>。③ 不要漏掉“无轴功”这一条；也不要写“对外作功”，喷管不输出轴功，它的“收获”是气流动能。④ 分清方向：<b>喷管降压增速，扩压管降速增压</b>，不要背反。</p></div>
+
+<div class="prob">
+  <div class="pt">第 10 题　绝热混合：简图、能量方程、过程特性</div>
+  <div class="q">画出绝热混合过程的简图，写出能量方程并说明过程特性。</div>
+  <div class="sol">
+    <p><strong>（1）系统简图。</strong>两股（或数股）流体 1、2 在绝热混合室中混合后由 3 流出，混合室对外无轴功，与外界绝热。</p>
+    <figure>
+      <svg viewBox="0 0 600 210" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <path d="M250,40 L400,40 L400,160 L250,160 Z" fill="#f6f6f6" stroke="#666" stroke-width="2" stroke-dasharray="6 4"/>
+        <line x1="40" y1="70" x2="246" y2="70" stroke="#0b4f8a" stroke-width="2.5"/>
+        <polygon points="246,70 232,63 232,77" fill="#0b4f8a"/>
+        <text x="44" y="58" font-size="14" fill="#0b3d69">1 进口</text>
+        <text x="44" y="96" font-size="13" fill="#666">qₘ₁ h₁</text>
+        <line x1="40" y1="132" x2="246" y2="132" stroke="#0b4f8a" stroke-width="2.5"/>
+        <polygon points="246,132 232,125 232,139" fill="#0b4f8a"/>
+        <text x="44" y="122" font-size="14" fill="#0b3d69">2 进口</text>
+        <text x="44" y="158" font-size="13" fill="#666">qₘ₂ h₂</text>
+        <line x1="400" y1="100" x2="566" y2="100" stroke="#0b4f8a" stroke-width="2.5"/>
+        <polygon points="566,100 552,93 552,107" fill="#0b4f8a"/>
+        <text x="480" y="88" font-size="14" fill="#0b3d69">3 出口</text>
+        <text x="476" y="126" font-size="13" fill="#666">qₘ₃ h₃</text>
+        <text x="325" y="106" font-size="14" text-anchor="middle" fill="#666">混合室</text>
+        <text x="325" y="186" font-size="13" text-anchor="middle" fill="#a83c21">绝热 q=0，wₛ=0</text>
+      </svg>
+      <figcaption>图 10-1　绝热混合室简图：两股流体 1、2 绝热混合，混合后由 3 流出，控制体对外无功的输入输出。</figcaption>
+    </figure>
+    <p><strong>（2）能量方程。</strong>绝热 <i>q</i> = 0，无轴功 <i>w</i><sub>s</sub> = 0，忽略宏观动能与势能差，取虚线为控制体（稳定流动）：</p>
+    <div class="fml"><span class="tag">一般式</span><p><i>q</i> = Δ<i>h</i> + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub>　⇒　0 = <i>h</i><sub>3</sub> − <i>h</i><sub>in</sub>（每千克）</p></div>
+    <p>按总质量流量的能量守恒（进入 = 离开）写成<b>混合式</b>：</p>
+    <div class="fml"><span class="tag">能量方程</span><p><i>q</i><sub>m1</sub><i>h</i><sub>1</sub> + <i>q</i><sub>m2</sub><i>h</i><sub>2</sub> = <i>q</i><sub>m3</sub><i>h</i><sub>3</sub></p></div>
+    <p>由质量守恒 <i>q</i><sub>m3</sub> = <i>q</i><sub>m1</sub> + <i>q</i><sub>m2</sub>，可解出出口焓与出口温度（理想气体 <i>h</i> = <i>c</i><sub>p</sub><i>T</i>，取 <i>c</i><sub>p</sub> 为常数或平均值）：</p>
+    <div class="fml"><span class="tag">混合温度</span><p><i>h</i><sub>3</sub> = (<i>q</i><sub>m1</sub><i>h</i><sub>1</sub> + <i>q</i><sub>m2</sub><i>h</i><sub>2</sub>)/(<i>q</i><sub>m1</sub> + <i>q</i><sub>m2</sub>)　；　<i>T</i><sub>3</sub> = (<i>q</i><sub>m1</sub><i>c</i><sub>p1</sub><i>T</i><sub>1</sub> + <i>q</i><sub>m2</sub><i>c</i><sub>p2</sub><i>T</i><sub>2</sub>)/(<i>q</i><sub>m1</sub><i>c</i><sub>p1</sub> + <i>q</i><sub>m2</sub><i>c</i><sub>p2</sub>)</p></div>
+    <p><strong>（3）过程特征。</strong></p>
+    <p class="step"><span class="badge">①</span>　<b>绝热 + 无轴功</b>：<i>q</i> = 0、<i>w</i><sub>s</sub> = 0，故混合前后<b>总焓守恒</b>（<i>Σq<sub>m</sub>h</i> = 常数），出口焓为进口焓的质量加权平均值。</p>
+    <p class="step"><span class="badge">②</span>　<b>不可逆过程</b>：混合由两方面的不可逆因素组成——<b>温差传热</b>（两股流体温度不同，直接接触传热）与<b>工质混合</b>（浓度差引起的扩散混合）。因此 <i>s</i><sub>3</sub> &gt; <i>Σs</i><sub>in</sub>，熵产大于零，是典型的不可逆过程；混合后不可能自发分离。</p>
+    <p class="step"><span class="badge">③</span>　<b>温度介于两进口温度之间</b>：<i>T</i><sub>3</sub> 必在 <i>T</i><sub>1</sub> 与 <i>T</i><sub>2</sub> 之间（可同种工质，也可不同种工质）。</p>
+    <p class="step"><span class="badge">④</span>　<b>压力取法</b>：一般使 <i>p</i><sub>1</sub> = <i>p</i><sub>2</sub> = <i>p</i><sub>3</sub>，以<b>减少不可逆性</b>（避免额外的节流与压差掺混损失）；若两股压力不同，则混合时还伴随<b>节流掺混</b>，不可逆性更大。</p>
+    <p class="step"><span class="badge">⑤</span>　<b>定压近似</b>：混合室中压力基本不变，故 <i>q</i> = Δ<i>h</i> 的定压关系仍可用于各股流体；<i>T</i>-<i>s</i> 图上各股流体近似沿定压线变化。</p>
+    <p class="step"><span class="badge">⑥</span>　<b>应用</b>：喷水减温器、表面式与混合式加热器、燃气轮机燃烧室（燃料与空气混合燃烧）、空调送风混合箱、蒸汽减温减压器等。</p>
+  </div>
+  <div class="ans">得分点：① 简图（两进一出、虚线控制体、标流量与焓）；② <i>q</i><sub>m1</sub><i>h</i><sub>1</sub> + <i>q</i><sub>m2</sub><i>h</i><sub>2</sub> = <i>q</i><sub>m3</sub><i>h</i><sub>3</sub>，配合质量守恒求 <i>T</i><sub>3</sub>；③ 过程特征：绝热无轴功、总焓守恒、<b>不可逆</b>（温差传热 + 工质混合）、<i>T</i><sub>3</sub> 介于 <i>T</i><sub>1</sub>、<i>T</i><sub>2</sub> 之间、常取等压混合以减少不可逆性。一句话结论：绝热混合的能量方程是“总焓守恒”，本质是<b>温差传热与工质混合双重不可逆</b>过程。</div>
+</div>
+<div class="box exam"><span class="bt">答题模板（“混合类”问题）</span>
+<p>三步：<span class="badge">1</span>质量守恒 <i>q</i><sub>m3</sub> = Σ<i>q</i><sub>m,i</sub>；<span class="badge">2</span>能量守恒 <i>q</i><sub>m3</sub><i>h</i><sub>3</sub> = Σ<i>q</i><sub>m,i</sub><i>h</i><sub>i</sub>（绝热无轴功）；<span class="badge">3</span>熵方程判不可逆性 <i>s</i><sub>3</sub> − Σ<i>s</i><sub>i</sub> &gt; 0，并说明不可逆来自温度差与浓度差。</p></div>
+
+<div class="prob">
+  <div class="pt">第 11 题　压气机、透平机：简图、能量方程</div>
+  <div class="q">画出压气机与透平机的系统简图，写出各自的能量方程（用最合适的形式）。</div>
+  <div class="sol">
+    <p><strong>（1）系统简图。</strong>压气机消耗轴功把气体由低压 <i>p</i><sub>1</sub> 压缩到高压 <i>p</i><sub>2</sub>（<i>w</i><sub>s</sub> 为输入）；透平机（汽轮机、燃气轮机）由高压气体膨胀作功输出轴功（<i>w</i><sub>s</sub> 为输出）。两者互为正反，常同轴相连。</p>
+    <figure>
+      <svg viewBox="0 0 600 210" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <path d="M130,52 L250,52 A45,45 0 0 1 250,142 L130,142 A45,45 0 0 1 130,52 Z" fill="#eef4fa" stroke="#0b4f8a" stroke-width="2.5"/>
+        <path d="M350,52 L470,52 A45,45 0 0 1 470,142 L350,142 A45,45 0 0 1 350,52 Z" fill="#f3f9f1" stroke="#3d8b40" stroke-width="2.5"/>
+        <line x1="26" y1="97" x2="126" y2="97" stroke="#0b4f8a" stroke-width="2.5"/>
+        <polygon points="126,97 112,90 112,104" fill="#0b4f8a"/>
+        <text x="30" y="86" font-size="14" fill="#0b3d69">1 进气</text>
+        <line x1="254" y1="97" x2="300" y2="97" stroke="#0b4f8a" stroke-width="2.5"/>
+        <polygon points="300,97 286,90 286,104" fill="#0b4f8a"/>
+        <text x="150" y="76" font-size="14" fill="#0b3d69">压气机</text>
+        <text x="252" y="132" font-size="13" fill="#666">p₂</text>
+        <line x1="306" y1="97" x2="346" y2="97" stroke="#3d8b40" stroke-width="2.5"/>
+        <line x1="474" y1="97" x2="574" y2="97" stroke="#3d8b40" stroke-width="2.5"/>
+        <polygon points="574,97 560,90 560,104" fill="#3d8b40"/>
+        <text x="480" y="86" font-size="14" fill="#2e6b31">2 排气</text>
+        <text x="390" y="76" font-size="14" fill="#2e6b31">透平机</text>
+        <text x="340" y="132" font-size="13" fill="#666">p₁</text>
+        <line x1="190" y1="142" x2="190" y2="184" stroke="#c0492b" stroke-width="2.5"/>
+        <polygon points="190,184 183,170 197,170" fill="#c0492b"/>
+        <text x="200" y="180" font-size="14" fill="#a83c21">w 输入</text>
+        <line x1="410" y1="142" x2="410" y2="184" stroke="#c0492b" stroke-width="2.5"/>
+        <polygon points="410,184 403,170 417,170" fill="#c0492b"/>
+        <text x="420" y="180" font-size="14" fill="#a83c21">w 输出</text>
+      </svg>
+      <figcaption>图 11-1　压气机与透平机简图：压气机消耗轴功把气体由 <i>p</i><sub>1</sub> 提高到 <i>p</i><sub>2</sub>；透平机让气体膨胀降压并输出轴功。</figcaption>
+    </figure>
+    <p><strong>（2）能量方程（一般式）。</strong>这类叶轮机械的特点是：与外界<b>绝热</b>（<i>q</i> = 0，或冷却时 <i>q</i> ≠ 0，如等温压缩）、<b>有轴功</b>、进口气流速度与出口速度相差不大（½Δ<i>c</i><sup>2</sup> 一般远小于 <i>h</i> 的变化，可忽略）、位能差可忽略：</p>
+    <div class="fml"><span class="tag">一般式</span><p><i>q</i> = Δ<i>h</i> + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub></p></div>
+    <p><strong>（3）绝热时的简化式（最合适的形式）。</strong>取 <i>q</i> = 0、½Δ<i>c</i><sup>2</sup> ≈ 0、<i>g</i>Δ<i>z</i> ≈ 0：</p>
+    <div class="fml"><span class="tag">绝热叶轮机械</span><p><i>w</i><sub>s</sub> = <i>h</i><sub>1</sub> − <i>h</i><sub>2</sub> = −Δ<i>h</i></p></div>
+    <p><b>压气机</b>（耗功设备，以耗功为正来记）：<i>w</i><sub>C</sub> = <i>w</i><sub>s,in</sub> = <i>h</i><sub>2</sub> − <i>h</i><sub>1</sub> = <i>c</i><sub>p</sub>(<i>T</i><sub>2</sub> − <i>T</i><sub>1</sub>) &gt; 0（理想气体定比热）。</p>
+    <p><b>透平机</b>（作功设备）：<i>w</i><sub>T</sub> = <i>h</i><sub>1</sub> − <i>h</i><sub>2</sub> = <i>c</i><sub>p</sub>(<i>T</i><sub>1</sub> − <i>T</i><sub>2</sub>) &gt; 0。</p>
+    <p><strong>（4）可逆（定熵）情况的形式。</strong>对可逆绝热（定熵）过程，由 d<i>h</i> = <i>T</i>d<i>s</i> + <i>v</i>d<i>p</i> 中 d<i>s</i> = 0 得 d<i>h</i> = <i>v</i>d<i>p</i>，于是</p>
+    <div class="fml"><span class="tag">定熵</span><p><i>w</i><sub>s</sub> = −Δ<i>h</i> = −∫<sub>1</sub><sup>2</sup><i>v</i>d<i>p</i> = <i>w</i><sub>t</sub></p></div>
+    <p>即<b>绝热可逆时轴功 = 技术功 = −∫<i>v</i>d<i>p</i></b>，在 <i>p</i>-<i>v</i> 图上为过程线<b>左侧</b>的面积。理想气体定熵过程代入 <i>p</i><i>v</i><sup>κ</sup> = 常数，得到常用的压气机耗功公式：</p>
+    <div class="fml"><p><i>w</i><sub>C</sub> = <i>h</i><sub>2</sub> − <i>h</i><sub>1</sub> = <i>c</i><sub>p</sub>(<i>T</i><sub>2</sub> − <i>T</i><sub>1</sub>) = <i>c</i><sub>p</sub><i>T</i><sub>1</sub>[(<i>p</i><sub>2</sub>/<i>p</i><sub>1</sub>)<sup>(κ−1)/κ</sup> − 1] = (κ/(κ−1))<i>p</i><sub>1</sub><i>v</i><sub>1</sub>[(<i>p</i><sub>2</sub>/<i>p</i><sub>1</sub>)<sup>(κ−1)/κ</sup> − 1]</p></div>
+    <p><strong>（5）为什么用焓形式而不用内能形式。</strong>压气机、透平机是典型<b>开口系</b>：工质连续流进流出，进出口存在流动功 <i>p</i><sub>1</sub><i>v</i><sub>1</sub>、<i>p</i><sub>2</sub><i>v</i><sub>2</sub>，把内能与流动功合并成焓后，方程变为 <i>w</i><sub>s</sub> = −Δ<i>h</i>，只含状态参数差，最便于计算；若用内能形式则需额外处理流动功项 <i>p</i><sub>2</sub><i>v</i><sub>2</sub> − <i>p</i><sub>1</sub><i>v</i><sub>1</sub>，明显不便。故“<b>开口系用焓</b>”是这类题的最合适形式。</p>
+    <p><strong>（6）过程特征。</strong>① 压气机：<i>p</i><sub>2</sub> &gt; <i>p</i><sub>1</sub>、<i>v</i><sub>2</sub> &lt; <i>v</i><sub>1</sub>、<i>T</i><sub>2</sub> &gt; <i>T</i><sub>1</sub>，耗轴功；理想为定熵，实际 <i>s</i><sub>2</sub> &gt; <i>s</i><sub>1</sub>（降温比不计），耗功大于定熵耗功。② 透平机：<i>p</i><sub>2</sub> &lt; <i>p</i><sub>1</sub>、<i>T</i><sub>2</sub> &lt; <i>T</i><sub>1</sub>，输出轴功；实际 <i>s</i><sub>2</sub> &gt; <i>s</i><sub>1</sub>，作功小于定熵作功。③ 两者都近似绝热稳态流动。</p>
+  </div>
+  <div class="ans">得分点：① 简图区分耗功（压气机）与作功（透平机）；② 一般式 <i>q</i> = Δ<i>h</i>+½Δ<i>c</i><sup>2</sup>+<i>g</i>Δ<i>z</i>+<i>w</i><sub>s</sub>；③ 绝热简化式 <i>w</i><sub>s</sub> = −Δ<i>h</i>（压气机 <i>w</i><sub>C</sub> = <i>h</i><sub>2</sub>−<i>h</i><sub>1</sub>、透平机 <i>w</i><sub>T</sub> = <i>h</i><sub>1</sub>−<i>h</i><sub>2</sub>）；④ 定熵时可写 <i>w</i><sub>s</sub> = <i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i>；⑤ 说明“开口系用焓最合适”的理由。一句话结论：叶轮机械的能量方程就是 <i>w</i><sub>s</sub> = −Δ<i>h</i>，轴功等于焓降（或焓升）。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① 符号方向：<b>压气机耗功</b>要写成 <i>w</i><sub>C</sub> = <i>h</i><sub>2</sub> − <i>h</i><sub>1</sub> &gt; 0，<b>透平机作功</b>写成 <i>w</i><sub>T</sub> = <i>h</i><sub>1</sub> − <i>h</i><sub>2</sub> &gt; 0，别把两者都写成 −Δ<i>h</i> 后不加说明。② 忽略 ½Δ<i>c</i><sup>2</sup> 要说明理由（进出口流速相近），不能无声无息地删掉。③ 不可逆压缩仍满足 <i>w</i><sub>s</sub> = −Δ<i>h</i>，但此时 <i>w</i><sub>s</sub> ≠ −∫<i>v</i>d<i>p</i>（多出耗散部分）。</p></div>
+
+<div class="prob">
+  <div class="pt">第 12 题　绝热节流：简图、能量方程、<i>T</i>-<i>s</i> 图</div>
+  <div class="q">画出绝热节流装置（孔板或节流阀）简图，写出能量方程并画出 <i>T</i>-<i>s</i> 图。</div>
+  <div class="sol">
+    <p><strong>（1）系统简图。</strong>工质流经缩口（孔板、节流阀），因局部阻力使压力骤降。取缩口前后足够远的截面 1、2 为进、出口（截面 1–2 之间即控制体）。</p>
+    <figure>
+      <svg viewBox="0 0 600 230" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <rect x="24" y="56" width="112" height="66" fill="#eef4fa" stroke="#0b4f8a" stroke-width="2"/>
+        <rect x="144" y="56" width="60" height="24" fill="#eef4fa" stroke="#0b4f8a" stroke-width="2"/>
+        <rect x="144" y="98" width="60" height="24" fill="#eef4fa" stroke="#0b4f8a" stroke-width="2"/>
+        <rect x="212" y="56" width="112" height="66" fill="#eef4fa" stroke="#0b4f8a" stroke-width="2"/>
+        <text x="136" y="46" font-size="14" text-anchor="middle" fill="#a83c21">缩口</text>
+        <line x1="24" y1="89" x2="86" y2="89" stroke="#c0492b" stroke-width="2.5"/>
+        <polygon points="150,89 136,82 136,96" fill="#c0492b"/>
+        <line x1="256" y1="89" x2="326" y2="89" stroke="#c0492b" stroke-width="2.5"/>
+        <polygon points="326,89 312,82 312,96" fill="#c0492b"/>
+        <text x="86" y="146" font-size="14" text-anchor="middle" fill="#0b3d69">1</text>
+        <text x="284" y="146" font-size="14" text-anchor="middle" fill="#0b3d69">2</text>
+        <text x="86" y="176" font-size="13" text-anchor="middle" fill="#666">p₁ 大</text>
+        <text x="284" y="176" font-size="13" text-anchor="middle" fill="#666">p₂ 小</text>
+        <path d="M400,180 L400,50 L570,50" fill="none" stroke="#0b4f8a" stroke-width="2"/>
+        <text x="356" y="56" font-size="14" fill="#0b3d69">T</text>
+        <text x="566" y="196" font-size="14" fill="#0b3d69">s</text>
+        <line x1="430" y1="50" x2="430" y2="120" stroke="#c0492b" stroke-width="2"/>
+        <polygon points="430,50 424,64 436,64" fill="#c0492b"/>
+        <polygon points="430,120 424,106 436,106" fill="#c0492b"/>
+        <text x="438" y="96" font-size="13" fill="#a83c21">h 不变</text>
+        <text x="420" y="146" font-size="13" text-anchor="middle" fill="#666">T₁=T₂</text>
+        <text x="500" y="146" font-size="13" text-anchor="middle" fill="#666">T₂&lt;T₁</text>
+      </svg>
+      <figcaption>图 12-1　左：绝热节流装置简图（缩口 1→2 压力降低）；右：<i>T</i>-<i>s</i> 图。<b>理想气体</b>节流前后温度不变（沿水平线，<i>h</i> 不变，点在右移，<i>s</i><sub>2</sub> &gt; <i>s</i><sub>1</sub>）；<b>实际气体</b>（如蒸汽）节流后温度可能降低（转回效应 <i>T</i><sub>2</sub> &lt; <i>T</i><sub>1</sub>）。</figcaption>
+    </figure>
+    <p><strong>（2）能量方程。</strong>节流过程与外界<b>绝热</b>（<i>q</i> = 0）、不输出轴功（<i>w</i><sub>s</sub> = 0），进、出口截面一般取在管径相同处故 ½Δ<i>c</i><sup>2</sup> ≈ 0，位能差 ≈ 0，由开口系标准式：</p>
+    <div class="fml"><span class="tag">能量方程</span><p><i>q</i> = Δ<i>h</i> + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub>　⇒　<i>h</i><sub>1</sub> = <i>h</i><sub>2</sub></p></div>
+    <p>即<b>绝热节流前后焓值相等，<i>h</i> = 常数</b>（<b>节流前后焓不变</b>是节流过程的根本特征；但节流中缩口处的实际状态并不满足 <i>h</i> = 常数，能量在缩口处部分转为动能，故不能把整个节流过程当作等焓过程来求中间状态）。</p>
+    <p><strong>（3）过程特征。</strong></p>
+    <p class="step"><span class="badge">①</span>　<b>不可逆过程</b>：气流在缩口处产生强烈涡流与摩擦，动能不可逆地耗散为内能，<i>s</i><sub>2</sub> &gt; <i>s</i><sub>1</sub>（熵增）。因此节流<b>不是</b>定熵过程，也不是可逆过程，只是“<b>等焓</b>”。</p>
+    <p class="step"><span class="badge">②</span>　<b>压力必然降低</b>：<i>p</i><sub>2</sub> &lt; <i>p</i><sub>1</sub>（节流只能降压，不能升压）。</p>
+    <p class="step"><span class="badge">③</span>　<b>理想气体：温度不变</b>。因理想气体 <i>h</i> = <i>h</i>(<i>T</i>)，<i>h</i> 不变则 <i>T</i> 不变（<i>T</i><sub>1</sub> = <i>T</i><sub>2</sub>），在 <i>T</i>-<i>s</i> 图上是一条<b>水平线</b>（等温线 = 等焓线）。</p>
+    <p class="step"><span class="badge">④</span>　<b>实际气体：温度可能变化</b>。因 <i>h</i> = <i>h</i>(<i>T</i>, <i>p</i>)，<i>h</i> 不变时 <i>T</i> 随 <i>p</i> 变化。定义<b>绝热节流系数（焦耳–汤姆逊系数）</b>：</p>
+    <div class="fml"><span class="tag">节流系数</span><p><i>μ</i><sub>J</sub> = (<i>∂T</i>/<i>∂p</i>)<sub>h</sub>　；　<i>μ</i><sub>J</sub> &gt; 0 节流冷效应（<i>T</i><sub>2</sub> &lt; <i>T</i><sub>1</sub>）；<i>μ</i><sub>J</sub> = 0 节流零效应（<i>T</i> 不变，对应转回温度）；<i>μ</i><sub>J</sub> &lt; 0 节流热效应（<i>T</i><sub>2</sub> &gt; <i>T</i><sub>1</sub>）</p></div>
+    <p class="step"><span class="badge">⑤</span>　<b><i>T</i>-<i>s</i> 图上的画法</b>：由 <i>T</i>d<i>s</i> = d<i>h</i> − <i>v</i>d<i>p</i>，令 d<i>h</i> = 0 得 d<i>s</i> = −(<i>v</i>/<i>T</i>)d<i>p</i> &gt; 0（因 d<i>p</i> &lt; 0），故状态点<b>沿等焓线向右（<i>s</i> 增大）移动</b>；对理想气体是水平线，对蒸汽等实际气体是向右下方（若为冷效应）的等焓线。在 <i>h</i>-<i>s</i> 图（莫里尔图）上则表现为一条<b>水平线</b>。</p>
+    <p class="step"><span class="badge">⑥</span>　<b>应用</b>：测量湿蒸汽的干度（节流式量热计）、制冷装置中的节流降压（毛细管、膨胀阀）、蒸汽的减压减温、气体液化（林德循环）。</p>
+  </div>
+  <div class="ans">得分点：① 简图（缩口 + 截面 1、2）；② <i>h</i><sub>1</sub> = <i>h</i><sub>2</sub>（绝热、无轴功、动能势能差可忽略）；③ 过程特征：<b>不可逆</b>（<i>s</i><sub>2</sub> &gt; <i>s</i><sub>1</sub>）、<b>降压</b> <i>p</i><sub>2</sub> &lt; <i>p</i><sub>1</sub>、焓不变；④ <i>T</i>-<i>s</i> 图：理想气体为水平线（<i>T</i> 不变），实际气体按 <i>μ</i><sub>J</sub> 判断升温或降温，状态点沿等焓线向右移动。一句话结论：绝热节流是“<b>等焓但不等熵、不可逆且必定降压</b>”的过程。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① 把节流说成“定熵过程”：错！绝热但强烈不可逆，熵<b>增大</b>。② 把“等焓”说成“等温”：只有理想气体才因 <i>h</i> 只随 <i>T</i> 而变温不变。③ 不要写“节流可以升压”。④ <i>h</i> = 常数只在截面 1、2 之间成立，缩口内部不能用。⑤ 节流系数 <i>μ</i><sub>J</sub> = (∂<i>T</i>/∂<i>p</i>)<sub>h</sub>，注意是<b>对压力</b>求偏导（下标 <i>h</i>），不是对 <i>p</i> 求导后取倒数。</p></div>
+
+<div class="pagebreak"></div>
+<h1>第三部分　理想气体过程、多变过程与循环（第 13—19 题）</h1>
+
+<div class="lead">本部分把理想气体的过程与循环打通：定熵过程特征式（13）→ <i>p</i>-<i>v</i> 图上定温线与定熵线（14）、<i>T</i>-<i>s</i> 图上定压线与定容线（15）的斜率关系 → 多变过程线斜率（16）与多变比热（17）→ 卡诺正、逆循环（18）与卡诺定理、克劳修斯不等式（19）。<b>斜率公式、图上相对位置、面积与热量的对应</b>是这一部分的得分核心，务必三条都写出。</div>
+
+<div class="prob">
+  <div class="pt">第 13 题　推导理想气体定熵过程特征公式</div>
+  <div class="q">推导理想气体定熵（可逆绝热）过程的特征公式 <i>p</i><i>v</i><sup>κ</sup> = 常数、<i>T</i><i>v</i><sup>κ−1</sup> = 常数、<i>T</i><i>p</i><sup>(1−κ)/κ</sup> = 常数。</div>
+  <div class="sol">
+    <p><strong>（1）条件。</strong>理想气体、<b>定比热</b>（<i>c</i><sub>p</sub>、<i>c</i><sub>v</sub> 为常数）、<b>可逆绝热</b>（即定熵，d<i>s</i> = 0）。</p>
+    <p><strong>（2）从熵方程出发。</strong>由理想气体熵变的微分式（可由吉布斯方程 d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i> 与 d<i>u</i> = <i>c</i><sub>v</sub>d<i>T</i>、<i>p</i><i>v</i> = <i>R</i><sub>g</sub><i>T</i> 得到）</p>
+    <div class="fml"><p>d<i>s</i> = <i>c</i><sub>v</sub> d<i>T</i>/<i>T</i> + <i>R</i><sub>g</sub> d<i>v</i>/<i>v</i></p></div>
+    <p>定熵 d<i>s</i> = 0，两边积分（由上状态 1 积到下状态 2）：</p>
+    <div class="fml"><p><i>c</i><sub>v</sub> ln(<i>T</i><sub>2</sub>/<i>T</i><sub>1</sub>) + <i>R</i><sub>g</sub> ln(<i>v</i><sub>2</sub>/<i>v</i><sub>1</sub>) = 0</p></div>
+    <p><strong>（3）引入迈耶公式与比热比。</strong>由迈耶公式 <i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> = <i>R</i><sub>g</sub> 及比热比 <i>κ</i> = <i>c</i><sub>p</sub>/<i>c</i><sub>v</sub>，把 <i>R</i><sub>g</sub> = <i>c</i><sub>v</sub>(<i>κ</i> − 1) 代入上式并约去 <i>c</i><sub>v</sub>：</p>
+    <div class="fml"><p>ln(<i>T</i><sub>2</sub>/<i>T</i><sub>1</sub>) + (<i>κ</i> − 1) ln(<i>v</i><sub>2</sub>/<i>v</i><sub>1</sub>) = 0　⇒　ln[(<i>T</i><sub>2</sub>/<i>T</i><sub>1</sub>)(<i>v</i><sub>2</sub>/<i>v</i><sub>1</sub>)<sup>κ−1</sup>] = 0</p></div>
+    <div class="fml"><span class="tag">特征式 1</span><p><i>T</i><i>v</i><sup>κ−1</sup> = 常数　（即 <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub> = (<i>v</i><sub>1</sub>/<i>v</i><sub>2</sub>)<sup>κ−1</sup>）</p></div>
+    <p><strong>（4）化为 <i>p</i>-<i>v</i> 关系。</strong>把状态方程 <i>T</i> = <i>p</i><i>v</i>/<i>R</i><sub>g</sub> 代入上式，<i>R</i><sub>g</sub> 为常数可约去：</p>
+    <div class="fml"><p>(<i>p</i><i>v</i>)<i>v</i><sup>κ−1</sup> = 常数　⇒　</p></div>
+    <div class="fml"><span class="tag">特征式 2</span><p><i>p</i><i>v</i><sup>κ</sup> = 常数　（即 <i>p</i><sub>2</sub>/<i>p</i><sub>1</sub> = (<i>v</i><sub>1</sub>/<i>v</i><sub>2</sub>)<sup>κ</sup>）</p></div>
+    <p><strong>（5）化为 <i>T</i>-<i>p</i> 关系。</strong>由 <i>T</i><i>v</i><sup>κ−1</sup> = 常数 中消去 <i>v</i>：<i>v</i> = <i>R</i><sub>g</sub><i>T</i>/<i>p</i>，代入得 <i>T</i>(<i>R</i><sub>g</sub><i>T</i>/<i>p</i>)<sup>κ−1</sup> = 常数，即 <i>T</i><sup>κ</sup><i>p</i><sup>1−κ</sup> = 常数，两边开 <i>κ</i> 次方：</p>
+    <div class="fml"><span class="tag">特征式 3</span><p><i>T</i><i>p</i><sup>(1−κ)/κ</sup> = 常数　（即 <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub> = (<i>p</i><sub>2</sub>/<i>p</i><sub>1</sub>)<sup>(κ−1)/κ</sup>）</p></div>
+    <p>这三个式子等价（任取一个，配合 <i>p</i><i>v</i> = <i>R</i><sub>g</sub><i>T</i> 可推出另两个），通常记作<b>定熵过程方程</b> <i>p</i><i>v</i><sup>κ</sup> = 常数，其指数 <i>κ</i> 称为<b>定熵指数（绝热指数）</b>。</p>
+    <p><strong>（6）定熵过程的功与内能变化（配套结论）。</strong>绝热 <i>q</i> = 0，由第一定律：</p>
+    <div class="fml"><p><i>w</i> = −Δ<i>u</i> = <i>u</i><sub>1</sub> − <i>u</i><sub>2</sub> = <i>c</i><sub>v</sub>(<i>T</i><sub>1</sub> − <i>T</i><sub>2</sub>) = (<i>R</i><sub>g</sub><i>T</i><sub>1</sub>/(<i>κ</i>−1))[1 − (<i>p</i><sub>2</sub>/<i>p</i><sub>1</sub>)<sup>(κ−1)/κ</sup>] = (<i>p</i><sub>1</sub><i>v</i><sub>1</sub>/(<i>κ</i>−1))[1 − (<i>p</i><sub>2</sub>/<i>p</i><sub>1</sub>)<sup>(κ−1)/κ</sup>]</p></div>
+    <div class="fml"><p>技术功：<i>w</i><sub>t</sub> = −Δ<i>h</i> = <i>c</i><sub>p</sub>(<i>T</i><sub>1</sub> − <i>T</i><sub>2</sub>) = <i>κ</i><i>w</i>　（定熵过程 <i>w</i><sub>t</sub> = <i>κ</i><i>w</i>，这是定熵过程的独有特征）</p></div>
+    <p>一般地，理想气体定熵时 <i>T</i>、<i>p</i> 同升同降、<i>v</i> 反向变化：膨胀（<i>p</i><sub>2</sub> &lt; <i>p</i><sub>1</sub>）则 <i>T</i><sub>2</sub> &lt; <i>T</i><sub>1</sub>、<i>v</i><sub>2</sub> &gt; <i>v</i><sub>1</sub>，对外作功靠消耗内能（温度下降）。</p>
+    <p><strong>（7）对任意工质的推广。</strong>对任意工质，绝热可逆过程可用<b>绝热压缩指数</b> <i>κ</i><sub>v</sub> = −(<i>v</i>/<i>p</i>)(<i>∂p</i>/<i>∂v</i>)<sub>s</sub> 表示过程方程 <i>p</i><i>v</i><sup>κv</sup> = 常数（<i>κ</i><sub>v</sub> 一般沿过程变化，不是常数）；对理想气体 <i>κ</i><sub>v</sub> = <i>c</i><sub>p</sub>/<i>c</i><sub>v</sub> = <i>κ</i> = 常数，上式才成为简单的幂函数形式。</p>
+  </div>
+  <div class="ans">得分点：① 明确条件（理想气体、定比热、可逆绝热 d<i>s</i>=0）；② 起点 d<i>s</i> = <i>c</i><sub>v</sub>d<i>T</i>/<i>T</i> + <i>R</i><sub>g</sub>d<i>v</i>/<i>v</i>；③ 积分并用迈耶公式与 <i>κ</i> = <i>c</i><sub>p</sub>/<i>c</i><sub>v</sub> 化简得 <i>T</i><i>v</i><sup>κ−1</sup> = 常数；④ 用 <i>p</i><i>v</i>=<i>R</i><sub>g</sub><i>T</i> 换成 <i>p</i><i>v</i><sup>κ</sup> = 常数 与 <i>T</i><i>p</i><sup>(1−κ)/κ</sup> = 常数；⑤ 补充 <i>w</i> = −Δ<i>u</i>、<i>w</i><sub>t</sub> = <i>κ</i><i>w</i>。一句话结论：定熵过程方程 <i>p</i><i>v</i><sup>κ</sup> = 常数 是“可逆绝热 + 理想气体 + 定比热”三条件下的必然结果。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① 忘记“可逆”二字：<b>绝热不可逆</b>过程 <i>s</i> 增大，<i>p</i><i>v</i><sup>κ</sup> = 常数<b>不成立</b>（此时 <i>p</i><i>v</i><sup>n</sup> = 常数 中 <i>n</i> &gt; <i>κ</i>）。② 指数不要写反：<i>T</i><i>v</i><sup>κ−1</sup>（对 <i>v</i>）与 <i>T</i><i>p</i><sup>(1−κ)/κ</sup>（对 <i>p</i>，指数为负）。③ <i>R</i><sub>g</sub> = <i>c</i><sub>v</sub>(<i>κ</i>−1) = <i>c</i><sub>p</sub>(<i>κ</i>−1)/<i>κ</i>，用错会把 (<i>κ</i>−1) 位置搞反。④ 三个特征式只对<b>同一定熵过程的两状态之间</b>成立，不能跨过程乱用。</p></div>
+
+<div class="prob">
+  <div class="pt">第 14 题　<i>p</i>-<i>v</i> 图：一组定温线、一组定熵线（反映二者关系特征）</div>
+  <div class="q">在 <i>p</i>-<i>v</i> 图上画出一组定温线与一组定熵线，并说明二者的关系特征。</div>
+  <div class="sol">
+    <p><strong>（1）过程方程与斜率公式。</strong></p>
+    <div class="fml left"><p>定温过程：<i>p</i><i>v</i> = 常数　⇒　斜率 (<i>∂p</i>/<i>∂v</i>)<sub>T</sub> = −<i>p</i>/<i>v</i></p></div>
+    <div class="fml left"><p>定熵过程：<i>p</i><i>v</i><sup>κ</sup> = 常数　⇒　斜率 (<i>∂p</i>/<i>∂v</i>)<sub>s</sub> = −<i>κ</i><i>p</i>/<i>v</i></p></div>
+    <p><strong>（2）两组曲线在 <i>p</i>-<i>v</i> 图上的形状与相对陡缓。</strong></p>
+    <figure>
+      <svg viewBox="0 0 620 260" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <line x1="62" y1="222" x2="586" y2="222" stroke="#333" stroke-width="1.8"/>
+        <polygon points="586,222 574,217 574,227" fill="#333"/>
+        <line x1="62" y1="222" x2="62" y2="30" stroke="#333" stroke-width="1.8"/>
+        <polygon points="62,30 57,42 67,42" fill="#333"/>
+        <text x="566" y="246" font-size="15" fill="#0b3d69">v</text>
+        <text x="42" y="40" font-size="15" fill="#0b3d69">p</text>
+        <path d="M92,48 C150,120 210,176 300,203" fill="none" stroke="#0b4f8a" stroke-width="2.2"/>
+        <path d="M152,50 C210,124 262,178 340,202" fill="none" stroke="#0b4f8a" stroke-width="2.2"/>
+        <path d="M232,52 C280,122 322,174 386,201" fill="none" stroke="#0b4f8a" stroke-width="2.2"/>
+        <path d="M86,46 C118,148 182,214 278,220" fill="none" stroke="#c0492b" stroke-width="2.4" stroke-dasharray="8 5"/>
+        <path d="M166,48 C200,150 258,214 346,220" fill="none" stroke="#c0492b" stroke-width="2.4" stroke-dasharray="8 5"/>
+        <path d="M266,50 C296,152 344,214 424,220" fill="none" stroke="#c0492b" stroke-width="2.4" stroke-dasharray="8 5"/>
+        <text x="306" y="192" font-size="13" fill="#0b4f8a">定温线</text>
+        <text x="440" y="196" font-size="13" fill="#c0492b">定熵线</text>
+        <text x="105" y="176" font-size="12" fill="#666">T 升高</text>
+        <text x="196" y="150" font-size="12" fill="#666">s 不变</text>
+      </svg>
+      <figcaption>图 14-1　<i>p</i>-<i>v</i> 图上的一族定温线（实线，<i>T</i><sub>1</sub> &lt; <i>T</i><sub>2</sub> &lt; <i>T</i><sub>3</sub>，越靠右上温度越高）与一族定熵线（虚线，彼此形状相同、沿 <i>v</i> 方向平移）。同一状态点上定熵线比定温线更陡。</figcaption>
+    </figure>
+    <p><strong>（3）关系特征。</strong></p>
+    <p class="step"><span class="badge">①</span>　同一点处<b>定熵线比定温线陡</b>：因 κ = <i>c</i><sub>p</sub>/<i>c</i><sub>v</sub> &gt; 1，故 |(<i>∂p</i>/<i>∂v</i>)<sub>s</sub>| = <i>κ</i>|<i>∂p</i>/<i>∂v</i>)<sub>T</sub>|，即<b>斜率是定温线的 <i>κ</i> 倍</b>（对双原子气体 <i>κ</i> ≈ 1.4，约 1.4 倍）。</p>
+    <p class="step"><span class="badge">②</span>　两条线都从左上向右下下降（<i>p</i> ↓ <i>v</i> ↑ 或反之），但定熵线下降得更快；二者只能<b>相交于一点</b>，不会相切。</p>
+    <p class="step"><span class="badge">③</span>　同一点上，定温线的切线与 <i>v</i> 轴围成的面积（该压力的 <i>p</i>d<i>v</i> 面积）大于定熵线的对应面积，说明<b>同样膨胀到同一容积，定温过程的膨胀功大于定熵过程</b>（定温过程还同时吸热，而定熵过程的膨胀功全部来自内能下降）。</p>
+    <p class="step"><span class="badge">④</span>　两族曲线的“正交性”：由 d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i>，梯度关系为 (<i>∂p</i>/<i>∂v</i>)<sub>s</sub> = <i>κ</i>(<i>∂p</i>/<i>∂v</i>)<sub>T</sub>、(<i>∂v</i>/<i>∂p</i>)<sub>T</sub> = −<i>v</i>/<i>p</i>，可见定熵过程在 <i>p</i>-<i>v</i> 图上的陡缓正是<b>能量方程与状态方程联合作用</b>的结果：定温过程要维持 <i>T</i> 不变必须边走边放热，而定熵过程不允许传热，压力必须掉得更快。</p>
+    <p class="step"><span class="badge">⑤</span>　两族线的相对位置：过同一状态点作两条线，在<b>膨胀（<i>v</i> 增大）</b>方向上，定熵线在定温线<b>下方</b>（压力更低）；在<b>压缩（<i>v</i> 减小）</b>方向上，定熵线在定温线<b>上方</b>（压力更高）——这正是“定熵压缩升温更高、定熵膨胀降温”的几何表现，也是压气机采用中间冷却、等温压缩耗功最小的原因。</p>
+  </div>
+  <div class="ans">得分点：① 写出两过程方程；② 斜率公式 (<i>∂p</i>/<i>∂v</i>)<sub>T</sub> = −<i>p</i>/<i>v</i> 与 (<i>∂p</i>/<i>∂v</i>)<sub>s</sub> = −<i>κ</i><i>p</i>/<i>v</i>；③ 结论：<b>定熵线比定温线陡，陡度倍数 = <i>κ</i></b>（&gt;1）；④ 图上画出两族线并说明膨胀方向上定熵线在下方、压缩方向上在上方。一句话结论：<i>p</i>-<i>v</i> 图上定熵线比定温线陡 <i>κ</i> 倍，因为定熵过程不允许用传热“补偿”压力下降。</div>
+</div>
+<div class="box exam"><span class="bt">答题模板（“画图 + 关系特征”类）</span>
+<p>四件套：<span class="badge">1</span>过程方程（<i>p</i><i>v</i><sup>n</sup> = 常数）；<span class="badge">2</span>斜率公式（求导结果，含符号）；<span class="badge">3</span>数值比较（谁陡、陡几倍，用 <i>κ</i>、<i>n</i> 表示）；<span class="badge">4</span>几何位置描述（同一点处谁在上、谁在下；沿哪个方向平移得到另一条线）。</p></div>
+
+<div class="prob">
+  <div class="pt">第 15 题　<i>T</i>-<i>s</i> 图：一组定压线、一组定容线（反映垂直、水平关系特征）</div>
+  <div class="q">在 <i>T</i>-<i>s</i> 图上画出一组定压线与一组定容线，并说明其垂直、水平关系特征。</div>
+  <div class="sol">
+    <p><strong>（1）过程方程与斜率公式。</strong>由理想气体熵变式 d<i>s</i> = <i>c</i><sub>p</sub>d<i>T</i>/<i>T</i> − <i>R</i><sub>g</sub>d<i>p</i>/<i>p</i> = <i>c</i><sub>v</sub>d<i>T</i>/<i>T</i> + <i>R</i><sub>g</sub>d<i>v</i>/<i>v</i>，分别令 d<i>p</i> = 0、d<i>v</i> = 0：</p>
+    <div class="fml left"><p>定压线：d<i>s</i> = <i>c</i><sub>p</sub> d<i>T</i>/<i>T</i>　⇒　斜率 (<i>∂T</i>/<i>∂s</i>)<sub>p</sub> = <i>T</i>/<i>c</i><sub>p</sub></p></div>
+    <div class="fml left"><p>定容线：d<i>s</i> = <i>c</i><sub>v</sub> d<i>T</i>/<i>T</i>　⇒　斜率 (<i>∂T</i>/<i>∂s</i>)<sub>v</sub> = <i>T</i>/<i>c</i><sub>v</sub></p></div>
+    <p>积分形式（用于画线）：定压线 <i>s</i><sub>2</sub> − <i>s</i><sub>1</sub> = <i>c</i><sub>p</sub>ln(<i>T</i><sub>2</sub>/<i>T</i><sub>1</sub>)，定容线 <i>s</i><sub>2</sub> − <i>s</i><sub>1</sub> = <i>c</i><sub>v</sub>ln(<i>T</i><sub>2</sub>/<i>T</i><sub>1</sub>)，故二者都是<b>对数曲线</b>（在对数坐标纸上为直线）。</p>
+    <p><strong>（2）关系特征。</strong></p>
+    <p class="step"><span class="badge">①</span>　<b>定容线比定压线陡</b>：因 <i>c</i><sub>v</sub> &lt; <i>c</i><sub>p</sub>，同一 <i>T</i> 下 (<i>∂T</i>/<i>∂s</i>)<sub>v</sub> = <i>T</i>/<i>c</i><sub>v</sub> &gt; (<i>∂T</i>/<i>∂s</i>)<sub>p</sub> = <i>T</i>/<i>c</i><sub>p</sub>，<b>陡度倍数 = <i>c</i><sub>p</sub>/<i>c</i><sub>v</sub> = <i>κ</i></b>（即定容线的斜率是定压线的 <i>κ</i> 倍）。</p>
+    <p class="step"><span class="badge">②</span>　两组线都自左下向右上（<i>T</i> ↑ <i>s</i> ↑），曲率随 <i>T</i> 升高而变缓（斜率 ∝ <i>T</i>）。</p>
+    <p class="step"><span class="badge">③</span>　<b>垂直关系</b>：<b>可逆绝热（定熵）过程是 <i>s</i> = 常数的垂直线</b>，它与水平轴垂直，与每一族定压线（或定容线）各交于一点；<b>可逆定温过程（含两相区的定温定压汽化）是 <i>T</i> = 常数的水平线</b>，与每一族线也各交于一点。</p>
+    <p class="step"><span class="badge">④</span>　<b>水平关系</b>：定温线为水平线，而由 <i>q</i> = ∫<i>T</i>d<i>s</i>，<b>过程线下方的面积就是该过程吸收的热量</b>；水平线下的矩形面积即定温过程的换热量 <i>q</i> = <i>T</i>Δ<i>s</i>。</p>
+    <p class="step"><span class="badge">⑤</span>　<b>两族的相对位置</b>：过同一点，<b>定容线在定压线左侧</b>（同一温度下 <i>s</i><sub>v</sub> &lt; <i>s</i><sub>p</sub>）：由 <i>s</i><sub>p</sub> − <i>s</i><sub>v</sub> = <i>c</i><sub>p</sub>ln<i>T</i> + 常数 − (<i>c</i><sub>v</sub>ln<i>T</i> + 常数) 及同 <i>T</i>、同 <i>p</i> 时 <i>v</i> &lt; <i>v</i><sub>p</sub> 可直接看出；也可以由“<b>加热升温、膨胀作功</b>”理解：定容加热不膨胀、不作功，熵增更大，故同样温升下定容线更靠左、更陡。</p>
+    <div class="fml"><span class="tag">同点比较</span><p><i>s</i><sub>p</sub>(<i>T</i>) − <i>s</i><sub>v</sub>(<i>T</i>) = <i>R</i><sub>g</sub> ln(<i>v</i><sub>p</sub>/<i>v</i>) &gt; 0　（同一状态点上，定压线在定容线右侧）</p></div>
+    <figure>
+      <svg viewBox="0 0 620 250" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <line x1="62" y1="216" x2="586" y2="216" stroke="#333" stroke-width="1.8"/>
+        <polygon points="586,216 574,211 574,221" fill="#333"/>
+        <line x1="62" y1="216" x2="62" y2="26" stroke="#333" stroke-width="1.8"/>
+        <polygon points="62,26 57,38 67,38" fill="#333"/>
+        <text x="566" y="240" font-size="15" fill="#0b3d69">s</text>
+        <text x="42" y="34" font-size="15" fill="#0b3d69">T</text>
+        <path d="M96,210 C128,170 172,124 226,72" fill="none" stroke="#0b4f8a" stroke-width="2.2"/>
+        <path d="M176,210 C208,170 252,124 306,72" fill="none" stroke="#0b4f8a" stroke-width="2.2"/>
+        <path d="M256,210 C288,170 332,124 386,72" fill="none" stroke="#0b4f8a" stroke-width="2.2"/>
+        <path d="M104,212 C142,158 196,102 262,52" fill="none" stroke="#c0492b" stroke-width="2.4" stroke-dasharray="8 5"/>
+        <path d="M184,212 C222,158 276,102 342,52" fill="none" stroke="#c0492b" stroke-width="2.4" stroke-dasharray="8 5"/>
+        <path d="M264,212 C302,158 356,102 422,52" fill="none" stroke="#c0492b" stroke-width="2.4" stroke-dasharray="8 5"/>
+        <text x="306" y="106" font-size="13" fill="#0b4f8a">定压线</text>
+        <text x="196" y="72" font-size="13" fill="#c0492b">定容线</text>
+        <text x="130" y="186" font-size="12" fill="#666">p 升高</text>
+        <text x="112" y="128" font-size="12" fill="#666">v 增大</text>
+        <line x1="440" y1="120" x2="440" y2="216" stroke="#3d8b40" stroke-width="2.2"/>
+        <polygon points="440,120 434,134 446,134" fill="#3d8b40"/>
+        <text x="450" y="172" font-size="13" fill="#2e6b31">定熵 s 不变（垂直）</text>
+        <line x1="470" y1="60" x2="578" y2="60" stroke="#c8912a" stroke-width="2.2"/>
+        <polygon points="578,60 564,54 564,66" fill="#c8912a"/>
+        <text x="452" y="46" font-size="13" fill="#8f6410">定温 T 不变（水平）</text>
+      </svg>
+      <figcaption>图 15-1　<i>T</i>-<i>s</i> 图上的一族定压线与一族定容线。二者都向右上倾斜；<b>定容线更陡（陡度倍数 = <i>κ</i>）且位于定压线左侧</b>。绿色的<b>定熵线是垂直线</b>（<i>s</i> 不变），黄色的<b>定温线是水平线</b>（<i>T</i> 不变）——这就是题目要求的“垂直、水平关系特征”。</figcaption>
+    </figure>
+    <p class="step"><span class="badge">⑥</span>　<b>用途</b>：<i>T</i>-<i>s</i> 图上“<b>面积 = 热量</b>”，故可直观判断过程吸热还是放热（曲线向右 <i>s</i> 增大则吸热，向左则放热）；同时由 <i>q</i> = Δ<i>u</i> + <i>w</i> 可知定容线下的面积等于 Δ<i>u</i>（因 <i>w</i> = 0），定压线下的面积等于 Δ<i>h</i>（因 <i>w</i><sub>t</sub> = 0），这也是常考的读图结论。</p>
+  </div>
+  <div class="ans">得分点：① 斜率公式 (<i>∂T</i>/<i>∂s</i>)<sub>p</sub> = <i>T</i>/<i>c</i><sub>p</sub>、(<i>∂T</i>/<i>∂s</i>)<sub>v</sub> = <i>T</i>/<i>c</i><sub>v</sub>；② 定容线比定压线陡 <i>κ</i> 倍，且在同点左侧；③ <b>定熵线是垂直线</b>（<i>s</i> = 常数），<b>定温线是水平线</b>（<i>T</i> = 常数）；④ 面积 = 热量（定容线下 = Δ<i>u</i>，定压线下 = Δ<i>h</i>）。一句话结论：<i>T</i>-<i>s</i> 图上“垂直线 = 定熵、水平线 = 定温”，定容线比定压线更陡且更靠左。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① 把斜率记反：<i>T</i>-<i>s</i> 图上斜率是 <i>T</i>/<i>c</i>，<b><i>c</i> 在分母</b>，所以 <i>c</i><sub>v</sub> 小的定容线更陡；而 <i>p</i>-<i>v</i> 图上斜率含 <i>κ</i> 在分子，定熵线更陡。两个图的“谁更陡”结论恰好都用同一个 <i>κ</i> &gt; 1 解释，但公式形式不同，别混。② 不要漏“同一点”这个前提：不同状态点上的两条线不能直接比陡缓。③ 定温线只有在理想气体或两相区才同时是定压线（两相区 <i>T</i>、<i>p</i> 一一对应）；单相区定温线 ≠ 定压线。</p></div>
+
+<div class="prob">
+  <div class="pt">第 16 题　<i>p</i>-<i>v</i> 图、<i>T</i>-<i>s</i> 图：多变过程线斜率公式推导</div>
+  <div class="q">推导多变过程线在 <i>p</i>-<i>v</i> 图与 <i>T</i>-<i>s</i> 图上的斜率公式。</div>
+  <div class="sol">
+    <p><strong>（1）多变过程方程与指数定义。</strong>多变过程满足 <i>p</i><i>v</i><sup>n</sup> = 常数，<i>n</i> 称<b>多变指数</b>；理想气体定比热时，全部四个基本过程都是它的特例：</p>
+    <div class="fml"><span class="tag">特例</span><p><i>n</i> = 0 定压　|　<i>n</i> = 1 定温　|　<i>n</i> = <i>κ</i> 定熵　|　<i>n</i> = ±∞ 定容</p></div>
+    <p><strong>（2）<i>p</i>-<i>v</i> 图上的斜率。</strong>设多变过程 <i>p</i><i>v</i><sup>n</sup> = <i>C</i><sub>1</sub>，即 <i>p</i> = <i>C</i><sub>1</sub><i>v</i><sup>−n</sup>，直接求导：</p>
+    <div class="fml"><p>(<i>∂p</i>/<i>∂v</i>)<sub>n</sub> = −<i>n</i><i>C</i><sub>1</sub><i>v</i><sup>−n−1</sup> = −<i>n</i>(<i>p</i><i>v</i><sup>n</sup>)<i>v</i><sup>−n−1</sup> = −<i>n</i><i>p</i>/<i>v</i></p></div>
+    <div class="fml"><span class="tag">结论 1</span><p>(<i>∂p</i>/<i>∂v</i>)<sub>n</sub> = −<i>n</i> <i>p</i>/<i>v</i>　（负号表示 <i>p</i> 与 <i>v</i> 反向变化）</p></div>
+    <p>也可用隐函数微分法（便于在图上标“斜率 = 切线偏角”）：对 <i>p</i><i>v</i><sup>n</sup> = 常数 取对数 ln<i>p</i> + <i>n</i>ln<i>v</i> = 常数，微分得 d<i>p</i>/<i>p</i> + <i>n</i> d<i>v</i>/<i>v</i> = 0，即 d<i>p</i>/d<i>v</i> = −<i>n</i><i>p</i>/<i>v</i>，与上式一致。<b>斜率只与 <i>n</i>、当前状态点的 <i>p</i>/<i>v</i> 有关</b>，故在 <i>p</i>-<i>v</i> 图上同一状态点处，各过程的陡缓<b>仅由 <i>n</i> 决定</b>：<i>n</i> 越大，线越陡。</p>
+    <p><strong>（3）<i>T</i>-<i>s</i> 图上的斜率。</strong>由理想气体熵变式（第二 <i>T</i>d<i>s</i> 方程，定比热）</p>
+    <div class="fml"><p>d<i>s</i> = <i>c</i><sub>p</sub> d<i>T</i>/<i>T</i> − <i>R</i><sub>g</sub> d<i>p</i>/<i>p</i></p></div>
+    <p>对多变过程 ln<i>p</i> + <i>n</i>ln<i>v</i> = 常数 微分得 d<i>p</i>/<i>p</i> = −<i>n</i> d<i>v</i>/<i>v</i>；再对 <i>p</i><i>v</i> = <i>R</i><sub>g</sub><i>T</i> 取对数微分：d<i>p</i>/<i>p</i> + d<i>v</i>/<i>v</i> = d<i>T</i>/<i>T</i>，两式联立消去 d<i>v</i>/<i>v</i>：</p>
+    <div class="fml"><p>d<i>p</i>/<i>p</i> = −<i>n</i>(d<i>T</i>/<i>T</i> − d<i>p</i>/<i>p</i>)　⇒　(1 − <i>n</i>)d<i>p</i>/<i>p</i> = −<i>n</i> d<i>T</i>/<i>T</i>　⇒　d<i>p</i>/<i>p</i> = [<i>n</i>/(<i>n</i> − 1)] d<i>T</i>/<i>T</i></p></div>
+    <p>代回熵变式并利用迈耶公式 <i>R</i><sub>g</sub> = <i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> 与 <i>κ</i> = <i>c</i><sub>p</sub>/<i>c</i><sub>v</sub>：</p>
+    <div class="fml"><p>d<i>s</i> = <i>c</i><sub>p</sub> d<i>T</i>/<i>T</i> − <i>R</i><sub>g</sub>[<i>n</i>/(<i>n</i> − 1)] d<i>T</i>/<i>T</i> = {<i>c</i><sub>p</sub> − <i>R</i><sub>g</sub><i>n</i>/(<i>n</i> − 1)} d<i>T</i>/<i>T</i></p></div>
+    <p>整理括号：<i>c</i><sub>p</sub>(<i>n</i> − 1) − <i>R</i><sub>g</sub><i>n</i> = <i>n</i>(<i>c</i><sub>p</sub> − <i>R</i><sub>g</sub>) − <i>c</i><sub>p</sub> = <i>n</i><i>c</i><sub>v</sub> − <i>c</i><sub>p</sub> = <i>c</i><sub>v</sub>(<i>n</i> − <i>κ</i>)，于是</p>
+    <div class="fml"><p>d<i>s</i> = <i>c</i><sub>v</sub> (<i>n</i> − <i>κ</i>)/(<i>n</i> − 1) · d<i>T</i>/<i>T</i>　⇒　d<i>T</i>/d<i>s</i> = (<i>n</i> − 1)/[<i>c</i><sub>v</sub>(<i>n</i> − <i>κ</i>)] · <i>T</i></p></div>
+    <div class="fml"><span class="tag">结论 2</span><p>(<i>∂T</i>/<i>∂s</i>)<sub>n</sub> = <i>T</i>(<i>n</i> − 1)/[<i>c</i><sub>v</sub>(<i>n</i> − <i>κ</i>)]　（可写成 <i>T</i>/<i>c</i><sub>n</sub>，其中 <i>c</i><sub>n</sub> = <i>c</i><sub>v</sub>(<i>n</i> − <i>κ</i>)/(<i>n</i> − 1) 即多变比热）</p></div>
+    <p><strong>（4）由斜率公式读出的图形特征（考试重点）。</strong></p>
+    <p class="step"><span class="badge">①</span>　<i>p</i>-<i>v</i> 图上斜率 = −<i>n</i><i>p</i>/<i>v</i>：<i>n</i> = 0 水平线（定压）、<i>n</i> = 1 双曲线（定温）、<i>n</i> = <i>κ</i> 更陡的双曲线（定熵）、<i>n</i> = ∞ 时 −<i>n</i><i>p</i>/<i>v</i> → ∞ 为<b>竖直线</b>（定容）。故一族多变线在 <i>p</i>-<i>v</i> 图上按 <i>n</i> 由小到大“<b>扇形展开</b>”：水平 → 缓降 → 陡降 → 垂直。右半区（<i>v</i> 大）任意两条多变线中 <i>n</i> 大者更陡；左半区（<i>v</i> 小）则以定温线为界发生陡缓互换（因 <i>p</i> ∝ <i>v</i><sup>−n</sup> 在 <i>v</i> 小时衰减更快），这一细节常被作为思考题。</p>
+    <p class="step"><span class="badge">②</span>　<i>T</i>-<i>s</i> 图上斜率 = <i>T</i>/<i>c</i><sub>n</sub>，而 <i>c</i><sub>n</sub> = <i>c</i><sub>v</sub>(<i>n</i>−<i>κ</i>)/(<i>n</i>−1)。<b>分母 <i>c</i><sub>n</sub> 的符号决定曲线走向</b>：<i>n</i> &lt; 1 或 <i>n</i> &gt; <i>κ</i> 时 <i>c</i><sub>n</sub> &gt; 0，<i>T</i> 随 <i>s</i> 增大而升高（向右上）；1 &lt; <i>n</i> &lt; <i>κ</i> 时 <i>c</i><sub>n</sub> &lt; 0，<i>T</i> 随 <i>s</i> 增大而下降（向右下，此时“加热反而降温”，例如 <i>n</i> = 1.2 的膨胀）。</p>
+    <p class="step"><span class="badge">③</span>　特例核对：<i>n</i> = <i>κ</i> ⇒ <i>c</i><sub>n</sub> = 0 ⇒ 斜率无穷大 ⇒ <b>垂直线（定熵）</b>；<i>n</i> = 1 ⇒ <i>c</i><sub>n</sub> = <i>c</i><sub>v</sub>(1−<i>κ</i>)/(0) → ±∞ ⇒ 斜率为 0 ⇒ <b>水平线（定温）</b>；<i>n</i> = 0 ⇒ 斜率 <i>T</i>/<i>c</i><sub>p</sub>（定压线）；<i>n</i> = ∞ ⇒ 斜率 <i>T</i>/<i>c</i><sub>v</sub>（定容线，最陡）。与第 15 题结论完全一致。</p>
+    <p class="step"><span class="badge">④</span>　一般地，斜率可统一写成 <b><i>T</i>/<i>c</i></b>（<i>c</i> 为该过程的比热）：<i>c</i> = <i>c</i><sub>p</sub>（定压）、<i>c</i><sub>v</sub>（定容）、∞（定温 <i>T</i>d<i>s</i> = d<i>q</i> 中 d<i>T</i> = 0）、0（定熵）。这是最便于记忆的统一式。</p>
+    <div class="fml"><span class="tag">统一式</span><p>(<i>∂T</i>/<i>∂s</i>)<sub>过程</sub> = <i>T</i>/<i>c</i>　；　(<i>∂p</i>/<i>∂v</i>)<sub>过程</sub> = −(<i>c</i><sub>p</sub>/<i>c</i><sub>v</sub>′)<i>p</i>/<i>v</i> 型（多变时 <i>c</i><sub>p</sub>/<i>c</i><sub>v</sub>′ → <i>n</i>）</p></div>
+  </div>
+  <div class="ans">得分点：① <i>p</i>-<i>v</i> 图斜率 (<i>∂p</i>/<i>∂v</i>)<sub>n</sub> = −<i>n</i><i>p</i>/<i>v</i>（推导：<i>p</i> = <i>Cv</i><sup>−n</sup> 求导或取对数微分）；② <i>T</i>-<i>s</i> 图斜率 (<i>∂T</i>/<i>∂s</i>)<sub>n</sub> = <i>T</i>(<i>n</i>−1)/[<i>c</i><sub>v</sub>(<i>n</i>−<i>κ</i>)] = <i>T</i>/<i>c</i><sub>n</sub>（推导：d<i>s</i> = <i>c</i><sub>p</sub>d<i>T</i>/<i>T</i> − <i>R</i><sub>g</sub>d<i>p</i>/<i>p</i> 配合 d<i>p</i>/<i>p</i> = [<i>n</i>/(<i>n</i>−1)]d<i>T</i>/<i>T</i>）；③ 用四个特例（<i>n</i> = 0、1、<i>κ</i>、∞）核对水平/垂直/最陡；④ <i>c</i><sub>n</sub> 的符号决定 <i>T</i>-<i>s</i> 图上曲线走向。一句话结论：<i>p</i>-<i>v</i> 图斜率由 <i>n</i> 决定（<i>n</i> 大则陡，<i>n</i> = ∞ 垂直），<i>T</i>-<i>s</i> 图斜率统一为 <i>T</i>/<i>c</i>（<i>c</i> 为该过程比热）。</div>
+</div>
+<div class="box exam"><span class="bt">答题模板（斜率推导题）</span>
+<p>对 <i>p</i>-<i>v</i> 图：① 写 <i>p</i><i>v</i><sup>n</sup> = <i>C</i>；② 两边取对数再微分（最不易错）；③ 整理成 −<i>n</i><i>p</i>/<i>v</i>。<br>对 <i>T</i>-<i>s</i> 图：① 写 d<i>s</i> = <i>c</i><sub>p</sub>d<i>T</i>/<i>T</i> − <i>R</i><sub>g</sub>d<i>p</i>/<i>p</i>；② 由 <i>p</i><i>v</i><sup>n</sup> = <i>C</i> 与 <i>p</i><i>v</i> = <i>R</i><sub>g</sub><i>T</i> 联立求 d<i>p</i>/<i>p</i> 与 d<i>T</i>/<i>T</i> 的关系；③ 代入整理，用 <i>R</i><sub>g</sub> = <i>c</i><sub>v</sub>(<i>κ</i>−1) 化为 <i>c</i><sub>v</sub>(<i>n</i>−<i>κ</i>)/(<i>n</i>−1)；④ 用四个特例验证。</p></div>
+
+<div class="prob">
+  <div class="pt">第 17 题　多变比热计算式，并进一步求 <i>q</i>、<i>w</i>、<i>w</i><sub>t</sub></div>
+  <div class="q">推导多变比热的计算式，并进一步给出多变过程的 <i>q</i>、<i>w</i>、<i>w</i><sub>t</sub>。</div>
+  <div class="sol">
+    <p><strong>（1）多变比热的定义。</strong>多变比热定义为多变过程中“加入的热量与温升之比”：<i>c</i><sub>n</sub> = δ<i>q</i>/d<i>T</i>（沿多变过程 <i>p</i><i>v</i><sup>n</sup> = 常数）。</p>
+    <p><strong>（2）推导。</strong>取可逆过程能量方程（含耗散时用第 6 题结论，可逆时耗散项为零）：</p>
+    <p class="step">①　δ<i>q</i> = d<i>u</i> + <i>p</i>d<i>v</i> = <i>c</i><sub>v</sub>d<i>T</i> + <i>p</i>d<i>v</i>　（理想气体 d<i>u</i> = <i>c</i><sub>v</sub>d<i>T</i>）</p>
+    <p class="step">②　由 <i>p</i><i>v</i> = <i>R</i><sub>g</sub><i>T</i> 微分：<i>p</i>d<i>v</i> + <i>v</i>d<i>p</i> = <i>R</i><sub>g</sub>d<i>T</i>；由 <i>p</i><i>v</i><sup>n</sup> = 常数 得 <i>v</i>d<i>p</i> = −<i>n</i><i>p</i>d<i>v</i>，代入得</p>
+    <div class="fml"><p>(1 − <i>n</i>)<i>p</i>d<i>v</i> = <i>R</i><sub>g</sub>d<i>T</i>　⇒　<i>p</i>d<i>v</i> = <i>R</i><sub>g</sub>d<i>T</i>/(1 − <i>n</i>) = −<i>R</i><sub>g</sub>d<i>T</i>/(<i>n</i> − 1)</p></div>
+    <p class="step">③　代回 ①：δ<i>q</i> = <i>c</i><sub>v</sub>d<i>T</i> − <i>R</i><sub>g</sub>d<i>T</i>/(<i>n</i> − 1) = [<i>c</i><sub>v</sub> − <i>R</i><sub>g</sub>/(<i>n</i> − 1)]d<i>T</i></p>
+    <p class="step">④　用迈耶公式 <i>R</i><sub>g</sub> = <i>c</i><sub>v</sub>(<i>κ</i> − 1) 代入并通分：</p>
+    <div class="fml"><p><i>c</i><sub>n</sub> = <i>c</i><sub>v</sub> − <i>c</i><sub>v</sub>(<i>κ</i> − 1)/(<i>n</i> − 1) = <i>c</i><sub>v</sub>[(<i>n</i> − 1) − (<i>κ</i> − 1)]/(<i>n</i> − 1)</p></div>
+    <div class="fml"><span class="tag">多变比热</span><p><i>c</i><sub>n</sub> = <i>c</i><sub>v</sub> (<i>n</i> − <i>κ</i>)/(<i>n</i> − 1)　[ J/(kg·K) ]</p></div>
+    <p><strong>（3）四个基本过程核对（用 <i>c</i><sub>n</sub> 一网打尽）。</strong></p>
+    <table>
+      <tr><th>过程</th><th class="c"><i>n</i></th><th class="c"><i>c</i><sub>n</sub> = <i>c</i><sub>v</sub>(<i>n</i>−<i>κ</i>)/(<i>n</i>−1)</th><th class="c">物理解释</th></tr>
+      <tr><td>定压</td><td class="c">0</td><td class="c"><i>c</i><sub>v</sub>·(−<i>κ</i>)/(−1) = <i>κc</i><sub>v</sub> = <i>c</i><sub>p</sub></td><td>等于定压比热</td></tr>
+      <tr><td>定温</td><td class="c">1</td><td class="c">±∞</td><td>吸热而温度不变</td></tr>
+      <tr><td>定熵</td><td class="c"><i>κ</i></td><td class="c">0</td><td>吸热为零</td></tr>
+      <tr><td>定容</td><td class="c">±∞</td><td class="c"><i>c</i><sub>v</sub></td><td>等于定容比热</td></tr>
+    </table>
+    <p><strong>（4）<i>q</i>、<i>w</i>、<i>w</i><sub>t</sub> 的计算（全部用首末温差与 <i>n</i> 表示）。</strong></p>
+    <div class="fml"><span class="tag">热量</span><p><i>q</i> = <i>c</i><sub>n</sub>Δ<i>T</i> = <i>c</i><sub>v</sub>(<i>n</i> − <i>κ</i>)/(<i>n</i> − 1) · (<i>T</i><sub>2</sub> − <i>T</i><sub>1</sub>)</p></div>
+    <div class="fml"><span class="tag">膨胀功</span><p><i>w</i> = <i>q</i> − Δ<i>u</i> = <i>c</i><sub>n</sub>Δ<i>T</i> − <i>c</i><sub>v</sub>Δ<i>T</i> = −<i>R</i><sub>g</sub>(<i>T</i><sub>2</sub> − <i>T</i><sub>1</sub>)/(<i>n</i> − 1) = <i>R</i><sub>g</sub>(<i>T</i><sub>1</sub> − <i>T</i><sub>2</sub>)/(<i>n</i> − 1)</p></div>
+    <div class="fml"><p>也可由积分式核对：<i>w</i> = ∫<sub>1</sub><sup>2</sup><i>p</i>d<i>v</i> = <i>p</i><sub>1</sub><i>v</i><sub>1</sub>[1 − (<i>p</i><sub>2</sub>/<i>p</i><sub>1</sub>)<sup>(n−1)/n</sup>]/(<i>n</i> − 1) = (<i>R</i><sub>g</sub><i>T</i><sub>1</sub>/(<i>n</i>−1))[1 − (<i>v</i><sub>1</sub>/<i>v</i><sub>2</sub>)<sup>n−1</sup>]</p></div>
+    <div class="fml"><span class="tag">技术功</span><p><i>w</i><sub>t</sub> = <i>n</i><i>w</i> = <i>n</i><i>R</i><sub>g</sub>(<i>T</i><sub>1</sub> − <i>T</i><sub>2</sub>)/(<i>n</i> − 1) = −Δ<i>h</i> + <i>q</i> ＝ 可逆时 −∫<i>v</i>d<i>p</i></p></div>
+    <p><strong>（5）几个必须记住的关系。</strong></p>
+    <div class="fml left"><p>
+      <span class="badge">①</span> <i>w</i><sub>t</sub> = <i>n</i><i>w</i>（多变过程）；特别地，定熵 <i>w</i><sub>t</sub> = <i>κ</i><i>w</i>，定温 <i>w</i><sub>t</sub> = <i>w</i>（<i>n</i> = 1）。<br>
+      <span class="badge">②</span> <i>q</i> : <i>w</i> : Δ<i>u</i> = (<i>n</i> − <i>κ</i>) : (1 − <i>n</i>) : (<i>κ</i> − 1)　（三者之比只与 <i>n</i>、<i>κ</i> 有关，与状态点无关）。<br>
+      <span class="badge">③</span> <i>q</i>/<i>w</i> = (<i>n</i> − <i>κ</i>)/(1 − <i>n</i>)　；　Δ<i>u</i>/<i>w</i> = (<i>κ</i> − 1)/(1 − <i>n</i>)。<br>
+      <span class="badge">④</span> 定温过程（<i>n</i> = 1）：<i>q</i> = <i>w</i> = <i>R</i><sub>g</sub><i>T</i>ln(<i>v</i><sub>2</sub>/<i>v</i><sub>1</sub>) = <i>R</i><sub>g</sub><i>T</i>ln(<i>p</i><sub>1</sub>/<i>p</i><sub>2</sub>)，Δ<i>u</i> = 0。<br>
+      <span class="badge">⑤</span> 定熵过程（<i>n</i> = <i>κ</i>）：<i>q</i> = 0，<i>w</i> = −Δ<i>u</i>，<i>w</i><sub>t</sub> = −Δ<i>h</i> = <i>κ</i><i>w</i>。<br>
+      <span class="badge">⑥</span> 定容过程（<i>n</i> = ±∞）：<i>w</i> = 0，<i>q</i> = Δ<i>u</i> = <i>c</i><sub>v</sub>Δ<i>T</i>，<i>w</i><sub>t</sub> = −<i>v</i>Δ<i>p</i>。<br>
+      <span class="badge">⑦</span> 定压过程（<i>n</i> = 0）：<i>w</i> = <i>p</i>Δ<i>v</i> = <i>R</i><sub>g</sub>Δ<i>T</i>，<i>q</i> = Δ<i>h</i> = <i>c</i><sub>p</sub>Δ<i>T</i>，<i>w</i><sub>t</sub> = 0。
+    </p></div>
+    <p><strong>（6）吸热范围的判据。</strong>由 <i>q</i> = <i>c</i><sub>v</sub>(<i>n</i>−<i>κ</i>)/(<i>n</i>−1)·Δ<i>T</i> 与 <i>T</i>-<i>s</i> 图（d<i>s</i> = <i>c</i><sub>n</sub>d<i>T</i>/<i>T</i>）可得：膨胀（Δ<i>T</i> &lt; 0）时，<b>1 &lt; <i>n</i> &lt; <i>κ</i> 的过程吸热且同时膨胀降温</b>（<i>c</i><sub>n</sub> &lt; 0，<i>q</i> &gt; 0）；<i>n</i> &gt; <i>κ</i> 时膨胀过程放热；<i>n</i> &lt; 1 时膨胀升温吸热。这正是 <i>T</i>-<i>s</i> 图上多变线“扇形展开”中走向变化的根源。</p>
+  </div>
+  <div class="ans">得分点：① 定义 <i>c</i><sub>n</sub> = δ<i>q</i>/d<i>T</i>；② 推导：δ<i>q</i> = <i>c</i><sub>v</sub>d<i>T</i> + <i>p</i>d<i>v</i> 与 (1−<i>n</i>)<i>p</i>d<i>v</i> = <i>R</i><sub>g</sub>d<i>T</i> 联立；③ 结果 <i>c</i><sub>n</sub> = <i>c</i><sub>v</sub>(<i>n</i>−<i>κ</i>)/(<i>n</i>−1)，并核对四个特例；④ <i>q</i> = <i>c</i><sub>n</sub>Δ<i>T</i>、<i>w</i> = <i>R</i><sub>g</sub>(<i>T</i><sub>1</sub>−<i>T</i><sub>2</sub>)/(<i>n</i>−1) = <i>R</i><sub>g</sub><i>T</i><sub>1</sub>[1−(<i>p</i><sub>2</sub>/<i>p</i><sub>1</sub>)<sup>(n−1)/n</sup>]/(<i>n</i>−1)、<i>w</i><sub>t</sub> = <i>n</i><i>w</i>；⑤ 比值关系 <i>q</i>:<i>w</i>:Δ<i>u</i> = (<i>n</i>−<i>κ</i>):(1−<i>n</i>):(<i>κ</i>−1)。一句话结论：多变过程的一切过程量都由“温差 + 多变指数”两个因子决定。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① <i>n</i> = 1 时 <i>c</i><sub>n</sub> 公式出现 0/0 型，<b>必须单独处理</b>（用 <i>q</i> = <i>w</i> = <i>R</i><sub>g</sub><i>T</i>ln(<i>v</i><sub>2</sub>/<i>v</i><sub>1</sub>)）。② <i>w</i>、<i>w</i><sub>t</sub>、<i>q</i> 的正负与 <i>n</i>、Δ<i>T</i> 的符号都有关，写答案时注明符号约定。③ <i>c</i><sub>n</sub> 不是状态参数也不是物性常数，它随 <i>n</i> 变化，且可正、可负、可为零、可为无穷（定温）。④ <i>w</i><sub>t</sub> = <i>n</i><i>w</i> 只对<b>多变过程</b>（含四个特例）成立，不可乱用。</p></div>
+
+<div class="prob">
+  <div class="pt">第 18 题　<i>p</i>-<i>v</i> 图、<i>T</i>-<i>s</i> 图：卡诺正、逆循环，<i>η</i>、<i>ε</i><sub>1</sub>、<i>ε</i><sub>2</sub></div>
+  <div class="q">在 <i>p</i>-<i>v</i> 图与 <i>T</i>-<i>s</i> 图上画出卡诺正循环与逆循环，推导 <i>η</i><sub>t</sub>、<i>ε</i><sub>1</sub>、<i>ε</i><sub>2</sub>。</div>
+  <div class="sol">
+    <p><strong>（1）组成与循环图。</strong>卡诺循环由两个<b>可逆定温过程</b>与两个<b>可逆绝热（定熵）过程</b>组成，工质在恒温热源 <i>T</i><sub>1</sub> 与恒温冷源 <i>T</i><sub>2</sub>（<i>T</i><sub>1</sub> &gt; <i>T</i><sub>2</sub>）之间工作。</p>
+    <figure>
+      <svg viewBox="0 0 620 250" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <line x1="40" y1="212" x2="284" y2="212" stroke="#333" stroke-width="1.8"/>
+        <polygon points="284,212 272,207 272,217" fill="#333"/>
+        <line x1="40" y1="212" x2="40" y2="26" stroke="#333" stroke-width="1.8"/>
+        <polygon points="40,26 35,38 45,38" fill="#333"/>
+        <text x="266" y="236" font-size="15" fill="#0b3d69">v</text>
+        <text x="20" y="34" font-size="15" fill="#0b3d69">p</text>
+        <polygon points="88,64 236,84 236,186 88,132" fill="#eef4fa" stroke="#0b4f8a" stroke-width="2.2"/>
+        <text x="62" y="60" font-size="14" fill="#0b3d69">1</text>
+        <text x="242" y="80" font-size="14" fill="#0b3d69">2</text>
+        <text x="242" y="202" font-size="14" fill="#0b3d69">3</text>
+        <text x="62" y="140" font-size="14" fill="#0b3d69">4</text>
+        <polygon points="146,96 152,92 158,100" fill="#0b4f8a"/>
+        <text x="96" y="112" font-size="12" fill="#666">T₁ 吸热</text>
+        <text x="150" y="186" font-size="12" fill="#666">T₂ 放热</text>
+        <text x="104" y="52" font-size="12" fill="#666">定熵压缩</text>
+        <text x="176" y="182" font-size="12" fill="#666">定熵膨胀</text>
+        <line x1="356" y1="212" x2="600" y2="212" stroke="#333" stroke-width="1.8"/>
+        <polygon points="600,212 588,207 588,217" fill="#333"/>
+        <line x1="356" y1="212" x2="356" y2="26" stroke="#333" stroke-width="1.8"/>
+        <polygon points="356,26 351,38 361,38" fill="#333"/>
+        <text x="582" y="236" font-size="15" fill="#0b3d69">s</text>
+        <text x="336" y="34" font-size="15" fill="#0b3d69">T</text>
+        <polygon points="386,58 566,58 566,158 386,158" fill="#eef4fa" stroke="#0b4f8a" stroke-width="2.2"/>
+        <text x="374" y="64" font-size="14" fill="#0b3d69">1</text>
+        <text x="572" y="64" font-size="14" fill="#0b3d69">2</text>
+        <text x="572" y="172" font-size="14" fill="#0b3d69">3</text>
+        <text x="374" y="172" font-size="14" fill="#0b3d69">4</text>
+        <text x="404" y="46" font-size="12" fill="#666">T₁ 定温吸热</text>
+        <text x="412" y="180" font-size="12" fill="#666">T₂ 定温放热</text>
+        <polygon points="472,76 468,86 478,86" fill="#0b4f8a"/>
+      </svg>
+      <figcaption>图 18-1　左：卡诺正循环的 <i>p</i>-<i>v</i> 图（1→2 定温膨胀、2→3 定熵膨胀、3→4 定温压缩、4→1 定熵压缩，循环取顺时针方向，围成面积的代数和为正）；右：<i>T</i>-<i>s</i> 图（是一个<b>矩形</b>：上下两条水平线为定温过程，左右两条竖直线为定熵过程，矩形面积正是循环净功 <i>w</i><sub>0</sub> = <i>q</i><sub>1</sub> − |<i>q</i><sub>2</sub>|）。<b>逆循环</b>两图方向全部反向（<i>p</i>-<i>v</i> 图上逆时针、<i>T</i>-<i>s</i> 图上沿 1→4→3→2→1）。</figcaption>
+    </figure>
+    <p><strong>（2）正循环（热机）的热效率。</strong>四个过程的热量（定熵过程无热交换）：</p>
+    <div class="fml"><p><i>q</i><sub>1</sub> = <i>R</i><sub>g</sub><i>T</i><sub>1</sub>ln(<i>v</i><sub>2</sub>/<i>v</i><sub>1</sub>) &gt; 0（定温吸热）；　<i>q</i><sub>2</sub> = <i>R</i><sub>g</sub><i>T</i><sub>2</sub>ln(<i>v</i><sub>3</sub>/<i>v</i><sub>4</sub>) &lt; 0（定温放热，|<i>q</i><sub>2</sub>| = <i>R</i><sub>g</sub><i>T</i><sub>2</sub>ln(<i>v</i><sub>3</sub>/<i>v</i><sub>4</sub>)）</p></div>
+    <p>由两个定熵过程 <i>T</i><sub>1</sub><i>v</i><sub>2</sub><sup>κ−1</sup> = <i>T</i><sub>2</sub><i>v</i><sub>3</sub><sup>κ−1</sup> 与 <i>T</i><sub>1</sub><i>v</i><sub>1</sub><sup>κ−1</sup> = <i>T</i><sub>2</sub><i>v</i><sub>4</sub><sup>κ−1</sup> 相除得 <i>v</i><sub>2</sub>/<i>v</i><sub>1</sub> = <i>v</i><sub>3</sub>/<i>v</i><sub>4</sub>，故</p>
+    <div class="fml"><p>|<i>q</i><sub>2</sub>|/<i>q</i><sub>1</sub> = <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub></p></div>
+    <div class="fml"><span class="tag">卡诺热效率</span><p><i>η</i><sub>t,C</sub> = <i>w</i><sub>0</sub>/<i>q</i><sub>1</sub> = (<i>q</i><sub>1</sub> − |<i>q</i><sub>2</sub>|)/<i>q</i><sub>1</sub> = 1 − <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub></p></div>
+    <p>在 <i>T</i>-<i>s</i> 图上更直接：<i>q</i><sub>1</sub> = <i>T</i><sub>1</sub>Δ<i>s</i>（上水平线下矩形面积）、|<i>q</i><sub>2</sub>| = <i>T</i><sub>2</sub>Δ<i>s</i>（下水平线下面积）、<i>w</i><sub>0</sub> = (<i>T</i><sub>1</sub> − <i>T</i><sub>2</sub>)Δ<i>s</i>（矩形面积），于是 <i>η</i><sub>t,C</sub> = (<i>T</i><sub>1</sub>−<i>T</i><sub>2</sub>)/<i>T</i><sub>1</sub>。</p>
+    <p><strong>（3）逆循环（制冷机与热泵）。</strong>循环方向反向：消耗净功 <i>w</i><sub>0</sub>，从低温热源吸热 <i>q</i><sub>2</sub>，向高温热源放热 <i>q</i><sub>1</sub> = <i>q</i><sub>2</sub> + <i>w</i><sub>0</sub>。</p>
+    <div class="fml"><span class="tag">制冷系数</span><p><i>ε</i><sub>1</sub> = <i>q</i><sub>2</sub>/<i>w</i><sub>0</sub> = <i>q</i><sub>2</sub>/(<i>q</i><sub>1</sub> − <i>q</i><sub>2</sub>) = <i>T</i><sub>2</sub>/(<i>T</i><sub>1</sub> − <i>T</i><sub>2</sub>)</p></div>
+    <div class="fml"><span class="tag">供暖系数（热泵）</span><p><i>ε</i><sub>2</sub> = <i>q</i><sub>1</sub>/<i>w</i><sub>0</sub> = <i>q</i><sub>1</sub>/(<i>q</i><sub>1</sub> − <i>q</i><sub>2</sub>) = <i>T</i><sub>1</sub>/(<i>T</i><sub>1</sub> − <i>T</i><sub>2</sub>)</p></div>
+    <p>两者关系：<i>ε</i><sub>2</sub> = <i>ε</i><sub>1</sub> + 1（因 <i>q</i><sub>1</sub> = <i>q</i><sub>2</sub> + <i>w</i><sub>0</sub>）。注意 <i>ε</i><sub>1</sub>、<i>ε</i><sub>2</sub> 均可大于 1，甚至远大于 1（如 <i>T</i><sub>1</sub> = 300 K、<i>T</i><sub>2</sub> = 270 K 时 <i>ε</i><sub>1</sub> = 9、<i>ε</i><sub>2</sub> = 10），这与热效率 <i>η</i><sub>t</sub> &lt; 1 并不矛盾（评价的“收益/代价”不同）。</p>
+    <p><strong>（4）结论与讨论。</strong></p>
+    <p class="step"><span class="badge">①</span>　卡诺循环效率<b>只取决于两个热源的温度 <i>T</i><sub>1</sub>、<i>T</i><sub>2</sub></b>，与工质性质无关；<i>η</i><sub>t,C</sub> &lt; 1，且只有在 <i>T</i><sub>2</sub> = 0 K 或 <i>T</i><sub>1</sub> → ∞ 时才等于 1，故<b>不可能</b>把热量连续全部转变为功（第二定律的 Kelvin 表述）。</p>
+    <p class="step"><span class="badge">②</span>　提高 <i>η</i><sub>t</sub> 的方向：提高 <i>T</i><sub>1</sub>、降低 <i>T</i><sub>2</sub>；由于 <i>T</i><sub>2</sub> 受环境温度限制，实际主要靠提高 <i>T</i><sub>1</sub>。</p>
+    <p class="step"><span class="badge">③</span>　卡诺循环在 <i>T</i>-<i>s</i> 图上是矩形，<b>面积 = 净功</b>；<i>T</i><sub>1</sub> 与 <i>T</i><sub>2</sub> 越接近，矩形越扁，<i>η</i><sub>t</sub> 越低。</p>
+    <p class="step"><span class="badge">④</span>　两个定温过程需要无限大换热面积、且活塞速度受限制，故<b>实际无法完全实现卡诺循环</b>，其价值在于给出了效率的理论上限（见第 19 题卡诺定理）。</p>
+    <p class="step"><span class="badge">⑤</span>　广义（概括性）卡诺循环：若热源温度随换热过程变化（变温热源），可证明其热效率仍为 <i>η</i><sub>t</sub> = 1 − <i>T</i><sub>2m</sub>/<i>T</i><sub>1m</sub>，其中 <i>T</i><sub>1m</sub>、<i>T</i><sub>2m</sub> 为换热过程中的<b>平均温度</b>（由 Δ<i>s</i> = ∫δ<i>q</i>/<i>T</i> 定义），这说明决定效率的是换热时工质的平均吸热温度与平均放热温度。</p>
+  </div>
+  <div class="ans">得分点：① 两图（<i>p</i>-<i>v</i> 图两个定温线 + 两个定熵线，<i>T</i>-<i>s</i> 图矩形；正循环顺时针、逆循环反向）；② <i>q</i><sub>1</sub>、<i>q</i><sub>2</sub> 的定温换热式与 <i>v</i><sub>2</sub>/<i>v</i><sub>1</sub> = <i>v</i><sub>3</sub>/<i>v</i><sub>4</sub>；③ <i>η</i><sub>t,C</sub> = 1 − <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub>；④ <i>ε</i><sub>1</sub> = <i>T</i><sub>2</sub>/(<i>T</i><sub>1</sub>−<i>T</i><sub>2</sub>)（制冷）、<i>ε</i><sub>2</sub> = <i>T</i><sub>1</sub>/(<i>T</i><sub>1</sub>−<i>T</i><sub>2</sub>)（供暖），且 <i>ε</i><sub>2</sub> = <i>ε</i><sub>1</sub> + 1；⑤ 效率只与热源温度有关、与工质无关。一句话结论：卡诺循环效率是温度的函数 <i>η</i> = 1 − <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub>，逆循环的 <i>ε</i><sub>1</sub>、<i>ε</i><sub>2</sub> 可以大于 1。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① 忘记“两个定温 + 两个定熵”这一组成，把卡诺循环画成别的形状。<b><i>T</i>-<i>s</i> 图上卡诺循环一定是矩形</b>（这是最好用的判据）。② <i>T</i> 必须是<b>热力学温度</b>（K），用摄氏度代入必错。③ 逆循环的 <i>ε</i><sub>1</sub>、<i>ε</i><sub>2</sub> 分母都是净功 <i>w</i><sub>0</sub> = <i>q</i><sub>1</sub> − <i>q</i><sub>2</sub>，不要把 <i>q</i><sub>1</sub> 或 <i>q</i><sub>2</sub> 单独当分母。④ 不要把 <i>η</i><sub>t</sub> 与 <i>ε</i> 混用：热机用 <i>η</i><sub>t</sub>，制冷/热泵用 <i>ε</i>。</p></div>
+
+<div class="prob">
+  <div class="pt">第 19 题　卡诺定理、克劳修斯不等式</div>
+  <div class="q">叙述卡诺定理，写出克劳修斯不等式并证明（或说明）二者的关系。</div>
+  <div class="sol">
+    <p><strong>（1）卡诺定理。</strong>工作在<b>给定</b>两个恒温热源 <i>T</i><sub>1</sub>、<i>T</i><sub>2</sub>（<i>T</i><sub>1</sub> &gt; <i>T</i><sub>2</sub>）之间的一切热机，其热效率不可能大于可逆热机（卡诺热机）的热效率：</p>
+    <div class="fml"><span class="tag">卡诺定理</span><p><i>η</i><sub>t</sub> ≤ <i>η</i><sub>t,C</sub> = 1 − <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub>　（等号仅当循环<b>可逆</b>时成立）</p></div>
+    <p>它包含两条推论：（a）<b>一切可逆热机</b>工作于同样两热源之间时，效率都相等，与工质种类、循环具体形式无关；（b）一切不可逆热机的效率都小于可逆热机的效率。由（a）可知 <i>η</i><sub>t,C</sub> 只是 <i>T</i><sub>1</sub>、<i>T</i><sub>2</sub> 的函数，这就为<b>热力学温标</b>提供了客观基础。</p>
+    <p><strong>（2）克劳修斯不等式。</strong>对任意循环，沿整个循环积分</p>
+    <div class="fml"><span class="tag">克劳修斯不等式</span><p>∮ (δ<i>q</i>/<i>T</i><sub>源</sub>) ≤ 0　（可逆取等号，不可逆取小于号）</p></div>
+    <p>其中 <i>T</i><sub>源</sub> 是<b>热源（边界）的温度</b>，不是工质的温度——这是最关键的细节。若循环中有若干段与温度分别为 <i>T</i><sub>1</sub>、<i>T</i><sub>2</sub>…的热源换热，可写成</p>
+    <div class="fml"><p>Σ(<i>q</i><sub>i</sub>/<i>T</i><sub>i</sub>) ≤ 0</p></div>
+    <p><strong>（3）从卡诺定理导出克劳修斯不等式（正循环情形）。</strong>设热机在 <i>T</i><sub>1</sub>、<i>T</i><sub>2</sub> 间工作，吸热 <i>q</i><sub>1</sub>、放热 |<i>q</i><sub>2</sub>|，由卡诺定理</p>
+    <p class="step">①　<i>η</i><sub>t</sub> = (<i>q</i><sub>1</sub> − |<i>q</i><sub>2</sub>|)/<i>q</i><sub>1</sub> ≤ 1 − <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub></p>
+    <p class="step">②　两边同乘（正数）得 1 − |<i>q</i><sub>2</sub>|/<i>q</i><sub>1</sub> ≤ 1 − <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub>　⇒　|<i>q</i><sub>2</sub>|/<i>q</i><sub>1</sub> ≥ <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub></p>
+    <p class="step">③　移项并注意放热应取负值（<i>q</i><sub>2</sub> = −|<i>q</i><sub>2</sub>|）：</p>
+    <div class="fml"><p><i>q</i><sub>1</sub>/<i>T</i><sub>1</sub> + <i>q</i><sub>2</sub>/<i>T</i><sub>2</sub> ≤ 0　⇒　∮(δ<i>q</i>/<i>T</i><sub>源</sub>) ≤ 0</p></div>
+    <p>可逆循环时卡诺定理取等号，于是 ∮(δ<i>q</i><sub>rev</sub>/<i>T</i>) = 0，这正是<b>熵作为状态参数存在</b>的充要条件：因 ∮d<i>s</i> = 0，d<i>s</i> = δ<i>q</i><sub>rev</sub>/<i>T</i> 必为全微分。</p>
+    <p><strong>（4）不等式的意义与推论。</strong></p>
+    <p class="step"><span class="badge">①</span>　它把第二定律的各种文字表述<b>统一成一个数学判据</b>：只要算出 ∮(δ<i>q</i>/<i>T</i><sub>源</sub>) 的符号，即可判断循环是否可行、是否可逆——&gt; 0 的循环<b>不可能实现</b>。</p>
+    <p class="step"><span class="badge">②</span>　对<b>不可逆循环</b> ∮(δ<i>q</i>/<i>T</i><sub>源</sub>) &lt; 0，差额正是循环内部不可逆造成的熵产：∮(δ<i>q</i>/<i>T</i><sub>源</sub>) = −∮δ<i>s</i><sub>g</sub>，而 δ<i>s</i><sub>g</sub> = δ<i>q</i>/<i>T</i><sub>源</sub> − δ<i>q</i><sub>rev</sub>/<i>T</i> ≥ 0。</p>
+    <p class="step"><span class="badge">③</span>　由它可导出<b>熵方程与熵增原理</b>：对任意过程 d<i>s</i> ≥ δ<i>q</i>/<i>T</i><sub>源</sub>（即 d<i>s</i> = δ<i>q</i>/<i>T</i><sub>源</sub> + δ<i>s</i><sub>g</sub>）；对<b>孤立系统</b>（δ<i>q</i> = 0）则 Δ<i>s</i><sub>iso</sub> ≥ 0，不可逆时严格增大。这就是第 21 题“不可逆损失”的出发点。</p>
+    <p class="step"><span class="badge">④</span>　由它还能直接证明卡诺定理的等价形式：<i>T</i><sub>1</sub>、<i>T</i><sub>2</sub> 之间的任何循环都有 |<i>q</i><sub>2</sub>|/|<i>q</i><sub>1</sub>| ≥ <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub>，故 <i>η</i><sub>t</sub> 有上限。此外它还可用来推导克劳修斯–克拉贝龙方程（两相平衡线的斜率关系）。</p>
+    <p class="step"><span class="badge">⑤</span>　三种温度要分清：<i>T</i><sub>源</sub>（热源温度，积分的分母）、<i>T</i><sub>工质</sub>（工质温度）、<i>T</i><sub>0</sub>（环境温度）。只有<b>可逆</b>时才有 <i>T</i><sub>源</sub> = <i>T</i><sub>工质</sub>，此时 ∮(δ<i>q</i>/<i>T</i><sub>工质</sub>) = 0。</p>
+  </div>
+  <div class="ans">得分点：① 卡诺定理表述（<i>η</i><sub>t</sub> ≤ 1 − <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub>，等号仅可逆）＋两点推论（可逆热机效率相等、不可逆热机效率更低）；② 克劳修斯不等式 ∮(δ<i>q</i>/<i>T</i><sub>源</sub>) ≤ 0 并强调 <i>T</i><sub>源</sub> 是热源温度；③ 二者关系的证明与统一；④ 由它导出可逆时 ∮δ<i>q</i><sub>rev</sub>/<i>T</i> = 0（熵存在的依据）与不可逆时 Δ<i>s</i><sub>iso</sub> &gt; 0。一句话结论：卡诺定理给出效率上限，克劳修斯不等式把它变成可计算的循环判据 ∮(δ<i>q</i>/<i>T</i><sub>源</sub>) ≤ 0。</div>
+</div>
+<div class="box exam"><span class="bt">答题模板（“定理 + 不等式”类）</span>
+<p>先给“文字表述 + 数学表达式”成对（卡诺定理、克劳修斯不等式各一组），再写“推导/说明二者联系”，最后写“推论与用途”（熵的存在性、熵增原理、效率上限、判定循环可行性）。每一条都点明等号条件（可逆）。</p></div>
+
+<div class="pagebreak"></div>
+<h1>第四部分　熵方程、不可逆损失与压气机（第 20—25 题）</h1>
+
+<div class="lead">本部分收紧到不可逆性及其代价：绝热稳定流动的熵方程（20）→ 不可逆损失的定量计算 <i>w</i><sub>l</sub> = <i>T</i>₀<i>s</i><sub>g</sub>（21）→ 压气机不可逆压气功的 <i>T</i>-<i>s</i> 表示，即全表示与半表示（22）与 <i>p</i>-<i>v</i> 表示（23）→ 余隙容积的影响（24）→ 多级压缩中间冷却（25）。这几题最容易“写出公式却讲不清物理意义”，答题时要把每个符号对应的<b>面积或焓差</b>说清楚。</div>
+
+<div class="prob">
+  <div class="pt">第 20 题　一个入口一个出口、绝热稳定流动：熵方程（开口、闭口）</div>
+  <div class="q">写出一个入口、一个出口的绝热稳定流动开口系统的熵方程，并说明它与闭口系统熵方程的关系。</div>
+  <div class="sol">
+    <p><strong>（1）系统简图与已知条件。</strong>取图中虚线所示<b>控制体</b>（开口系统）：一个进口 1、一个出口 2，外壳<b>绝热</b>（δ<i>q</i> = 0）、<b>稳定流动</b>（控制体内各点状态不随时间变化，故 d<i>S</i><sub>CV</sub> = 0）、无功的输入输出。</p>
+    <figure>
+      <svg viewBox="0 0 600 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <rect x="180" y="45" width="240" height="110" fill="none" stroke="#0b3d69" stroke-width="2" stroke-dasharray="7 5"/>
+        <line x1="55" y1="100" x2="180" y2="100" stroke="#0b3d69" stroke-width="2"/>
+        <polygon points="180,100 167,94 167,106" fill="#0b3d69"/>
+        <line x1="420" y1="100" x2="545" y2="100" stroke="#0b3d69" stroke-width="2"/>
+        <polygon points="545,100 532,94 532,106" fill="#0b3d69"/>
+        <text x="62" y="88" font-size="12" fill="#666">进口 1</text>
+        <text x="492" y="88" font-size="12" fill="#666">出口 2</text>
+        <text x="255" y="82" font-size="12" fill="#666">绝热</text>
+        <text x="255" y="122" font-size="12" fill="#666">控制体</text>
+        <text x="180" y="52" font-size="12" fill="#8f6410">s₁</text>
+        <text x="424" y="52" font-size="12" fill="#8f6410">s₂</text>
+      </svg>
+      <figcaption>图 20-1　一个入口、一个出口的绝热稳定流动开口系统（控制体）。外壳绝热，故熵流为零；进出口的比熵分别为 <i>s</i>₁、<i>s</i>₂，两者之差只能由内部不可逆（熵产）造成。</figcaption>
+    </figure>
+
+    <p><strong>（2）开口系统熵方程的一般式。</strong>熵是状态参数，控制体的熵变由三部分组成：随热量进出的<b>熵流</b>、系统内部不可逆造成的<b>熵产</b>、随质量流带进带出的熵：</p>
+    <div class="fml"><span class="tag">一般式</span><p>d<i>S</i><sub>CV</sub> = δ<i>S</i><sub>f</sub> + δ<i>S</i><sub>g</sub> + Σ <i>s</i><sub>in</sub>δ<i>m</i><sub>in</sub> − Σ <i>s</i><sub>out</sub>δ<i>m</i><sub>out</sub>　，　δ<i>S</i><sub>f</sub> = δ<i>Q</i>/<i>T</i><sub>源</sub>　，　δ<i>S</i><sub>g</sub> ≥ 0</p></div>
+    <p>其中 <i>T</i><sub>源</sub> 是<b>热源（系统边界）的温度</b>，不是工质温度（只有可逆时二者相等）。对一进一出，δ<i>m</i>₁ = δ<i>m</i>₂ = δ<i>m</i>，一般式成为</p>
+    <div class="fml"><p>d<i>S</i><sub>CV</sub> = δ<i>Q</i>/<i>T</i><sub>源</sub> + δ<i>S</i><sub>g</sub> + (<i>s</i>₁ − <i>s</i>₂)δ<i>m</i></p></div>
+
+    <p><strong>（3）代入绝热稳定流动条件。</strong>稳定流动：d<i>S</i><sub>CV</sub> = 0；绝热：δ<i>Q</i> = 0，即熵流 δ<i>S</i><sub>f</sub> = 0。代入上式并两边同除 δ<i>m</i>：</p>
+    <div class="fml"><p>0 = δ<i>S</i><sub>g</sub> + (<i>s</i>₁ − <i>s</i>₂)δ<i>m</i>　⇒　<i>s</i>₂ − <i>s</i>₁ = δ<i>S</i><sub>g</sub>/δ<i>m</i> = <i>s</i><sub>g</sub></p></div>
+    <div class="fml"><span class="tag">开口系熵方程（绝热稳定流动）</span><p><i>s</i>₂ − <i>s</i>₁ = <i>s</i><sub>g</sub> ≥ 0　，即　<i>s</i>₂ ≥ <i>s</i>₁</p></div>
+    <p>写成有限过程形式（<i>q</i><sub>m</sub> 为质量流量，τ 为时间）：</p>
+    <div class="fml"><p><i>S</i><sub>g</sub> = <i>q</i><sub>m</sub>τ(<i>s</i>₂ − <i>s</i>₁) ≥ 0　；　有传热时 <i>s</i>₂ − <i>s</i>₁ = ∫(δ<i>q</i>/<i>T</i><sub>源</sub>) + <i>s</i><sub>g</sub></p></div>
+
+    <p><strong>（4）闭口系统（控制质量）熵方程。</strong>对闭口系，只交换热量而不交换质量，一般式中不含质量流项：</p>
+    <div class="fml"><span class="tag">闭口系熵方程</span><p>d<i>s</i> = δ<i>q</i>/<i>T</i><sub>源</sub> + δ<i>s</i><sub>g</sub>　（δ<i>s</i><sub>g</sub> ≥ 0）；有限过程 Δ<i>s</i> = ∫δ<i>q</i>/<i>T</i><sub>源</sub> + <i>s</i><sub>g</sub></p></div>
+    <p>物理含义：<b>熵变 = 熵流 + 熵产</b>。熵流 ∫δ<i>q</i>/<i>T</i><sub>源</sub> 可正（吸热）、可负（放热）、可零（绝热）；熵产 <i>s</i><sub>g</sub> 由摩擦、涡流、温差传热、自由膨胀等不可逆因素造成，<b>恒不为负</b>，可逆过程才为零。绝热闭口系 δ<i>q</i> = 0，于是</p>
+    <div class="fml"><p>d<i>s</i> = δ<i>s</i><sub>g</sub> ≥ 0　（可逆绝热时 d<i>s</i> = 0，即定熵过程）</p></div>
+
+    <p><strong>（5）两者的关系。</strong>开口系熵方程就是闭口系熵方程再补上“质量流带进带出的熵”。若把控制体在 dτ 内看成闭口系（控制质量），其熵变为 d<i>S</i><sub>CV</sub>，则</p>
+    <div class="fml"><p>d<i>S</i><sub>CV</sub> = δ<i>Q</i>/<i>T</i><sub>源</sub> + δ<i>S</i><sub>g</sub> + <i>s</i>₁δ<i>m</i>₁ − <i>s</i>₂δ<i>m</i>₂　——与（2）式完全相同</p></div>
+    <p>可见二者只是“系统取法”不同：<b>闭口系</b>研究<b>控制质量</b>的熵变（熵流 + 熵产），<b>开口系</b>还要加上进、出口质量携带的熵；两者都以 δ<i>s</i><sub>g</sub> ≥ 0 为第二定律的数学表述。对绝热稳定流动，进出的熵通量之差正好等于熵产，故工程上常用 <b><i>s</i><sub>g</sub> = <i>s</i>₂ − <i>s</i>₁</b> 直接由进、出口状态算不可逆损失（见第 21、22 题）。</p>
+
+    <p><strong>（6）结论与应用。</strong></p>
+    <p class="step"><span class="badge">①</span>　绝热稳定流动：<b>出口比熵不小于进口比熵</b>，<i>s</i>₂ ≥ <i>s</i>₁；差值就是单位质量熵产 <i>s</i><sub>g</sub>。</p>
+    <p class="step"><span class="badge">②</span>　可逆（理想）绝热流动 <i>s</i>₂ = <i>s</i>₁，是<b>定熵流动</b>：喷管、扩压管、叶轮机械的理想过程、可逆绝热压缩与膨胀都按此计算。</p>
+    <p class="step"><span class="badge">③</span>　实际过程因摩擦、涡流、分离等不可逆因素，<i>s</i>₂ &gt; <i>s</i>₁，熵增越大说明不可逆损失越大。</p>
+    <p class="step"><span class="badge">④</span>　对<b>孤立系</b>（与外界无热、无质、无功交换）δ<i>q</i> = 0，由闭口系熵方程得 Δ<i>s</i><sub>iso</sub> = <i>s</i><sub>g</sub> ≥ 0，这就是<b>熵增原理</b>，也是判断过程能否实现、是否可逆的普遍判据。</p>
+  </div>
+  <div class="ans">得分点：① 一般式 d<i>S</i><sub>CV</sub> = δ<i>Q</i>/<i>T</i><sub>源</sub> + δ<i>S</i><sub>g</sub> + Σ<i>s</i><sub>in</sub>δ<i>m</i><sub>in</sub> − Σ<i>s</i><sub>out</sub>δ<i>m</i><sub>out</sub>（熵流 + 熵产 + 进出质量熵）；② 绝热稳定流动时 d<i>S</i><sub>CV</sub> = 0、δ<i>Q</i> = 0，得 <b><i>s</i>₂ − <i>s</i>₁ = <i>s</i><sub>g</sub> ≥ 0</b>；③ 闭口系熵方程 d<i>s</i> = δ<i>q</i>/<i>T</i><sub>源</sub> + δ<i>s</i><sub>g</sub>，绝热时 d<i>s</i> = δ<i>s</i><sub>g</sub> ≥ 0；④ 可逆绝热（定熵）<i>s</i>₂ = <i>s</i>₁，孤立系 Δ<i>s</i><sub>iso</sub> ≥ 0；⑤ 熵流可正可负、熵产恒非负。一句话结论：绝热稳定流动的熵方程就是 <i>s</i>₂ − <i>s</i>₁ = <i>s</i><sub>g</sub> ≥ 0——出口熵只增不减，可逆即定熵。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① <b>绝热 ≠ 定熵</b>：绝热只保证熵流为零，熵产仍可使 <i>s</i>₂ &gt; <i>s</i>₁；只有“绝热 + 可逆”才定熵。② 把<b>熵流</b>与<b>熵产</b>混为一谈：熵流由传热引起、可正可负；熵产由不可逆引起、只能 ≥ 0，两者物理本质不同。③ 写 δ<i>q</i>/<i>T</i><sub>源</sub> 时误用工质温度：不可逆时 <i>T</i><sub>源</sub> ≠ <i>T</i><sub>工质</sub>，若用 <i>T</i><sub>工质</sub> 算出的不是熵流。④ 稳定流动 d<i>S</i><sub>CV</sub> = 0 说的是<b>控制体</b>总熵不随时间变，不能由此说“进、出口熵相等”。⑤ 别漏质量流项：开口系若把 (s₁ − s₂)δ<i>m</i> 丢掉，就会得出“绝热流动必然定熵”的错误结论。</p></div>
+
+<div class="prob">
+  <div class="pt">第 21 题　不可逆损失</div>
+  <div class="q">说明什么叫不可逆损失，写出其与熵产（孤立系熵增）的定量关系，并举例说明减少损失的途径。</div>
+  <div class="sol">
+    <p><strong>（1）什么叫不可逆损失。</strong>一切实际过程都有摩擦、温差传热、压差流动、自由膨胀、混合等不可逆因素，它们使一部分本来可以转变为机械功的能量“贬值”为内能（或使得到同样的结果必须多耗功），这部分<b>损失的作功能力</b>称为<b>不可逆损失</b>（有用功损失、作功能力损失），记为 <i>w</i><sub>l</sub>，单位 J/kg。它<b>不是能量的数量损失</b>（能量总量由第一定律守恒），而是<b>能量的品质损失</b>——这正是第二定律要回答的问题。</p>
+
+    <p><strong>（2）与熵产的定量关系（孤立系熵增法）。</strong>把<b>系统</b>与<b>环境</b>（温度 <i>T</i>₀）合起来取作<b>孤立系</b>，则孤立系与外界无任何交换，其熵变全部是熵产：Δ<i>s</i><sub>iso</sub> = <i>s</i><sub>g</sub> ≥ 0，于是</p>
+    <div class="fml"><span class="tag">不可逆损失（居伊–斯托多拉公式）</span><p><i>w</i><sub>l</sub> = <i>T</i>₀ Δ<i>s</i><sub>iso</sub> = <i>T</i>₀ <i>s</i><sub>g</sub>　≥ 0　（<i>T</i>₀ 为环境温度，K）</p></div>
+    <p>即：<b>任何不可逆损失都等于环境温度乘以系统的熵产</b>（或孤立系熵增）。可逆时 <i>s</i><sub>g</sub> = 0，损失为零。</p>
+
+    <p><strong>（3）公式的推导（闭口系一般情形）。</strong>取闭口系由状态 1 变到状态 2，环境温度 <i>T</i>₀、压力 <i>p</i>₀。相对环境而言，工质<b>最大有用功</b>（可逆时能给出的有用功）与系统能量的可用部分有关：</p>
+    <p class="step">①　最大有用功：<i>w</i><sub>u,max</sub> = (<i>u</i>₁ − <i>u</i>₂) + <i>p</i>₀(<i>v</i>₁ − <i>v</i>₂) − <i>T</i>₀(<i>s</i>₁ − <i>s</i>₂)</p>
+    <p class="step">②　实际有用功（能量方程 <i>q</i> = Δ<i>u</i> + <i>w</i>，扣除推挤环境大气的功 <i>p</i>₀(<i>v</i>₂ − <i>v</i>₁)）：<i>w</i><sub>u</sub> = <i>q</i> − (<i>u</i>₂ − <i>u</i>₁) − <i>p</i>₀(<i>v</i>₂ − <i>v</i>₁)</p>
+    <p class="step">③　两者相减：<i>w</i><sub>l</sub> = <i>w</i><sub>u,max</sub> − <i>w</i><sub>u</sub> = <i>T</i>₀(<i>s</i>₂ − <i>s</i>₁) − <i>q</i></p>
+    <p class="step">④　由熵方程 Δ<i>s</i> = <i>q</i>/<i>T</i>₀ + <i>s</i><sub>g</sub>（环境吸热 −<i>q</i>，熵变 −<i>q</i>/<i>T</i>₀），得 Δ<i>s</i><sub>iso</sub> = <i>s</i>₂ − <i>s</i>₁ − <i>q</i>/<i>T</i>₀ = <i>s</i><sub>g</sub>，代入 ③：</p>
+    <div class="fml"><p><i>w</i><sub>l</sub> = <i>T</i>₀(<i>s</i>₂ − <i>s</i>₁ − <i>q</i>/<i>T</i>₀) = <i>T</i>₀ Δ<i>s</i><sub>iso</sub> = <i>T</i>₀ <i>s</i><sub>g</sub></p></div>
+    <p>推导中唯一的“损失”来源就是 <i>s</i><sub>g</sub>：凡不可逆必有熵产，凡熵产必折合为 <i>T</i>₀<i>s</i><sub>g</sub> 的作功能力损失。</p>
+
+    <p><strong>（4）用温差传热验证公式（最直观的例子）。</strong>设有热量 <i>q</i> 由温度 <i>T</i>（&gt; <i>T</i>₀）的热源直接传给环境 <i>T</i>₀：孤立系熵增为</p>
+    <div class="fml"><p>Δ<i>s</i><sub>iso</sub> = <i>q</i>/<i>T</i>₀ − <i>q</i>/<i>T</i> = <i>q</i>(<i>T</i> − <i>T</i>₀)/(<i>T T</i>₀) &gt; 0　⇒　<i>w</i><sub>l</sub> = <i>T</i>₀Δ<i>s</i><sub>iso</sub> = <i>q</i>(<i>T</i> − <i>T</i>₀)/<i>T</i></p></div>
+    <p>而若让这同一份热量 <i>q</i> 先经过可逆热机（工作在 <i>T</i> 与 <i>T</i>₀ 之间），能作出的最大功为 <i>w</i><sub>max</sub> = <i>q</i>(1 − <i>T</i>₀/<i>T</i>) = <i>q</i>(<i>T</i> − <i>T</i>₀)/<i>T</i>，与上式完全一致。可见“直接传热白扔掉的作功能力”正是 <i>T</i>₀Δ<i>s</i><sub>iso</sub>。</p>
+
+    <p><strong>（5）常见不可逆过程的损失表达式。</strong></p>
+    <table>
+      <tr><th>不可逆过程</th><th class="c">熵产 <i>s</i><sub>g</sub>（或 Δ<i>s</i><sub>iso</sub>）</th><th class="c">不可逆损失 <i>w</i><sub>l</sub> = <i>T</i>₀<i>s</i><sub>g</sub></th></tr>
+      <tr><td>温差传热（<i>q</i> 由 <i>T</i>₁ 传至 <i>T</i>₂，<i>T</i>₁ &gt; <i>T</i>₂）</td><td class="c"><i>q</i>(1/<i>T</i>₂ − 1/<i>T</i>₁)</td><td class="c"><i>T</i>₀<i>q</i>(<i>T</i>₁ − <i>T</i>₂)/(<i>T</i>₁<i>T</i>₂)</td></tr>
+      <tr><td>绝热节流（理想气体，<i>p</i>₁ → <i>p</i>₂）</td><td class="c"><i>R</i><sub>g</sub>ln(<i>p</i>₁/<i>p</i>₂)</td><td class="c"><i>T</i>₀<i>R</i><sub>g</sub>ln(<i>p</i>₁/<i>p</i>₂)</td></tr>
+      <tr><td>摩擦耗散（耗散功 <i>w</i><sub>diss</sub>，绝热）</td><td class="c"><i>w</i><sub>diss</sub>/<i>T</i></td><td class="c"><i>T</i>₀<i>w</i><sub>diss</sub>/<i>T</i></td></tr>
+      <tr><td>自由膨胀（理想气体，<i>v</i>₁ → <i>v</i>₂，绝热）</td><td class="c"><i>R</i><sub>g</sub>ln(<i>v</i>₂/<i>v</i>₁)</td><td class="c"><i>T</i>₀<i>R</i><sub>g</sub>ln(<i>v</i>₂/<i>v</i>₁)</td></tr>
+      <tr><td>绝热混合（两股流体等压混合）</td><td class="c"><i>s</i>₃ − (<i>q</i><sub>m1</sub><i>s</i>₁ + <i>q</i><sub>m2</sub><i>s</i>₂)/(<i>q</i><sub>m1</sub>+<i>q</i><sub>m2</sub>)</td><td class="c"><i>T</i>₀ × 左列</td></tr>
+    </table>
+    <p>对<b>绝热</b>设备（节流、喷管、扩压管、压气机、透平机）熵流为零，熵产就是进、出口比熵差 <i>s</i><sub>g</sub> = <i>s</i>₂ − <i>s</i>₁，故 <i>w</i><sub>l</sub> = <i>T</i>₀(<i>s</i>₂ − <i>s</i>₁)。</p>
+
+    <p><strong>（6）两种“损失”要分清。</strong></p>
+    <p class="step"><span class="badge">①</span>　<b>作功能力损失（相对环境）</b>：<i>w</i><sub>l</sub> = <i>T</i>₀Δ<i>s</i><sub>iso</sub>，用<b>环境温度</b> <i>T</i>₀ 折算，衡量的是“这份能量还能作多少有用功”。</p>
+    <p class="step"><span class="badge">②</span>　<b>设备的多耗功 / 少作功（相对理想过程）</b>：如不可逆压缩多耗功 <i>h</i>₂′ − <i>h</i>₂s、不可逆膨胀少作功 <i>h</i>₁ − <i>h</i>₂′ 与理想之差，是在<b>该设备的工作温度</b>下按 <i>T</i>d<i>s</i> 折算的，数值等于 <i>T</i><sub>m</sub>(<i>s</i>₂ − <i>s</i>₁)（<i>T</i><sub>m</sub> 为过程平均温度），一般大于 <i>T</i>₀(<i>s</i>₂ − <i>s</i>₁)。做题时看清题目问的是哪一种（第 22 题用后者）。</p>
+
+    <p><strong>（7）减少不可逆损失的途径。</strong>一切措施都归结为“<b>减小熵产</b>”：</p>
+    <p class="step"><span class="badge">①</span>　减小<b>温差</b>传热：加大换热面积、采用逆流布置、分段换热、回热，使传热在接近等温或小温差下进行。</p>
+    <p class="step"><span class="badge">②</span>　减小<b>压差</b>流动与<b>节流</b>：避免不必要的节流降压（如用膨胀机代替节流阀）、加大流通截面、减少局部阻力。</p>
+    <p class="step"><span class="badge">③</span>　减小<b>摩擦与涡流</b>：改善润滑、提高叶轮与流道的光洁度、避免分离与冲击。</p>
+    <p class="step"><span class="badge">④</span>　避免<b>混合</b>与<b>自由膨胀</b>：不同参数流体先分别利用再混合；分级压缩、分级膨胀并配中间冷却/再热，使过程尽量接近等温或可逆。</p>
+    <p class="step"><span class="badge">⑤</span>　用<b>可用能（㶲）效率</b> <i>η</i><sub>ex</sub> = <i>w</i><sub>u</sub>/<i>w</i><sub>u,max</sub> 评价装置完善程度：损失 <i>w</i><sub>l</sub> = (1 − <i>η</i><sub>ex</sub>)<i>w</i><sub>u,max</sub>，比单纯用热效率更能指出薄弱环节。</p>
+  </div>
+  <div class="ans">得分点：① 定义（不可逆使部分作功能力贬值为内能，是<b>能量品质</b>的损失，不是数量损失）；② <b><i>w</i><sub>l</sub> = <i>T</i>₀Δ<i>s</i><sub>iso</sub> = <i>T</i>₀<i>s</i><sub>g</sub></b>（居伊–斯托多拉公式）；③ 推导：最大有用功与实际有用功之差 + 熵方程；④ 温差传热例验证 <i>w</i><sub>l</sub> = <i>q</i>(<i>T</i>−<i>T</i>₀)/<i>T</i>；⑤ 绝热设备 <i>s</i><sub>g</sub> = <i>s</i>₂ − <i>s</i>₁；⑥ 减小温差、压差、摩擦，避免混合与自由膨胀。一句话结论：不可逆损失等于环境温度乘熵产，<b>一切减少不可逆的措施都是减少熵产</b>。</div>
+</div>
+<div class="box exam"><span class="bt">答题模板（“不可逆损失”类题四步法）</span>
+<p><span class="badge">1</span>定性：说明损失是<b>作功能力（能量品质）</b>的损失，能量数量仍守恒；<span class="badge">2</span>取<b>孤立系</b>（系统 + 环境 <i>T</i>₀），算 Δ<i>s</i><sub>iso</sub> = <i>s</i><sub>g</sub>；<span class="badge">3</span>写出 <i>w</i><sub>l</sub> = <i>T</i>₀Δ<i>s</i><sub>iso</sub>，并用最大有用功减实际有用功给出一句推导；<span class="badge">4</span>举例（温差传热 / 节流 / 摩擦）并写减小损失的途径。若题目问的是设备的多耗功，改用 <i>T</i><sub>m</sub>(<i>s</i>₂ − <i>s</i>₁)，并说明与 <i>T</i>₀(<i>s</i>₂−<i>s</i>₁) 的区别。</p></div>
+
+<div class="prob">
+  <div class="pt">第 22 题　压气机不可逆压气功（<i>T</i>-<i>s</i> 图，全表示 / 半表示）</div>
+  <div class="q">用最合适的能量方程形式说明压气机不可逆压气功的“全表示”与“半表示”，并在 <i>T</i>-<i>s</i> 图上表示出来。</div>
+  <div class="sol">
+    <p><strong>（1）系统与过程。</strong>压气机取作<b>绝热稳定流动开口系统</b>：进口 1（<i>p</i>₁、<i>T</i>₁），压缩到同一出口压力 <i>p</i>₂ 时，<b>理想（可逆、定熵）</b>出口为 2s，<b>实际（不可逆）</b>出口为 2′。因不可逆耗散使工质额外受热，必有</p>
+    <div class="fml"><p><i>T</i>₂′ &gt; <i>T</i>₂s　，　<i>v</i>₂′ &gt; <i>v</i>₂s　，　<i>s</i>₂′ &gt; <i>s</i>₁ = <i>s</i>₂s</p></div>
+    <p>而进出口<b>动能差、位能差忽略不计</b>（<i>c</i>₁ ≈ <i>c</i>₂、<i>z</i>₁ ≈ <i>z</i>₂），压气机只与外界交换轴功。</p>
+
+    <p><strong>（2）用哪一种能量方程最合适——焓形式。</strong>开口系稳定流动能量方程的一般式是</p>
+    <div class="fml"><p><i>q</i> = Δ<i>h</i> + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub></p></div>
+    <p>绝热 <i>q</i> = 0、½Δ<i>c</i><sup>2</sup> = <i>g</i>Δ<i>z</i> = 0，于是</p>
+    <div class="fml"><span class="tag">压气机耗功（最合适的形式）</span><p><i>w</i><sub>s</sub> = <i>h</i>₁ − <i>h</i>₂　⇒　<i>w</i><sub>C</sub> = −<i>w</i><sub>s</sub> = <i>h</i>₂ − <i>h</i>₁ = <i>c</i><sub>p</sub>(<i>T</i>₂ − <i>T</i>₁)</p></div>
+    <p>为什么<b>不用</b> <i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i> 而用 <i>w</i><sub>C</sub> = <i>h</i>₂ − <i>h</i>₁：<b>−∫<i>v</i>d<i>p</i> 只对可逆过程成立</b>（此时 <i>w</i><sub>t</sub> = −Δ<i>h</i> = −∫<i>v</i>d<i>p</i>）；不可逆时二者<b>不等</b>，差值就是耗散部分。而 <i>w</i><sub>C</sub> = <i>h</i>₂ − <i>h</i>₁ 只含进、出口两个<b>状态参数</b>，<b>对可逆与不可逆过程都成立</b>，也最便于用 <i>T</i>₁、<i>T</i>₂ 直接计算，所以是本题最合适的形式。</p>
+
+    <p><strong>（3）全表示（完整表示）。</strong>把<b>实际出口 2′ 的全部焓升</b>都算作耗功：</p>
+    <div class="fml"><span class="tag">全表示</span><p><i>w</i><sub>C,全</sub> = <i>h</i>₂′ − <i>h</i>₁ = <i>c</i><sub>p</sub>(<i>T</i>₂′ − <i>T</i>₁) = <i>w</i><sub>C,半</sub> + <i>w</i><sub>l</sub></p></div>
+    <p>它<b>不区分</b>“压力升高引起的焓升”与“不可逆耗散引起的焓升”，一步就把实际耗功算出来，工程上直接用它求功率 <i>P</i> = <i>q</i><sub>m</sub><i>w</i><sub>C,全</sub>。<b>缺点</b>是看不出其中有多少是可以避免的损失。</p>
+
+    <p><strong>（4）半表示。</strong>只把<b>理想定熵压缩那一段</b>（1 → 2s）的焓升算作耗功：</p>
+    <div class="fml"><span class="tag">半表示（理想耗功）</span><p><i>w</i><sub>C,半</sub> = <i>h</i>₂s − <i>h</i>₁ = <i>c</i><sub>p</sub>(<i>T</i>₂s − <i>T</i>₁) = <i>c</i><sub>p</sub><i>T</i>₁[(<i>p</i>₂/<i>p</i>₁)<sup>(κ−1)/κ</sup> − 1]</p></div>
+    <div class="fml"><p>可逆时它同时等于技术功：<i>w</i><sub>C,半</sub> = −∫<sub>1</sub><sup>2s</sup><i>v</i>d<i>p</i> = (κ/(κ−1))<i>p</i>₁<i>v</i>₁[(<i>p</i>₂/<i>p</i>₁)<sup>(κ−1)/κ</sup> − 1]</p></div>
+    <p>它<b>只表示可逆部分</b>，是衡量实际过程好坏的<b>基准</b>（“最少要耗多少功”）。</p>
+
+    <p><strong>（5）两者的差 = 不可逆损失（多耗功）。</strong></p>
+    <div class="fml"><span class="tag">不可逆多耗功</span><p><i>w</i><sub>l</sub> = <i>w</i><sub>C,全</sub> − <i>w</i><sub>C,半</sub> = <i>h</i>₂′ − <i>h</i>₂s = <i>c</i><sub>p</sub>(<i>T</i>₂′ − <i>T</i>₂s)</p></div>
+    <p>它是在<b>出口压力 <i>p</i>₂ 不变</b>的条件下，由 2s 到 2′ 的焓差；由 d<i>h</i> = <i>T</i>d<i>s</i> + <i>v</i>d<i>p</i> 在 <i>p</i>₂ = 常数下积分：</p>
+    <div class="fml"><p><i>h</i>₂′ − <i>h</i>₂s = ∫<sub>2s</sub><sup>2′</sup><i>T</i>d<i>s</i> = <i>T</i><sub>m</sub>(<i>s</i>₂′ − <i>s</i>₁) = <i>T</i><sub>m</sub><i>s</i><sub>g</sub>　（<i>T</i><sub>m</sub> 为 2s → 2′ 的平均温度）</p></div>
+
+    <p><strong>（6）<i>T</i>-<i>s</i> 图上的表示。</strong>由定压过程 <i>q</i> = Δ<i>h</i> = ∫<i>T</i>d<i>s</i> 可知：<b><i>T</i>-<i>s</i> 图上定压线下方的面积就是焓差</b>，于是三条“面积”正好对应三个功：</p>
+    <figure>
+      <svg viewBox="0 0 620 280" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <line x1="70" y1="250" x2="70" y2="28" stroke="#0b3d69" stroke-width="1.5"/>
+        <polygon points="70,20 64,33 76,33" fill="#0b3d69"/>
+        <line x1="70" y1="250" x2="592" y2="250" stroke="#0b3d69" stroke-width="1.5"/>
+        <polygon points="598,250 585,245 585,255" fill="#0b3d69"/>
+        <text x="48" y="34" font-size="15" fill="#0b3d69">T</text>
+        <text x="578" y="270" font-size="15" fill="#0b3d69">s</text>
+        <polygon points="123,200 145,175 165,152 183,138 183,250 123,250" fill="#cfe3f5"/>
+        <polygon points="183,138 205,114 225,99 245,86 245,250 183,250" fill="#f3cfcf"/>
+        <polyline points="80,250 105,216 123,200 145,175 165,152 183,138 205,114 225,99 245,86 268,70" fill="none" stroke="#0b3d69" stroke-width="2"/>
+        <text x="270" y="68" font-size="13" fill="#0b3d69">p₂</text>
+        <polyline points="140,250 165,216 183,200 205,175 225,152 243,138 265,114 285,99 305,86 328,70" fill="none" stroke="#8f6410" stroke-width="1.5"/>
+        <text x="330" y="68" font-size="13" fill="#8f6410">p₁</text>
+        <line x1="183" y1="200" x2="183" y2="136" stroke="#2f7d32" stroke-width="2.5"/>
+        <polygon points="183,130 177,142 189,142" fill="#2f7d32"/>
+        <path d="M183,200 C208,182 232,140 245,86" fill="none" stroke="#b3261e" stroke-width="2.5" stroke-dasharray="7 4"/>
+        <polygon points="247,80 237,86 246,93" fill="#b3261e"/>
+        <circle cx="183" cy="200" r="3.5" fill="#0b3d69"/>
+        <circle cx="183" cy="138" r="3.5" fill="#2f7d32"/>
+        <circle cx="245" cy="86" r="3.5" fill="#b3261e"/>
+        <text x="163" y="196" font-size="13" fill="#666">1</text>
+        <text x="152" y="132" font-size="13" fill="#2f7d32">2s</text>
+        <text x="252" y="90" font-size="13" fill="#b3261e">2′</text>
+        <text x="190" y="178" font-size="12" fill="#2f7d32">理想</text>
+        <text x="292" y="176" font-size="12" fill="#b3261e">实际</text>
+      </svg>
+      <figcaption>图 22-1　压气机压缩过程的 <i>T</i>-<i>s</i> 图。绿实线 1 → 2s 为理想定熵压缩（垂直线，<i>s</i> 不变），红虚线 1 → 2′ 为实际不可逆压缩（<i>s</i> 增大）；<i>p</i>₂ 为出口等压线。<b>蓝区</b>（<i>p</i>₂ 线下 <i>T</i>₁ → <i>T</i>₂s 之间的面积）= <i>h</i>₂s − <i>h</i>₁ = <b>半表示</b>；<b>蓝区 + 红区</b>（<i>T</i>₁ → <i>T</i>₂′ 之间的面积）= <i>h</i>₂′ − <i>h</i>₁ = <b>全表示</b>；<b>红区</b>（<i>T</i>₂s → <i>T</i>₂′ 之间的面积）= <i>h</i>₂′ − <i>h</i>₂s = <b>不可逆多耗功</b> = <i>T</i><sub>m</sub>(<i>s</i>₂′ − <i>s</i>₁)。</figcaption>
+    </figure>
+    <p class="step"><span class="badge">①</span>　<b>半表示</b>：面积 = <i>h</i>₂s − <i>h</i>₁，即 <i>p</i>₂ 定压线上 <i>T</i>₁ → <i>T</i>₂s 一段下方的面积（因 ∫<i>T</i>d<i>s</i> = <i>c</i><sub>p</sub>Δ<i>T</i>）。</p>
+    <p class="step"><span class="badge">②</span>　<b>全表示</b>：面积 = <i>h</i>₂′ − <i>h</i>₁，即 <i>p</i>₂ 线上 <i>T</i>₁ → <i>T</i>₂′ 一段下方的面积。</p>
+    <p class="step"><span class="badge">③</span>　<b>损失</b>：两种情况面积之差，即 <i>T</i>₂s → <i>T</i>₂′ 之间的面积 <i>h</i>₂′ − <i>h</i>₂s；图上竖直线（1 → 2s）与实际的、向右偏斜的线（1 → 2′）之间夹出的“月牙形”区域就是这份多耗的功。</p>
+
+    <p><strong>（7）用压气机定熵效率（绝热效率）衡量不可逆程度。</strong></p>
+    <div class="fml"><span class="tag">定熵效率</span><p><i>η</i><sub>C,s</sub> = <i>w</i><sub>C,半</sub>/<i>w</i><sub>C,全</sub> = (<i>h</i>₂s − <i>h</i>₁)/(<i>h</i>₂′ − <i>h</i>₁) = (<i>T</i>₂s − <i>T</i>₁)/(<i>T</i>₂′ − <i>T</i>₁) &lt; 1</p></div>
+    <p>理想气体定比热时它<b>就是温升之比</b>，故工程上常用“进、出口温度”直接求 <i>η</i><sub>C,s</sub>，再由 <i>T</i>₂′ = <i>T</i>₁ + (<i>T</i>₂s − <i>T</i>₁)/<i>η</i><sub>C,s</sub> 反求实际出口温度。</p>
+
+    <p><strong>（8）结论与讨论。</strong></p>
+    <p class="step"><span class="badge">①</span>　全表示 = <b>实际耗功</b>，可由进、出口状态直接算出（<i>w</i><sub>C,全</sub> = <i>h</i>₂′ − <i>h</i>₁），不必知道过程内部细节；半表示 = <b>理想耗功</b>，只与 <i>p</i>₁、<i>p</i>₂、<i>T</i>₁、κ 有关，是最小耗功的基准。</p>
+    <p class="step"><span class="badge">②</span>　“半表示”之所以叫“半”，是因为它只用到了实际耗功中<b>可逆的那一半</b>（压升引起的焓升），另一半（耗散引起的焓升）必须靠 <i>η</i><sub>C,s</sub> 或 <i>w</i><sub>l</sub> 补上，二者相加才是全表示。</p>
+    <p class="step"><span class="badge">③</span>　不可逆使 <i>s</i>₂′ &gt; <i>s</i>₁、<i>T</i>₂′ &gt; <i>T</i>₂s，耗功增大、排气温度升高；损失随熵产线性增大（系数 <i>T</i><sub>m</sub>）。</p>
+    <p class="step"><span class="badge">④</span>　减小损失的途径：<b>中间冷却、分级压缩</b>（使压缩过程接近等温，理论上等温压缩耗功最小，<i>w</i><sub>T</sub> = <i>R</i><sub>g</sub><i>T</i>₁ln(<i>p</i>₂/<i>p</i>₁)）、减小摩擦与涡流、提高 <i>η</i><sub>C,s</sub>。</p>
+  </div>
+  <div class="ans">得分点：① 用<b>焓形式</b>开口系能量方程 <i>w</i><sub>C</sub> = <i>h</i>₂ − <i>h</i>₁（说明 <i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i> 只对可逆成立）；② <b>全表示</b> <i>w</i><sub>C,全</sub> = <i>h</i>₂′ − <i>h</i>₁ = <i>c</i><sub>p</sub>(<i>T</i>₂′−<i>T</i>₁)；③ <b>半表示</b> <i>w</i><sub>C,半</sub> = <i>h</i>₂s − <i>h</i>₁ = <i>c</i><sub>p</sub><i>T</i>₁[(<i>p</i>₂/<i>p</i>₁)<sup>(κ−1)/κ</sup>−1]；④ 差值 = 多耗功 <i>w</i><sub>l</sub> = <i>h</i>₂′ − <i>h</i>₂s = <i>T</i><sub>m</sub>(<i>s</i>₂′−<i>s</i>₁)；⑤ <i>T</i>-<i>s</i> 图上 <i>p</i>₂ 定压线下方面积即焓差，三块面积分别对应半表示、全表示与损失；⑥ <i>η</i><sub>C,s</sub> = (<i>T</i>₂s−<i>T</i>₁)/(<i>T</i>₂′−<i>T</i>₁)。一句话结论：全表示 = 半表示 + 不可逆多耗功，而多耗功在 <i>T</i>-<i>s</i> 图上就是 2s → 2′ 那一块面积。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① 用 <i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i> 去算<b>不可逆</b>压气机的耗功：错！只有可逆时才等于 <i>h</i>₂ − <i>h</i>₁，不可逆时必须用 <i>w</i><sub>C</sub> = <i>h</i>₂′ − <i>h</i>₁。② 把 2′ 画在 2s 的<b>左边</b>或把实际压缩线画成向左倾斜：不可逆只可能使熵<b>增大</b>，2′ 必在 2s 右侧、温度更高。③ 混淆两种损失：这里问的是<b>多耗的压气功</b> <i>h</i>₂′ − <i>h</i>₂s = <i>T</i><sub>m</sub>(<i>s</i>₂′−<i>s</i>₁)，不是第 21 题的作功能力损失 <i>T</i>₀(<i>s</i>₂′−<i>s</i>₁)，两者系数不同（<i>T</i><sub>m</sub> ≠ <i>T</i>₀）。④ 用 <i>η</i><sub>C,s</sub> 时别把分子分母写反：分子是<b>理想</b>耗功、分母是<b>实际</b>耗功，故 <i>η</i><sub>C,s</sub> &lt; 1。⑤ 忘记说明“忽略进出口动能差与位能差”，直接套 <i>w</i><sub>s</sub> = −Δ<i>h</i> 会失分。</p></div>
+
+<div class="prob">
+  <div class="pt">第 23 题　压气机不可逆压气功（<i>p</i>-<i>v</i> 图表示）</div>
+  <div class="q">在 <i>p</i>-<i>v</i> 图上表示压气机的不可逆压气功，并说明各部分面积的物理意义。</div>
+  <div class="sol">
+    <p><strong>（1）系统与过程线。</strong>仍取绝热稳定流动压气机：进口 1（<i>p</i>₁、<i>v</i>₁），升压到 <i>p</i>₂。<b>理想</b>定熵压缩 1 → 2s 满足 <i>p</i><i>v</i><sup>κ</sup> = 常数；<b>实际</b>不可逆压缩 1 → 2′ 过程中因耗散使工质温度偏高、比容偏大，可近似用<b>多变指数 <i>n</i> &gt; κ 的多变线</b> <i>p</i><i>v</i><sup>n</sup> = 常数 表示。由 <i>v</i> = <i>v</i>₁(<i>p</i>₁/<i>p</i>)<sup>1/n</sup> 与 <i>n</i> &gt; κ 可知：同一压力下</p>
+    <div class="fml"><p><i>v</i><sub>2′</sub> &gt; <i>v</i><sub>2s</sub>　（<i>p</i>₂ 线上实际点 2′ 在 2s 的右侧），且 <i>T</i>₂′ &gt; <i>T</i>₂s、<i>s</i>₂′ &gt; <i>s</i>₁</p></div>
+
+    <p><strong>（2）技术功的面积含义。</strong>对<b>可逆</b>稳定流动，轴功等于技术功：</p>
+    <div class="fml"><span class="tag">技术功＝左侧面积</span><p><i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i>　；压缩时 d<i>p</i> &gt; 0，故耗功 <i>w</i><sub>C</sub> = ∫<sub><i>p</i>₁</sub><sup><i>p</i>₂</sup><i>v</i>d<i>p</i></p></div>
+    <p>在 <i>p</i>-<i>v</i> 图上，∫<i>v</i>d<i>p</i> 就是<b>过程线与 <i>p</i> 轴（左侧）之间、由 <i>p</i>₁ 到 <i>p</i>₂ 所夹的面积</b>；压缩过程耗功为正（输入功）。</p>
+
+    <p><strong>（3）三块面积。</strong></p>
+    <figure>
+      <svg viewBox="0 0 620 280" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <line x1="70" y1="250" x2="70" y2="28" stroke="#0b3d69" stroke-width="1.5"/>
+        <polygon points="70,20 64,33 76,33" fill="#0b3d69"/>
+        <line x1="70" y1="250" x2="592" y2="250" stroke="#0b3d69" stroke-width="1.5"/>
+        <polygon points="598,250 585,245 585,255" fill="#0b3d69"/>
+        <text x="48" y="34" font-size="15" fill="#0b3d69">p</text>
+        <text x="578" y="270" font-size="15" fill="#0b3d69">v</text>
+        <polygon points="70,150 170,150 152,128 138,100 126,70 70,70" fill="#cfe3f5"/>
+        <polygon points="170,150 152,128 138,100 126,70 150,70 160,110 170,150" fill="#f3cfcf"/>
+        <line x1="70" y1="150" x2="185" y2="150" stroke="#666" stroke-width="1" stroke-dasharray="5 4"/>
+        <line x1="70" y1="70" x2="185" y2="70" stroke="#666" stroke-width="1" stroke-dasharray="5 4"/>
+        <text x="44" y="154" font-size="12" fill="#666">p₁</text>
+        <text x="44" y="74" font-size="12" fill="#666">p₂</text>
+        <polyline points="170,150 158,130 148,108 138,88 130,70" fill="none" stroke="#2f7d32" stroke-width="2.5"/>
+        <path d="M170,150 C160,128 152,96 150,70" fill="none" stroke="#b3261e" stroke-width="2.5" stroke-dasharray="7 4"/>
+        <polyline points="170,150 150,132 118,102 95,70" fill="none" stroke="#8f6410" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="76" y="112" font-size="12" fill="#8f6410">等温</text>
+        <circle cx="170" cy="150" r="3.5" fill="#0b3d69"/>
+        <circle cx="130" cy="70" r="3.5" fill="#2f7d32"/>
+        <circle cx="150" cy="70" r="3.5" fill="#b3261e"/>
+        <circle cx="95" cy="70" r="3.5" fill="#8f6410"/>
+        <text x="174" y="146" font-size="13" fill="#666">1</text>
+        <text x="112" y="64" font-size="13" fill="#2f7d32">2s</text>
+        <text x="152" y="58" font-size="13" fill="#b3261e">2′</text>
+        <text x="80" y="62" font-size="13" fill="#8f6410">2T</text>
+        <text x="470" y="120" font-size="13" fill="#8f6410">等温线</text>
+        <text x="470" y="146" font-size="13" fill="#2f7d32">定熵线</text>
+        <text x="470" y="172" font-size="13" fill="#b3261e">实际线</text>
+      </svg>
+      <figcaption>图 23-1　压气机压缩过程的 <i>p</i>-<i>v</i> 图（示意）。由内向外三条曲线依次为：<b>等温线 1 → 2T</b>（耗功最小）、<b>定熵线 1 → 2s</b>（理想绝热压缩）、<b>实际不可逆线 1 → 2′</b>（<i>n</i> &gt; κ，偏右，耗功最大）。<b>蓝区</b> = 1-2s 左侧面积 = <i>w</i><sub>C,半</sub> = −∫<sub>1</sub><sup>2s</sup><i>v</i>d<i>p</i>（理想耗功）；<b>蓝区 + 红区</b> = 1-2′ 左侧面积 = 实际耗功；<b>红区</b> = 1-2s-2′-1 的曲边三角形 = 不可逆多耗功 <i>w</i><sub>l</sub> = ∫<sub><i>p</i>₁</sub><sup><i>p</i>₂</sup>(<i>v</i><sub>实际</sub> − <i>v</i><sub>定熵</sub>)d<i>p</i>。</figcaption>
+    </figure>
+    <p class="step"><span class="badge">①</span>　<b>理想耗功（半表示）</b>：面积 <i>a</i>-1-2s-<i>b</i>，即曲线 1 → 2s、<i>p</i> 轴、<i>p</i> = <i>p</i>₁ 与 <i>p</i> = <i>p</i>₂ 两条水平线围成的面积（图中<b>蓝区</b>），<i>w</i><sub>C,半</sub> = ∫<sub><i>p</i>₁</sub><sup><i>p</i>₂</sup><i>v</i><sub>s</sub>d<i>p</i>。</p>
+    <p class="step"><span class="badge">②</span>　<b>实际耗功（全表示）</b>：面积 <i>a</i>-1-2′-<i>b</i>（蓝区 + 红区），<i>w</i><sub>C,全</sub> = ∫<sub><i>p</i>₁</sub><sup><i>p</i>₂</sup><i>v</i><sub>实际</sub>d<i>p</i> &gt; <i>w</i><sub>C,半</sub>。</p>
+    <p class="step"><span class="badge">③</span>　<b>不可逆多耗功（损失）</b>：两面积之差，即曲边三角形 <b>1-2s-2′-1</b>（图中<b>红区</b>）：</p>
+    <div class="fml"><span class="tag">损失面积</span><p><i>w</i><sub>l</sub> = ∫<sub><i>p</i>₁</sub><sup><i>p</i>₂</sup>(<i>v</i><sub>实际</sub> − <i>v</i><sub>s</sub>)d<i>p</i> = <i>h</i>₂′ − <i>h</i>₂s = <i>T</i><sub>m</sub>(<i>s</i>₂′ − <i>s</i>₁) &gt; 0</p></div>
+
+    <p><strong>（4）严格的说明（为什么用焓来补齐）。</strong>严格地说，<b>不可逆过程没有确定的准静态 <i>p</i>-<i>v</i> 过程线</b>，图上的面积只是“沿这条路径走的可逆技术功”。由吉布斯方程 d<i>h</i> = <i>T</i>d<i>s</i> + <i>v</i>d<i>p</i> 沿实际过程 1 → 2′ 积分：</p>
+    <div class="fml"><span class="tag">实际耗功的分解</span><p><i>w</i><sub>C</sub> = <i>h</i>₂′ − <i>h</i>₁ = ∫<sub>1</sub><sup>2′</sup><i>v</i>d<i>p</i> + ∫<sub>1</sub><sup>2′</sup><i>T</i>d<i>s</i> = （<i>p</i>-<i>v</i> 图上的左侧面积）+ <i>T</i><sub>m</sub>(<i>s</i>₂′ − <i>s</i>₁)</p></div>
+    <p>即：<b>实际耗功 = <i>p</i>-<i>v</i> 图上的几何面积 + 熵产造成的附加部分</b>；后一项在 <i>T</i>-<i>s</i> 图上表现为 2s → 2′ 的那块面积（第 22 题），两者是同一份损失在两张图上的不同表现。这也说明为什么不可逆压气功最终要用焓差（<i>w</i><sub>C</sub> = <i>h</i>₂′ − <i>h</i>₁）来算，而 <i>p</i>-<i>v</i> 图只适合给出“可逆部分”的几何比较。</p>
+
+    <p><strong>（5）由图上能读出的结论。</strong></p>
+    <p class="step"><span class="badge">①</span>　对同一 <i>p</i>₁ → <i>p</i>₂，<b>等温压缩耗功最小</b>（曲线最靠左，<i>w</i><sub>T</sub> = <i>R</i><sub>g</sub><i>T</i>₁ln(<i>p</i>₂/<i>p</i>₁)），<b>定熵压缩</b>次之（<i>w</i><sub>s</sub> = (κ/(κ−1))<i>p</i>₁<i>v</i>₁[(<i>p</i>₂/<i>p</i>₁)<sup>(κ−1)/κ</sup> − 1]），<b>实际不可逆压缩</b>最大。所以压缩过程越接近等温（加强冷却、分级压缩并中间冷却）越省功。</p>
+    <p class="step"><span class="badge">②</span>　升压比 <i>p</i>₂/<i>p</i>₁ 越大，三块面积都越大，且损失面积增长更快，故高压比时必须分级。</p>
+    <p class="step"><span class="badge">③</span>　曲边三角形 1-2s-2′ 的面积<b>越大说明不可逆越严重</b>；用 <i>η</i><sub>C,s</sub> = <i>w</i><sub>C,半</sub>/<i>w</i><sub>C,全</sub> 可定量表示这块面积所占的比例。</p>
+  </div>
+  <div class="ans">得分点：① 三条过程线（等温 1 → 2T、定熵 1 → 2s、实际 1 → 2′ 且 <i>n</i> &gt; κ，<i>v</i>₂′ &gt; <i>v</i>₂s）；② 可逆技术功 <i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i> = 过程线左侧面积；③ 理想耗功 = 面积 <i>a</i>-1-2s-<i>b</i>，实际耗功 = 面积 <i>a</i>-1-2′-<i>b</i>，两者之差 = 曲边三角形 1-2s-2′ = 不可逆多耗功；④ 严格式 <i>w</i><sub>C</sub> = <i>h</i>₂′ − <i>h</i>₁ = ∫<i>v</i>d<i>p</i> + <i>T</i><sub>m</sub>(<i>s</i>₂′−<i>s</i>₁)；⑤ 等温最省功，故用冷却与分级压缩。一句话结论：<i>p</i>-<i>v</i> 图上“过程线越靠右、左侧面积越大、耗功越多”，实际线偏离定熵线夹出的曲边三角形就是不可逆损失。</div>
+</div>
+<div class="box exam"><span class="bt">答题模板（“图上面积表示功”类题四步法）</span>
+<p><span class="badge">1</span>画图并标点：先画理想（定熵或等温）线，再画实际线，标出 1、2s、2′ 与坐标轴、<i>p</i>₁/<i>p</i>₂；<span class="badge">2</span>写面积定义：技术功 = 过程线与 <i>p</i> 轴之间的面积（<i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i>）；<span class="badge">3</span>分三块说清：理想面积、实际面积、两者之差（损失），每块都给出公式；<span class="badge">4</span>补一句严格说明与结论（不可逆过程严格说无准静态过程线，实际耗功最终用 <i>w</i><sub>C</sub> = Δ<i>h</i>，并指出减小损失的方向）。</p></div>
+
+<div class="prob">
+  <div class="pt">第 24 题　余隙容积影响，用 <i>p</i>-<i>V</i> 图（示功图）表示</div>
+  <div class="q">说明余隙容积对活塞式压气机的影响，用 <i>p</i>-<i>V</i> 示功图表示，并导出容积效率公式。</div>
+  <div class="sol">
+    <p><strong>（1）什么是余隙容积。</strong>活塞式压气机排气终了时，活塞顶面与气缸盖之间必须留出最小间隙 <i>V</i><sub>c</sub>（避免活塞撞击气缸盖、并容纳气阀通道），称为<b>余隙容积</b>；其相对值 <i>c</i> = <i>V</i><sub>c</sub>/<i>V</i><sub>h</sub>（<i>V</i><sub>h</sub> 为活塞排量）一般为 0.03～0.08。</p>
+
+    <p><strong>（2）有余隙时的示功图。</strong>排气终了时，压力为 <i>p</i>₂ 的高压气体残留在 <i>V</i><sub>c</sub> 中（图中点 3）。活塞回行，这部分气体先<b>膨胀</b>（3 → 4）降压到 <i>p</i>₁，然后才开始吸入新气（4 → 1）；压缩（1 → 2）与排气（2 → 3）与无余隙时相同。</p>
+    <figure>
+      <svg viewBox="0 0 620 280" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <line x1="90" y1="250" x2="90" y2="28" stroke="#0b3d69" stroke-width="1.5"/>
+        <polygon points="90,20 84,33 96,33" fill="#0b3d69"/>
+        <line x1="90" y1="250" x2="586" y2="250" stroke="#0b3d69" stroke-width="1.5"/>
+        <polygon points="592,250 579,245 579,255" fill="#0b3d69"/>
+        <text x="70" y="34" font-size="15" fill="#0b3d69">p</text>
+        <text x="572" y="270" font-size="15" fill="#0b3d69">V</text>
+        <line x1="90" y1="190" x2="352" y2="190" stroke="#666" stroke-width="1" stroke-dasharray="5 4"/>
+        <line x1="90" y1="70" x2="352" y2="70" stroke="#666" stroke-width="1" stroke-dasharray="5 4"/>
+        <text x="62" y="194" font-size="12" fill="#666">p₁</text>
+        <text x="62" y="74" font-size="12" fill="#666">p₂</text>
+        <polyline points="340,190 320,184 300,178 280,170 260,160 240,148 220,133 200,114 185,96 169,70" fill="none" stroke="#b3261e" stroke-width="2.5"/>
+        <polyline points="100,70 115,115 130,144 145,163 160,178 180,190" fill="none" stroke="#2f7d32" stroke-width="2.5"/>
+        <line x1="180" y1="190" x2="336" y2="190" stroke="#0b3d69" stroke-width="2.5"/>
+        <polygon points="342,190 330,185 330,195" fill="#0b3d69"/>
+        <line x1="169" y1="70" x2="104" y2="70" stroke="#8f6410" stroke-width="2.5"/>
+        <polygon points="98,70 110,65 110,75" fill="#8f6410"/>
+        <circle cx="340" cy="190" r="3.5" fill="#0b3d69"/>
+        <circle cx="169" cy="70" r="3.5" fill="#0b3d69"/>
+        <circle cx="100" cy="70" r="3.5" fill="#0b3d69"/>
+        <circle cx="180" cy="190" r="3.5" fill="#0b3d69"/>
+        <text x="344" y="186" font-size="13" fill="#666">1</text>
+        <text x="152" y="62" font-size="13" fill="#666">2</text>
+        <text x="86" y="62" font-size="13" fill="#666">3</text>
+        <text x="182" y="206" font-size="13" fill="#666">4</text>
+        <text x="86" y="214" font-size="12" fill="#2f7d32">V_c</text>
+        <text x="230" y="234" font-size="12" fill="#0b3d69">有效吸气 V₁−V₄</text>
+      </svg>
+      <figcaption>图 24-1　活塞式压气机的 <i>p</i>-<i>V</i> 示功图（余隙已放大，示意）。1 → 2 压缩（多变指数 <i>n</i>）、2 → 3 排气（<i>p</i>₂ 不变）、3 → 4 余隙气体膨胀（多变指数 <i>n</i>）、4 → 1 吸气（<i>p</i>₁ 不变）。活塞排量 <i>V</i><sub>h</sub> = <i>V</i>₁ − <i>V</i>₃，而每转实际吸入的新气量只有 <i>V</i>₁ − <i>V</i>₄，差的就是 3 → 4 膨胀所占去的容积 <i>V</i>₄ − <i>V</i>₃。示功图面积 1-2-3-4 即每转的指示功。</figcaption>
+    </figure>
+
+    <p><strong>（3）容积效率的推导。</strong>容积效率定义为每转实际吸气量与活塞排量之比：</p>
+    <div class="fml"><span class="tag">容积效率定义</span><p><i>λ</i> = <i>V</i><sub>有效</sub>/<i>V</i><sub>h</sub> = (<i>V</i>₁ − <i>V</i>₄)/(<i>V</i>₁ − <i>V</i>₃)</p></div>
+    <p class="step">①　余隙气体由 3 膨胀到 4 是多变过程，<i>p</i>₂<i>V</i>₃<sup>n</sup> = <i>p</i>₁<i>V</i>₄<sup>n</sup>，故</p>
+    <div class="fml"><p><i>V</i>₄ = <i>V</i>₃(<i>p</i>₂/<i>p</i>₁)<sup>1/n</sup> = <i>V</i><sub>c</sub>ε<sup>1/n</sup>　（<i>ε</i> = <i>p</i>₂/<i>p</i>₁ 为升压比）</p></div>
+    <p class="step">②　代入定义式，注意 <i>V</i>₁ − <i>V</i>₃ = <i>V</i><sub>h</sub>、<i>V</i>₃ = <i>V</i><sub>c</sub>：</p>
+    <div class="fml"><p><i>λ</i> = [<i>V</i><sub>h</sub> − (<i>V</i>₄ − <i>V</i>₃)]/<i>V</i><sub>h</sub> = 1 − (<i>V</i><sub>c</sub>/<i>V</i><sub>h</sub>)(<i>V</i>₄/<i>V</i>₃ − 1)</p></div>
+    <div class="fml"><span class="tag">容积效率公式</span><p><i>λ</i> = 1 − <i>c</i>(<i>ε</i><sup>1/n</sup> − 1) = 1 − (<i>V</i><sub>c</sub>/<i>V</i><sub>h</sub>)[(<i>p</i>₂/<i>p</i>₁)<sup>1/n</sup> − 1]　&lt; 1</p></div>
+    <p class="step">③　<b>极限升压比</b>：令 <i>λ</i> = 0（余隙气体膨胀后恰好占满整个气缸、无法再吸气），得</p>
+    <div class="fml"><p><i>ε</i><sub>max</sub> = (1 + 1/<i>c</i>)<sup>n</sup>　（即 <i>p</i>₂ 再高则压气机根本吸不进气，无法工作）</p></div>
+
+    <p><strong>（4）影响分析。</strong></p>
+    <p class="step"><span class="badge">①</span>　<b>使容积效率降低</b>：<i>λ</i> &lt; 1，实际吸气量比活塞排量少（<i>V</i>₄ − <i>V</i>₃ 被余隙气体的膨胀“占住”了）。<i>c</i> 越大、<i>ε</i> 越大、膨胀指数 <i>n</i> 越小，<i>λ</i> 越低。</p>
+    <p class="step"><span class="badge">②</span>　<b>对单位质量气体的理论耗功没有影响</b>：由示功图，每转指示功 = 压缩功（1 → 2）− 膨胀回收功（3 → 4）= (<i>n</i>/(<i>n</i>−1))<i>p</i>₁(<i>V</i>₁ − <i>V</i>₄)[<i>ε</i><sup>(n−1)/n</sup> − 1]，与吸气量成正比，故<b>比耗功（每 kg 或每 m³ 气体的耗功）只取决于 <i>p</i>₁、<i>p</i>₂ 与 <i>n</i></b>，与 <i>V</i><sub>c</sub> 无关。余隙容积的危害在于“同样尺寸的气缸产气量变小”。</p>
+    <p class="step"><span class="badge">③</span>　<b>使同样气缸尺寸的产气量下降</b>：要保证产气量就必须加大气缸尺寸或转速，设备变大；当 <i>ε</i> 接近 <i>ε</i><sub>max</sub> 时产气量急剧下降，故<b>单级升压比受到限制</b>（这是采用多级压缩的重要理由之一）。</p>
+    <p class="step"><span class="badge">④</span>　<b>实际还带来附加损失</b>：余隙中的气体每转都要被反复压缩、膨胀一次，与缸壁、气阀反复换热且流动有节流，使实际耗功略大于理论值、指示效率下降；残留气中的凝液还可能造成液击。</p>
+    <p class="step"><span class="badge">⑤</span>　<b>余隙并非越小越好</b>：<i>c</i> 太小则活塞与缸盖容易相撞、气阀通道布置困难、制造与热膨胀要求高，故只能“尽量减小”而不能取消。</p>
+
+    <p><strong>（5）减小余隙不利影响的措施。</strong>① 尽量减小相对余隙 <i>c</i>（提高加工与装配精度、把气阀布置在缸盖的凹腔内、减小阀腔容积）；② <b>采用多级压缩、中间冷却</b>，把总升压比分配到各级，使每级 <i>ε</i> 减小、各级 <i>λ</i> 提高（见第 25 题）；③ 加强冷却使过程指数 <i>n</i> 减小（由 <i>λ</i> = 1 − <i>c</i>(<i>ε</i><sup>1/n</sup> − 1) 知 <i>n</i> 越小、<i>λ</i> 越高）；④ 及时排出级间凝液，防止液击。</p>
+  </div>
+  <div class="ans">得分点：① 余隙容积的定义与 <i>c</i> = <i>V</i><sub>c</sub>/<i>V</i><sub>h</sub>；② 示功图 4-1-2-3 四段（吸气、压缩、排气、余隙气体膨胀）并标出 <i>V</i><sub>h</sub> = <i>V</i>₁−<i>V</i>₃、有效吸气量 <i>V</i>₁−<i>V</i>₄；③ 推导 <i>V</i>₄ = <i>V</i><sub>c</sub>(<i>p</i>₂/<i>p</i>₁)<sup>1/n</sup>，得 <b><i>λ</i> = 1 − <i>c</i>(<i>ε</i><sup>1/n</sup> − 1)</b> 与极限压比 <i>ε</i><sub>max</sub> = (1+1/<i>c</i>)<sup>n</sup>；④ 结论：<b>降低容积效率、减少产气量、限制单级升压比，但不改变单位质量气体的理论耗功</b>；⑤ 措施（减小 <i>c</i>、多级压缩、加强冷却）。一句话结论：余隙容积“不费功、但费气”——它使实际吸气量减少、容积效率下降，是必须分级压缩的原因之一。</div>
+</div>
+<div class="box warn"><span class="bt">易错点</span>
+<p>① 把“余隙容积使耗功增大”当成结论：<b>理论耗功与 <i>V</i><sub>c</sub> 无关</b>（只与 <i>p</i>₁、<i>p</i>₂、<i>n</i> 有关），余隙影响的是<b>容积效率与产气量</b>（实际因反复换热会有少量附加损失，但不是主要结论）。② 容积效率公式的指数写错：是 <i>ε</i><sup><b>1/n</b></sup>（由膨胀过程 <i>p</i><sub>₂</sub><i>V</i>₃<sup>n</sup> = <i>p</i>₁<i>V</i>₄<sup>n</sup> 解出），不是 <i>ε</i><sup>(n−1)/n</sup>。③ 忘记 <i>V</i><sub>h</sub> = <i>V</i>₁ − <i>V</i>₃ 是<b>活塞排量</b>而不是气缸总容积 <i>V</i>₁。④ 示功图方向画反：余隙气体先<b>膨胀（3 → 4）再吸气（4 → 1）</b>，绝不能画成先吸后膨胀。⑤ 说“余隙容积可以取消”：结构上必须保留，只能尽量减小。</p></div>
+
+<div class="prob">
+  <div class="pt">第 25 题　多级压缩中间冷却：使用场合、优点</div>
+  <div class="q">说明多级压缩、中间冷却的使用场合与优点，并导出最佳中间压力。</div>
+  <div class="sol">
+    <p><strong>（1）什么是多级压缩、中间冷却。</strong>把总升压任务分配给两个或多个串联的压气机（级），气体在<b>级间冷却器</b>中被冷却（理想情况冷却回第一级进口温度 <i>T</i>₁）后再进入下一级，这种方案叫多级压缩、中间冷却。流程为：气体 → Ⅰ 级压缩 → 中间冷却器 → Ⅱ 级压缩 → … → 排出。</p>
+
+    <p><strong>（2）使用场合（为什么要用它）。</strong></p>
+    <p class="step"><span class="badge">①</span>　<b>需要高升压比的场合</b>：单级压气机的压比受排气温度限制，一般 <i>ε</i> ≤ 3～4；当总压比 <i>ε</i> = <i>p</i>₂/<i>p</i>₁ &gt; 8～10 时（如高压气瓶充装、合成氨与甲醇等化工流程的高压原料气、空分与气体液化、天然气增压与加气站、高压气动系统及风洞、增压内燃机等）都采用多级压缩。</p>
+    <p class="step"><span class="badge">②</span>　<b>排气温度受限制的场合</b>：单级定熵压缩的排气温度 <i>T</i>₂ = <i>T</i>₁<i>ε</i><sup>(κ−1)/κ</sup>。取 <i>T</i>₁ = 293 K、κ = 1.4、<i>ε</i> = 9，则 <i>T</i>₂ ≈ 549 K（约 276 ℃），远超润滑油与密封件允许的温度（一般 ≤ 160～180 ℃），必须分级冷却；对<b>易燃易爆、易分解</b>的气体（石油气、氢气、乙炔、氧气压缩机等）更是安全要求。</p>
+    <p class="step"><span class="badge">③</span>　<b>容积效率要求高的场合</b>：由第 24 题 <i>λ</i> = 1 − <i>c</i>(<i>ε</i><sup>1/n</sup> − 1)，<i>ε</i> 越大 <i>λ</i> 越低；分级后每级压比小，<i>λ</i> 明显提高，同样气缸尺寸产气量大。</p>
+    <p class="step"><span class="badge">④</span>　<b>需要级间除水、除油与控温的工艺场合</b>：级间冷却可析出凝液（避免带液压缩、防止液击），也便于级间抽气、加气（如合成流程的补气）。</p>
+
+    <p><strong>（3）优点。</strong></p>
+    <p class="step"><span class="badge">①</span>　<b>省功（最主要）</b>：由“压缩过程越接近等温越省功”（等温压缩耗功 <i>w</i><sub>T</sub> = <i>R</i><sub>g</sub><i>T</i>₁ln<i>ε</i> 最小），级间冷却把气体温度降回 <i>T</i>₁ 再压，使整个压缩过程在 <i>T</i>-<i>s</i> 图上呈“阶梯形”逼近等温线，总耗功显著减小。</p>
+    <p class="step"><span class="badge">②</span>　<b>降低排气温度</b>：每级温升小，避免润滑油炭化、结焦，保护气阀、密封与缸体材料，保证安全与寿命。</p>
+    <p class="step"><span class="badge">③</span>　<b>提高容积效率</b>：每级压比小，<i>λ</i> 提高，产气量增加、经济性改善。</p>
+    <p class="step"><span class="badge">④</span>　<b>改善受力与结构</b>：每级压差小，活塞力、连杆与曲轴受力小，级间可布置冷却器与分离器，机器运转平稳、泄漏少。</p>
+    <p class="step"><span class="badge">⑤</span>　<b>代价</b>：级数越多越接近等温压缩，但设备、冷却器、管路、级间压降与投资都增加，故实际常取 <b>2～3 级</b>（每级压比 3～5 左右）。</p>
+
+    <p><strong>（4）最佳中间压力的推导（以两级为例）。</strong>设两级均按同一多变指数 <i>n</i> 压缩，中间冷却器把气体冷却回 <i>T</i>₁（理想中间冷却），级间压力为 <i>p</i><sub>x</sub>，忽略动能、位能差，每级都是绝热稳定流动，故每级耗功等于焓升 <i>w</i> = Δ<i>h</i> = <i>c</i><sub>p</sub>Δ<i>T</i>：</p>
+    <div class="fml"><p>Ⅰ 级：<i>w</i>₁ = <i>c</i><sub>p</sub><i>T</i>₁[(<i>p</i><sub>x</sub>/<i>p</i>₁)<sup>m</sup> − 1]　；　Ⅱ 级：<i>w</i>₂ = <i>c</i><sub>p</sub><i>T</i>₁[(<i>p</i>₂/<i>p</i><sub>x</sub>)<sup>m</sup> − 1]　，<i>m</i> = (<i>n</i> − 1)/<i>n</i></p></div>
+    <div class="fml"><span class="tag">总耗功</span><p><i>w</i><sub>C</sub> = <i>w</i>₁ + <i>w</i>₂ = <i>c</i><sub>p</sub><i>T</i>₁[(<i>p</i><sub>x</sub>/<i>p</i>₁)<sup>m</sup> + (<i>p</i>₂/<i>p</i><sub>x</sub>)<sup>m</sup> − 2]</p></div>
+    <p>令 <i>a</i> = ln(<i>p</i><sub>x</sub>/<i>p</i>₁)、<i>b</i> = ln(<i>p</i>₂/<i>p</i><sub>x</sub>)，则 <i>a</i> + <i>b</i> = ln(<i>p</i>₂/<i>p</i>₁) = 常数，总耗功只随 <i>a</i> 变化，对 <i>a</i> 求导取极值：</p>
+    <div class="fml"><p>d<i>w</i><sub>C</sub>/d<i>a</i> = <i>c</i><sub>p</sub><i>T</i>₁ <i>m</i>(e<sup>ma</sup> − e<sup>mb</sup>) = 0　⇒　<i>a</i> = <i>b</i>　⇒　<i>p</i><sub>x</sub>/<i>p</i>₁ = <i>p</i>₂/<i>p</i><sub>x</sub></p></div>
+    <div class="fml"><span class="tag">最佳中间压力</span><p><i>p</i><sub>x</sub> = √(<i>p</i>₁<i>p</i>₂)　，即　<i>ε</i>₁ = <i>ε</i>₂ = √<i>ε</i>　（等压比分配、各级耗功相等）</p></div>
+    <div class="fml"><p>此时 <i>w</i>₁ = <i>w</i>₂ = <i>w</i><sub>C,min</sub>/2　，　<i>w</i><sub>C,min</sub> = 2<i>c</i><sub>p</sub><i>T</i>₁[<i>ε</i><sup>(n−1)/(2n)</sup> − 1]</p></div>
+    <p>推广到 <i>z</i> 级：各级压比相等 <i>ε</i><sub>i</sub> = <i>ε</i><sup>1/z</sup>、各级耗功相等，<i>w</i><sub>C,min</sub> = <i>z c</i><sub>p</sub><i>T</i>₁[<i>ε</i><sup>(n−1)/(zn)</sup> − 1]，级数越多越接近等温压缩的下限。</p>
+
+    <p><strong>（5）<i>T</i>-<i>s</i> 图上的表示与数值对比。</strong></p>
+    <figure>
+      <svg viewBox="0 0 620 280" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <line x1="70" y1="250" x2="70" y2="28" stroke="#0b3d69" stroke-width="1.5"/>
+        <polygon points="70,20 64,33 76,33" fill="#0b3d69"/>
+        <line x1="70" y1="250" x2="592" y2="250" stroke="#0b3d69" stroke-width="1.5"/>
+        <polygon points="598,250 585,245 585,255" fill="#0b3d69"/>
+        <text x="48" y="34" font-size="15" fill="#0b3d69">T</text>
+        <text x="578" y="270" font-size="15" fill="#0b3d69">s</text>
+        <polyline points="190,210 220,185 250,150 280,100" fill="none" stroke="#0b3d69" stroke-width="1.8"/>
+        <text x="282" y="96" font-size="13" fill="#0b3d69">p₂</text>
+        <polyline points="245,210 275,185 305,150 335,100" fill="none" stroke="#0b3d69" stroke-width="1.8"/>
+        <text x="337" y="96" font-size="13" fill="#0b3d69">p_x</text>
+        <polyline points="300,210 330,185 360,150 390,100" fill="none" stroke="#0b3d69" stroke-width="1.8"/>
+        <text x="392" y="96" font-size="13" fill="#0b3d69">p₁</text>
+        <line x1="300" y1="210" x2="300" y2="154" stroke="#2f7d32" stroke-width="2.5"/>
+        <line x1="245" y1="154" x2="245" y2="210" stroke="#2f7d32" stroke-width="2.5"/>
+        <line x1="300" y1="154" x2="245" y2="210" stroke="#8f6410" stroke-width="2.5" stroke-dasharray="6 4"/>
+        <line x1="245" y1="210" x2="245" y2="154" stroke="#2f7d32" stroke-width="2.5"/>
+        <line x1="300" y1="210" x2="190" y2="210" stroke="#b3261e" stroke-width="2" stroke-dasharray="7 4"/>
+        <circle cx="300" cy="210" r="3.5" fill="#0b3d69"/>
+        <circle cx="300" cy="154" r="3.5" fill="#0b3d69"/>
+        <circle cx="245" cy="210" r="3.5" fill="#0b3d69"/>
+        <circle cx="245" cy="154" r="3.5" fill="#0b3d69"/>
+        <circle cx="190" cy="210" r="3.5" fill="#b3261e"/>
+        <text x="304" y="224" font-size="13" fill="#666">1</text>
+        <text x="304" y="148" font-size="13" fill="#666">2</text>
+        <text x="222" y="224" font-size="13" fill="#666">3</text>
+        <text x="222" y="148" font-size="13" fill="#666">4</text>
+        <text x="178" y="226" font-size="13" fill="#b3261e">5</text>
+        <text x="330" y="236" font-size="12" fill="#b3261e">等温极限</text>
+        <text x="430" y="60" font-size="12" fill="#2f7d32">两级阶梯</text>
+      </svg>
+      <figcaption>图 25-1　两级压缩、中间冷却的 <i>T</i>-<i>s</i> 图。1 → 2 为 Ⅰ 级定熵压缩（到 <i>p</i><sub>x</sub>），2 → 3 为中间冷却器中等压冷却回 <i>T</i>₁，3 → 4 为 Ⅱ 级定熵压缩（到 <i>p</i>₂）；红虚线 1 → 5 为<b>等温压缩极限</b>（耗功最小）。阶梯 1-2-3-4 比单级压缩 1 → 4′ 更接近等温线，故耗功更小；取 <i>p</i><sub>x</sub> = √(<i>p</i>₁<i>p</i>₂) 时两级温升相同、耗功相等。</figcaption>
+    </figure>
+    <p>取 <i>T</i>₁ = 293 K、κ = 1.4、<i>c</i><sub>p</sub> = 1.005 kJ/(kg·K)、<i>R</i><sub>g</sub> = 0.287 kJ/(kg·K)、总压比 <i>ε</i> = 9：</p>
+    <table>
+      <tr><th>压缩方式</th><th class="c">每级压比</th><th class="c">排气温度 / K（℃）</th><th class="c">单位质量耗功 / (kJ/kg)</th></tr>
+      <tr><td>单级定熵压缩</td><td class="c">9</td><td class="c">549（276）</td><td class="c">257</td></tr>
+      <tr><td>两级 + 中间冷却（<i>p</i><sub>x</sub> = 3<i>p</i>₁）</td><td class="c">3 / 3</td><td class="c">401（128）</td><td class="c">217</td></tr>
+      <tr><td>等温压缩（理想极限）</td><td class="c">—</td><td class="c">293（20）</td><td class="c">185</td></tr>
+    </table>
+    <p>可见两级比单级<b>省功约 15%</b>，排气温度由 276 ℃ 降到 128 ℃，同时每级压比小、容积效率高——这就是多级压缩中间冷却的三条主要好处。</p>
+
+    <p><strong>（6）结论。</strong>多级压缩中间冷却适用于<b>高升压比、排气温度受限、要求高容积效率与级间除水</b>的场合；其优点是<b>省功、降低排气温度、提高容积效率、改善受力</b>，代价是设备复杂、投资与级间压降增加，故级数不宜过多，一般 2～3 级，并按<b>各级压比相等（等压比分配）</b>的原则选取中间压力。</p>
+  </div>
+  <div class="ans">得分点：① 使用场合三条（<b>高升压比</b> ε &gt; 8～10、<b>排气温度受限</b>、<b>容积效率与级间除水</b>）；② 优点（<b>省功</b>——过程逼近等温；<b>排气温度低</b>；<b>容积效率高</b>；受力小、泄漏少；代价是设备投资增加），并给出“等温压缩耗功最小”的依据 <i>w</i><sub>T</sub> = <i>R</i><sub>g</sub><i>T</i>₁ln<i>ε</i>；③ 推导：<i>w</i><sub>C</sub> = <i>c</i><sub>p</sub><i>T</i>₁[(<i>p</i><sub>x</sub>/<i>p</i>₁)<sup>m</sup> + (<i>p</i>₂/<i>p</i><sub>x</sub>)<sup>m</sup> − 2]，求极值得 <b><i>p</i><sub>x</sub> = √(<i>p</i>₁<i>p</i>₂)</b>、各级压比相等且耗功相等；④ <i>T</i>-<i>s</i> 图上“阶梯形”逼近等温线。一句话结论：多级压缩中间冷却的作用是让压缩过程尽量接近等温，从而<b>省功、降温、提高容积效率</b>，最佳中间压力按等压比分配 <i>p</i><sub>x</sub> = √(<i>p</i>₁<i>p</i>₂)。</div>
+</div>
+<div class="box exam"><span class="bt">答题模板（“使用场合 + 优点”类题四步法）</span>
+<p><span class="badge">1</span>先说是什么：把总压比分配给若干级，级间冷却（理想冷却回 <i>T</i>₁）；<span class="badge">2</span>说场合：高升压比、排气温度受限（给出 <i>T</i>₂ = <i>T</i>₁<i>ε</i><sup>(κ−1)/κ</sup> 的估算）、容积效率要求高、级间需除水；<span class="badge">3</span>说优点：省功（等温最省功）→ 降温（安全）→ 提高 <i>λ</i> → 受力与泄漏改善，再补一句代价（设备与投资增加、级间压降）；<span class="badge">4</span>给推导与结论：两级耗功式求极值得 <i>p</i><sub>x</sub> = √(<i>p</i>₁<i>p</i>₂)，各级压比相等、耗功相等，一般取 2～3 级。<br><b>注意</b>：推导时必须写明“各级按同一指数压缩、级间冷却回初温、忽略动能位能差”三条假设；不要漏掉“等压比分配”这个结论；数值例子可用来支撑“省功”的结论。</p></div>
+
+<div class="pagebreak"></div>
+<h1>附录 A　高频考点自测清单</h1>
+
+<div class="lead">用法：合上讲义，先看“考点”，能<b>口述关键式并说出适用条件</b>才算掌握；带“会推导”的条目必须在纸上写出中间式。每题后括号内为对应题号。</div>
+
+<table>
+  <tr><th>考点</th><th class="c">自测（能做到就打 √）</th><th>关键式 / 判据</th></tr>
+  <tr><td>牛顿力学与热力学的差别（①）</td><td class="c">□ 能说 5 条</td><td>研究对象（质点 / 大量分子宏观系统）、基本定律、时间方向性（可逆 / 熵增）、状态量与过程量、宏观与微观方法</td></tr>
+  <tr><td>热力学第零定律及意义（②）</td><td class="c">□ 能复述 + 举例</td><td>与第三系统热平衡 ⇒ 彼此热平衡；<i>T</i><sub>A</sub> = <i>T</i><sub>B</sub> ⇔ 热平衡；温度存在的依据、测温原理</td></tr>
+  <tr><td>工质热力性质与物态稳定条件（③）</td><td class="c">□ 能说 4 个平衡</td><td><i>f</i>(<i>p</i>,<i>v</i>,<i>T</i>) = 0；状态公理 2 个独立参数；热平衡、力平衡、相平衡（<i>p</i> = <i>f</i>(<i>T</i>)）、化学平衡</td></tr>
+  <tr><td>闭口系统能量方程推导（④）</td><td class="c">□ 会推导</td><td><i>Q</i> = Δ<i>U</i> + Δ<i>E</i><sub>k</sub> + Δ<i>E</i><sub>p</sub> + <i>W</i> ⇒ <i>q</i> = Δ<i>u</i> + <i>w</i>；δ<i>q</i> = d<i>u</i> + δ<i>w</i>；<i>w</i> = ∫<i>p</i>d<i>v</i> 只对可逆成立</td></tr>
+  <tr><td>吉布斯方程（<i>u</i>、<i>h</i> 形式）（⑤）</td><td class="c">□ 会推导两式</td><td>d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i>；d<i>h</i> = <i>T</i>d<i>s</i> + <i>v</i>d<i>p</i>；只含状态参数 ⇒ 对任意两状态成立</td></tr>
+  <tr><td>推导 δ<i>q</i> + δ<i>w</i><sub>diss</sub> = <i>T</i>d<i>s</i>（⑥）</td><td class="c">□ 会推导</td><td>δ<i>w</i> = <i>p</i>d<i>v</i> − δ<i>w</i><sub>diss</sub>；δ<i>q</i> = <i>T</i>d<i>s</i> − δ<i>w</i><sub>diss</sub>；δ<i>s</i><sub>g</sub> = δ<i>w</i><sub>diss</sub>/<i>T</i> ≥ 0</td></tr>
+  <tr><td>稳定流动开口系能量方程的两种形式（⑦）</td><td class="c">□ 会助记导出</td><td><i>q</i> = Δ<i>h</i> + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub>；<i>q</i> = Δ<i>h</i> + <i>w</i><sub>t</sub>，<i>w</i><sub>t</sub> = ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub></td></tr>
+  <tr><td>热交换器（⑧）</td><td class="c">□ 会画简图 + 写方程</td><td><i>q</i><sub>m1</sub>(<i>h</i>₁ − <i>h</i>₂) = <i>q</i><sub>m3</sub>(<i>h</i>₄ − <i>h</i>₃)；无轴功、近似定压 ⇒ <i>q</i> = Δ<i>h</i>；逆流、小温差</td></tr>
+  <tr><td>喷管、扩压管（⑨）</td><td class="c">□ 会写两种形式</td><td>绝热：½(<i>c</i>₂<sup>2</sup> − <i>c</i>₁<sup>2</sup>) = <i>h</i>₁ − <i>h</i>₂ = −Δ<i>h</i>；可逆时 = −∫<i>v</i>d<i>p</i>；喷管降压增速，扩压管升压减速</td></tr>
+  <tr><td>绝热混合（⑩）</td><td class="c">□ 会画简图 + 写方程</td><td>Σ<i>q</i><sub>m,in</sub><i>h</i><sub>in</sub> = Σ<i>q</i><sub>m,out</sub><i>h</i><sub>out</sub>；<i>T</i>₃ 介于两进口温度之间；不可逆（温差 + 混合）</td></tr>
+  <tr><td>压气机、透平机（⑪）</td><td class="c">□ 会画简图 + 判符号</td><td>绝热：<i>w</i><sub>s</sub> = −Δ<i>h</i>；压气机 <i>w</i><sub>C</sub> = <i>h</i>₂ − <i>h</i>₁；透平机 <i>w</i><sub>T</sub> = <i>h</i>₁ − <i>h</i>₂；可逆时 = −∫<i>v</i>d<i>p</i></td></tr>
+  <tr><td>绝热节流（⑫）</td><td class="c">□ 会画 <i>T</i>-<i>s</i> 图</td><td><i>h</i>₁ = <i>h</i>₂；<i>p</i>₂ &lt; <i>p</i>₁；<i>s</i>₂ &gt; <i>s</i>₁（不可逆）；理想气体 <i>T</i>₁ = <i>T</i>₂；<i>μ</i><sub>J</sub> = (∂<i>T</i>/∂<i>p</i>)<sub>h</sub></td></tr>
+  <tr><td>理想气体定熵过程特征式（⑬）</td><td class="c">□ 会推导三式</td><td><i>p</i><i>v</i><sup>κ</sup> = 常数；<i>T</i><i>v</i><sup>κ−1</sup> = 常数；<i>T</i><i>p</i><sup>(1−κ)/κ</sup> = 常数；<i>w</i> = −Δ<i>u</i>、<i>w</i><sub>t</sub> = κ<i>w</i></td></tr>
+  <tr><td><i>p</i>-<i>v</i> 图：定温线与定熵线（⑭）</td><td class="c">□ 会推斜率 + 画图</td><td>(∂<i>p</i>/∂<i>v</i>)<sub>T</sub> = −<i>p</i>/<i>v</i>；(∂<i>p</i>/∂<i>v</i>)<sub>s</sub> = −κ<i>p</i>/<i>v</i>；同点处定熵线比定温线<b>陡 κ 倍</b></td></tr>
+  <tr><td><i>T</i>-<i>s</i> 图：定压线与定容线（⑮）</td><td class="c">□ 会推斜率 + 画图</td><td>(∂<i>T</i>/∂<i>s</i>)<sub>p</sub> = <i>T</i>/<i>c</i><sub>p</sub>；(∂<i>T</i>/∂<i>s</i>)<sub>v</sub> = <i>T</i>/<i>c</i><sub>v</sub>；定容线陡 κ 倍且靠左；<b>定熵线垂直、定温线水平</b></td></tr>
+  <tr><td>多变过程线斜率（⑯）</td><td class="c">□ 会推导</td><td>(∂<i>p</i>/∂<i>v</i>)<sub>n</sub> = −<i>n</i><i>p</i>/<i>v</i>；(∂<i>T</i>/∂<i>s</i>)<sub>n</sub> = <i>T</i>/<i>c</i><sub>n</sub> = <i>T</i>(<i>n</i>−1)/[<i>c</i><sub>v</sub>(<i>n</i>−κ)]</td></tr>
+  <tr><td>多变比热与 <i>q</i>、<i>w</i>、<i>w</i><sub>t</sub>（⑰）</td><td class="c">□ 会推导 + 会算</td><td><i>c</i><sub>n</sub> = <i>c</i><sub>v</sub>(<i>n</i>−κ)/(<i>n</i>−1)；<i>q</i> = <i>c</i><sub>n</sub>Δ<i>T</i>；<i>w</i> = <i>R</i><sub>g</sub>(<i>T</i>₁−<i>T</i>₂)/(<i>n</i>−1)；<i>w</i><sub>t</sub> = <i>n</i><i>w</i></td></tr>
+  <tr><td>卡诺正、逆循环（⑱）</td><td class="c">□ 会画两图 + 推 <i>η</i>、<i>ε</i></td><td><i>T</i>-<i>s</i> 图为矩形；<i>η</i><sub>t,C</sub> = 1 − <i>T</i>₂/<i>T</i>₁；<i>ε</i>₁ = <i>T</i>₂/(<i>T</i>₁−<i>T</i>₂)；<i>ε</i>₂ = <i>ε</i>₁ + 1</td></tr>
+  <tr><td>卡诺定理与克劳修斯不等式（⑲）</td><td class="c">□ 会证明</td><td><i>η</i><sub>t</sub> ≤ 1 − <i>T</i>₂/<i>T</i>₁（等号仅可逆）；∮(δ<i>q</i>/<i>T</i><sub>源</sub>) ≤ 0；可逆时 ∮δ<i>q</i><sub>rev</sub>/<i>T</i> = 0 ⇒ 熵存在</td></tr>
+  <tr><td>绝热稳定流动熵方程（⑳）</td><td class="c">□ 会推导</td><td>开口：d<i>S</i><sub>CV</sub> = δ<i>Q</i>/<i>T</i><sub>源</sub> + δ<i>S</i><sub>g</sub> + <i>s</i>₁δ<i>m</i> − <i>s</i>₂δ<i>m</i>；绝热稳定：<b><i>s</i>₂ − <i>s</i>₁ = <i>s</i><sub>g</sub> ≥ 0</b>；闭口：d<i>s</i> = δ<i>q</i>/<i>T</i><sub>源</sub> + δ<i>s</i><sub>g</sub></td></tr>
+  <tr><td>不可逆损失（㉑）</td><td class="c">□ 会推导 + 举例</td><td><i>w</i><sub>l</sub> = <i>T</i>₀Δ<i>s</i><sub>iso</sub> = <i>T</i>₀<i>s</i><sub>g</sub>；温差传热 <i>q</i>(<i>T</i>−<i>T</i>₀)/<i>T</i>；节流 <i>T</i>₀<i>R</i><sub>g</sub>ln(<i>p</i>₁/<i>p</i>₂)</td></tr>
+  <tr><td>压气机不可逆压气功（<i>T</i>-<i>s</i>：全 / 半）（㉒）</td><td class="c">□ 会分解 + 画图</td><td>全 <i>w</i><sub>C,全</sub> = <i>h</i>₂′ − <i>h</i>₁；半 <i>w</i><sub>C,半</sub> = <i>h</i>₂s − <i>h</i>₁；损失 <i>h</i>₂′ − <i>h</i>₂s = <i>T</i><sub>m</sub>(<i>s</i>₂′−<i>s</i>₁)；<i>η</i><sub>C,s</sub> = (<i>T</i>₂s−<i>T</i>₁)/(<i>T</i>₂′−<i>T</i>₁)</td></tr>
+  <tr><td>压气机不可逆压气功（<i>p</i>-<i>v</i> 面积）（㉓）</td><td class="c">□ 会画面积</td><td><i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i> = 过程线左侧面积；等温最小、定熵次之、实际最大；差 = 曲边三角形 1-2s-2′</td></tr>
+  <tr><td>余隙容积影响（㉔）</td><td class="c">□ 会画示功图 + 推 <i>λ</i></td><td><i>λ</i> = 1 − <i>c</i>(<i>ε</i><sup>1/n</sup> − 1)；<i>ε</i><sub>max</sub> = (1 + 1/<i>c</i>)<sup>n</sup>；不改变单位质量理论耗功</td></tr>
+  <tr><td>多级压缩中间冷却（㉕）</td><td class="c">□ 会说场合 + 优点 + 推导</td><td><i>p</i><sub>x</sub> = √(<i>p</i>₁<i>p</i>₂)（等压比分配、各级耗功相等）；<i>w</i><sub>C,min</sub> = 2<i>c</i><sub>p</sub><i>T</i>₁[<i>ε</i><sup>(n−1)/(2n)</sup> − 1]</td></tr>
+</table>
+
+<h2>易混点自测（选择题式的“一句话判据”）</h2>
+<table>
+  <tr><th>易混点</th><th class="c">自问</th><th>判据 / 关键式</th></tr>
+  <tr><td>绝热 = 定熵？</td><td class="c">□</td><td>否。绝热只保证熵流为零；<i>s</i>₂ − <i>s</i>₁ = <i>s</i><sub>g</sub> ≥ 0，<b>可逆绝热才定熵</b></td></tr>
+  <tr><td>三种功 <i>w</i>、<i>w</i><sub>t</sub>、<i>w</i><sub>s</sub></td><td class="c">□</td><td><i>w</i> = ∫<i>p</i>d<i>v</i>（容积功）；<i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i>（技术功）= ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub>；三者只在<b>可逆</b>时互相换算</td></tr>
+  <tr><td>熵流与熵产</td><td class="c">□</td><td>熵流 = ∫δ<i>q</i>/<i>T</i><sub>源</sub>（可正可负）；熵产 ≥ 0，只由不可逆造成；Δ<i>s</i> = 熵流 + 熵产</td></tr>
+  <tr><td><i>T</i>₀ 与 <i>T</i><sub>m</sub> 两种损失</td><td class="c">□</td><td>作功能力损失 <i>T</i>₀Δ<i>s</i><sub>iso</sub>；设备多耗功 <i>T</i><sub>m</sub>(<i>s</i>₂−<i>s</i>₁)（<i>T</i><sub>m</sub> 为过程平均温度，一般 ≠ <i>T</i>₀）</td></tr>
+  <tr><td><i>T</i><sub>源</sub> 与 <i>T</i><sub>工质</sub></td><td class="c">□</td><td>克劳修斯不等式与熵流用<b>热源（边界）温度</b>；只有可逆时二者相等</td></tr>
+  <tr><td>定温线 = 定压线？</td><td class="c">□</td><td>只有理想气体或两相区才重合；单相实际流体的定温线 ≠ 定压线</td></tr>
+  <tr><td><i>c</i><sub>n</sub> 是物性吗？</td><td class="c">□</td><td>不是。它是过程量式的系数，随 <i>n</i> 变化，可为负、为零（定熵）、为 ∞（定温）</td></tr>
+  <tr><td>余隙容积“费功”还是“费气”？</td><td class="c">□</td><td>费气：单位质量理论耗功不变，容积效率 <i>λ</i> 下降、产气量减少、限制单级压比</td></tr>
+</table>
+
+<div class="pagebreak"></div>
+<h1>附录 B　1—8 周公式总表</h1>
+
+<div class="lead">符号与约定：<i>q</i>、<i>w</i> 均以<b>工质吸热为正、对外作功为正</b>；<i>q</i><sub>m</sub> 为质量流量；温度一律用热力学温度 K；指数 <i>n</i> 为多变指数、κ = <i>c</i><sub>p</sub>/<i>c</i><sub>v</sub> 为比热比（定熵指数）。常用值：<i>R</i> = 8.314 J/(mol·K)；空气 <i>R</i><sub>g</sub> = 0.287 kJ/(kg·K)、<i>c</i><sub>p</sub> = 1.005、<i>c</i><sub>v</sub> = 0.718 kJ/(kg·K)、κ = 1.4。</div>
+
+<h2>一、状态方程与工质性质</h2>
+<table>
+  <tr><th>名称</th><th>公式</th><th>说明 / 适用条件</th></tr>
+  <tr><td>理想气体状态方程</td><td><i>pv</i> = <i>R</i><sub>g</sub><i>T</i>；<i>pV</i> = <i>mR</i><sub>g</sub><i>T</i>；<i>pV</i> = <i>nRT</i></td><td><i>R</i><sub>g</sub> = <i>R</i>/<i>M</i> = 8314/<i>M</i> J/(kg·K)</td></tr>
+  <tr><td>状态方程一般式</td><td><i>f</i>(<i>p</i>, <i>v</i>, <i>T</i>) = 0</td><td>状态公理：简单可压缩系 2 个独立状态参数</td></tr>
+  <tr><td>混合气体</td><td><i>p</i> = Σ<i>p</i><sub>i</sub>；<i>V</i> = Σ<i>V</i><sub>i</sub>；<i>R</i><sub>g,eq</sub> = Σ<i>g</i><sub>i</sub><i>R</i><sub>g,i</sub></td><td>分压力定律、分容积定律；<i>g</i><sub>i</sub> = <i>m</i><sub>i</sub>/<i>m</i>、<i>x</i><sub>i</sub> = <i>n</i><sub>i</sub>/<i>n</i></td></tr>
+  <tr><td>实际气体</td><td>(<i>p</i> + <i>a</i>/<i>v</i><sup>2</sup>)(<i>v</i> − <i>b</i>) = <i>R</i><sub>g</sub><i>T</i>；<i>Z</i> = <i>pv</i>/(<i>R</i><sub>g</sub><i>T</i>)</td><td>范德瓦尔方程（引入分子体积与引力修正）；压缩因子 <i>Z</i></td></tr>
+  <tr><td>对比态原理</td><td><i>p</i><sub>r</sub> = <i>p</i>/<i>p</i><sub>cr</sub>，<i>T</i><sub>r</sub> = <i>T</i>/<i>T</i><sub>cr</sub>，<i>v</i><sub>r</sub> = <i>v</i>/<i>v</i><sub>cr</sub></td><td>对应态：同 <i>p</i><sub>r</sub>、<i>T</i><sub>r</sub> 则 <i>Z</i> 相同</td></tr>
+  <tr><td>两相区</td><td><i>p</i> = <i>p</i><sub>s</sub>(<i>T</i>)；<i>x</i> = <i>m</i><sub>气</sub>/<i>m</i></td><td>两相共存时压力只是温度的函数（物态稳定条件之一）</td></tr>
+</table>
+
+<h2>二、比热、内能与焓</h2>
+<table>
+  <tr><th>名称</th><th>公式</th><th>说明 / 适用条件</th></tr>
+  <tr><td>定容、定压比热</td><td><i>c</i><sub>v</sub> = (∂<i>u</i>/∂<i>T</i>)<sub>v</sub>；<i>c</i><sub>p</sub> = (∂<i>h</i>/∂<i>T</i>)<sub>p</sub></td><td>理想气体时二者只是温度的函数</td></tr>
+  <tr><td>迈耶公式</td><td><i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> = <i>R</i><sub>g</sub></td><td>理想气体；结合 κ 得 <i>c</i><sub>v</sub> = <i>R</i><sub>g</sub>/(κ−1)、<i>c</i><sub>p</sub> = κ<i>R</i><sub>g</sub>/(κ−1)</td></tr>
+  <tr><td>比热比</td><td>κ = <i>c</i><sub>p</sub>/<i>c</i><sub>v</sub>；<i>R</i><sub>g</sub> = <i>c</i><sub>v</sub>(κ−1)</td><td>单原子 1.67、双原子 1.4、多原子 ≈1.29</td></tr>
+  <tr><td>内能、焓变</td><td>d<i>u</i> = <i>c</i><sub>v</sub>d<i>T</i>；d<i>h</i> = <i>c</i><sub>p</sub>d<i>T</i>；Δ<i>u</i> = <i>c</i><sub>v</sub>Δ<i>T</i>；Δ<i>h</i> = <i>c</i><sub>p</sub>Δ<i>T</i></td><td>理想气体：<i>u</i> = <i>u</i>(<i>T</i>)、<i>h</i> = <i>h</i>(<i>T</i>)，与 <i>p</i>、<i>v</i> 无关</td></tr>
+  <tr><td>焓的定义</td><td><i>h</i> = <i>u</i> + <i>pv</i>；d<i>h</i> = d<i>u</i> + d(<i>pv</i>)</td><td>焓是状态参数，<i>h</i> = <i>h</i>(<i>s</i>, <i>p</i>) 最常用</td></tr>
+</table>
+
+<h2>三、能量方程</h2>
+<table>
+  <tr><th>名称</th><th>公式</th><th>说明 / 适用条件</th></tr>
+  <tr><td>闭口系一般式</td><td><i>Q</i> = Δ<i>U</i> + Δ<i>E</i><sub>k</sub> + Δ<i>E</i><sub>p</sub> + <i>W</i></td><td>控制质量；<i>E</i><sub>k</sub> = ½<i>mc</i><sup>2</sup>、<i>E</i><sub>p</sub> = <i>mgz</i></td></tr>
+  <tr><td>闭口系简化式</td><td><i>q</i> = Δ<i>u</i> + <i>w</i>；δ<i>q</i> = d<i>u</i> + δ<i>w</i></td><td>忽略宏观机械能变化，只交换热量与容积变化功</td></tr>
+  <tr><td>总功的分解</td><td>δ<i>w</i> = <i>p</i>d<i>v</i> − δ<i>w</i><sub>diss</sub></td><td><i>w</i><sub>diss</sub> ≥ 0 为耗散功（摩擦、扰动）；可逆时 δ<i>w</i><sub>diss</sub> = 0</td></tr>
+  <tr><td>可逆闭口系</td><td><i>q</i> = Δ<i>u</i> + ∫<sub>1</sub><sup>2</sup><i>p</i>d<i>v</i>；δ<i>q</i> = d<i>u</i> + <i>p</i>d<i>v</i></td><td><i>w</i> = ∫<i>p</i>d<i>v</i> 只对<b>可逆</b>过程成立</td></tr>
+  <tr><td>焓形式</td><td>δ<i>q</i> = d<i>h</i> − <i>v</i>d<i>p</i>；<i>q</i> = Δ<i>h</i> − ∫<sub>1</sub><sup>2</sup><i>v</i>d<i>p</i></td><td>由 d<i>u</i> = d<i>h</i> − d(<i>pv</i>) 代入得；适用于可逆过程</td></tr>
+  <tr><td>吉布斯方程</td><td>d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i>；d<i>h</i> = <i>T</i>d<i>s</i> + <i>v</i>d<i>p</i></td><td>只含状态参数 ⇒ 对任意两平衡态之间成立（可逆或不可逆）</td></tr>
+  <tr><td>两个 <i>T</i>d<i>s</i> 方程</td><td><i>T</i>d<i>s</i> = <i>c</i><sub>v</sub>d<i>T</i> + <i>T</i>(∂<i>p</i>/∂<i>T</i>)<sub>v</sub>d<i>v</i>；<i>T</i>d<i>s</i> = <i>c</i><sub>p</sub>d<i>T</i> − <i>T</i>(∂<i>v</i>/∂<i>T</i>)<sub>p</sub>d<i>p</i></td><td>由吉布斯方程与状态方程联立得到，是求熵变与过程方程的出发点</td></tr>
+  <tr><td>稳定流动开口系</td><td><i>q</i> = Δ<i>h</i> + ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub></td><td>一进一出、稳定流动；<i>c</i> 为流速</td></tr>
+  <tr><td>两种形式</td><td><i>q</i> = Δ<i>h</i> + <i>w</i><sub>t</sub>，其中 <i>w</i><sub>t</sub> = ½Δ<i>c</i><sup>2</sup> + <i>g</i>Δ<i>z</i> + <i>w</i><sub>s</sub></td><td>技术功 <i>w</i><sub>t</sub> = 机械能变化 + 轴功；可逆时 <i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i></td></tr>
+  <tr><td>典型设备</td><td>热交换器 <i>q</i> = Δ<i>h</i>；喷管 ½(<i>c</i>₂<sup>2</sup>−<i>c</i>₁<sup>2</sup>) = <i>h</i>₁ − <i>h</i>₂；节流 <i>h</i>₁ = <i>h</i>₂</td><td>均为一进一出稳定流动方程“划零”后的结果</td></tr>
+  <tr><td>压气机与透平机</td><td>压气机 <i>w</i><sub>C</sub> = <i>h</i>₂ − <i>h</i>₁；透平机 <i>w</i><sub>T</sub> = <i>h</i>₁ − <i>h</i>₂</td><td>绝热（<i>q</i> = 0）、忽略动能位能差</td></tr>
+</table>
+
+<h2>四、熵与熵方程</h2>
+<table>
+  <tr><th>名称</th><th>公式</th><th>说明 / 适用条件</th></tr>
+  <tr><td>熵的定义</td><td>d<i>s</i> = δ<i>q</i><sub>rev</sub>/<i>T</i></td><td>可逆过程；熵是状态参数</td></tr>
+  <tr><td>耗散与熵产</td><td>δ<i>q</i> + δ<i>w</i><sub>diss</sub> = <i>T</i>d<i>s</i>；δ<i>s</i><sub>g</sub> = δ<i>w</i><sub>diss</sub>/<i>T</i> ≥ 0</td><td>不可逆性的定量度量；可逆时退化为 δ<i>q</i> = <i>T</i>d<i>s</i></td></tr>
+  <tr><td>闭口系熵方程</td><td>d<i>s</i> = δ<i>q</i>/<i>T</i><sub>源</sub> + δ<i>s</i><sub>g</sub>；Δ<i>s</i> = ∫δ<i>q</i>/<i>T</i><sub>源</sub> + <i>s</i><sub>g</sub></td><td>熵流（可正可负）+ 熵产（恒 ≥ 0）；绝热时 d<i>s</i> = δ<i>s</i><sub>g</sub></td></tr>
+  <tr><td>开口系熵方程</td><td>d<i>S</i><sub>CV</sub> = δ<i>Q</i>/<i>T</i><sub>源</sub> + δ<i>S</i><sub>g</sub> + Σ<i>s</i><sub>in</sub>δ<i>m</i><sub>in</sub> − Σ<i>s</i><sub>out</sub>δ<i>m</i><sub>out</sub></td><td>控制体；进、出质量流各带进、带出熵</td></tr>
+  <tr><td>绝热稳定流动</td><td><i>s</i>₂ − <i>s</i>₁ = <i>s</i><sub>g</sub> ≥ 0</td><td>绝热节流、绝热压缩、绝热膨胀都适用</td></tr>
+  <tr><td>孤立系熵增</td><td>Δ<i>s</i><sub>iso</sub> ≥ 0</td><td>第二定律的数学表达：可逆取等号，不可逆必大于零</td></tr>
+  <tr><td>理想气体熵变</td><td>Δ<i>s</i> = <i>c</i><sub>v</sub>ln(<i>T</i>₂/<i>T</i>₁) + <i>R</i><sub>g</sub>ln(<i>v</i>₂/<i>v</i>₁) = <i>c</i><sub>p</sub>ln(<i>T</i>₂/<i>T</i>₁) − <i>R</i><sub>g</sub>ln(<i>p</i>₂/<i>p</i>₁) = <i>c</i><sub>v</sub>ln(<i>p</i>₂/<i>p</i>₁) + <i>c</i><sub>p</sub>ln(<i>v</i>₂/<i>v</i>₁)</td><td>三式等价，按已知参数选用；定值比热</td></tr>
+  <tr><td>克劳修斯不等式</td><td>∮(δ<i>q</i>/<i>T</i><sub>源</sub>) ≤ 0</td><td><i>T</i><sub>源</sub> 为热源温度；可逆循环 ∮δ<i>q</i><sub>rev</sub>/<i>T</i> = 0</td></tr>
+  <tr><td>作功能力损失</td><td><i>w</i><sub>l</sub> = <i>T</i>₀Δ<i>s</i><sub>iso</sub> = <i>T</i>₀<i>s</i><sub>g</sub></td><td>居伊–斯托多拉公式；<i>T</i>₀ 为环境温度</td></tr>
+  <tr><td>平均温度</td><td><i>q</i> = ∫<i>T</i>d<i>s</i> = <i>T</i><sub>m</sub>Δ<i>s</i>；<i>η</i><sub>t</sub> = 1 − <i>T</i><sub>2m</sub>/<i>T</i><sub>1m</sub></td><td>把非等温吸、放热折算为等效定温过程</td></tr>
+</table>
+
+<h2>五、过程方程与技术功</h2>
+<table>
+  <tr><th>过程</th><th>过程方程</th><th>热量、功、技术功</th></tr>
+  <tr><td>多变（一般）</td><td><i>pv</i><sup>n</sup> = 常数；<i>Tv</i><sup>n−1</sup> = 常数；<i>Tp</i><sup>(1−n)/n</sup> = 常数</td><td><i>w</i> = <i>R</i><sub>g</sub>(<i>T</i>₁−<i>T</i>₂)/(<i>n</i>−1) = (<i>p</i>₁<i>v</i>₁−<i>p</i>₂<i>v</i>₂)/(<i>n</i>−1)；<i>w</i><sub>t</sub> = <i>nw</i>；<i>q</i> = <i>c</i><sub>n</sub>Δ<i>T</i></td></tr>
+  <tr><td>多变比热</td><td><i>c</i><sub>n</sub> = δ<i>q</i>/d<i>T</i> = <i>c</i><sub>v</sub>(<i>n</i>−κ)/(<i>n</i>−1)</td><td><i>q</i> : <i>w</i> : Δ<i>u</i> = (<i>n</i>−κ) : (1−<i>n</i>) : (κ−1)</td></tr>
+  <tr><td>定容</td><td><i>n</i> = ±∞，<i>v</i> = 常数</td><td><i>w</i> = 0；<i>q</i> = Δ<i>u</i> = <i>c</i><sub>v</sub>Δ<i>T</i>；<i>w</i><sub>t</sub> = <i>v</i>Δ<i>p</i></td></tr>
+  <tr><td>定压</td><td><i>n</i> = 0，<i>p</i> = 常数</td><td><i>w</i> = <i>R</i><sub>g</sub>Δ<i>T</i>；<i>q</i> = Δ<i>h</i> = <i>c</i><sub>p</sub>Δ<i>T</i>；<i>w</i><sub>t</sub> = 0</td></tr>
+  <tr><td>定温</td><td><i>n</i> = 1，<i>pv</i> = 常数</td><td>Δ<i>u</i> = Δ<i>h</i> = 0；<i>q</i> = <i>w</i> = <i>w</i><sub>t</sub> = <i>R</i><sub>g</sub><i>T</i>ln(<i>v</i>₂/<i>v</i>₁) = <i>R</i><sub>g</sub><i>T</i>ln(<i>p</i>₁/<i>p</i>₂)</td></tr>
+  <tr><td>定熵（可逆绝热）</td><td><i>n</i> = κ，<i>pv</i><sup>κ</sup> = 常数</td><td><i>q</i> = 0；<i>w</i> = −Δ<i>u</i> = <i>c</i><sub>v</sub>(<i>T</i>₁−<i>T</i>₂)；<i>w</i><sub>t</sub> = −Δ<i>h</i> = κ<i>w</i></td></tr>
+  <tr><td><i>p</i>-<i>v</i> 图斜率</td><td>(∂<i>p</i>/∂<i>v</i>)<sub>T</sub> = −<i>p</i>/<i>v</i>；(∂<i>p</i>/∂<i>v</i>)<sub>s</sub> = −κ<i>p</i>/<i>v</i>；(∂<i>p</i>/∂<i>v</i>)<sub>n</sub> = −<i>np</i>/<i>v</i></td><td>同一点处定熵线比定温线陡 κ 倍；<i>n</i> 越大越陡</td></tr>
+  <tr><td><i>T</i>-<i>s</i> 图斜率</td><td>(∂<i>T</i>/∂<i>s</i>)<sub>p</sub> = <i>T</i>/<i>c</i><sub>p</sub>；(∂<i>T</i>/∂<i>s</i>)<sub>v</sub> = <i>T</i>/<i>c</i><sub>v</sub>；(∂<i>T</i>/∂<i>s</i>)<sub>n</sub> = <i>T</i>/<i>c</i><sub>n</sub></td><td>定容线比定压线陡 κ 倍且位于左侧；定熵线垂直、定温线水平</td></tr>
+  <tr><td>绝热压缩指数</td><td>κ<sub>v</sub> = −(<i>v</i>/<i>p</i>)(∂<i>p</i>/∂<i>v</i>)<sub>s</sub></td><td>变比热实际气体定熵过程的推广形式</td></tr>
+</table>
+
+<h2>六、循环效率</h2>
+<table>
+  <tr><th>名称</th><th>公式</th><th>说明 / 适用条件</th></tr>
+  <tr><td>热效率</td><td><i>η</i><sub>t</sub> = <i>w</i>₀/<i>q</i>₁ = 1 − |<i>q</i>₂|/<i>q</i>₁</td><td><i>w</i>₀ = <i>q</i>₁ − |<i>q</i>₂| 为循环净功</td></tr>
+  <tr><td>卡诺循环热效率</td><td><i>η</i><sub>t,C</sub> = 1 − <i>T</i>₂/<i>T</i>₁</td><td>两个可逆定温 + 两个可逆定熵过程；只与热源温度有关</td></tr>
+  <tr><td>制冷系数</td><td><i>ε</i>₁ = <i>q</i>₂/<i>w</i>₀ = <i>T</i>₂/(<i>T</i>₁ − <i>T</i>₂)</td><td>逆卡诺循环；可大于 1</td></tr>
+  <tr><td>供热系数</td><td><i>ε</i>₂ = <i>q</i>₁/<i>w</i>₀ = <i>T</i>₁/(<i>T</i>₁ − <i>T</i>₂) = <i>ε</i>₁ + 1</td><td>热泵；同样温差下 <i>ε</i>₂ 恒比 <i>ε</i>₁ 大 1</td></tr>
+  <tr><td>卡诺定理</td><td><i>η</i><sub>t</sub> ≤ <i>η</i><sub>t,C</sub> = 1 − <i>T</i>₂/<i>T</i>₁</td><td>等号只对可逆循环成立，与工质无关</td></tr>
+  <tr><td>广义卡诺循环</td><td><i>η</i><sub>t</sub> = 1 − <i>T</i><sub>2m</sub>/<i>T</i><sub>1m</sub></td><td>用平均吸热、放热温度代替定温温度</td></tr>
+</table>
+
+<h2>七、压气机</h2>
+<table>
+  <tr><th>名称</th><th>公式</th><th>说明 / 适用条件</th></tr>
+  <tr><td>定熵（理论）耗功</td><td><i>w</i><sub>C</sub> = <i>c</i><sub>p</sub><i>T</i>₁[(<i>p</i>₂/<i>p</i>₁)<sup>(κ−1)/κ</sup> − 1] = [κ/(κ−1)]<i>p</i>₁<i>v</i>₁[<i>ε</i><sup>(κ−1)/κ</sup> − 1]</td><td>理想气体、定熵压缩，<i>ε</i> = <i>p</i>₂/<i>p</i>₁</td></tr>
+  <tr><td>多变耗功</td><td><i>w</i><sub>C</sub> = [<i>n</i>/(<i>n</i>−1)]<i>p</i>₁<i>v</i>₁[<i>ε</i><sup>(n−1)/n</sup> − 1]</td><td>实际压缩过程按多变处理（有冷却时 <i>n</i> &lt; κ）</td></tr>
+  <tr><td>等温压缩耗功</td><td><i>w</i><sub>C,T</sub> = <i>R</i><sub>g</sub><i>T</i>₁ln<i>ε</i> = <i>p</i>₁<i>v</i>₁ln<i>ε</i></td><td>耗功最小的极限，是多级压缩中间冷却追求的目标</td></tr>
+  <tr><td>不可逆压气功</td><td>全 <i>w</i><sub>C,全</sub> = <i>h</i>₂′ − <i>h</i>₁；半 <i>w</i><sub>C,半</sub> = <i>h</i>₂s − <i>h</i>₁；损失 <i>h</i>₂′ − <i>h</i>₂s = <i>T</i><sub>m</sub>(<i>s</i>₂′ − <i>s</i>₁)</td><td>不可逆过程用焓差（<i>w</i><sub>t</sub> = −∫<i>v</i>d<i>p</i> 已不适用）</td></tr>
+  <tr><td>定熵（绝热）效率</td><td><i>η</i><sub>C,s</sub> = (<i>T</i>₂s − <i>T</i>₁)/(<i>T</i>₂′ − <i>T</i>₁) = <i>w</i><sub>半</sub>/<i>w</i><sub>全</sub></td><td>定值比热时可用温差比代替焓差比</td></tr>
+  <tr><td>余隙容积与容积效率</td><td><i>λ</i> = 1 − <i>c</i>(<i>ε</i><sup>1/n</sup> − 1)；<i>ε</i><sub>max</sub> = (1 + 1/<i>c</i>)<sup>n</sup></td><td><i>c</i> = <i>V</i><sub>c</sub>/<i>V</i><sub>h</sub> ≈ 0.03～0.08；不改变单位质量理论耗功</td></tr>
+  <tr><td>多级压缩中间冷却</td><td><i>p</i><sub>x</sub> = √(<i>p</i>₁<i>p</i>₂)（两级）；<i>ε</i><sub>i</sub> = <i>ε</i><sup>1/z</sup>（<i>z</i> 级）</td><td>各级压比相等、耗功相等时总耗功最小</td></tr>
+  <tr><td>多级最小耗功</td><td><i>w</i><sub>C,min</sub> = <i>zc</i><sub>p</sub><i>T</i>₁[<i>ε</i><sup>(n−1)/(zn)</sup> − 1]</td><td>级数越多越接近等温压缩；实际取 2～3 级</td></tr>
+  <tr><td>功率</td><td><i>P</i> = <i>q</i><sub>m</sub><i>w</i><sub>C</sub></td><td><i>q</i><sub>m</sub> 为质量流量；轴功率还需除以机械效率</td></tr>
+</table>
+
+</body>
+</html>
