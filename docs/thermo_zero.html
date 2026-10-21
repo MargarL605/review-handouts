@@ -2102,7 +2102,355 @@ figcaption .src { color: #9aa3a0; }
         <p>7. 两股不同温度的空气在绝热容器里混合，总熵变为什么一定为正？（提示：用熵增原理，注意这本身是个孤立系统）</p>
       </div>
 
-      <h1 class="ch" id="c7">第 7 章 水蒸气：一路"不听话"的工质</h1>
+      <h1 class="ch" id="c6">第 6 章 微分关系式：把"测不出来的量"换成"测得出的量"</h1>
+
+<div class="why">
+  <b>为什么这一章存在（先讲明白，不然会觉得纯数学）。</b>
+  前五章我们反复用 <i>u</i>、<i>h</i>、<i>s</i>。可你有没有想过一个问题：<b>这三个量，一个都测不出来。</b>
+  量热计测的是热量，压力表测的是 <i>p</i>，温度计测的是 <i>T</i>，量筒测的是 <i>V</i>。
+  <i>u</i>、<i>h</i>、<i>s</i> 都是"算出来的"，靠的是 <i>c</i><sub>v</sub>、<i>c</i><sub>p</sub> 这些<b>可测</b>的系数。
+  <br><br>
+  对理想气体很幸运：<i>u</i> = <i>u</i>(<i>T</i>)、<i>h</i> = <i>h</i>(<i>T</i>)，一个 <i>c</i><sub>p</sub> 就够。但对<b>实际气体、水蒸气、液体</b>，
+  <i>u</i> 和 <i>h</i> 还跟 <i>v</i>、<i>p</i> 有关，<i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> 也不再等于常数 <i>R</i>——这时就必须有一套工具，
+  把 <b>(∂<i>s</i>/∂<i>v</i>)<sub>T</sub>、(∂<i>u</i>/∂<i>v</i>)<sub>T</sub>、(∂<i>h</i>/∂<i>p</i>)<sub>T</sub></b> 这类"测不出来的偏导数"，
+  全部翻译成 <b><i>p</i>、<i>v</i>、<i>T</i> 的可测量</b>。这套工具就是本章的两个东西：
+  <b>四个基本关系式（吉布斯方程组）</b> 和 <b>麦克斯韦关系</b>。
+  <br><br>
+  <b>考试上它长什么样：</b>这一章的题几乎<b>全是证明题</b>（"试证明……"、"试导出……"）。
+  计算题很少，但因为证明题的答案必须"一步不差"，所以它反而是<b>最容易拿满分、也最容易一分不得</b>的一章。
+  好消息是：所有证明题都只用<b>五个动作</b>，本章最后会把这五个动作整理成一张表。
+</div>
+
+<h2>6.1 先把数学工具备好：循环关系式</h2>
+
+<div class="why">
+  <b>为什么：</b>热力学里永远是"三个状态参数、两个独立"。<i>p</i>、<i>v</i>、<i>T</i> 中任意两个定了，第三个就定了。
+  于是我们经常需要<b>把某一个偏导数换成另外两个的乘积</b>（比如把 (∂<i>p</i>/∂<i>T</i>)<sub>v</sub> 换成含 (∂<i>v</i>/∂<i>T</i>)<sub>p</sub> 的式子）。
+  干这件事的公式叫<b>循环关系式</b>，它是本章的"扳手"。
+</div>
+
+<p><b>① 二元函数的偏导可倒数互换。</b>若 <i>z</i> = <i>z</i>(<i>x</i>, <i>y</i>)，则把 <i>z</i> 固定住看 <i>x</i> 和 <i>y</i> 的关系，有</p>
+<div class="fml">(∂<i>x</i>/∂<i>y</i>)<sub>z</sub> = 1 / (∂<i>y</i>/∂<i>x</i>)<sub>z</sub></div>
+<p>这一条很直观：<i>z</i> 不变时，"<i>x</i> 随 <i>y</i> 变"和"<i>y</i> 随 <i>x</i> 变"本来就是互为倒数。注意<b>下标 <i>z</i> 必须一样</b>，下标不同就没有这个关系。</p>
+
+<p><b>② 三个变量互相关联时的循环关系式。</b>由 <i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>) = 0，可以解出 <i>z</i> = <i>z</i>(<i>x</i>, <i>y</i>)，于是</p>
+<div class="fml">d<i>z</i> = (∂<i>z</i>/∂<i>x</i>)<sub>y</sub> d<i>x</i> + (∂<i>z</i>/∂<i>y</i>)<sub>x</sub> d<i>y</i></div>
+<p>现在让 <i>z</i> 保持不变，即 d<i>z</i> = 0，两边移项：</p>
+<div class="fml">0 = (∂<i>z</i>/∂<i>x</i>)<sub>y</sub> d<i>x</i> + (∂<i>z</i>/∂<i>y</i>)<sub>x</sub> d<i>y</i>
+  ⟹ (∂<i>x</i>/∂<i>y</i>)<sub>z</sub> = − (∂<i>z</i>/∂<i>y</i>)<sub>x</sub> / (∂<i>z</i>/∂<i>x</i>)<sub>y</sub></div>
+<p>把这个结果与①结合，把三个偏导数乘起来，就得到<b>循环关系式</b>：</p>
+<div class="fml">(∂<i>x</i>/∂<i>y</i>)<sub>z</sub> · (∂<i>y</i>/∂<i>z</i>)<sub>x</sub> · (∂<i>z</i>/∂<i>x</i>)<sub>y</sub> = −1 &nbsp;&nbsp;&nbsp;&nbsp;(6-1)</div>
+<p class="hint"><b>怎么记：</b>三个偏导数<b>首尾相接转一圈</b>（<i>x</i>→<i>y</i>→<i>z</i>→<i>x</i>），下标是"剩下的那个"，
+  结果<b>永远等于 −1</b>。分子分母看起来"约得掉"，但因为有<b>下标不一致</b>，所以不是 +1 而是 −1——这个负号是本式唯一的坑。</p>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 330" width="700" height="330" style="max-width:660px" role="img" aria-label="循环关系式"><rect x="0" y="0" width="700" height="330" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="350" y="30" font-size="13.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">循环关系式：(∂x/∂y)_z · (∂y/∂z)_x · (∂z/∂x)_y = −1</text><path d="M 350 78 L 220 232 L 480 232 Z" fill="#effaf8" stroke="#0f766e" stroke-width="2.2"   /><circle cx="350" cy="78" r="22" fill="#fff" stroke="#0f766e" stroke-width="2.2"/><text x="350" y="83" font-size="13" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;font-weight:700;">z</text><circle cx="220" cy="232" r="22" fill="#fff" stroke="#b45309" stroke-width="2.2"/><text x="220" y="237" font-size="13" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;font-weight:700;">x</text><circle cx="480" cy="232" r="22" fill="#fff" stroke="#2563eb" stroke-width="2.2"/><text x="480" y="237" font-size="13" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;font-weight:700;">y</text><text x="211" y="159" font-size="11" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(∂x/∂y)_z</text><text x="350" y="252" font-size="11" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(∂y/∂z)_x</text><text x="489" y="159" font-size="11" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(∂z/∂x)_y</text><line x1="0" y1="0" x2="0" y2="0" stroke="#334155" stroke-width="1"   /><line x1="295.4" y1="142.68" x2="282.4" y2="158.07999999999998" stroke="#b45309" stroke-width="2.6"  marker-end="url(#ar)" /><line x1="329.2" y1="232" x2="355.20000000000005" y2="232" stroke="#2563eb" stroke-width="2.6"  marker-end="url(#ar)" /><line x1="425.4" y1="167.32" x2="412.4" y2="151.92000000000002" stroke="#0f766e" stroke-width="2.6"  marker-end="url(#ar)" /><rect x="120" y="268" width="460" height="50" fill="#fffaf0" stroke="#b45309" stroke-width="1.6"  rx="5"/><text x="350" y="288" font-size="11.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">用法：三个变量中任选两个作独立变量，剩下的一个就可以被"换掉"。</text><text x="350" y="306" font-size="11.2" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">推导 "已知两个热系数求第三个" 这一类题，全靠它。</text></svg><figcaption><b>图 6-1</b> 循环关系式的记忆图：三角形三个顶点是 x、y、z，每条边是一个偏导数，从 x 绕一圈回到 x 就是"首尾相接转一圈"，乘积恒等于 −1。</figcaption></figure>
+
+
+<p><b>③ 由它派生的两个常用变形</b>（考试里几乎只用这两个）：</p>
+<div class="fml">(∂<i>x</i>/∂<i>y</i>)<sub>z</sub> = − (∂<i>x</i>/∂<i>z</i>)<sub>y</sub> · (∂<i>z</i>/∂<i>y</i>)<sub>x</sub></div>
+<div class="fml">(∂<i>p</i>/∂<i>T</i>)<sub>v</sub> = − (∂<i>v</i>/∂<i>T</i>)<sub>p</sub> / (∂<i>v</i>/∂<i>p</i>)<sub>T</sub></div>
+<p>第二式请记牢，6.4 节推三个热系数之间的关系时直接用它。</p>
+
+<h2>6.2 四个基本关系式：本章的"发动机"</h2>
+
+<div class="why">
+  <b>为什么：</b>下面这四个式子是把<b>第一定律</b>和<b>第二定律</b>缝在一起的产物。
+  缝法极简单：第一定律说 d<i>u</i> = δ<i>q</i> − <i>p</i>d<i>v</i>，第二定律说<b>可逆</b>时 δ<i>q</i> = <i>T</i>d<i>s</i>。
+  两个一拼，δ<i>q</i> 就被消掉了，剩下一个<b>只含状态参数</b>的式子。
+  这就是本章所有式子的来源——<b>后面每一条公式都能从这里推出来，不需要背</b>。
+</div>
+
+<p><b>（1）热力学能的基本关系式。</b>对简单可压缩系统的<b>可逆</b>过程，把 δ<i>q</i> = <i>T</i>d<i>s</i> 和 δ<i>w</i> = <i>p</i>d<i>v</i> 代入第一定律 δ<i>q</i> = d<i>u</i> + δ<i>w</i>：</p>
+<div class="fml"><i>T</i>d<i>s</i> = d<i>u</i> + <i>p</i>d<i>v</i> &nbsp;&nbsp;⟹&nbsp;&nbsp; d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i> &nbsp;&nbsp;&nbsp;&nbsp;(6-2)</div>
+
+<p><b>（2）焓的基本关系式。</b>由定义 <i>h</i> = <i>u</i> + <i>pv</i> 两边微分（这是<b>乘积的微分</b>，别忘了第二项）：</p>
+<div class="fml">d<i>h</i> = d<i>u</i> + <i>p</i>d<i>v</i> + <i>v</i>d<i>p</i></div>
+<p>把 (6-2) 代进去，<i>p</i>d<i>v</i> 正好抵消：</p>
+<div class="fml">d<i>h</i> = (<i>T</i>d<i>s</i> − <i>p</i>d<i>v</i>) + <i>p</i>d<i>v</i> + <i>v</i>d<i>p</i> = <i>T</i>d<i>s</i> + <i>v</i>d<i>p</i> &nbsp;&nbsp;&nbsp;&nbsp;(6-3)</div>
+
+<p><b>（3）自由能的基本关系式。</b>定义 <b>比自由能</b>（亥姆霍兹函数）<i>f</i> = <i>u</i> − <i>Ts</i>，微分：</p>
+<div class="fml">d<i>f</i> = d<i>u</i> − <i>T</i>d<i>s</i> − <i>s</i>d<i>T</i> = (<i>T</i>d<i>s</i> − <i>p</i>d<i>v</i>) − <i>T</i>d<i>s</i> − <i>s</i>d<i>T</i> = −<i>s</i>d<i>T</i> − <i>p</i>d<i>v</i> &nbsp;&nbsp;&nbsp;&nbsp;(6-4)</div>
+
+<p><b>（4）自由焓的基本关系式。</b>定义 <b>比自由焓</b>（吉布斯函数）<i>g</i> = <i>h</i> − <i>Ts</i>，微分：</p>
+<div class="fml">d<i>g</i> = d<i>h</i> − <i>T</i>d<i>s</i> − <i>s</i>d<i>T</i> = (<i>T</i>d<i>s</i> + <i>v</i>d<i>p</i>) − <i>T</i>d<i>s</i> − <i>s</i>d<i>T</i> = −<i>s</i>d<i>T</i> + <i>v</i>d<i>p</i> &nbsp;&nbsp;&nbsp;&nbsp;(6-5)</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 470" width="940" height="470" style="max-width:920px" role="img" aria-label="第6章知识链"><rect x="0" y="0" width="940" height="470" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="470" y="26" font-size="13.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">一条链：第一定律 + 第二定律 → 四个基本式 → 麦克斯韦关系</text><rect x="320" y="44" width="300" height="34" fill="#eef8f6" stroke="#0f766e" stroke-width="1.6"  rx="5"/><text x="470" y="66" font-size="12" fill="#0b4a45" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">δq = du + pdv  ，  δq_rev = Tds</text><line x1="470" y1="78" x2="470" y2="104" stroke="#94a3b8" stroke-width="1.5"   /><line x1="470" y1="104" x2="130" y2="104" stroke="#94a3b8" stroke-width="1.5"   /><line x1="130" y1="104" x2="130" y2="126" stroke="#94a3b8" stroke-width="1.5"   /><rect x="38" y="126" width="184" height="54" fill="#eef8f6" stroke="#0f766e" stroke-width="1.6"  rx="5"/><text x="130" y="150" font-size="12.2" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">du = Tds − pdv</text><text x="130" y="170" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">u = u(s, v)</text><line x1="470" y1="78" x2="470" y2="104" stroke="#94a3b8" stroke-width="1.5"   /><line x1="470" y1="104" x2="350" y2="104" stroke="#94a3b8" stroke-width="1.5"   /><line x1="350" y1="104" x2="350" y2="126" stroke="#94a3b8" stroke-width="1.5"   /><rect x="258" y="126" width="184" height="54" fill="#fffaf0" stroke="#b45309" stroke-width="1.6"  rx="5"/><text x="350" y="150" font-size="12.2" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">dh = Tds + vdp</text><text x="350" y="170" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">h = h(s, p)</text><line x1="470" y1="78" x2="470" y2="104" stroke="#94a3b8" stroke-width="1.5"   /><line x1="470" y1="104" x2="570" y2="104" stroke="#94a3b8" stroke-width="1.5"   /><line x1="570" y1="104" x2="570" y2="126" stroke="#94a3b8" stroke-width="1.5"   /><rect x="478" y="126" width="184" height="54" fill="#eff6ff" stroke="#2563eb" stroke-width="1.6"  rx="5"/><text x="570" y="150" font-size="12.2" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">df = −sdT − pdv</text><text x="570" y="170" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">f = f(T, v)</text><line x1="470" y1="78" x2="470" y2="104" stroke="#94a3b8" stroke-width="1.5"   /><line x1="470" y1="104" x2="790" y2="104" stroke="#94a3b8" stroke-width="1.5"   /><line x1="790" y1="104" x2="790" y2="126" stroke="#94a3b8" stroke-width="1.5"   /><rect x="698" y="126" width="184" height="54" fill="#fef2f2" stroke="#b91c1c" stroke-width="1.6"  rx="5"/><text x="790" y="150" font-size="12.2" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">dg = −sdT + vdp</text><text x="790" y="170" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">g = g(T, p)</text><rect x="200" y="206" width="540" height="26" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.6"  rx="4"/><text x="470" y="224" font-size="11.4" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">对照全微分 dz = Mdx + Ndy ⟹ ∂M/∂y = ∂N/∂x（交叉偏导相等）</text><line x1="130" y1="180" x2="130" y2="246" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3"  /><rect x="36" y="246" width="188" height="34" fill="#fff" stroke="#0f766e" stroke-width="1.6" stroke-dasharray="4 3" rx="4"/><text x="130" y="267" font-size="10.6" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(∂T/∂v)_s = −(∂p/∂s)_v</text><text x="130" y="295" font-size="10" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">第 1 组</text><line x1="350" y1="180" x2="350" y2="246" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3"  /><rect x="256" y="246" width="188" height="34" fill="#fff" stroke="#b45309" stroke-width="1.6" stroke-dasharray="4 3" rx="4"/><text x="350" y="267" font-size="10.6" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(∂T/∂p)_s = (∂v/∂s)_p</text><text x="350" y="295" font-size="10" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">第 2 组</text><line x1="570" y1="180" x2="570" y2="246" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3"  /><rect x="476" y="246" width="188" height="34" fill="#fff" stroke="#2563eb" stroke-width="1.6" stroke-dasharray="4 3" rx="4"/><text x="570" y="267" font-size="10.6" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(∂s/∂v)_T = (∂p/∂T)_v</text><text x="570" y="295" font-size="10" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">第 3 组</text><line x1="790" y1="180" x2="790" y2="246" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3"  /><rect x="696" y="246" width="188" height="34" fill="#fff" stroke="#b91c1c" stroke-width="1.6" stroke-dasharray="4 3" rx="4"/><text x="790" y="267" font-size="10.6" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(∂s/∂p)_T = −(∂v/∂T)_p</text><text x="790" y="295" font-size="10" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">第 4 组</text><text x="470" y="326" font-size="12" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">麦克斯韦关系的作用：把"测不出来的熵"换成"测得出的 p、v、T"。</text><text x="470" y="350" font-size="11.5" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">记法：把基本式的"系数"和"微分"交叉配对求偏导，符号由基本式里该项的正负决定。</text><rect x="96" y="384" width="748" height="66" fill="#fdf4ff" stroke="#9333ea" stroke-width="1.6"  rx="6"/><text x="470" y="408" font-size="11.8" fill="#6b21a8" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">三个可测热系数： α = (1/p)(∂p/∂T)_v   β = (1/v)(∂v/∂T)_p   μ = −(1/v)(∂v/∂p)_T</text><text x="470" y="432" font-size="11.2" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">已知其中两个＋状态方程，就能求出第三个 —— 这是本章 "把微分关系用起来" 的主线。</text></svg><figcaption><b>图 6-2</b> 四个基本关系式的"一条链"：第一定律 + 第二定律 → 消掉 δq → 得到 du（唯一的源头）→ 用 h、f、g 的定义分别变换出另外三个 → 每个式子再对照全微分判据，就得到四组麦克斯韦关系。记住"只有一个源头"这件事，这一章就不用背了。</figcaption></figure>
+
+
+<p class="hint"><b>三个必须说清的点（考试常考、课本没这么直白）：</b></p>
+<p><b>① 为什么可以用"可逆"推出"普适"？</b>因为 d<i>u</i>、d<i>h</i>、d<i>s</i>、d<i>v</i>、d<i>p</i>、d<i>T</i> 全是<b>状态参数的微分</b>，
+  只由初终态决定，跟路径无关。所以哪怕过程不可逆，(6-2)～(6-5) <b>照样成立</b>——只是这时候 <i>T</i>d<i>s</i> <b>不再是</b>传热量，
+  <i>p</i>d<i>v</i> <b>也不再是</b>膨胀功。这一点最容易答错：<b>式子成立，但物理意义变了。</b></p>
+<p><b>② 推导时用的"可逆"只是<b>脚手架</b>。</b>搭完就拆——结论对任何过程都成立。</p>
+<p><b>③ 四个式子里只有 (6-2) 是"独立"的</b>，其余三个都是它加上 <i>h</i>、<i>f</i>、<i>g</i> 的定义变出来的。
+  所以真正要记的只有 <b>d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i></b> 一条，加三个定义式，其余现推。</p>
+
+<h2>6.3 麦克斯韦关系：本章的主角</h2>
+
+<div class="why">
+  <b>为什么：</b>上面四个式子里的偏导数，比如 (∂<i>T</i>/∂<i>v</i>)<sub>s</sub>，<b>根本没法测</b>——谁能"定熵"地改变体积？
+  但数学上有一个免费的礼物：<b>二阶混合偏导与求导次序无关</b>。
+  把这个礼物用在四个基本式上，就能把"测不出来的"<b>逐个换成"测得出的"</b>。这就是麦克斯韦关系的全部价值。
+</div>
+
+<p><b>先复习那个"免费的礼物"。</b>若 d<i>z</i> = <i>M</i>d<i>x</i> + <i>N</i>d<i>y</i> 是<b>恰当微分</b>（全微分），则</p>
+<div class="fml">(∂<i>M</i>/∂<i>y</i>)<sub>x</sub> = (∂<i>N</i>/∂<i>x</i>)<sub>y</sub> &nbsp;&nbsp;&nbsp;&nbsp;(6-6)</div>
+<p>道理：<i>M</i> = (∂<i>z</i>/∂<i>x</i>)<sub>y</sub>、<i>N</i> = (∂<i>z</i>/∂<i>y</i>)<sub>x</sub>，两边分别是
+  ∂²<i>z</i>/∂<i>y</i>∂<i>x</i> 与 ∂²<i>z</i>/∂<i>x</i>∂<i>y</i>，二者相等。</p>
+
+<p><b>然后把 (6-2)～(6-5) 逐个对照上式。</b>做法完全一样，以 (6-2) 为例：把它看成 d<i>u</i> = <i>M</i>d<i>s</i> + <i>N</i>d<i>v</i>，
+  则 <i>x</i> = <i>s</i>、<i>y</i> = <i>v</i>、<i>M</i> = <i>T</i>、<i>N</i> = −<i>p</i>，代进 (6-6)：</p>
+<div class="fml">(∂<i>T</i>/∂<i>v</i>)<sub>s</sub> = −(∂<i>p</i>/∂<i>s</i>)<sub>v</sub> &nbsp;&nbsp;&nbsp;&nbsp;<span class="cmt">第 1 组（由 du）</span></div>
+<p>同样的动作做三遍，就得到<b>四组麦克斯韦关系</b>：</p>
+
+<div class="tablewrap">
+<table>
+  <tr><th>来源</th><th>基本关系式</th><th>麦克斯韦关系</th><th>用途</th></tr>
+  <tr><td>d<i>u</i></td><td>d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i></td>
+      <td class="f">(∂<i>T</i>/∂<i>v</i>)<sub>s</sub> = −(∂<i>p</i>/∂<i>s</i>)<sub>v</sub></td><td>用得少</td></tr>
+  <tr><td>d<i>h</i></td><td>d<i>h</i> = <i>T</i>d<i>s</i> + <i>v</i>d<i>p</i></td>
+      <td class="f">(∂<i>T</i>/∂<i>p</i>)<sub>s</sub> = (∂<i>v</i>/∂<i>s</i>)<sub>p</sub></td><td>用得少</td></tr>
+  <tr><td>d<i>f</i></td><td>d<i>f</i> = −<i>s</i>d<i>T</i> − <i>p</i>d<i>v</i></td>
+      <td class="f">(∂<i>s</i>/∂<i>v</i>)<sub>T</sub> = (∂<i>p</i>/∂<i>T</i>)<sub>v</sub></td><td><b>最常用</b></td></tr>
+  <tr><td>d<i>g</i></td><td>d<i>g</i> = −<i>s</i>d<i>T</i> + <i>v</i>d<i>p</i></td>
+      <td class="f">(∂<i>s</i>/∂<i>p</i>)<sub>T</sub> = −(∂<i>v</i>/∂<i>T</i>)<sub>p</sub></td><td><b>最常用</b></td></tr>
+</table>
+</div>
+
+<p class="hint"><b>记忆法（不用背四条）：</b>看基本式里"<b>系数</b>"和"<b>微分</b>"怎么配对——
+  把<span style="color:#0a3a6b">系数</span>放到<span style="color:#0a3a6b">另一个微分</span>的分母上、再对这另一个微分求导，
+  等于把<b>原来的微分</b>放到<b>原来的系数</b>的微分下面，<b>符号看基本式里那一项的正负</b>。
+  以 d<i>f</i> = −<i>s</i>d<i>T</i> − <i>p</i>d<i>v</i> 为例：系数 −<i>s</i>、微分 d<i>T</i>；系数 −<i>p</i>、微分 d<i>v</i>。
+  交叉一下就是 "<i>s</i> 对 <i>v</i> 求导（定 <i>T</i>）" = "<i>p</i> 对 <i>T</i> 求导（定 <i>v</i>）"，两个负号约掉 → 正号，正是
+  (∂<i>s</i>/∂<i>v</i>)<sub>T</sub> = (∂<i>p</i>/∂<i>T</i>)<sub>v</sub>。</p>
+
+<!-- ============ 6.4 ============ -->
+<h2>6.4 三个热系数：把麦克斯韦关系用到"能测的量"上</h2>
+
+<div class="why">
+  <b>为什么：</b>麦克斯韦关系把偏导数换成了 <i>p</i>、<i>v</i>、<i>T</i> 的偏导数，但这些偏导数<b>还是要查表或者做实验</b>。
+  工程上就把它们打包成三个<b>有名字、手册上直接给数</b>的系数。这三个系数是实际气体计算的入口。
+</div>
+
+<div class="fml"><i>α</i> = (1/<i>p</i>)(∂<i>p</i>/∂<i>T</i>)<sub>v</sub> &nbsp;&nbsp;<span class="cmt">压力温度系数（定容下压力随温度的变化率）</span></div>
+<div class="fml"><i>β</i> = (1/<i>v</i>)(∂<i>v</i>/∂<i>T</i>)<sub>p</sub> &nbsp;&nbsp;<span class="cmt">容积膨胀系数（定压下体积随温度的变化率）</span></div>
+<div class="fml"><i>μ</i> = −(1/<i>v</i>)(∂<i>v</i>/∂<i>p</i>)<sub>T</sub> &nbsp;&nbsp;<span class="cmt">定温压缩系数（前面加负号是为了让它<b>为正</b>，因为压缩时体积一定减小）</span></div>
+
+<p><b>三者之间的关系。</b>把 6.1 节的变形 (∂<i>p</i>/∂<i>T</i>)<sub>v</sub> = −(∂<i>v</i>/∂<i>T</i>)<sub>p</sub>/(∂<i>v</i>/∂<i>p</i>)<sub>T</sub> 代进 <i>α</i> 的定义，
+  再把 <i>β</i>、<i>μ</i> 的定义（注意 <i>μ</i> 自带一个负号）代入分子分母：</p>
+<div class="fml"><i>α</i> = (1/<i>p</i>) · [−(<i>βv</i>)/(−<i>μv</i>)] = <i>β</i>/(<i>μp</i>) &nbsp;&nbsp;⟺&nbsp;&nbsp; <i>α</i> = <i>β</i>/(<i>μp</i>)</div>
+<p>这就是课本 (6-19) 后面的那句话：<b>三个热系数只要知道其中两个，第三个就定了</b>——不用再测。</p>
+
+<div class="lv l1">
+  <div class="tagx">例 6-1 · 看懂（课本原例，把定义走一遍）</div>
+  <p class="pt">求理想气体状态方程 <i>pv</i> = <i>RT</i> 及范德瓦尔方程 (<i>p</i> + <i>a</i>/<i>v</i>²)(<i>v</i> − <i>b</i>) = <i>RT</i> 的容积膨胀系数 <i>β</i> 及定温压缩系数 <i>μ</i>。</p>
+  <p><b>解（理想气体部分）</b></p>
+  <p><b>第 1 步 · 把 <i>v</i> 解出来</b>（因为 <i>β</i>、<i>μ</i> 都是对 <i>v</i> 求导，先把 <i>v</i> 写成 <i>T</i>、<i>p</i> 的函数最省事）</p>
+  <div class="fml"><i>v</i> = <i>RT</i>/<i>p</i></div>
+  <p><b>第 2 步 · 分别在定压、定温下求偏导</b>（定压时 <i>T</i> 是变量、<i>p</i> 是常数；定温时 <i>T</i> 是常数）</p>
+  <div class="fml">(∂<i>v</i>/∂<i>T</i>)<sub>p</sub> = <i>R</i>/<i>p</i></div>
+  <div class="fml">(∂<i>v</i>/∂<i>p</i>)<sub>T</sub> = −<i>RT</i>/<i>p</i>² = −<i>v</i>/<i>p</i></div>
+  <p><b>第 3 步 · 代进定义</b></p>
+  <div class="fml"><i>β</i> = (1/<i>v</i>)(<i>R</i>/<i>p</i>) = (1/<i>v</i>)·(<i>pv</i>/<i>T</i>)/<i>p</i> = <b>1/<i>T</i></b></div>
+  <div class="fml"><i>μ</i> = −(1/<i>v</i>)(−<i>v</i>/<i>p</i>) = <b>1/<i>p</i></b></div>
+  <p><b>第 4 步 · 顺手把 <i>α</i> 也算出来，验证三者关系</b></p>
+  <div class="fml"><i>α</i> = <i>β</i>/(<i>μp</i>) = (1/<i>T</i>)/[(1/<i>p</i>)·<i>p</i>] = <b>1/<i>T</i></b></div>
+  <p class="ans"><b>答：</b>理想气体 <i>β</i> = 1/<i>T</i>、<i>μ</i> = 1/<i>p</i>、<i>α</i> = 1/<i>T</i>。
+    范德瓦尔方程的完整表达式见课本，思路完全相同：先把 <i>p</i> 写成 <i>p</i> = <i>RT</i>/(<i>v</i>−<i>b</i>) − <i>a</i>/<i>v</i>²，
+    分别求 (∂<i>p</i>/∂<i>T</i>)<sub>v</sub> = <i>R</i>/(<i>v</i>−<i>b</i>) 与 (∂<i>p</i>/∂<i>v</i>)<sub>T</sub> = −<i>RT</i>/(<i>v</i>−<i>b</i>)² + 2<i>a</i>/<i>v</i>³，
+    再用循环关系式换出 (∂<i>v</i>/∂<i>T</i>)<sub>p</sub> 与 (∂<i>v</i>/∂<i>p</i>)<sub>T</sub>。</p>
+  <p class="hint"><b>这道题的"经验"：</b>凡是求热系数，<b>第一步永远是把状态方程写成 <i>v</i> = <i>v</i>(<i>T</i>, <i>p</i>) 或 <i>p</i> = <i>p</i>(<i>v</i>, <i>T</i>)</b>。
+    理想气体直接解 <i>v</i>；范德瓦尔方程解 <i>v</i> 是三次方程很麻烦，所以改成解 <i>p</i>、再靠循环关系式"绕"过去。
+    <b>这个"解不出来的就换一个变量当主元"的技巧，是本章唯一的解题技巧。</b></p>
+</div>
+
+<!-- ============ 6.5 ============ -->
+<h2>6.5 本章最漂亮的一个结果：证明 <i>u</i>、<i>h</i> 只跟 <i>T</i> 有关</h2>
+
+<div class="why">
+  <b>为什么：</b>第 2、3 章我们<b>直接用了</b>结论"理想气体的 <i>u</i> = <i>u</i>(<i>T</i>)、<i>h</i> = <i>h</i>(<i>T</i>)"，
+  却没证过。它是整个课程用得最多的假设（定温过程 Δ<i>u</i> = 0 全靠它）。本章终于有工具来<b>严格证明</b>它了。
+  这是本章最可能考的证明题，务必背下来。
+</div>
+
+<p><b>第 1 步 · 把 d<i>u</i> 写成以 (<i>T</i>, <i>v</i>) 为独立变量的形式。</b></p>
+<div class="fml">d<i>u</i> = (∂<i>u</i>/∂<i>T</i>)<sub>v</sub> d<i>T</i> + (∂<i>u</i>/∂<i>v</i>)<sub>T</sub> d<i>v</i></div>
+<p>要证 <i>u</i> 只跟 <i>T</i> 有关，等价于证<b>第二项的系数为零</b>，即 (∂<i>u</i>/∂<i>v</i>)<sub>T</sub> = 0。</p>
+
+<p><b>第 2 步 · 用基本关系式把这个偏导数"拆"出来。</b>由 (6-2) d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i>，两边在定 <i>T</i> 下对 <i>v</i> 求导：</p>
+<div class="fml">(∂<i>u</i>/∂<i>v</i>)<sub>T</sub> = <i>T</i>(∂<i>s</i>/∂<i>v</i>)<sub>T</sub> − <i>p</i></div>
+<p>（这一步是"<b>把 d 换成偏导</b>"：d<i>u</i> 里的系数就是对应变量的偏导数，定 <i>T</i> 时 d<i>T</i> = 0，所以 <i>s</i> 项只留 (∂<i>s</i>/∂<i>v</i>)<sub>T</sub>。）</p>
+
+<p><b>第 3 步 · 用麦克斯韦关系把熵换掉。</b>第 3 组：(∂<i>s</i>/∂<i>v</i>)<sub>T</sub> = (∂<i>p</i>/∂<i>T</i>)<sub>v</sub>，代入：</p>
+<div class="fml">(∂<i>u</i>/∂<i>v</i>)<sub>T</sub> = <i>T</i>(∂<i>p</i>/∂<i>T</i>)<sub>v</sub> − <i>p</i></div>
+
+<p><b>第 4 步 · 代入理想气体状态方程。</b><i>p</i> = <i>RT</i>/<i>v</i> ⟹ (∂<i>p</i>/∂<i>T</i>)<sub>v</sub> = <i>R</i>/<i>v</i>：</p>
+<div class="fml">(∂<i>u</i>/∂<i>v</i>)<sub>T</sub> = <i>T</i>·(<i>R</i>/<i>v</i>) − <i>p</i> = <i>RT</i>/<i>v</i> − <i>p</i> = <i>p</i> − <i>p</i> = <b>0</b></div>
+<p>系数为零，说明 <b><i>u</i> 与 <i>v</i> 无关，只随 <i>T</i> 变</b>，即 <i>u</i> = <i>u</i>(<i>T</i>)。∎</p>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" width="720" height="340" style="max-width:700px" role="img" aria-label="焦耳定律证明"><rect x="0" y="0" width="720" height="340" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="360" y="26" font-size="13" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">用麦克斯韦关系证明：理想气体的内能只与 T 有关</text><rect x="60" y="48" width="600" height="40" fill="#fff" stroke="#0f766e" stroke-width="1.6"  rx="5"/><circle cx="84" cy="68" r="13" fill="#0f766e" stroke="#0f766e" stroke-width="1.6"/><text x="84" y="73" font-size="12" fill="#fff" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">1</text><text x="108" y="73" font-size="11.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">du = Tds − pdv  （基本式①）</text><rect x="60" y="96" width="600" height="40" fill="#fff" stroke="#b45309" stroke-width="1.6"  rx="5"/><circle cx="84" cy="116" r="13" fill="#b45309" stroke="#b45309" stroke-width="1.6"/><text x="84" y="121" font-size="12" fill="#fff" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">2</text><text x="108" y="121" font-size="11.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">定温下对 v 求偏导：(∂u/∂v)_T = T(∂s/∂v)_T − p</text><rect x="60" y="144" width="600" height="40" fill="#fff" stroke="#2563eb" stroke-width="1.6"  rx="5"/><circle cx="84" cy="164" r="13" fill="#2563eb" stroke="#2563eb" stroke-width="1.6"/><text x="84" y="169" font-size="12" fill="#fff" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">3</text><text x="108" y="169" font-size="11.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">用麦克斯韦第 3 组：(∂s/∂v)_T = (∂p/∂T)_v</text><rect x="60" y="192" width="600" height="40" fill="#fff" stroke="#9333ea" stroke-width="1.6"  rx="5"/><circle cx="84" cy="212" r="13" fill="#9333ea" stroke="#9333ea" stroke-width="1.6"/><text x="84" y="217" font-size="12" fill="#fff" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">4</text><text x="108" y="217" font-size="11.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">理想气体 pv = RT ⟹ (∂p/∂T)_v = R/v</text><rect x="60" y="240" width="600" height="40" fill="#fff" stroke="#b91c1c" stroke-width="1.6"  rx="5"/><circle cx="84" cy="260" r="13" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><text x="84" y="265" font-size="12" fill="#fff" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">5</text><text x="108" y="265" font-size="11.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">代回：(∂u/∂v)_T = T·R/v − p = p − p = 0 ⟹ u 只随 T 变</text><text x="360" y="316" font-size="11.2" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">同样可证 (∂h/∂p)_T = 0。这两条就是"理想气体 u、h 只与温度有关"的严格依据。</text></svg><figcaption><b>图 6-3</b> 上面这个证明的五步流程。核心只有一句：由 du = Tds − pdv 写出 (∂u/∂v)_T = T(∂p/∂T)_v − p，再用麦克斯韦把 (∂s/∂v)_T 换成 (∂p/∂T)_v，最后代理想气体方程，恰好抵消。</figcaption></figure>
+
+
+<p><b>完全同理，可以证明 <i>h</i> 也只跟 <i>T</i> 有关。</b>由 (6-3) d<i>h</i> = <i>T</i>d<i>s</i> + <i>v</i>d<i>p</i>，在定 <i>T</i> 下对 <i>p</i> 求导：</p>
+<div class="fml">(∂<i>h</i>/∂<i>p</i>)<sub>T</sub> = <i>T</i>(∂<i>s</i>/∂<i>p</i>)<sub>T</sub> + <i>v</i></div>
+<p>用第 4 组麦克斯韦关系 (∂<i>s</i>/∂<i>p</i>)<sub>T</sub> = −(∂<i>v</i>/∂<i>T</i>)<sub>p</sub>：</p>
+<div class="fml">(∂<i>h</i>/∂<i>p</i>)<sub>T</sub> = −<i>T</i>(∂<i>v</i>/∂<i>T</i>)<sub>p</sub> + <i>v</i></div>
+<p>理想气体 <i>v</i> = <i>RT</i>/<i>p</i> ⟹ (∂<i>v</i>/∂<i>T</i>)<sub>p</sub> = <i>R</i>/<i>p</i>：</p>
+<div class="fml">(∂<i>h</i>/∂<i>p</i>)<sub>T</sub> = −<i>T</i>·(<i>R</i>/<i>p</i>) + <i>v</i> = −<i>v</i> + <i>v</i> = <b>0</b> &nbsp;&nbsp;⟹&nbsp;&nbsp; <i>h</i> = <i>h</i>(<i>T</i>) ∎</div>
+
+<p class="hint"><b>把这两个式子记成"万能公式"。</b>(∂<i>u</i>/∂<i>v</i>)<sub>T</sub> = <i>T</i>(∂<i>p</i>/∂<i>T</i>)<sub>v</sub> − <i>p</i> 与
+  (∂<i>h</i>/∂<i>p</i>)<sub>T</sub> = <i>v</i> − <i>T</i>(∂<i>v</i>/∂<i>T</i>)<sub>p</sub> 这两个式子不只是用来证理想气体的，
+  它们对<b>任何工质</b>都成立——对实际气体，右边不恰好为零，那个"不为零的部分"正是<b>实际气体偏离理想气体的程度</b>。
+  第 12 章讲相变、第 7 章查水蒸气表背后的数学，都是这两条。</p>
+
+<div class="lv l2">
+  <div class="tagx">例 6-2 · 模仿（给数字，反求 <i>u</i> 随压力的变化）</div>
+  <p class="pt">某实际气体在 300 K 下的状态方程可近似写成 <i>p</i>(<i>v</i> − <i>b</i>) = <i>RT</i>，其中 <i>b</i> = 0.001 m³/kg。
+    求 300 K 时 (∂<i>u</i>/∂<i>v</i>)<sub>T</sub>，并说明它的物理意义；再求当比容从 0.101 m³/kg 压缩到 0.011 m³/kg 时热力学能的变化。</p>
+  <p><b>解</b></p>
+  <p><b>第 1 步 · 套用刚刚证过的万能公式</b></p>
+  <div class="fml">(∂<i>u</i>/∂<i>v</i>)<sub>T</sub> = <i>T</i>(∂<i>p</i>/∂<i>T</i>)<sub>v</sub> − <i>p</i></div>
+  <p><b>第 2 步 · 由状态方程求 (∂<i>p</i>/∂<i>T</i>)<sub>v</sub></b>。先把 <i>p</i> 解出来：<i>p</i> = <i>RT</i>/(<i>v</i> − <i>b</i>)，定容下对 <i>T</i> 求导：</p>
+  <div class="fml">(∂<i>p</i>/∂<i>T</i>)<sub>v</sub> = <i>R</i>/(<i>v</i> − <i>b</i>) = <i>p</i>/<i>T</i></div>
+  <p><b>第 3 步 · 代回</b></p>
+  <div class="fml">(∂<i>u</i>/∂<i>v</i>)<sub>T</sub> = <i>T</i>·(<i>p</i>/<i>T</i>) − <i>p</i> = <b>0</b></div>
+  <p class="ans"><b>答：</b>(∂<i>u</i>/∂<i>v</i>)<sub>T</sub> = 0，即 <b>热力学能变化为零</b>。
+    这说明"<i>p</i>(<i>v</i> − <i>b</i>) = <i>RT</i>"这种<b>只修正体积、不修正分子间作用力</b>的方程，
+    其内能仍然只跟温度有关——<b>真正让内能随体积变的，是分子间的吸引力（范德瓦尔方程的 <i>a</i> 项）</b>，不是分子自身体积（<i>b</i> 项）。</p>
+  <p class="hint"><b>这道题的"经验"：</b>这是个<b>概念题伪装成计算题</b>。很多人会去算积分，其实 (∂<i>u</i>/∂<i>v</i>)<sub>T</sub> 一算出来是 0，
+    后面那个"从 0.101 压缩到 0.011"就是<b>送分的陷阱</b>——不管理想气体还是"只修正 <i>b</i> 的气体"，
+    等温压缩时 Δ<i>u</i> 都是 0。<b>看到"等温 + 理想气体类方程"，先想 Δ<i>u</i> = 0、Δ<i>h</i> = 0，能省掉一大半计算。</b></p>
+</div>
+
+<div class="lv l2">
+  <div class="tagx">例 6-3 · 模仿（用热系数求熵变，实际气体计算公式的来源）</div>
+  <p class="pt">已知某液体的 <i>β</i> = 2.1×10⁻⁴ K⁻¹、<i>v</i> = 1.0×10⁻³ m³/kg，且可视为不可压缩（<i>μ</i> ≈ 0）。
+    试导出定温下熵随压力的变化式，并求压力从 0.1 MPa 升到 10 MPa 时熵的变化。</p>
+  <p><b>解</b></p>
+  <p><b>第 1 步 · 找出 (∂<i>s</i>/∂<i>p</i>)<sub>T</sub></b>。直接用第 4 组麦克斯韦关系：</p>
+  <div class="fml">(∂<i>s</i>/∂<i>p</i>)<sub>T</sub> = −(∂<i>v</i>/∂<i>T</i>)<sub>p</sub> = −<i>βv</i></div>
+  <p>（最后一步用了 <i>β</i> 的定义 <i>β</i> = (1/<i>v</i>)(∂<i>v</i>/∂<i>T</i>)<sub>p</sub>，即 (∂<i>v</i>/∂<i>T</i>)<sub>p</sub> = <i>βv</i>。
+  <b>这一步是本章最常用的"翻译"：把熵的偏导数换成 <i>β</i>。</b>）</p>
+  <p><b>第 2 步 · 定温积分</b>（<i>β</i>、<i>v</i> 视为常数）</p>
+  <div class="fml">Δ<i>s</i> = ∫(∂<i>s</i>/∂<i>p</i>)<sub>T</sub> d<i>p</i> = −<i>βv</i>(<i>p</i><sub>2</sub> − <i>p</i><sub>1</sub>)</div>
+  <p><b>第 3 步 · 代入数字</b></p>
+  <div class="fml">Δ<i>s</i> = −2.1×10⁻⁴ × 1.0×10⁻³ × (10 − 0.1)×10⁶ = −2.1×10⁻⁷ × 9.9×10⁶ = <b>−2.079 J/(kg·K)</b></div>
+  <p class="ans"><b>答：</b>Δ<i>s</i> = −2.08 J/(kg·K)，即等温加压使液体熵<b>略微减小</b>（≈ −0.0021 kJ/(kg·K)）。</p>
+  <p class="hint"><b>这道题的"经验"：</b>注意单位！<b>MPa 换 Pa 要乘 10⁶</b>，算出来是 J/(kg·K) 而不是 kJ/(kg·K)，差三个数量级。
+    这个结果也解释了为什么<b>液体的熵变在工程计算里常常可以忽略</b>：加压 100 个大气压，熵才变 0.002——相比之下，
+    同样温升 1 K，水的熵变约 4.2/300 ≈ 0.014 kJ/(kg·K)，是它的七倍。<b>液体"熵不随压力变"这个近似，就是从这条式子来的。</b></p>
+</div>
+
+<!-- ============ 6.6 ============ -->
+<h2>6.6 熵、焓、热力学能的微分方程：实际气体计算的最后一块</h2>
+
+<div class="why">
+  <b>为什么：</b>理想气体熵变 <i>c</i><sub>p</sub>ln(<i>T</i>₂/<i>T</i>₁) − <i>R</i>ln(<i>p</i>₂/<i>p</i>₁) 这个公式，你一定已经很熟。
+  但它<b>只对理想气体成立</b>。对实际气体、对液体，那个 <i>R</i> 项就不对了。本节给出<b>对任何工质都成立</b>的熵微分式，
+  理想气体式只是它在 <i>p</i> = <i>RT</i>/<i>v</i> 时的特例。
+</div>
+
+<p><b>（1）以 (<i>T</i>, <i>v</i>) 为独立变量。</b>把 <i>s</i> 写成 <i>s</i>(<i>T</i>, <i>v</i>)，展开：</p>
+<div class="fml">d<i>s</i> = (∂<i>s</i>/∂<i>T</i>)<sub>v</sub> d<i>T</i> + (∂<i>s</i>/∂<i>v</i>)<sub>T</sub> d<i>v</i></div>
+<p>第一项：定容时 δ<i>q</i> = <i>c</i><sub>v</sub>d<i>T</i> = <i>T</i>d<i>s</i> ⟹ (∂<i>s</i>/∂<i>T</i>)<sub>v</sub> = <i>c</i><sub>v</sub>/<i>T</i>。
+  第二项：用麦克斯韦第 3 组换成 (∂<i>p</i>/∂<i>T</i>)<sub>v</sub>。于是</p>
+<div class="fml">d<i>s</i> = (<i>c</i><sub>v</sub>/<i>T</i>)d<i>T</i> + (∂<i>p</i>/∂<i>T</i>)<sub>v</sub> d<i>v</i> &nbsp;&nbsp;&nbsp;&nbsp;(6-7)</div>
+
+<p><b>（2）以 (<i>T</i>, <i>p</i>) 为独立变量。</b>同法，第二项用第 4 组麦克斯韦关系 (∂<i>s</i>/∂<i>p</i>)<sub>T</sub> = −(∂<i>v</i>/∂<i>T</i>)<sub>p</sub>：</p>
+<div class="fml">d<i>s</i> = (<i>c</i><sub>p</sub>/<i>T</i>)d<i>T</i> − (∂<i>v</i>/∂<i>T</i>)<sub>p</sub> d<i>p</i> &nbsp;&nbsp;&nbsp;&nbsp;(6-8)</div>
+
+<p><b>（3）以 (<i>p</i>, <i>v</i>) 为独立变量。</b>把 (6-7) 和 (6-8) 相减，d<i>s</i> 消掉，可以解出 <i>c</i><sub>p</sub> − <i>c</i><sub>v</sub>：</p>
+<div class="fml"><i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> = <i>T</i>(∂<i>p</i>/∂<i>T</i>)<sub>v</sub>(∂<i>v</i>/∂<i>T</i>)<sub>p</sub> = −<i>T</i>(∂<i>v</i>/∂<i>T</i>)<sub>p</sub>²/(∂<i>v</i>/∂<i>p</i>)<sub>T</sub> &nbsp;&nbsp;&nbsp;&nbsp;(6-9)</div>
+<p>（第二个等号用了循环关系式，见 6.1 节变形。）这个式子的价值：<b>它给出"任意工质的 <i>c</i><sub>p</sub> 与 <i>c</i><sub>v</sub> 差多少"的普适公式</b>。</p>
+
+<div class="lv l3">
+  <div class="tagx">例 6-4 · 应考（证明 <i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> = <i>R</i>，并用 (6-9) 判断实际气体的差值）</div>
+  <p class="pt">(1) 试用热力学基本关系式证明理想气体 <i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> = <i>R</i>；
+    (2) 已知水在 20 ℃ 时 <i>β</i> = 2.1×10⁻⁴ K⁻¹、<i>μ</i> = 4.9×10⁻¹⁰ Pa⁻¹、<i>v</i> = 1.0×10⁻³ m³/kg、<i>T</i> = 293 K，
+    估算水的 <i>c</i><sub>p</sub> − <i>c</i><sub>v</sub>，并说明为什么工程上把水的 <i>c</i><sub>p</sub> 和 <i>c</i><sub>v</sub> 当成相等。</p>
+  <p><b>解（1）</b></p>
+  <p><b>第 1 步 · 从熵的两个微分式出发。</b>(6-8) 减去 (6-7)，左边 d<i>s</i> − d<i>s</i> = 0：</p>
+  <div class="fml">0 = [(<i>c</i><sub>p</sub> − <i>c</i><sub>v</sub>)/<i>T</i>]d<i>T</i> − (∂<i>v</i>/∂<i>T</i>)<sub>p</sub>d<i>p</i> − (∂<i>p</i>/∂<i>T</i>)<sub>v</sub>d<i>v</i></div>
+  <p><b>第 2 步 · 消去 d<i>v</i>。</b>由理想气体 <i>pv</i> = <i>RT</i> 取对数微分 d<i>p</i>/<i>p</i> + d<i>v</i>/<i>v</i> = d<i>T</i>/<i>T</i>，得 d<i>v</i> = (<i>v</i>/<i>T</i>)d<i>T</i> − (<i>v</i>/<i>p</i>)d<i>p</i>，代入上式并整理（把 d<i>T</i> 与 d<i>p</i> 的系数分别归零）：</p>
+  <div class="fml">(<i>c</i><sub>p</sub> − <i>c</i><sub>v</sub>)/<i>T</i> = (∂<i>p</i>/∂<i>T</i>)<sub>v</sub>·(<i>v</i>/<i>T</i>) &nbsp;&nbsp;⟹&nbsp;&nbsp; <i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> = <i>T</i>·(<i>R</i>/<i>v</i>)·(<i>v</i>/<i>T</i>) = <b><i>R</i></b></div>
+  <p>∎（这就是第 2 章迈耶公式的严格证明。）</p>
+  <p><b>解（2）</b></p>
+  <p><b>第 3 步 · 用 (6-9) 的第二形式，先换成 <i>β</i>、<i>μ</i>。</b>由定义 (∂<i>v</i>/∂<i>T</i>)<sub>p</sub> = <i>βv</i>、
+    (∂<i>v</i>/∂<i>p</i>)<sub>T</sub> = −<i>μv</i>，代入 (6-9)：</p>
+  <div class="fml"><i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> = −<i>T</i>(<i>βv</i>)²/(−<i>μv</i>) = <i>Tβ</i>²<i>v</i>/<i>μ</i></div>
+  <p><b>第 4 步 · 代数字</b></p>
+  <div class="fml"><i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> = 293 × (2.1×10⁻⁴)² × 1.0×10⁻³ / (4.9×10⁻¹⁰) = 293 × 4.41×10⁻⁸ × 1.0×10⁻³ / 4.9×10⁻¹⁰</div>
+  <div class="fml">= 293 × 4.41×10⁻¹¹ / 4.9×10⁻¹⁰ = 1.292×10⁻⁸ / 4.9×10⁻¹⁰ ≈ <b>0.0264 kJ/(kg·K)</b></div>
+  <p class="ans"><b>答：</b>(1) 证明见上，<i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> = <i>R</i>。
+    (2) 水的 <i>c</i><sub>p</sub> − <i>c</i><sub>v</sub> 只有约 <b>0.026 kJ/(kg·K)</b>，而水的 <i>c</i><sub>p</sub> ≈ 4.18 kJ/(kg·K)，
+    <b>相差不到 0.6%</b>，工程上完全当相等处理；空气则相差 <i>R</i>/<i>c</i><sub>p</sub> ≈ 0.287/1.004 ≈ 28.6%，绝不能混。</p>
+  <p class="hint"><b>这道题的"经验"（本章最重要的工程结论）：</b><b>液体和固体之所以 <i>c</i><sub>p</sub> ≈ <i>c</i><sub>v</sub>，
+    根本原因是</b>它们的 <b><i>β</i> 很小</b>（受热几乎不膨胀），而 (6-9) 里 <i>β</i> 是<b>平方</b>的——<i>β</i> 小 10 倍，差值小 100 倍。
+    这解释了课本里"液体、固体不加区分地统称 <i>c</i>"的做法，也是"水可视为不可压缩"这句话的数学根据。
+    <b>考试如果问"为什么液体 <i>c</i><sub>p</sub> ≈ <i>c</i><sub>v</sub>"，答案就是这一条。</b></p>
+</div>
+
+<div class="lv l3">
+  <div class="tagx">例 6-5 · 应考（证明题的标准五步，套用即得分）</div>
+  <p class="pt">试证明对任意工质有 (∂<i>h</i>/∂<i>p</i>)<sub>T</sub> = <i>v</i> − <i>T</i>(∂<i>v</i>/∂<i>T</i>)<sub>p</sub>，
+    并据此说明"节流后温度升还是降"由什么决定。</p>
+  <p><b>解</b></p>
+  <p><b>第 1 步 · 找对基本关系式</b>（要证 <i>h</i>，就用 d<i>h</i> 的那一条）</p>
+  <div class="fml">d<i>h</i> = <i>T</i>d<i>s</i> + <i>v</i>d<i>p</i></div>
+  <p><b>第 2 步 · 化偏导</b>（在定 <i>T</i> 下对 <i>p</i> 求导，d<i>T</i> 项消失）</p>
+  <div class="fml">(∂<i>h</i>/∂<i>p</i>)<sub>T</sub> = <i>T</i>(∂<i>s</i>/∂<i>p</i>)<sub>T</sub> + <i>v</i></div>
+  <p><b>第 3 步 · 用麦克斯韦关系换掉熵</b></p>
+  <div class="fml">(∂<i>s</i>/∂<i>p</i>)<sub>T</sub> = −(∂<i>v</i>/∂<i>T</i>)<sub>p</sub></div>
+  <p><b>第 4 步 · 代入得证</b></p>
+  <div class="fml">(∂<i>h</i>/∂<i>p</i>)<sub>T</sub> = <i>v</i> − <i>T</i>(∂<i>v</i>/∂<i>T</i>)<sub>p</sub> &nbsp;&nbsp;∎</div>
+  <p><b>第 5 步 · 讨论</b>（这一步才是拿满分的关键，很多人漏写）</p>
+  <p>绝热节流是<b>等焓</b>过程（<i>h</i> 不变），压力一定<b>下降</b>（d<i>p</i> < 0）。于是温度变化由
+    d<i>T</i> = −(∂<i>h</i>/∂<i>p</i>)<sub>T</sub> d<i>p</i>/(∂<i>h</i>/∂<i>T</i>)<sub>p</sub> 决定。记
+    <b>焦耳-汤姆孙系数</b> <i>μ</i><sub>J</sub> = (∂<i>T</i>/∂<i>p</i>)<sub>h</sub> = −(∂<i>h</i>/∂<i>p</i>)<sub>T</sub>/<i>c</i><sub>p</sub>：</p>
+  <div class="fml"><i>μ</i><sub>J</sub> &gt; 0 → 节流后<b>降温</b>（可用于制冷）；&nbsp; <i>μ</i><sub>J</sub> &lt; 0 → 节流后<b>升温</b></div>
+  <p class="ans"><b>答：</b>证明见上。因 d<i>p</i> &lt; 0，若 <i>μ</i><sub>J</sub> &gt; 0 则 d<i>T</i> &lt; 0（降温）；
+    理想气体 <i>v</i> = <i>RT</i>/<i>p</i> ⟹ (∂<i>h</i>/∂<i>p</i>)<sub>T</sub> = 0 ⟹ <i>μ</i><sub>J</sub> = 0，<b>节流后温度不变</b>（这就是第 3 章那条结论的严格证明）；
+    氢、氦在常温下 <i>μ</i><sub>J</sub> &lt; 0，所以节流后反而升温。</p>
+  <p class="hint"><b>这道题的"经验"：</b><b>证明题的采分点是"五步齐全"，不是"结果正确"。</b>
+    五步是：<b>① 选对基本关系式 → ② d 换成偏导（注意固定哪个变量）→ ③ 用麦克斯韦关系把 <i>s</i> 换掉 → ④ 代入化简 → ⑤ 讨论物理意义。</b>
+    只写到 ④ 通常只给一半分；⑤ 是"送分的讨论"。本章所有证明题都是这五步的排列组合。</p>
+</div>
+
+<h2>6.7 本章小结</h2>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 300" width="880" height="300" style="max-width:860px" role="img" aria-label="第6章知识树"><rect x="0" y="0" width="880" height="300" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><rect x="340" y="30" width="200" height="34" fill="#0f766e" stroke="#0f766e" stroke-width="1.6"  rx="5"/><text x="440" y="52" font-size="12.6" fill="#fff" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">第 6 章 微分关系式</text><line x1="440" y1="64" x2="440" y2="88" stroke="#94a3b8" stroke-width="1.5"   /><line x1="440" y1="88" x2="140" y2="88" stroke="#94a3b8" stroke-width="1.5"   /><line x1="140" y1="88" x2="140" y2="108" stroke="#94a3b8" stroke-width="1.5"   /><rect x="58" y="108" width="164" height="30" fill="#eef8f6" stroke="#0f766e" stroke-width="1.6"  rx="4"/><text x="140" y="128" font-size="12" fill="#0b4a45" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">① 数学工具</text><text x="140" y="158" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">全微分 · 交叉偏导</text><text x="140" y="176" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">循环关系式 = −1</text><line x1="440" y1="64" x2="440" y2="88" stroke="#94a3b8" stroke-width="1.5"   /><line x1="440" y1="88" x2="380" y2="88" stroke="#94a3b8" stroke-width="1.5"   /><line x1="380" y1="88" x2="380" y2="108" stroke="#94a3b8" stroke-width="1.5"   /><rect x="298" y="108" width="164" height="30" fill="#eef8f6" stroke="#0f766e" stroke-width="1.6"  rx="4"/><text x="380" y="128" font-size="12" fill="#0b4a45" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">② 四个基本式</text><text x="380" y="158" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">du dh df dg</text><text x="380" y="176" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">吉布斯方程</text><line x1="440" y1="64" x2="440" y2="88" stroke="#94a3b8" stroke-width="1.5"   /><line x1="440" y1="88" x2="620" y2="88" stroke="#94a3b8" stroke-width="1.5"   /><line x1="620" y1="88" x2="620" y2="108" stroke="#94a3b8" stroke-width="1.5"   /><rect x="538" y="108" width="164" height="30" fill="#eef8f6" stroke="#0f766e" stroke-width="1.6"  rx="4"/><text x="620" y="128" font-size="12" fill="#0b4a45" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">③ 麦克斯韦关系</text><text x="620" y="158" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">四组交叉偏导</text><text x="620" y="176" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">熵 → 可测量</text><line x1="440" y1="64" x2="440" y2="88" stroke="#94a3b8" stroke-width="1.5"   /><line x1="440" y1="88" x2="820" y2="88" stroke="#94a3b8" stroke-width="1.5"   /><line x1="820" y1="88" x2="820" y2="108" stroke="#94a3b8" stroke-width="1.5"   /><rect x="738" y="108" width="164" height="30" fill="#eef8f6" stroke="#0f766e" stroke-width="1.6"  rx="4"/><text x="820" y="128" font-size="12" fill="#0b4a45" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">④ 用起来</text><text x="820" y="158" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">三个热系数 α β μ</text><text x="820" y="176" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">证明 u = u(T)</text><text x="440" y="226" font-size="11.8" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">这一章不产生新的物理定律，它只是一套"换算规则"：</text><text x="440" y="248" font-size="11.8" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">把测不出的量（s、u、h 的偏导）换成测得出的量（p、v、T 及其偏导）。</text></svg><figcaption><b>图 6-4</b> 第 6 章的四块内容。①循环关系式（数学扳手）→ ②四个基本关系式（发动机，只有一个源头 du）→ ③麦克斯韦关系（把熵换成可测量）→ ④三个热系数与 c_p − c_v（工程用法）。箭头方向就是"从哪推出来"的方向，考试时按箭头反着找工具。</figcaption></figure>
+
+
+<div class="tablewrap">
+<table>
+  <tr><th>要点</th><th>一句话</th></tr>
+  <tr><td>循环关系式</td><td>(∂<i>x</i>/∂<i>y</i>)<sub>z</sub>(∂<i>y</i>/∂<i>z</i>)<sub>x</sub>(∂<i>z</i>/∂<i>x</i>)<sub>y</sub> = −1；首尾相接转一圈，恒为 <b>−1</b></td></tr>
+  <tr><td>四个基本式</td><td>d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i> 是源头；d<i>h</i>、d<i>f</i>、d<i>g</i> 由定义变换而来</td></tr>
+  <tr><td>麦克斯韦关系</td><td>把"测不出的熵偏导"换成"测得出的 <i>p</i>-<i>v</i>-<i>T</i> 偏导"，最常用第 3、4 组</td></tr>
+  <tr><td>三个热系数</td><td><i>α</i> = <i>β</i>/(<i>μp</i>)——知道两个，第三个不用测</td></tr>
+  <tr><td>万能公式</td><td>(∂<i>u</i>/∂<i>v</i>)<sub>T</sub> = <i>T</i>(∂<i>p</i>/∂<i>T</i>)<sub>v</sub> − <i>p</i>；&nbsp;(∂<i>h</i>/∂<i>p</i>)<sub>T</sub> = <i>v</i> − <i>T</i>(∂<i>v</i>/∂<i>T</i>)<sub>p</sub></td></tr>
+  <tr><td><i>c</i><sub>p</sub> − <i>c</i><sub>v</sub></td><td>= <i>Tβ</i>²<i>v</i>/<i>μ</i>；理想气体得 <i>R</i>；液体因 <i>β</i> 极小（且平方）而近似为 0</td></tr>
+  <tr><td>证明题五步</td><td>选基本式 → 化偏导 → 麦克斯韦换熵 → 化简 → 讨论</td></tr>
+</table>
+</div>
+
+<div class="box exam">
+  <b>本章自测（能全答出来，第 6 章就过关了）</b>
+  <p>1. 循环关系式为什么等于 −1 而不是 +1？（提示：下标不一样）</p>
+  <p>2. 四个基本关系式里，哪一个是独立的？另外三个怎么来？</p>
+  <p>3. 为什么用"可逆过程"推出来的 d<i>u</i> = <i>T</i>d<i>s</i> − <i>p</i>d<i>v</i>，对不可逆过程也成立？</p>
+  <p>4. 写出四组麦克斯韦关系，并指出最常用的两组。</p>
+  <p>5. 已知 <i>β</i> 和 <i>μ</i>，怎么求 <i>α</i>？</p>
+  <p>6. 完整写出"理想气体 <i>u</i> = <i>u</i>(<i>T</i>)"的证明（四步）。</p>
+  <p>7. 为什么水的 <i>c</i><sub>p</sub> 和 <i>c</i><sub>v</sub> 可以当成相等，而空气不行？</p>
+  <p>8. 节流后温度升还是降，由哪个系数的正负决定？理想气体为什么节流前后温度不变？</p>
+</div>
+
+<h1 class="ch" id="c7">第 7 章 水蒸气：一路"不听话"的工质</h1>
 
       <div class="why">
         <b>为什么：</b>前六章几乎所有的计算都建立在 <i>pv</i> = <i>RT</i> 上。可电厂、锅炉、汽轮机里的工质全都是<b>水蒸气</b>——它在湿蒸汽区根本不服从理想气体方程，压缩因子可以只有 0.5 甚至更低。这时候所有"<i>c</i><sub>p</sub>Δ<i>T</i>"、"<i>RT</i>ln(<i>v</i><sub>2</sub>/<i>v</i><sub>1</sub>)" 全部失效。<b>替代方案只有一个：查表/查图。</b>所以这一章不是教你新公式，而是教你怎么<b>查</b>、怎么在查完之后接上第一定律。
