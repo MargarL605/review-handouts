@@ -43,6 +43,16 @@ window.HANDOUTS = [
     pdf: '流体力学A2-第3章-一元流体动力学基础.pdf'
   },
   {
+    id: 'thermo_zero',
+    course: '工程热力学',
+    ready: true,
+    title: '零基础精讲：从一个打气筒讲到一台压气机',
+    sub: '第1–7 章完整推导 · 每一步都写出来 · 每节三级例题（看懂→模仿→应考） · 35 张自制示意图 · 为什么/打个比方/易错三连/自测',
+    meta: '依据谭羽非等《工程热力学》（第七版）第 1–7 章 + 热力学 1–7 章课件',
+    html: 'docs/thermo_zero.html',
+    pdf: '工程热力学-零基础精讲.pdf'
+  },
+  {
     id: 'thermo_calc',
     course: '工程热力学',
     ready: true,
@@ -61,15 +71,6 @@ window.HANDOUTS = [
     meta: '依据《知识点简答题-前8周》+ 热力学 1–7 章课件',
     html: 'docs/thermo_qa.html',
     pdf: '工程热力学-知识点简答题作答讲义.pdf'
-  },
-  {
-    id: 'thermo_ch123',
-    course: '工程热力学',
-    ready: true,
-    title: '第1—3章 期末复习讲义（第七版）',
-    sub: '基本概念 · 气体的热力性质 · 热力学第一定律：3 章知识地图、33 道详解例题、公式卡与易错点、章末自测、100 分模拟卷、考前 10 分钟速记',
-    meta: '依据谭羽非等《工程热力学》（第七版）第1—3章 + 公开课程资料',
-    html: 'docs/thermo_ch123.html',
-    pdf: '工程热力学-第1-3章-期末复习讲义.pdf'
   }
 ];
+

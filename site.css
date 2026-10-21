@@ -68,12 +68,24 @@ a:hover{text-decoration:underline}
 .btn[aria-disabled="true"]{opacity:.45;pointer-events:none}
 
 /* ---------- materials table ---------- */
-.tablewrap{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:8px}
+.tablewrap{background:#fff;border:1px solid var(--line);border-radius:10px;
+           overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:8px}
 table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
 th{background:#f2f6fa;color:var(--brand);font-weight:600;font-size:13.5px}
 tr:last-child td{border-bottom:none}
 td.f{white-space:nowrap}
+
+/* 窄屏（手机）：表格允许横向滑动，长文件名允许断行，避免被裁掉 */
+@media (max-width:640px){
+  .wrap{padding:0 14px}
+  .tablewrap{overflow-x:auto}
+  table{font-size:12.8px}
+  th,td{padding:8px 10px}
+  td.f{white-space:normal;word-break:break-all}
+  .hero h1{font-size:25px}
+  .btn{padding:6px 10px;font-size:12.5px}
+}
 
 /* ---------- footer ---------- */
 footer{margin-top:40px;padding:22px 0 34px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
