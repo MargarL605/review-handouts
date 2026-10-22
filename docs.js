@@ -3,6 +3,16 @@
    `ready` = false while the handout body is still being written. */
 window.HANDOUTS = [
   {
+    id: 'dyn_zero',
+    course: '动力学',
+    ready: true,
+    title: '零基础精讲：从"力决定加速度"讲到"动量矩决定转动"',
+    sub: '第1部分 质点动力学 · 第2部分 动量定理与质量流 · 第3部分 动量矩定理 · 20 张自绘图 · 三级例题（看懂→模仿→应考） · 附录公式总表',
+    meta: '依据三份《动力学》课件（共 97 页），从零讲起、完整推导',
+    html: 'docs/dyn_zero.html',
+    pdf: '理论力学-动力学-零基础精讲.pdf'
+  },
+  {
     id: 'dyn1',
     course: '动力学',
     ready: true,

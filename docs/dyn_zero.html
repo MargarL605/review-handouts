@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>理论力学·动力学 零基础精讲（质点动力学 · 动量 · 动量矩）</title>
+<style>
+/* ===================================================================
+   复习讲义 公共样式表  (review/shared/handout.css)
+   A4 打印友好 · 简洁明了 · 与所有讲义共用，保证风格统一
+   =================================================================== */
+@page { size: A4; margin: 14mm 13mm 12mm 13mm; }
+
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  font-size: 10.2pt;
+  line-height: 1.62;
+  color: #1b1b1b;
+  background: #fff;
+}
+p { margin: 0.38em 0; text-align: justify; }
+strong { color: #0b3d69; }
+em { font-style: normal; color: #b4451f; }
+
+/* ---------------- 封面 ---------------- */
+.cover { border: 2px solid #0b4f8a; border-radius: 6px; padding: 16px 18px; margin-bottom: 14px; }
+.cover .kicker { font-size: 9.5pt; letter-spacing: 2px; color: #0b4f8a; font-weight: bold; }
+.cover h1 { font-size: 21pt; margin: 4px 0 6px 0; color: #0b3d69; border: none; background: none; padding: 0; }
+.cover .sub { font-size: 10.5pt; color: #444; }
+.cover .meta { margin-top: 8px; font-size: 9.2pt; color: #666; border-top: 1px dashed #b9cfe2; padding-top: 6px; }
+
+/* ---------------- 标题层级 ---------------- */
+h1 { font-size: 15pt; color: #fff; background: #0b4f8a; margin: 14px 0 8px 0; padding: 6px 12px; border-radius: 3px; line-height: 1.35; }
+h2 { font-size: 12.8pt; color: #0b4f8a; margin: 13px 0 5px 0; padding: 3px 0 3px 9px; border-left: 5px solid #0b4f8a; background: #eef4fa; }
+h3 { font-size: 11pt; color: #0a3f6e; margin: 10px 0 4px 0; padding-bottom: 1px; border-bottom: 1.5px solid #c3d8ea; }
+h4 { font-size: 10.3pt; color: #14507f; margin: 8px 0 3px 0; }
+.lead { color: #555; font-size: 9.3pt; margin: -2px 0 7px 0; }
+
+/* ---------------- 提示盒 ---------------- */
+.box { border-radius: 4px; padding: 6px 10px; margin: 7px 0; page-break-inside: avoid; }
+.box > .bt { display: block; font-weight: bold; margin-bottom: 2px; }
+.key  { background: #eef4fa; border-left: 4px solid #0b4f8a; } .key > .bt  { color: #0b4f8a; }
+.def  { background: #f3f9f1; border-left: 4px solid #3d8b40; } .def > .bt  { color: #2e6b31; }
+.warn { background: #fdf2ee; border-left: 4px solid #c0492b; } .warn > .bt { color: #a83c21; }
+.exam { background: #fffaf0; border-left: 4px solid #c8912a; } .exam > .bt { color: #8f6410; }
+.note { background: #f6f6f6; border-left: 4px solid #999; }    .note > .bt { color: #555; }
+
+/* ---------------- 公式 ---------------- */
+.fml {
+  font-family: "Cambria Math", "Times New Roman", "Microsoft YaHei", serif;
+  background: #fbfbfb; border: 1px solid #e2e2e2; border-radius: 3px;
+  padding: 5px 10px; margin: 6px 0; text-align: center; font-size: 11pt;
+  page-break-inside: avoid;
+}
+.fml.left { text-align: left; }
+.fml .tag { float: right; color: #888; font-size: 9pt; }
+i, var { font-family: "Cambria Math", "Times New Roman", serif; font-style: italic; }
+sub, sup { font-size: 0.72em; }
+
+/* ---------------- 表格 ---------------- */
+table { border-collapse: collapse; width: 100%; margin: 7px 0; font-size: 9.4pt; page-break-inside: avoid; }
+th, td { border: 1px solid #c8d6e2; padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: #e8f1f9; color: #0b3d69; font-weight: bold; }
+tr:nth-child(even) td { background: #fafcfe; }
+td.c, th.c { text-align: center; }
+
+/* ---------------- 例题 / 习题 ---------------- */
+.prob { border: 1px solid #d9e6f2; border-left: 4px solid #4a90c4; border-radius: 4px; padding: 7px 10px; margin: 9px 0; page-break-inside: avoid; background: #fcfdff; }
+.prob > .pt { font-weight: bold; color: #0b4f8a; margin-bottom: 3px; }
+.prob .q { margin: 3px 0; }
+.prob .sol { margin-top: 4px; }
+.prob .ans { background: #fff6d9; border-radius: 3px; padding: 3px 7px; margin-top: 4px; font-weight: bold; color: #8a5a00; }
+ol, ul { margin: 4px 0 4px 1.5em; padding: 0; }
+li { margin: 2px 0; }
+.step { margin-left: 1.1em; }
+
+/* ---------------- 图片 ---------------- */
+figure { margin: 8px 0; text-align: center; page-break-inside: avoid; }
+figure img { max-width: 100%; border: 1px solid #dcdcdc; border-radius: 3px; }
+figcaption { font-size: 8.8pt; color: #666; margin-top: 3px; }
+
+/* ---------------- 其他 ---------------- */
+.pagebreak { page-break-before: always; }
+.toc { background: #f7fafd; border: 1px solid #d9e6f2; border-radius: 4px; padding: 8px 12px; margin: 8px 0 12px 0; }
+.toc ol { margin-left: 1.2em; }
+.toc a { color: #0b3d69; text-decoration: none; }
+.badge { display: inline-block; background: #0b4f8a; color: #fff; border-radius: 3px; padding: 0 6px; font-size: 8.8pt; margin-right: 4px; }
+.badge.g { background: #3d8b40; } .badge.o { background: #c8912a; } .badge.r { background: #c0492b; }
+hr { border: none; border-top: 1px dashed #c3d8ea; margin: 12px 0; }
+
+/* ---- extra styles for dyn_zero ---- */
+/* ===================================================================
+   handout-zero.css —「工程热力学 零基础精讲」专用样式
+   在 handout.css 之上叠加：把「为什么」「一步一推」「错觉警告」等
+   教学组件讲清楚，并给公式链自动编号，便于正文引用。
+   =================================================================== */
+
+/* ---------- 封面 ---------- */
+.cover.hero { border: 2px solid #0f766e; }
+.cover.hero .kicker { color: #0f766e; }
+.cover.hero h1 { color: #0b4a45; }
+.cover.hero .meta { border-top-color: #b6dcd6; }
+.cover .howto { margin-top: 9px; background: #f2faf8; border: 1px solid #cfe8e3; border-radius: 4px; padding: 7px 10px; font-size: 9.3pt; }
+.cover .howto b { color: #0f766e; }
+
+/* ---------- 章节大标题 ---------- */
+h1.ch { background: #0f766e; }
+h2 { border-left-color: #0f766e; background: #eef8f6; color: #0b4a45; }
+h3 { border-bottom-color: #bfe0db; color: #0d5f59; }
+h4 { color: #146c66; }
+
+/* ---------- 通用提示盒（handout.css 里只定义了 .box.def / .box.key，这里补齐） ---------- */
+.def, .key, .warn, .exam, .note {
+  border-radius: 4px; padding: 6px 10px; margin: 7px 0; page-break-inside: avoid;
+}
+.def  { background: #f3f9f1; border-left: 4px solid #3d8b40; }
+.key  { background: #eef8f6; border-left: 4px solid #0f766e; }
+.warn { background: #fdf2ee; border-left: 4px solid #c0492b; }
+.exam { background: #fffaf0; border-left: 4px solid #c8912a; }
+.note { background: #f6f6f6; border-left: 4px solid #999; }
+.def > p:first-child, .key > p:first-child { margin-top: 0; }
+.def > p:last-child, .key > p:last-child { margin-bottom: 0; }
+.def > b:first-child, .key > b:first-child { display: block; color: #2e6b31; font-weight: bold; margin-bottom: 2px; }
+.key > b:first-child { color: #0b4a45; }
+.key > .fml, .def > .fml { margin: 4px 0; }
+.key, .def { font-size: 9.9pt; }
+
+/* ---------- 一、为什么要学这个（动机块） ---------- */
+.why { border: 1px solid #cfe8e3; background: #f4fbf9; border-radius: 5px; padding: 8px 11px; margin: 8px 0; page-break-inside: avoid; }
+.why > .wt { display: block; font-weight: bold; color: #0f766e; margin-bottom: 3px; }
+.why > .wt::before { content: "为什么 · "; color: #94a3a0; font-weight: normal; }
+
+/* ---------- 二、类比 / 直觉 ---------- */
+.analogy { border-left: 4px solid #a855f7; background: #faf5ff; border-radius: 4px; padding: 7px 10px; margin: 8px 0; page-break-inside: avoid; }
+.analogy > .at { display: block; font-weight: bold; color: #7c3aed; margin-bottom: 2px; }
+.analogy > .at::before { content: "打个比方 · "; color: #b088e0; font-weight: normal; }
+
+/* ---------- 三、一步一推（推导链） ---------- */
+.derive { margin: 8px 0; border: 1px solid #dfe8e6; border-left: 4px solid #0f766e; border-radius: 5px; page-break-inside: avoid; background: #fcfefd; }
+.derive > .dt { background: #eef8f6; color: #0b4a45; font-weight: bold; padding: 4px 10px; border-bottom: 1px solid #dfe8e6; font-size: 9.6pt; border-radius: 5px 5px 0 0; }
+.derive ol { margin: 6px 10px 8px 2.4em; }
+.derive li { margin: 4px 0; }
+.derive li .r { color: #6b7280; font-size: 8.9pt; display: block; margin-top: 1px; }
+
+/* 公式加粗版（自带编号） */
+.fml { border-left: 4px solid #0f766e; background: #fbfdfd; text-align: left; position: relative; padding-right: 12px; }
+.fml.numb { padding-right: 46px; }
+.fml .tag { position: absolute; right: 8px; top: 5px; }
+.fml.numb { counter-increment: fmln; }
+.fml.numb::after { content: "(" counter(fmln) ")"; position: absolute; right: 8px; top: 5px; color: #8a9490; font-size: 9pt; font-family: "Times New Roman", serif; }
+body { counter-reset: fmln; }
+
+/* ---------- 四、三级例题 ---------- */
+.lv { border: 1px solid #dbe6e4; border-radius: 5px; padding: 7px 10px; margin: 9px 0; page-break-inside: avoid; background: #fdfefe; }
+.lv > .lt { font-weight: bold; margin-bottom: 4px; color: #0b4a45; }
+/* 例题标题行：直接作为 .lv 第一个子元素的 .tagx（早期讲义用这种写法） */
+.lv > .tagx { display: block; font-size: 9.6pt; font-weight: bold; color: #0b4a45;
+              margin: 0 0 6px 0; padding: 0 0 4px 0; border-bottom: 1px dashed #cfe0dc; }
+.lv.l1 > .tagx { color: #15803d; }
+.lv.l2 > .tagx { color: #b45309; }
+.lv.l3 > .tagx { color: #b91c1c; }
+.lv > .lt .tagx { display: inline-block; font-size: 8.6pt; border-radius: 3px; padding: 0 6px; margin-right: 5px; color: #fff; background: #16a34a; vertical-align: 1px; }
+.lv.l1 { border-left: 4px solid #16a34a; }   .lv.l1 > .lt .tagx { background: #16a34a; }
+.lv.l2 { border-left: 4px solid #2563eb; }   .lv.l2 > .lt .tagx { background: #2563eb; }
+.lv.l3 { border-left: 4px solid #b91c1c; }   .lv.l3 > .lt .tagx { background: #b91c1c; }
+.lv .q { margin: 3px 0; }
+.lv .hint { color: #6b7280; font-size: 8.9pt; }
+.lv .ans { background: #f0fdf4; border-left: 3px solid #16a34a; border-radius: 3px; padding: 4px 8px; margin-top: 5px; }
+
+/* ---------- 五、术语表 / 对照表 ---------- */
+table.tight td, table.tight th { padding: 3px 5px; font-size: 9pt; }
+table.zebra th { background: #e7f5f2; color: #0b4a45; }
+td.f { font-family: "Cambria Math", "Times New Roman", serif; font-style: italic; }
+
+/* ---------- 六、图 ---------- */
+figure.tb { margin: 9px 0; text-align: center; page-break-inside: avoid; }
+figure.tb img { max-width: 96%; }
+figure.tb figcaption { font-size: 8.8pt; color: #555; margin-top: 2px; }
+figure.tb figcaption b { color: #0f766e; }
+figure svg { max-width: 100%; height: auto; }
+figcaption .src { color: #9aa3a0; }
+
+/* ---------- 七、易错 & 自测 ---------- */
+.myth { border: 1px solid #f0c9bd; background: #fff7f4; border-radius: 5px; padding: 7px 10px; margin: 8px 0; page-break-inside: avoid; }
+.myth > .mt { display: block; font-weight: bold; color: #b91c1c; margin-bottom: 2px; }
+.myth .no { color: #b91c1c; font-weight: bold; }
+.myth .yes { color: #15803d; font-weight: bold; }
+
+.check { border-top: 2px solid #0f766e; margin: 12px 0 6px 0; padding-top: 6px; page-break-inside: avoid; }
+.check > .ct { font-weight: bold; color: #0b4a45; margin-bottom: 3px; }
+.check ol { margin-left: 1.6em; }
+.check .a { color: #6b7280; }
+
+/* ---------- 八、符号速查 ---------- */
+.sym { display: inline-block; border: 1px solid #cfe8e3; background: #f4fbf9; border-radius: 3px; padding: 0 5px; margin: 0 2px; font-size: 9pt; }
+
+/* ---------- 打印微调 ---------- */
+@media print {
+  .lv, .derive, .why, .analogy, .myth, figure { break-inside: avoid; }
+  h1.ch { break-before: page; }
+  .cover + .toc + h1.ch { break-before: auto; }
+}
+
+/* 网页阅读时给正文一点左右留白（打印由 @page margin 负责，不受影响） */
+@media screen {
+  body { padding: 0 18px 40px 18px; }
+}
+
+</style>
+</head>
+<body>
+<div class="cover hero">
+  <div class="kicker">理论力学 · 动力学 · 第 1–3 份课件</div>
+  <h1>零基础精讲：从"力决定加速度"讲到"动量矩决定转动"</h1>
+  <div class="sub">质点动力学 · 动量定理与质量流 · 动量矩定理</div>
+  <div class="meta">
+    依据：你提供的三份课件《动力学-1-质点动力学》《动力学-2-动量定理-质量流》《动力学-3-动量矩定理》（共 97 页）<br>
+    适用：完全没有基础、希望从零学明白动力学的推导逻辑，而不是背公式
+  </div>
+  <div class="howto">
+    <b>怎么读这份讲义。</b>
+    动力学最怕的是"公式都会、题不会"。原因是绝大多数教材直接给结论，跳过了<b>为什么是这个结论</b>。
+    所以这份讲义每一节都按同一个节奏展开：先「<b>为什么</b>」讲清这一节要解决什么麻烦；再「<b>打个比方</b>」把它换成生活经验；
+    然后把公式「<b>一步一推</b>」推出来，中间不跳步；接着「<b>看懂 → 模仿 → 应考</b>」三级例题，难度逐级抬升；
+    最后用「<b>易错</b>」点出考场上最容易翻车的地方。
+    <br><br>
+    <b>动力学只有三个东西：</b>① 力怎么分解（坐标系）；② 方程怎么解（积分）；③ 系统的边界画在哪儿（整体法 / 控制体）。
+    这三件事贯穿全部三部分内容。你把这三件事练熟，剩下的都只是它们的不同排列组合。
+  </div>
+</div>
+
+<div class="toc">
+  <b>目录</b>
+  <ol>
+    <li><a href="#c0">读前须知：动力学到底在算什么</a>——一张图看懂三部分的关系</li>
+    <li><a href="#c1">第 1 部分 质点动力学</a>——两类问题、三种坐标、三种积分、两个典型约束</li>
+    <li><a href="#c2">第 2 部分 动量定理与质量流</a>——从单质点到"控制体"</li>
+    <li><a href="#c3">第 3 部分 动量矩定理</a>——从平动到转动，结构完全平行</li>
+    <li><a href="#app">附录：公式总表 · 符号表 · 三部分对照速查</a></li>
+  </ol>
+</div>
+
+<h1 class="ch" id="c0">读前须知：动力学到底在算什么</h1>
+
+<div class="why">
+  <span class="wt">先把地图给你，否则后面每一节都像突然冒出来的。</span>
+  动力学只回答一个问题：<b>力和运动之间是什么关系？</b>
+  牛顿第二定律 <i>m</i><b>a</b> = Σ<b>F</b> 是全部内容的源头，但它只是一个<b>微分方程</b>。
+  这句话意味着两件事，也就分出了两条路：
+  <br><br>
+  <b>路一（求导）：</b>运动已知 → 求两次导数得加速度 → 代进方程 → 解出未知的力。<br>
+  <b>路二（积分）：</b>力已知 → 列微分方程 → 积分两次 → 得到运动规律。
+  <br><br>
+  路二往往积不出来（因为力可能是位置、速度、时间的复杂函数），于是人们发明了两种"<b>不用解微分方程</b>"的捷径：
+  把方程<b>对时间积一次</b>，得到<b>动量定理</b>（第 2 部分）；把方程<b>对某点取矩</b>，得到<b>动量矩定理</b>（第 3 部分）。
+  这两条定理之所以是"捷径"，是因为它们在<b>积分之后</b>只跟"开始"和"结束"两个状态有关，中间过程多复杂都不用管。
+</div>
+
+<p><b>三部分的关系，一句话说清：</b></p>
+
+<table class="zebra">
+  <tr><th>部分</th><th>核心方程</th><th>解决什么问题</th><th>典型考法</th></tr>
+  <tr>
+    <td><b>一 · 质点动力学</b></td>
+    <td><i>m</i><b>a</b> = Σ<b>F</b></td>
+    <td>一个质点的运动与受力互相求解</td>
+    <td>求张力、求轨迹、求脱离位置</td>
+  </tr>
+  <tr>
+    <td><b>二 · 动量定理</b></td>
+    <td>Σ<b>F</b> = d(<i>m</i><b>v</b>)/d<i>t</i>，积分得 <b>I</b> = <i>m</i><b>v</b><sub>2</sub> − <i>m</i><b>v</b><sub>1</sub></td>
+    <td>一堆物体组成的系统、流体冲击、变质量（火箭）</td>
+    <td>求平均冲力、求管壁受力、火箭速度</td>
+  </tr>
+  <tr>
+    <td><b>三 · 动量矩定理</b></td>
+    <td>d<b>L</b><sub>O</sub>/d<i>t</i> = Σ<b>M</b><sub>O</sub>，对定轴 <i>J</i><sub>z</sub>ε = Σ<i>M</i><sub>z</sub></td>
+    <td>转动、刚体平面运动、纯滚动</td>
+    <td>求角加速度、求摩擦、求转动惯量</td>
+  </tr>
+</table>
+
+<div class="box warn">
+  <b>三部分不是三个独立的知识块，而是同一个 <i>m</i><b>a</b> = Σ<b>F</b> 的三次"变形"。</b>
+  所以你在第 2、3 部分遇到的每一个式子，都能在第 1 部分找到它的原形：
+  <br>· 动量定理 = 第 1 部分方程对时间积分；
+  <br>· 质心运动定理 = 第 1 部分方程对整个系统求和（内力消掉）；
+  <br>· 动量矩定理 = 第 1 部分方程两边叉乘矢径 <b>r</b>；
+  <br>· 定轴转动方程 <i>J</i>ε = Σ<i>M</i> = 动量矩定理在刚体上的特例。
+  <br><br>
+  <b>看懂这一层，三部分就只需要学一遍。</b>这份讲义会在每处显式标出"这一步对应第 1 部分的哪一句"。
+</div>
+
+<h2 id="c0s">读法建议（三条，都很实在）</h2>
+
+<div class="why">
+  <b>第一条：受力图必须亲手画。</b>动力学 90% 的错误不是算错，是<b>受力图漏了某个力</b>（最常见：漏掉摩擦力、把支持力画反、把"人对地面的力"和"地面对人的力"搞混）。
+  不画图就开始列方程，几乎一定出错。
+  <br><br>
+  <b>第二条：每一步都问"这是矢量式还是标量式"。</b>矢量式能直接相加；标量式必须在同一个方向上才成立。
+  把矢量分量混着加，是第二大错误来源。
+  <br><br>
+  <b>第三条：算出结果先做"量纲 + 极限"两个检查。</b>量纲不对一定错；
+  把参数推向极端（比如质量趋近无穷、角度趋近 0）看结果合不合理，能抓住大部分符号错误。
+</div>
+
+<div class="box tip">
+  <b>本讲义使用的符号约定</b>（与你三份课件一致，避免抄错）：
+  <br>· <b>粗体</b>表示矢量（如 <b>v</b>、<b>a</b>、<b>F</b>），<i>斜体</i>表示标量或分量；
+  <br>· <i>m</i> 质量，<i>t</i> 时间，<i>x</i>、<i>y</i>、<i>z</i> 直角坐标，τ 切向，<i>n</i> 法向，<i>r</i>、φ 极坐标；
+  <br>· <i>v</i> 速率，<i>a</i> 加速度，<i>ω</i> 角速度，ε 角加速度，<i>J</i> 转动惯量，<i>L</i> 动量矩，<i>M</i> 力矩；
+  <br>· <i>q</i><sub>m</sub> 质量流量（kg/s），<i>ρ</i> 密度，<i>A</i> 截面积，<i>Q</i> 体积流量（m³/s）。
+</div>
+
+<h1 class="ch" id="c1">第 1 部分　质点动力学：力决定加速度，加速度决定运动</h1>
+
+<div class="why">
+  <span class="wt">这一部分只做一件事：把 <i>m</i><b>a</b> = Σ<b>F</b> 用起来。</span>
+  听起来简单，但"用起来"包含四个决定，考试考的就是这四个决定：
+  <br>① <b>判断是哪类问题</b>（已知运动求力，还是已知力求运动）；
+  <br>② <b>选坐标系</b>（把矢量方程拆成几个标量方程）；
+  <br>③ <b>画受力图</b>（到底有哪些力、朝向哪儿）；
+  <br>④ <b>解方程</b>（求导，或积分，或解代数方程）。
+  <br><br>
+  下面四节就按这四个决定依次展开，最后用两个典型约束（单摆、圆柱面）和两个典型力（阻力、有心力）把整套流程走一遍。
+</div>
+
+<h2>1.1 动力学只有两类问题</h2>
+
+<div class="why">
+  <b>为什么先讲这个：</b>因为<b>问法决定解法</b>。同样一道题，问"张力多大"和问"多久落地"，解法方向完全相反。
+  很多人做不出来，不是不会算，是<b>一开始就没分清题目在问哪一类</b>。
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 330" width="940" height="330" style="max-width:940px" role="img" aria-label="动力学的两类基本问题"><rect x="0" y="0" width="940" height="330" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="470" y="28" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">动力学只有两类问题，方向相反、方法相同</text><rect x="40" y="52" width="400" height="244" fill="#f8fafc" stroke="#0f766e" stroke-width="1.6"  rx="8"/><text x="240" y="78" font-size="13" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">第一类（正问题）：已知运动，求力</text><text x="70" y="108" font-size="12" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">已知：</text><text x="120" y="108" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">r(t) 或 v(t)、加速度 a、质量 m</text><text x="70" y="134" font-size="12" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">做法：</text><text x="120" y="134" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">两次求导得 a → 代入 m a = ΣF</text><rect x="70" y="152" width="340" height="46" fill="#d1fae5" stroke="#0f766e" stroke-width="1.6"  rx="6"/><text x="240" y="180" font-size="13" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ΣF = m a     （求合力，再拆成分力）</text><text x="70" y="224" font-size="11.5" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">典型问法：绳的张力多大？支持力多大？</text><text x="70" y="246" font-size="11.5" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">摩擦力够不够？轨道对物体的压力？</text><text x="70" y="272" font-size="11.5" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">考点在"会用运动学把 a 算出来"</text><rect x="500" y="52" width="400" height="244" fill="#f8fafc" stroke="#b45309" stroke-width="1.6"  rx="8"/><text x="700" y="78" font-size="13" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">第二类（反问题）：已知力，求运动</text><text x="530" y="108" font-size="12" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">已知：</text><text x="580" y="108" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">受力（重力、弹力、阻力…）+ 初始条件</text><text x="530" y="134" font-size="12" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">做法：</text><text x="580" y="134" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">列微分方程 → 积分（可能要分离变量）</text><rect x="530" y="152" width="340" height="46" fill="#fef3c7" stroke="#b45309" stroke-width="1.6"  rx="6"/><text x="700" y="180" font-size="13" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">m dv/dt = ΣF     （解这个方程）</text><text x="530" y="224" font-size="11.5" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">典型问法：多久落地？速度随时间怎么变？</text><text x="530" y="246" font-size="11.5" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">轨迹是什么曲线？能升到多高？</text><text x="530" y="272" font-size="11.5" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">难点在"积分 + 定常数"</text><line x1="452" y1="174" x2="492" y2="174" stroke="#94a3b8" stroke-width="2"  marker-end="url(#ar)" /><line x1="492" y1="190" x2="452" y2="190" stroke="#94a3b8" stroke-width="2"  marker-end="url(#ar)" /><text x="472" y="216" font-size="11" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">互逆</text><text x="470" y="316" font-size="12" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">两张图共用同一个方程 m a = ΣF：左边"由 a 求 F"，右边"由 F 求 a"。</text></svg><figcaption><b>图 1-1</b> 同一道题可能两个方向都能走，但做法完全不同：左边对运动求导，右边把方程积分。</figcaption></figure>
+
+
+<p><b>第一类（正问题）：已知运动，求力。</b>题目会告诉你位置随时间怎么变 <i>r</i>(<i>t</i>)，或者速度怎么变，让你求某个力（张力、支持力、摩擦力）。</p>
+<div class="fml"><b>做法：<i>r</i>(<i>t</i>) →（求导）→ <b>v</b> →（求导）→ <b>a</b> →（代进方程）→ Σ<b>F</b> = <i>m</i><b>a</b></div>
+<p class="hint"><b>注意：</b>求导得到的是<b>合加速度</b>，它对应<b>合力</b>。要得到某一个力，还得把受力图上其他力都写出来，从合力里"减掉"。</p>
+
+<p><b>第二类（反问题）：已知力，求运动。</b>题目给出受力情况（重力、弹簧力、阻力）和初始条件，让你求运动规律。</p>
+<div class="fml"><b>做法：列微分方程 <i>m</i> d<b>v</b>/d<i>t</i> = Σ<b>F</b> →（积分）→ <b>v</b>(<i>t</i>) →（再积分）→ <b>r</i>(<i>t</i>)</div>
+<p class="hint"><b>难点：</b>积分能不能做出来，取决于力是"谁的函数"。这就是 1.4 节要讲的内容——<b>先看力里带什么变量，再选积分路线</b>。</p>
+
+<div class="box exam">
+  <b>考场上怎么快速判断？</b>看题目给的条件：
+  <br>· 给了"<b>位置 / 速度 / 加速度的表达式</b>" → 第一类，放心大胆求导；
+  <br>· 给了"<b>受力情况 + 初速度 / 初位置</b>" → 第二类，准备好积分；
+  <br>· 给了"<b>一个角度或一个位置，问那一瞬间的力</b>" → 第一类，但只需要算那一瞬间的加速度（常用 <i>a</i><sub>n</sub> = <i>v</i>²/<i>ρ</i>）。
+</div>
+
+<div class="lv l1">
+  <div class="tagx">例 1-1 · 看懂（第一类问题的最小样本）</div>
+  <p class="pt">小物块质量 <i>m</i> = 2 kg，在半径 <i>R</i> = 0.5 m 的水平圆轨道上以恒定速率 <i>v</i> = 3 m/s 运动。求轨道对小物块的作用力大小。</p>
+  <p><b>第 1 步 · 判断类型。</b>给了"速率恒定 + 圆轨道"，运动完全已知 → <b>第一类问题，求力</b>。</p>
+  <p><b>第 2 步 · 求加速度。</b>速率恒定 ⇒ 切向加速度 <i>a</i><sub>τ</sub> = d<i>v</i>/d<i>t</i> = 0；只有法向加速度：</p>
+  <div class="fml"><i>a</i><sub>n</sub> = <i>v</i>²/<i>R</i> = 3²/0.5 = <b>18 m/s²</b>，方向指向圆心</div>
+  <p><b>第 3 步 · 写方程。</b>水平面内只有轨道给的力 <i>F</i>（法向），竖直方向重力与支持力平衡，不影响水平运动：</p>
+  <div class="fml"><i>F</i> = <i>m a</i><sub>n</sub> = 2 × 18 = <b>36 N</b></div>
+  <p class="ans"><b>答：</b>轨道对小物块的作用力 36 N，方向指向圆心。</p>
+  <p class="hint"><b>经验：</b>匀速圆周运动是"<b>加速度不为零但切向加速度为零</b>"的最典型情形。
+    只要看到"匀速率 + 曲线"，就直接写 <i>a</i><sub>n</sub> = <i>v</i>²/<i>ρ</i>、<i>a</i><sub>τ</sub> = 0，不必再求导。</p>
+</div>
+
+<h2>1.2 牛顿三定律：什么时候能用，什么时候不能用</h2>
+
+<div class="why">
+  <b>为什么必须讲这个：</b>因为 <i>m</i><b>a</b> = Σ<b>F</b> 有一个<b>前提</b>——必须在<b>惯性参考系</b>里用。
+  你在加速的电梯里、在转弯的公交车里做实验，"不受力也有加速度"，定律就失效了。
+  考试里如果出现"车厢以加速度 <i>a</i> 运动，求车厢内小球的偏角"，考的就是这件事。
+</div>
+
+<p><b>第一定律（惯性定律）：</b>不受力（或合力为零）时，物体保持静止或匀速直线运动。</p>
+<p>它的真正作用不是"描述运动"，而是<b>定义了惯性参考系</b>：<b>第一定律成立的参考系，就叫惯性系</b>。地球（近似）是惯性系；加速的车厢、旋转的圆盘都不是。</p>
+
+<p><b>第二定律：</b><b>F</b> = <i>m</i><b>a</b>（更原始的形式是 <b>F</b> = d(<i>m</i><b>v</b>)/d<i>t</i>）。</p>
+<div class="box tip">
+  <b>第二定律的四个性质，考试爱考概念题：</b>
+  <br>· <b>瞬时性：</b>力一撤，加速度立刻为零（不是"速度慢慢消失"）；
+  <br>· <b>矢量性：</b>加速度永远与合力<b>同方向</b>，与速度方向<b>无关</b>（可以相反，那就是减速）；
+  <br>· <b>叠加性：</b>各力产生的加速度可以矢量相加，所以可以先分解再合成；
+  <br>· <b>适用范围：</b>惯性系中的<b>宏观低速</b>物体（高速要用相对论，微观要用量子力学——这两句话考试常作为"下列说法错误的是"的选项）。
+</div>
+
+<p><b>第三定律：</b><b>F</b><sub>AB</sub> = −<b>F</b><sub>BA</sub>，作用力与反作用力<b>等值、反向、共线、同时存在、作用于两个不同物体</b>。</p>
+<p class="hint"><b>最常见的错误：</b>把"作用力与反作用力"和"二力平衡"搞混。二力平衡作用于<b>同一个物体</b>、可以抵消；
+  作用力与反作用力作用于<b>两个物体</b>、<b>永远不能抵消</b>。这一点在第 2 部分会变成"内力成对消掉"的关键依据。</p>
+
+<div class="lv l2">
+  <div class="tagx">例 1-2 · 模仿（非惯性系里怎么算）</div>
+  <p class="pt">车厢以恒定加速度 <i>a</i><sub>0</sub> 水平向右加速。车厢内用细线悬挂一个小球（质量 <i>m</i>），球相对车厢静止。求细线与竖直方向的夹角 θ 和线中张力 <i>F</i>。</p>
+  <p><b>第 1 步 · 选参考系。</b>若在地面（惯性系）看：小球与车厢一起向右加速，加速度就是 <i>a</i><sub>0</sub>，这最省事，<b>不要</b>去用车厢参考系（那是非惯性系，需要补惯性力）。</p>
+  <p><b>第 2 步 · 受力图。</b>小球只受两个力：重力 <i>mg</i>（向下）、张力 <i>F</i>（沿线指向悬点，与竖直方向成 θ 角）。</p>
+  <p><b>第 3 步 · 分解并列方程。</b>取水平向右为 <i>x</i>、竖直向上为 <i>y</i>：</p>
+  <div class="fml">水平：<i>F</i> sinθ = <i>m a</i><sub>0</sub>&nbsp;&nbsp;&nbsp;&nbsp;竖直：<i>F</i> cosθ − <i>mg</i> = 0</div>
+  <p><b>第 4 步 · 解。</b>两式相除消去 <i>F</i>：</p>
+  <div class="fml">tanθ = <i>a</i><sub>0</sub>/<i>g</i>&nbsp;&nbsp;⟹&nbsp;&nbsp;<b>θ = arctan(<i>a</i><sub>0</sub>/<i>g</i>)</b></div>
+  <div class="fml"><i>F</i> = <i>mg</i>/cosθ = <i>m</i>√(<i>g</i>² + <i>a</i><sub>0</sub>²)</div>
+  <p class="ans"><b>答：</b>θ = arctan(<i>a</i><sub>0</sub>/<i>g</i>)，<i>F</i> = <i>m</i>√(<i>g</i>² + <i>a</i><sub>0</sub>²)。</p>
+  <p class="hint"><b>经验：</b>凡是"加速的车厢 / 电梯 / 车厢里的单摆"，<b>一律站到地面（惯性系）去算</b>，
+    把加速度写在运动方向上，就不会漏掉惯性力的问题。只有当题目明确要求"在车厢参考系中分析"时，才引入惯性力 <i>m a</i><sub>0</sub>（方向与加速度相反），结果完全一样。</p>
+</div>
+
+<h2>1.3 把矢量方程拆开：三种坐标系</h2>
+
+<div class="why">
+  <b>为什么必须拆：</b>因为 <b>F</b> = <i>m</i><b>a</b> 是<b>一个</b>矢量方程，等价于<b>三个</b>标量方程。
+  直接拿矢量做代数运算是做不出来的——必须选一组坐标轴，把每个力、每个加速度都投影上去，才能解方程。
+  <b>选坐标系的目标只有一个：让某些分量变成零，让方程变简单。</b>
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 384" width="960" height="384" style="max-width:960px" role="img" aria-label="三种坐标系下的质点运动微分方程"><rect x="0" y="0" width="960" height="384" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="480" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">同一个 m a = ΣF，按问题的"形状"选不同的坐标系拆开</text><rect x="24" y="46" width="292" height="270" fill="#f8fafc" stroke="#0f766e" stroke-width="1.5"  rx="8"/><text x="170" y="70" font-size="12.8" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">直角坐标 x-y</text><text x="170" y="90" font-size="11" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">轨迹未知、力沿 x/y 分解方便</text><line x1="74" y1="268" x2="264" y2="268" stroke="#334155" stroke-width="1.6"  marker-end="url(#ar)" /><line x1="74" y1="268" x2="74" y2="118" stroke="#334155" stroke-width="1.6"  marker-end="url(#ar)" /><text x="270" y="274" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">x</text><text x="62" y="116" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">y</text><path d="M80,248 Q144,138 244,172" fill="none" stroke="#b91c1c" stroke-width="2.2"   /><circle cx="244" cy="172" r="4.5" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><line x1="244" y1="172" x2="244" y2="268" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 3"  /><line x1="244" y1="172" x2="74" y2="172" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 3"  /><text x="159" y="284" font-size="11.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">x</text><text x="62" y="220" font-size="11.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">y</text><text x="80" y="296" font-size="11.4" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">m ẍ = ΣF_x ,  m ÿ = ΣF_y</text><rect x="334" y="46" width="292" height="270" fill="#f8fafc" stroke="#b45309" stroke-width="1.5"  rx="8"/><text x="480" y="70" font-size="12.8" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">自然坐标 τ-n</text><text x="480" y="90" font-size="11" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">轨迹已知（圆周、曲线），切向+法向</text><path d="M326,190 A74,74 0 0 1 474,190" fill="none" stroke="#334155" stroke-width="2"   /><text x="400" y="208" font-size="10.5" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">已知轨迹</text><circle cx="442.4446562899774" cy="129.38274872261462" r="5" fill="#b45309" stroke="#b45309" stroke-width="1.6"/><line x1="442.4446562899774" y1="129.38274872261462" x2="493.2320830358949" y2="164.94448777637948" stroke="#b45309" stroke-width="2.4"  marker-end="url(#ar)" /><text x="504.7002116559408" y="176.97455788529413" font-size="12.5" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">τ</text><line x1="442.4446562899774" y1="129.38274872261462" x2="410.3243758543188" y2="175.25526320279818" stroke="#2563eb" stroke-width="2.4"  marker-end="url(#ar)" /><text x="402.2943057454042" y="190.72339182284406" font-size="12.5" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">n</text><text x="284" y="138" font-size="10.5" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">曲率中心</text><line x1="442.4446562899774" y1="129.38274872261462" x2="400" y2="190" stroke="#2563eb" stroke-width="1" stroke-dasharray="3 3"  /><text x="344" y="288" font-size="10.8" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">切向：m dv/dt = ΣF_τ</text><text x="344" y="306" font-size="10.8" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">法向：m v²/ρ = ΣF_n</text><rect x="644" y="46" width="292" height="270" fill="#f8fafc" stroke="#2563eb" stroke-width="1.5"  rx="8"/><text x="790" y="70" font-size="12.8" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">极坐标 r-φ</text><text x="790" y="90" font-size="11" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">有心力（引力、斥力都指向或背离一点）</text><circle cx="700" cy="262" r="4" fill="#334155" stroke="#334155" stroke-width="1.6"/><text x="686" y="278" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">O</text><line x1="700" y1="262" x2="818.2016130410083" y2="169.65077870115127" stroke="#2563eb" stroke-width="2"  marker-end="url(#ar)" /><text x="829.2337635915023" y="165.03151804659205" font-size="12.5" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">r</text><circle cx="818.2016130410083" cy="169.65077870115127" r="5" fill="#2563eb" stroke="#2563eb" stroke-width="1.6"/><line x1="700" y1="262" x2="850" y2="262" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 3"  /><path d="M746,262 A46,46 0 0 0 736.2484946659092,233.67957213501973" fill="none" stroke="#64748b" stroke-width="1.3"   /><text x="756" y="254" font-size="11.5" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">φ</text><line x1="818.2016130410083" y1="169.65077870115127" x2="775.6490323462452" y2="202.89649836873681" stroke="#b91c1c" stroke-width="2.4"  marker-end="url(#ar)" /><text x="764.6168817957512" y="215.51575902329603" font-size="12.5" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F</text><text x="654" y="288" font-size="10.8" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">径向：m(r̈ − rφ̇²) = ΣF_r</text><text x="654" y="306" font-size="10.8" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">横向：m(rφ̈ + 2ṙφ̇) = ΣF_φ</text><text x="480" y="352" font-size="11.8" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">选坐标系的唯一标准：让"力"或"加速度"里有一个变得最简单。选对了，方程一半是零。</text></svg><figcaption><b>图 1-2</b> 三种坐标系的拆法。选对坐标系，方程一半是零；选错，三个分量都带一大堆三角函数。</figcaption></figure>
+
+
+<h3>1.3.1 直角坐标：轨迹未知时的默认选择</h3>
+
+<p>把 <b>a</b> 写成 <i>a</i><sub>x</sub> = ẍ、<i>a</i><sub>y</sub> = ÿ（点表示对时间求导），方程拆成：</p>
+<div class="fml"><i>m</i>ẍ = Σ<i>F</i><sub>x</sub>&nbsp;&nbsp;&nbsp;&nbsp;<i>m</i>ÿ = Σ<i>F</i><sub>y</sub>&nbsp;&nbsp;&nbsp;&nbsp;（空间问题再加 <i>m</i>z̈ = Σ<i>F</i><sub>z</sub>）</div>
+<p class="hint"><b>什么时候用：</b>力的方向本身沿坐标轴（比如水平面上的推力、竖直方向的重力），或者轨迹是抛物线这类"<i>x</i>、<i>y</i> 独立"的曲线。
+  <b>抛体运动必须用直角坐标</b>，因为重力只在 <i>y</i> 方向、水平方向完全自由。</p>
+
+<h3>1.3.2 自然坐标：轨迹已知时的最佳选择</h3>
+
+<p>当轨迹已经确定（圆弧、已知曲线），沿<b>切向 τ</b> 和<b>法向 <i>n</i></b> 分解最省事。此时加速度有两个分量：</p>
+<div class="fml"><i>a</i><sub>τ</sub> = d<i>v</i>/d<i>t</i>&nbsp;&nbsp;&nbsp;&nbsp;<i>a</i><sub>n</sub> = <i>v</i>²/<i>ρ</i>&nbsp;&nbsp;&nbsp;&nbsp;（<i>ρ</i> 是轨迹在该点的曲率半径）</div>
+<div class="fml"><i>m</i> d<i>v</i>/d<i>t</i> = Σ<i>F</i><sub>τ</sub>&nbsp;&nbsp;&nbsp;&nbsp;<i>m</i> <i>v</i>²/<i>ρ</i> = Σ<i>F</i><sub>n</sub></div>
+<p class="hint"><b>什么时候用：</b>一切"沿轨道运动"的问题——单摆、过山车、圆周运动、圆柱面上滑动。
+  <b>它的威力在于：法向方程里永远只有"合力在法向的分量"，而法向力往往就是待求的支持力或张力。</b></p>
+
+<h3>1.3.3 极坐标：有心力问题的唯一选择</h3>
+
+<p>当所有力的作用线都通过某一点（引力、斥力、弹簧力），取那个点为极点，用径向 <i>r</i> 和横向 φ 分解：</p>
+<div class="fml"><i>m</i>(r̈ − <i>r</i>φ̇²) = Σ<i>F</i><sub>r</sub>&nbsp;&nbsp;&nbsp;&nbsp;<i>m</i>(<i>r</i>φ̈ + 2ṙφ̇) = Σ<i>F</i><sub>φ</sub></div>
+<p class="hint"><b>为什么横向方程右边常为零：</b>有心力的方向永远沿径向，横向分量为零，于是 <i>r</i>φ̈ + 2ṙφ̇ = 0，
+  即 d(<i>r</i>²φ̇)/d<i>t</i> = 0 ⟹ <i>r</i>²φ̇ = 常数。<b>这就是"面积速度守恒"（开普勒第二定律）的来源</b>，
+  它的现代名字叫<b>动量矩守恒</b>——第 3 部分会再遇到它。</p>
+
+<div class="box exam">
+  <b>选坐标系的决策树（考场上三秒钟判断）：</b>
+  <br>① 轨迹是直线或抛物线，力沿固定方向 → <b>直角坐标</b>；
+  <br>② 轨迹是圆 / 已知曲线，要求张力、支持力、脱离条件 → <b>自然坐标</b>；
+  <br>③ 力总指向（或背离）同一点 → <b>极坐标</b>。
+  <br><br>
+  <b>不确定的时候用直角坐标</b>：它最笨但最不会错，只是计算量大。
+</div>
+
+<h2>1.4 反问题的核心：按"力的自变量"选积分路线</h2>
+
+<div class="why">
+  <b>为什么这是难点：</b>因为 <i>m</i> d<i>v</i>/d<i>t</i> = <i>F</i> 是个微分方程，能不能解出来，完全取决于 <i>F</i> 里带的是哪个变量。
+  同一道题，如果 <i>F</i> = <i>F</i>(<i>t</i>) 可以两次直接积分；如果 <i>F</i> = <i>F</i>(<i>v</i>) 就得先"分离变量"再积；
+  如果 <i>F</i> = <i>F</i>(<i>x</i>) 则要先把 d<i>v</i>/d<i>t</i> 换成 <i>v</i> d<i>v</i>/d<i>x</i>。
+  <b>选错路线，方程积不出来，题就卡死。</b>
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 400" width="940" height="400" style="max-width:940px" role="img" aria-label="四种力函数与三种积分路线"><rect x="0" y="0" width="940" height="400" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="470" y="28" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">力是"谁的函数"，决定你走哪条积分路</text><text x="470" y="50" font-size="11.5" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">所有反问题都从 m dv/dt = F 出发，只是 F 里带的变量不同</text><rect x="60" y="74" width="820" height="40" fill="#eef2f7" stroke="#94a3b8" stroke-width="1"  rx="5"/><text x="200" y="99" font-size="12" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">力的形式</text><text x="470" y="99" font-size="12" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">改写后的微分方程</text><text x="770" y="99" font-size="12" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">积分路线</text><rect x="60" y="118" width="820" height="54" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"  rx="5"/><text x="76" y="140" font-size="12.6" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F = F(t)</text><text x="76" y="158" font-size="10.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">力只随时间变（如周期性推力）</text><rect x="300" y="130" width="330" height="30" fill="#f8fafc" stroke="#0f766e" stroke-width="1.2"  rx="4"/><text x="465" y="150" font-size="12" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">dv = (F(t)/m) dt</text><text x="648" y="144" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">直接对 t 积分 → v(t)</text><rect x="60" y="180" width="820" height="54" fill="#fbfdff" stroke="#e2e8f0" stroke-width="1"  rx="5"/><text x="76" y="202" font-size="12.6" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F = F(x)</text><text x="76" y="220" font-size="10.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">力只随位置变（重力、弹簧、万有引力）</text><rect x="300" y="192" width="330" height="30" fill="#f8fafc" stroke="#b45309" stroke-width="1.2"  rx="4"/><text x="465" y="212" font-size="12" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">v dv = (F(x)/m) dx</text><text x="648" y="206" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">换元消去 t → v(x)，再积分得 x(t)</text><rect x="60" y="242" width="820" height="54" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"  rx="5"/><text x="76" y="264" font-size="12.6" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F = F(v)</text><text x="76" y="282" font-size="10.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">力只随速度变（空气阻力、粘性阻尼）</text><rect x="300" y="254" width="330" height="30" fill="#f8fafc" stroke="#b91c1c" stroke-width="1.2"  rx="4"/><text x="465" y="274" font-size="12" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">dv/F(v) = dt/m</text><text x="648" y="268" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">分离变量 → t(v)，反解 v(t)</text><rect x="60" y="304" width="820" height="54" fill="#fbfdff" stroke="#e2e8f0" stroke-width="1"  rx="5"/><text x="76" y="326" font-size="12.6" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F = 常数</text><text x="76" y="344" font-size="10.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">匀加速（重力场近地面）</text><rect x="300" y="316" width="330" height="30" fill="#f8fafc" stroke="#2563eb" stroke-width="1.2"  rx="4"/><text x="465" y="336" font-size="12" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">a = F/m = 常量</text><text x="648" y="330" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">直接用 v = v₀+at、x = x₀+v₀t+at²/2</text><text x="470" y="372" font-size="12" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">判断口诀：看 F 里的自变量是谁 → 决定把 dv/dt 拆成哪种形式。拆对了就能分离变量。</text><text x="470" y="392" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">注：位移、速度、加速度之间还有 a = dv/dt = v dv/dx，这条"消去时间"的关系是第二行的来历。</text></svg><figcaption><b>图 1-3</b> 四种力形式对应的积分路线。核心技巧是恒等式 a = dv/dt = v·dv/dx，它能"消掉时间"。</figcaption></figure>
+
+
+<p><b>关键恒等式（这一节的灵魂）：</b></p>
+<div class="fml"><i>a</i> = d<i>v</i>/d<i>t</i> = (d<i>v</i>/d<i>x</i>)(d<i>x</i>/d<i>t</i>) = <b><i>v</i> d<i>v</i>/d<i>x</i></b></div>
+<p>它把"对时间求导"换成了"对位置求导"，于是<b>当 <i>F</i> 只与位置有关时，可以先求出 <i>v</i> 与 <i>x</i> 的关系，绕开时间</b>。</p>
+
+<h3>1.4.1 情形一：<i>F</i> = <i>F</i>(<i>t</i>)——直接积分两次</h3>
+<div class="fml"><i>m</i> d<i>v</i>/d<i>t</i> = <i>F</i>(<i>t</i>) ⟹ <i>v</i> = <i>v</i><sub>0</sub> + (1/<i>m</i>)∫<sub>0</sub><sup><i>t</i></sup><i>F</i>(<i>t</i>)d<i>t</i> ⟹ <i>x</i> = <i>x</i><sub>0</sub> + ∫<sub>0</sub><sup><i>t</i></sup><i>v</i>(<i>t</i>)d<i>t</i></div>
+<p>这是最简单的情形，只要会积分就行。</p>
+
+<h3>1.4.2 情形二：<i>F</i> = <i>F</i>(<i>x</i>)——换元消去时间</h3>
+<div class="fml"><i>m v</i> d<i>v</i>/d<i>x</i> = <i>F</i>(<i>x</i>) ⟹ (1/2)<i>m v</i>² − (1/2)<i>m v</i><sub>0</sub>² = ∫<sub><i>x</i>0</sub><sup><i>x</i></sup><i>F</i>(<i>x</i>)d<i>x</i></div>
+<p>左边是"动能"，右边是"功"——<b>这就是动能定理</b>。虽然你的课件没有单独讲动能定理，但它在动力学里是自动出现的：<b>只要力只与位置有关，方程积分一次就得到它</b>。</p>
+<p>接下来再由 <i>v</i>(<i>x</i>) 求 <i>x</i>(<i>t</i>)：把 <i>v</i> = d<i>x</i>/d<i>t</i> 代入，得 d<i>t</i> = d<i>x</i>/<i>v</i>(<i>x</i>)，再积一次（这一步往往积不出来，考试通常只要求到 <i>v</i>(<i>x</i>)）。</p>
+
+<h3>1.4.3 情形三：<i>F</i> = <i>F</i>(<i>v</i>)——分离变量</h3>
+<div class="fml"><i>m</i> d<i>v</i>/d<i>t</i> = <i>F</i>(<i>v</i>) ⟹ d<i>v</i>/<i>F</i>(<i>v</i>) = d<i>t</i>/<i>m</i> ⟹ ∫<sub><i>v</i>0</sub><sup><i>v</i></sup>d<i>v</i>/<i>F</i>(<i>v</i>) = <i>t</i>/<i>m</i></div>
+<p>积出左边之后得到 <i>t</i> 与 <i>v</i> 的关系，再"反解"出 <i>v</i>(<i>t</i>)。<b>空气阻力、粘性阻尼都属于这一类</b>，下面的例 1-4 就是它的标准做法。</p>
+
+<div class="box warn">
+  <b>最容易犯的错：力是 <i>F</i>(<i>v</i>) 却直接对时间积分。</b>
+  比如 <i>m</i> d<i>v</i>/d<i>t</i> = −<i>cv</i>，如果有人写 "∫<i>m</i> d<i>v</i> = ∫−<i>cv</i> d<i>t</i>" 再当成 <i>v</i> 是常数积出来，就得到 <i>mv</i> = −<i>cvt</i>，
+  <b>这是错的</b>——因为积分时 <i>v</i> 是 <i>t</i> 的函数，不能提到积分号外面。正确做法是<b>先把 <i>v</i> 和 <i>t</i> 分到等式两边</b>：d<i>v</i>/<i>v</i> = −(<i>c</i>/<i>m</i>)d<i>t</i>。
+</div>
+
+<h2>1.5 典型约束一：单摆（切向管运动，法向管张力）</h2>
+
+<div class="why">
+  <b>为什么用它当第一个样板：</b>因为它把"自然坐标的两个方程各管一件事"演示得最清楚，
+  而且它的两个结果（振动方程、张力表达式）在考试里反复出现，几乎每年都考。
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" width="900" height="400" style="max-width:900px" role="img" aria-label="单摆的切向与法向方程"><rect x="0" y="0" width="900" height="400" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="450" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">单摆：为什么张力 F 里会出现 v²/l 这一项</text><line x1="190" y1="70" x2="310" y2="70" stroke="#334155" stroke-width="2.4"   /><rect x="190" y="56" width="120" height="14" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.4"  rx="0"/><line x1="190" y1="56" x2="190" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="190" y1="65" x2="199" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="194" y1="70" x2="208" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="203" y1="70" x2="217" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="212" y1="70" x2="226" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="221" y1="70" x2="235" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="230" y1="70" x2="244" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="239" y1="70" x2="253" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="248" y1="70" x2="262" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="257" y1="70" x2="271" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="266" y1="70" x2="280" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="275" y1="70" x2="289" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="284" y1="70" x2="298" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="293" y1="70" x2="307" y2="70" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="302" y1="70" x2="310" y2="64" stroke="#94a3b8" stroke-width="0.9"   opacity="0.55"/><line x1="250" y1="70" x2="377.13481520818306" y2="211.1975168407049" stroke="#334155" stroke-width="2"   /><line x1="250" y1="70" x2="250" y2="280" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="5 4"  /><path d="M250,130 A60,60 0 0 1 290.1478363815315,114.58868952864366" fill="none" stroke="#64748b" stroke-width="1.3"   /><text x="266" y="148" font-size="12" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">θ</text><circle cx="377.13481520818306" cy="211.1975168407049" r="12" fill="#b45309" stroke="#b45309" stroke-width="1.6"/><line x1="377.13481520818306" y1="211.1975168407049" x2="377.13481520818306" y2="293.1975168407049" stroke="#334155" stroke-width="2.4"  marker-end="url(#ar)" /><text x="377.13481520818306" y="311.1975168407049" font-size="12.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">mg</text><line x1="377.13481520818306" y1="211.1975168407049" x2="330.29567276306295" y2="159.1773790572873" stroke="#b91c1c" stroke-width="2.4"  marker-end="url(#ar)" /><text x="320.92784427403893" y="152.77335150060378" font-size="12.5" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F</text><line x1="377.13481520818306" y1="211.1975168407049" x2="432.1275322935102" y2="161.6818519701494" stroke="#2563eb" stroke-width="1.8"  marker-end="url(#ar)" /><text x="442.53155985019373" y="156.3140234811254" font-size="12.5" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">τ</text><line x1="377.13481520818306" y1="211.1975168407049" x2="327.61915033762756" y2="156.20479975537773" stroke="#2563eb" stroke-width="1.8"  marker-end="url(#ar)" /><text x="318.25132184860354" y="149.8007721986942" font-size="12.5" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">n</text><text x="520" y="84" font-size="12.8" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">① 切向（沿轨迹）</text><text x="520" y="108" font-size="11.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">切向加速度 a_τ = l·θ̈，切向力只有重力的分量 −mg sinθ：</text><rect x="520" y="118" width="340" height="34" fill="#d1fae5" stroke="#0f766e" stroke-width="1.6"  rx="5"/><text x="690" y="140" font-size="13" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">m l θ̈ = − mg sinθ</text><text x="520" y="172" font-size="11.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">→ θ̈ + (g/l) sinθ = 0，这就是"单摆方程"；小角度 sinθ≈θ 时</text><text x="520" y="192" font-size="11.4" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">是简谐振动，周期 T = 2π√(l/g)。张力不出现，因为它垂直于速度。</text><text x="520" y="226" font-size="12.8" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">② 法向（指向悬点）</text><text x="520" y="250" font-size="11.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">法向加速度 a_n = v²/l，法向力是 F − mg cosθ：</text><rect x="520" y="260" width="340" height="34" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.6"  rx="5"/><text x="690" y="282" font-size="13" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F − mg cosθ = m v²/l</text><text x="520" y="314" font-size="11.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">→ F = m v²/l + mg cosθ。张力 = "托住重力的分量" + "提供向心力"。</text><rect x="60" y="330" width="800" height="44" fill="#fefce8" stroke="#b45309" stroke-width="1.3"  rx="6"/><text x="76" y="350" font-size="11.6" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">要点：一个摆的两个方程各管一件事——切向方程管"怎么摆"（角度随时间），法向方程管"绳受多大拉力"。</text><text x="76" y="368" font-size="11.6" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">以后遇到"求张力"，一律走法向方程；遇到"求运动规律"，一律走切向方程。</text></svg><figcaption><b>图 1-4</b> 单摆的受力与分解。切向方程决定它怎么摆，法向方程决定绳子受多大拉力。</figcaption></figure>
+
+
+<p><b>第 1 步 · 选坐标。</b>摆球沿圆弧运动，轨迹已知 → <b>自然坐标</b>（τ 沿切线、<i>n</i> 沿半径指向悬点）。</p>
+
+<p><b>第 2 步 · 受力图。</b>只有两个力：重力 <i>mg</i>（竖直向下）、张力 <i>F</i>（沿绳指向悬点）。</p>
+
+<p><b>第 3 步 · 切向方程。</b>张力垂直于切向，<b>不贡献切向力</b>；重力在切向的分量是 −<i>mg</i> sinθ（负号表示指向平衡位置）：</p>
+<div class="fml"><i>m</i> d<i>v</i>/d<i>t</i> = −<i>mg</i> sinθ</div>
+<p>而 <i>v</i> = <i>l</i>θ̇（摆长 <i>l</i> 不变），所以 d<i>v</i>/d<i>t</i> = <i>l</i>θ̈，代入得<b>单摆方程</b>：</p>
+<div class="fml">θ̈ + (<i>g</i>/<i>l</i>) sinθ = 0</div>
+<p>小角度时 sinθ ≈ θ，方程变成 θ̈ + (<i>g</i>/<i>l</i>)θ = 0，是简谐振动，周期</p>
+<div class="fml"><i>T</i> = 2π√(<i>l</i>/<i>g</i>)</div>
+
+<p><b>第 4 步 · 法向方程。</b>法向（指向悬点）上的力有张力 <i>F</i>（向内）和重力的分量 <i>mg</i> cosθ（向外）：</p>
+<div class="fml"><i>F</i> − <i>mg</i> cosθ = <i>m v</i>²/<i>l</i>&nbsp;&nbsp;⟹&nbsp;&nbsp;<b><i>F</i> = <i>m v</i>²/<i>l</i> + <i>mg</i> cosθ</b></div>
+
+<div class="box tip">
+  <b>这个式子的物理意义，值得读三遍：</b>
+  张力 = "<b>托住重力的法向分量</b>"（<i>mg</i> cosθ） + "<b>提供向心加速度</b>"（<i>m v</i>²/<i>l</i>）。
+  <br>· 摆球静止时（<i>v</i> = 0）：<i>F</i> = <i>mg</i> cosθ，就是"斜面上的法向支持力"；
+  <br>· 摆球摆到最低点时（θ = 0，速度最大）：<i>F</i> = <i>m v</i>²/<i>l</i> + <i>mg</i>，<b>大于重力</b>——这就是"绳子在最低点最容易断"的原因。
+</div>
+
+<div class="lv l2">
+  <div class="tagx">例 1-3 · 模仿（单摆：从偏角到张力）</div>
+  <p class="pt">长 <i>l</i> = 1 m 的细绳悬挂质量 <i>m</i> = 0.5 kg 的小球。把球拉至细绳与竖直方向成 θ<sub>0</sub> = 60° 后<b>无初速释放</b>。求球摆到最低点时绳中的张力（<i>g</i> = 9.8 m/s²）。</p>
+  <p><b>第 1 步 · 先用能量关系求最低点速度。</b>这是本题的关键：张力公式里含 <i>v</i>²，而 <i>v</i> 未知，必须先从"角度"换算成"速度"。</p>
+  <p>释放点与最低点的高度差：</p>
+  <div class="fml"><i>h</i> = <i>l</i>(1 − cosθ<sub>0</sub>) = 1 × (1 − 0.5) = 0.5 m</div>
+  <p>只有重力做功，机械能守恒（等价于 1.4.2 节那次积分）：</p>
+  <div class="fml"><i>v</i>² = 2<i>gh</i> = 2 × 9.8 × 0.5 = 9.8 (m/s)²</div>
+  <p><b>第 2 步 · 代进张力公式。</b>最低点 θ = 0，cosθ = 1：</p>
+  <div class="fml"><i>F</i> = <i>m v</i>²/<i>l</i> + <i>mg</i> = 0.5 × 9.8/1 + 0.5 × 9.8 = 4.9 + 4.9 = <b>9.8 N</b></div>
+  <p class="ans"><b>答：</b>最低点张力 <b>9.8 N</b>，正好是重力 <i>mg</i> = 4.9 N 的 <b>2 倍</b>。</p>
+  <p class="hint"><b>经验：</b>"从偏角 θ<sub>0</sub> 无初速释放"这一类题，<b>通用结论</b>是
+    <i>F</i><sub>最低</sub> = <i>mg</i>(3 − 2cosθ<sub>0</sub>)。代入 θ<sub>0</sub> = 60°：<i>mg</i>(3 − 1) = 2<i>mg</i> ✓。
+    <b>这个结论值得直接记住</b>，考试时能省一大半时间。</p>
+</div>
+
+<h2>1.6 典型约束二：沿圆柱面下滑——什么时候会"脱离"</h2>
+
+<div class="why">
+  <b>为什么这是必考题型：</b>因为它训练一个非常关键的思维习惯——<b>约束力不能为负</b>。
+  绳子的张力不能小于零（绳子不能推），支持力也不能小于零（地面不能拉）。所以当你解出 <i>N</i> = 0 的那一刻，
+  就是物体<b>离开约束</b>的那一刻。此后它不再沿面运动，而是做抛体运动。
+  <b>不做这一步检查，是这类题最常见的失分点。</b>
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 380" width="880" height="380" style="max-width:880px" role="img" aria-label="圆柱面内下滑与脱离条件"><rect x="0" y="0" width="880" height="380" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">沿圆柱面下滑：先问"支持力还在不在"</text><path d="M170,250 A130,130 0 0 1 430,250" fill="none" stroke="#334155" stroke-width="2.2"   /><line x1="146" y1="250" x2="454" y2="250" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="5 4"  /><text x="300" y="270" font-size="10.5" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">水平地面</text><circle cx="405.1722092687432" cy="173.58791720197848" r="7" fill="#b45309" stroke="#b45309" stroke-width="1.6"/><path d="M300,188 A62,62 0 0 1 350.1590536512467,213.55731435786666" fill="none" stroke="#64748b" stroke-width="1.2"   /><line x1="300" y1="250" x2="405.1722092687432" y2="173.58791720197848" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"  /><text x="396" y="132" font-size="10.6" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">θ（自顶点量起）</text><line x1="405.1722092687432" y1="173.58791720197848" x2="405.1722092687432" y2="239.58791720197848" stroke="#334155" stroke-width="2.4"  marker-end="url(#ar)" /><text x="405.1722092687432" y="257.5879172019785" font-size="12.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">mg</text><line x1="405.1722092687432" y1="173.58791720197848" x2="363.1033255612459" y2="204.15275032118709" stroke="#2563eb" stroke-width="2.4"  marker-end="url(#ar)" /><text x="351.77708763999664" y="216.3817438532817" font-size="12.5" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">N</text><text x="560" y="70" font-size="12.6" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">法向（径向，指向圆心为正）</text><text x="560" y="94" font-size="12.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">mg cosθ − N = m v²/R</text><text x="560" y="118" font-size="12.4" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">→ N = mg cosθ − m v²/R</text><text x="560" y="152" font-size="12.6" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">切向</text><text x="560" y="176" font-size="12.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">mg sinθ = m R θ̈  （下滑加速）</text><text x="560" y="210" font-size="11.4" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">速度从能量关系得到（此式与动能定理等价）</text><text x="560" y="232" font-size="12.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">v² = 2gR(1 − cosθ)</text><rect x="560" y="248" width="300" height="96" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.4"  rx="6"/><text x="572" y="270" font-size="12.2" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">脱离条件：N = 0</text><text x="572" y="292" font-size="11.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">mg cosθ = m v²/R  →  cosθ = 2(1−cosθ)</text><text x="572" y="314" font-size="11.8" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">→ cosθ = 2/3，θ = 48.2°，</text><text x="572" y="334" font-size="11.2" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">此后做斜抛（不是沿面滑到底！）</text><text x="40" y="356" font-size="11.6" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">判断"会不会脱离"的唯一标准：解出 N 的表达式，看它在哪儿变零或变负。N&lt;0 说明约束不成立，物体已飞离。</text></svg><figcaption><b>图 1-5</b> 沿圆柱面下滑。解出支持力 N 的表达式后，令 N = 0 就得到脱离位置。</figcaption></figure>
+
+
+<p><b>第 1 步 · 选坐标。</b>轨迹是已知的圆弧 → 自然坐标（切向 + 法向）。</p>
+<p><b>第 2 步 · 受力图。</b>重力 <i>mg</i>、支持力 <i>N</i>（沿半径<b>向外</b>，因为面在被压的一侧）。</p>
+<p><b>第 3 步 · 法向方程（指向圆心为正）。</b>法向力是重力的径向分量（向内，正）与 <i>N</i>（向外，负）：</p>
+<div class="fml"><i>mg</i> cosθ − <i>N</i> = <i>m v</i>²/<i>R</i>&nbsp;&nbsp;⟹&nbsp;&nbsp;<b><i>N</i> = <i>mg</i> cosθ − <i>m v</i>²/<i>R</i></b></div>
+<p><b>第 4 步 · 求 <i>v</i>²（用能量关系）。</b>从顶点（θ = 0）无初速下滑，下降高度 <i>R</i>(1 − cosθ)：</p>
+<div class="fml"><i>v</i>² = 2<i>gR</i>(1 − cosθ)</div>
+<p><b>第 5 步 · 代回，找 <i>N</i> = 0 的位置。</b></p>
+<div class="fml"><i>N</i> = <i>mg</i> cosθ − <i>m</i>·2<i>g</i>(1 − cosθ) = <i>mg</i>(3cosθ − 2)</div>
+<div class="fml"><i>N</i> = 0 ⟹ 3cosθ − 2 = 0 ⟹ <b>cosθ = 2/3，θ = 48.2°</b></div>
+
+<div class="box warn">
+  <b>三个必须说清的点（答题时缺一句就扣分）：</b>
+  <br>① <b>脱离前</b>支持力 <i>N</i> &gt; 0，物块沿面运动；
+  <br>② <b>脱离瞬间</b> <i>N</i> = 0，此后若还要沿面运动，需要 <i>N</i> &lt; 0（面"拉住"物块），<b>这是不可能的</b>；
+  <br>③ 所以<b>脱离后做斜抛运动</b>，不再是圆周运动——速度方向沿当时的切线。
+  <br><br>
+  这个 θ 与质量、半径都<b>无关</b>，只由几何决定。这是"结论可复用"的典型：任何光滑圆柱/球面上无初速下滑，都在 cosθ = 2/3 处脱离。
+</div>
+
+<h2>1.7 典型力一：与速度有关的阻力（分离变量的标准练法）</h2>
+
+<div class="why">
+  <b>为什么单独讲：</b>因为这是"<i>F</i> = <i>F</i>(<i>v</i>) 型"反问题的唯一代表性题目，
+  而且它的结果 <i>v</i> = <i>c</i>·th(<i>gt</i>/<i>c</i>) 里出现双曲函数，是很多人第一次见。
+  更重要的是它给出"<b>终端速度</b>"这个概念——速度不会无限增大，而是趋于一个极限值。
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" width="900" height="380" style="max-width:900px" role="img" aria-label="有阻力与无阻力抛体轨迹对比"><rect x="0" y="0" width="900" height="380" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="450" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">有空气阻力时，抛体轨迹怎么变了</text><line x1="80" y1="300" x2="420" y2="300" stroke="#334155" stroke-width="1.7"  marker-end="url(#ar)" /><line x1="80" y1="300" x2="80" y2="90" stroke="#334155" stroke-width="1.7"  marker-end="url(#ar)" /><text x="426" y="304" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">x</text><text x="66" y="86" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">y</text><path d="M110.0,300.0 L117.0,294.3 L124.0,288.6 L131.0,283.2 L138.0,277.8 L145.0,272.6 L152.0,267.6 L159.0,262.6 L166.0,257.8 L173.0,253.2 L180.0,248.7 L187.0,244.3 L194.0,240.0 L201.0,235.9 L208.0,231.9 L215.0,228.1 L222.0,224.4 L229.0,220.8 L236.0,217.3 L243.0,214.0 L250.0,210.9 L257.0,207.8 L264.0,204.9 L271.0,202.2 L278.0,199.6 L285.0,197.1 L292.0,194.7 L299.0,192.5 L306.0,190.4 L313.0,188.5 L320.0,186.7 L327.0,185.0 L334.0,183.4 L341.0,182.0 L348.0,180.8 L355.0,179.6 L362.0,178.6 L369.0,177.8 L376.0,177.0 L383.0,176.5 L390.0,176.0" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4"  /><text x="330" y="180" font-size="11.5" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">无阻力（抛物线）</text><path d="M110.0,300.0 L115.4,294.6 L120.8,289.5 L126.1,284.5 L131.5,279.6 L136.9,275.0 L142.3,270.5 L147.6,266.2 L153.0,262.0 L158.4,258.0 L163.8,254.2 L169.1,250.6 L174.5,247.1 L179.9,243.9 L185.3,240.7 L190.6,237.8 L196.0,235.0 L201.4,232.4 L206.8,230.0 L212.1,227.8 L217.5,225.7 L222.9,223.8 L228.3,222.0 L233.6,220.5 L239.0,219.1 L244.4,217.9 L249.8,216.8 L255.1,215.9 L260.5,215.2 L265.9,214.7 L271.3,214.4 L276.6,214.2 L282.0,214.2 L287.4,214.3 L292.8,214.6 L298.1,215.2 L303.5,215.8 L308.9,216.7 L314.3,217.7 L319.6,218.9 L325.0,220.3" fill="none" stroke="#b91c1c" stroke-width="2.4"   /><text x="230" y="254" font-size="11.5" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">有阻力（射程短、下降快）</text><circle cx="270" cy="152" r="5" fill="#334155" stroke="#334155" stroke-width="1.6"/><line x1="270" y1="152" x2="270" y2="204" stroke="#334155" stroke-width="2.4"  marker-end="url(#ar)" /><text x="270" y="222" font-size="12.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">mg</text><line x1="270" y1="152" x2="224" y2="126" stroke="#b91c1c" stroke-width="2"  marker-end="url(#ar)" /><text x="211.8121202579181" y="123.11119840664938" font-size="12.5" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">R = −c v</text><text x="500" y="66" font-size="12.6" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">方程（阻力与速度同向反向、大小正比于 v）</text><rect x="500" y="78" width="360" height="60" fill="#d1fae5" stroke="#0f766e" stroke-width="1.6"  rx="5"/><text x="680" y="102" font-size="12.4" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">m dv/dt = mg + R ,   R = −c·v</text><text x="680" y="124" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">（矢量式，两个分量各写一个）</text><text x="500" y="164" font-size="11.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">竖直方向（取向下为正）：</text><text x="516" y="186" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">m dv_y/dt = mg − c·v_y</text><text x="500" y="210" font-size="11.4" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">分离变量积分 → v_y(t) 出现指数项，不再是线性的。</text><text x="500" y="234" font-size="11.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">水平方向：m dv_x/dt = −c·v_x → v_x 指数衰减。</text><rect x="500" y="250" width="360" height="92" fill="#fefce8" stroke="#b45309" stroke-width="1.3"  rx="6"/><text x="512" y="272" font-size="11.6" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">三个可以"直接说出来"的结论（答题常考）：</text><text x="512" y="294" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">① 水平速度越来越小，最后趋于 0 → 射程有限；</text><text x="512" y="314" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">② 竖直速度有极限值（终端速度 mg/c）；</text><text x="512" y="334" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">③ 轨迹比抛物线"偏内"，下降段比上升段更陡。</text></svg><figcaption><b>图 1-6</b> 有阻力与无阻力的抛体对比。阻力使射程变短、下降更快，也带来"终端速度"。</figcaption></figure>
+
+
+<p><b>问题：</b>质量 <i>m</i> 的物体在重力作用下由静止下落，空气阻力 <i>R</i> = −<i>μv</i>（与速度成正比、方向相反）。求 <i>v</i>(<i>t</i>)。</p>
+
+<p><b>第 1 步 · 列方程（取向下为正）。</b></p>
+<div class="fml"><i>m</i> d<i>v</i>/d<i>t</i> = <i>mg</i> − <i>μv</i></div>
+<p><b>第 2 步 · 判断类型。</b>右边带 <i>v</i> → <b><i>F</i> = <i>F</i>(<i>v</i>) 型，必须分离变量</b>。</p>
+<p><b>第 3 步 · 分离变量并积分。</b>把含 <i>v</i> 的移到左边、含 <i>t</i> 的移到右边：</p>
+<div class="fml">d<i>v</i>/(<i>mg</i> − <i>μv</i>) = d<i>t</i>/<i>m</i></div>
+<p>两边从 0 积到 <i>t</i>（初速为 0）：</p>
+<div class="fml">−(1/<i>μ</i>) ln[(<i>mg</i> − <i>μv</i>)/(<i>mg</i>)] = <i>t</i>/<i>m</i></div>
+<p><b>第 4 步 · 反解 <i>v</i>。</b>先去掉对数：</p>
+<div class="fml">(<i>mg</i> − <i>μv</i>)/<i>mg</i> = e<sup>−<i>μt</i>/<i>m</i></sup></div>
+<div class="fml"><b><i>v</i> = (<i>mg</i>/<i>μ</i>)(1 − e<sup>−<i>μt</i>/<i>m</i></sup>)</b></div>
+
+<p><b>第 5 步 · 讨论（这一步是得分点）。</b></p>
+<p>· 当 <i>t</i> → ∞：<i>v</i> → <i>mg</i>/<i>μ</i>，这个极限叫<b>终端速度</b>（此时阻力正好等于重力，加速度为零）；</p>
+<p>· 当 <i>t</i> 很小时：e<sup>−<i>μt</i>/<i>m</i></sup> ≈ 1 − <i>μt</i>/<i>m</i>，于是 <i>v</i> ≈ <i>gt</i>，<b>退化为自由落体</b>——说明有阻力的结果在短时间内与无阻力一致，这是合理性的验证。</p>
+
+<div class="box tip">
+  <b>如果阻力是 <i>R</i> = −<i>μv</i>²（高速时更真实）会怎样？</b>做法完全一样，只是积分变成
+  ∫d<i>v</i>/(<i>g</i> − <i>kv</i>²)，结果是 <i>v</i> = √(<i>g</i>/<i>k</i>)·th(<i>t</i>√(<i>gk</i>))，<b>照样出现终端速度 √(<i>g</i>/<i>k</i>)</b>。
+  <br><b>结论：只要阻力随速度增大，就一定有终端速度</b>；这与阻力的具体形式无关。这条定性结论常作为简答题出现。
+</div>
+
+<div class="lv l3">
+  <div class="tagx">例 1-4 · 应考（抛体 + 线性阻力，两问）</div>
+  <p class="pt">质量 <i>m</i> = 10 kg 的物体以初速 <i>v</i><sub>0</sub> = 1000 m/s 竖直上抛，阻力 <i>R</i> = −<i>c</i><b>v</b>，<i>c</i> = 0.02 N·s/m。
+    (1) 求上升过程中速度随时间的变化；(2) 求能上升的最大高度。</p>
+  <p><b>第 1 步 · 列方程（取向上为正）。</b>此时重力与阻力<b>同向</b>（都向下）：</p>
+  <div class="fml"><i>m</i> d<i>v</i>/d<i>t</i> = −<i>mg</i> − <i>cv</i></div>
+  <p><b>第 2 步 · 分离变量积分（<i>F</i>(<i>v</i>) 型）。</b></p>
+  <div class="fml">d<i>v</i>/(<i>mg</i> + <i>cv</i>) = −d<i>t</i>/<i>m</i></div>
+  <div class="fml">(1/<i>c</i>) ln[1 + <i>cv</i>/(<i>mg</i>)] = −<i>t</i>/<i>m</i></div>
+  <p>反解出速度：</p>
+  <div class="fml"><b><i>v</i> = (<i>mg</i>/<i>c</i>)(e<sup>−<i>ct</i>/<i>m</i></sup> − 1) + <i>v</i><sub>0</sub> e<sup>−<i>ct</i>/<i>m</i></sup></b></div>
+  <p>代入 <i>mg</i>/<i>c</i> = 10 × 9.8/0.02 = 4900 m/s，<i>c</i>/<i>m</i> = 0.002 s⁻¹：</p>
+  <div class="fml"><i>v</i> = 4900(e<sup>−0.002<i>t</i></sup> − 1) + 1000 e<sup>−0.002<i>t</i></sup> = 5900 e<sup>−0.002<i>t</i></sup> − 4900 (m/s)</div>
+  <p><b>第 3 步 · 求最大高度。</b>最高点 <i>v</i> = 0，先求到顶所需时间：</p>
+  <div class="fml">5900 e<sup>−0.002<i>t</i></sup> = 4900 ⟹ e<sup>−0.002<i>t</i></sup> = 0.8305 ⟹ <i>t</i> = 92.8 s</div>
+  <p>再用能量/位置关系。令 <i>v</i> d<i>v</i>/d<i>x</i> = −<i>g</i> − (<i>c</i>/<i>m</i>)<i>v</i>，分离变量：</p>
+  <div class="fml"><i>v</i> d<i>v</i>/(<i>g</i> + <i>hv</i>) = −d<i>x</i>&nbsp;&nbsp;（<i>h</i> = <i>c</i>/<i>m</i> = 0.002 m⁻¹）</div>
+  <div class="fml"><i>x</i><sub>max</sub> = (1/<i>h</i>)[<i>v</i><sub>0</sub> − (<i>g</i>/<i>h</i>) ln(1 + <i>hv</i><sub>0</sub>/<i>g</i>)]</div>
+  <p>代入 <i>hv</i><sub>0</sub>/<i>g</i> = 0.002 × 1000/9.8 = 0.2041，ln(1.2041) = 0.1858，<i>g</i>/<i>h</i> = 4900：</p>
+  <div class="fml"><i>x</i><sub>max</sub> = (1/0.002)[1000 − 4900 × 0.1858] = 500 × (1000 − 910.4) = <b>44.8 km</b></div>
+  <p class="ans"><b>答：</b>(1) <i>v</i> = 5900 e<sup>−0.002<i>t</i></sup> − 4900 (m/s)；(2) 最大高度约 <b>4.5×10<sup>4</sup> m（44.8 km）</b>。</p>
+  <p class="hint"><b>对照检验：</b>若没有阻力，<i>x</i><sub>max</sub> = <i>v</i><sub>0</sub>²/(2<i>g</i>) = 10<sup>6</sup>/19.6 = 51 km。
+    有阻力后降到 44.8 km，<b>少了约 12%</b>——量级完全合理。这个"与无阻力结果对比"的动作，
+    是这类题的<b>标准收尾</b>，写上去能加分。</p>
+</div>
+
+<h2>1.8 典型力二：有心力与椭圆轨道</h2>
+
+<div class="why">
+  <b>为什么讲它：</b>因为它是极坐标方程的唯一实战场景，而且结论（椭圆轨道）是"开普勒第一定律"的动力学版本。
+  这道题在课件里是重点例题，考试常以"证明轨迹是椭圆"的形式出现。
+</div>
+
+<p><b>问题：</b>质点质量 <i>m</i>，受指向原点 <i>O</i> 的引力 <i>F</i> = −<i>kr</i>（<i>k</i> 为比例常数），
+初位置 <i>x</i> = <i>b</i>、<i>y</i> = 0，初速度沿 <i>y</i> 方向、大小 <i>v</i><sub>0</sub>。求轨迹。</p>
+
+<p><b>第 1 步 · 选坐标系。</b>力指向原点 → <b>直角坐标反而最方便</b>，因为 <i>F</i> = −<i>kr</i> 的两个分量特别好写：</p>
+<div class="fml"><i>F</i><sub>x</sub> = −<i>kx</i>&nbsp;&nbsp;&nbsp;&nbsp;<i>F</i><sub>y</sub> = −<i>ky</i></div>
+<p class="hint">这里有个重要的观察：<b>用直角坐标时，两个方向的方程完全独立</b>（各自只含自己的坐标），于是两个方向的运动可以分别求解，再合成轨迹。</p>
+
+<p><b>第 2 步 · 列两个独立方程。</b></p>
+<div class="fml"><i>m</i>ẍ = −<i>kx</i>&nbsp;&nbsp;&nbsp;&nbsp;<i>m</i>ÿ = −<i>ky</i></div>
+<p><b>第 3 步 · 认出这是简谐振动方程。</b>令 ω = √(<i>k</i>/<i>m</i>)，两式都是 ẍ + ω²<i>x</i> = 0 的形式，通解为：</p>
+<div class="fml"><i>x</i> = <i>A</i> cos ω<i>t</i> + <i>B</i> sin ω<i>t</i>&nbsp;&nbsp;&nbsp;&nbsp;<i>y</i> = <i>C</i> cos ω<i>t</i> + <i>D</i> sin ω<i>t</i></div>
+<p><b>第 4 步 · 用初始条件定常数。</b><i>t</i> = 0 时 <i>x</i> = <i>b</i>、<i>y</i> = 0 ⟹ <i>A</i> = <i>b</i>、<i>C</i> = 0。</p>
+<p>再由速度：ẋ(0) = <i>B</i>ω = 0 ⟹ <i>B</i> = 0；ẏ(0) = <i>D</i>ω = <i>v</i><sub>0</sub> ⟹ <i>D</i> = <i>v</i><sub>0</sub>/ω。</p>
+<div class="fml"><b><i>x</i> = <i>b</i> cos(ω<i>t</i>)&nbsp;&nbsp;&nbsp;&nbsp;<i>y</i> = (<i>v</i><sub>0</sub>/ω) sin(ω<i>t</i>)，ω = √(<i>k</i>/<i>m</i>)</b></div>
+<p><b>第 5 步 · 消去 <i>t</i> 得轨迹。</b>由 cos² + sin² = 1：</p>
+<div class="fml">(<i>x</i>/<i>b</i>)² + (<i>y</i>ω/<i>v</i><sub>0</sub>)² = 1&nbsp;&nbsp;——&nbsp;&nbsp;<b>椭圆</b></div>
+<p class="ans"><b>答：</b>轨迹是椭圆，半轴分别为 <i>b</i> 与 <i>v</i><sub>0</sub>√(<i>m</i>/<i>k</i>)，运动周期 <i>T</i> = 2π√(<i>m</i>/<i>k</i>)，<b>与初速度无关</b>。</p>
+<p class="hint"><b>经验：</b>「<b>有心力 <i>F</i> = −<i>kr</i></b>」这种线性回复力，在直角坐标下<b>永远分解成两个独立的简谐振动</b>，
+  两个方向周期相同，合成轨迹必为椭圆（两方向振幅相等时是圆）。这个模式在弹簧摆、三维谐振子里反复出现。</p>
+
+<h2>1.9 第 1 部分小结</h2>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 330" width="920" height="330" style="max-width:920px" role="img" aria-label="质点动力学知识树"><rect x="0" y="0" width="920" height="330" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><rect x="340" y="20" width="240" height="38" fill="#0f766e" stroke="#0f766e" stroke-width="1.6"  rx="6"/><text x="460" y="45" font-size="13.5" fill="#fff" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">质点动力学 m a = ΣF</text><line x1="144" y1="58" x2="144" y2="84" stroke="#94a3b8" stroke-width="1.4"   /><line x1="460" y1="58" x2="460" y2="70" stroke="#94a3b8" stroke-width="1.4"   /><rect x="78" y="84" width="132" height="34" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="5"/><text x="144" y="106" font-size="11.8" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">① 三个定律</text><rect x="70" y="128" width="148" height="36" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="76" y="146" font-size="10.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">惯性系才成立</text><rect x="70" y="174" width="148" height="36" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="76" y="192" font-size="10.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">第二定律：瞬时、矢量</text><rect x="70" y="220" width="148" height="36" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="76" y="238" font-size="10.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">第三定律：内力成对</text><line x1="366" y1="58" x2="366" y2="84" stroke="#94a3b8" stroke-width="1.4"   /><line x1="460" y1="58" x2="460" y2="70" stroke="#94a3b8" stroke-width="1.4"   /><rect x="300" y="84" width="132" height="34" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="5"/><text x="366" y="106" font-size="11.8" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">② 三种坐标拆法</text><rect x="292" y="128" width="148" height="36" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="298" y="146" font-size="10.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">直角：x / y</text><rect x="292" y="174" width="148" height="36" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="298" y="192" font-size="10.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">自然：τ / n</text><rect x="292" y="220" width="148" height="36" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="298" y="238" font-size="10.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">极坐标：r / φ</text><line x1="588" y1="58" x2="588" y2="84" stroke="#94a3b8" stroke-width="1.4"   /><line x1="460" y1="58" x2="460" y2="70" stroke="#94a3b8" stroke-width="1.4"   /><rect x="522" y="84" width="132" height="34" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="5"/><text x="588" y="106" font-size="11.8" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">③ 三类积分</text><rect x="514" y="128" width="148" height="36" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="520" y="146" font-size="10.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">F(t)：直接积分</text><rect x="514" y="174" width="148" height="36" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="520" y="192" font-size="10.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">F(x)：v dv = F dx/m</text><rect x="514" y="220" width="148" height="36" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="520" y="238" font-size="10.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">F(v)：分离变量</text><line x1="810" y1="58" x2="810" y2="84" stroke="#94a3b8" stroke-width="1.4"   /><line x1="460" y1="58" x2="460" y2="70" stroke="#94a3b8" stroke-width="1.4"   /><rect x="744" y="84" width="132" height="34" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="5"/><text x="810" y="106" font-size="11.8" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">④ 两个典型约束</text><rect x="736" y="128" width="148" height="36" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="742" y="146" font-size="10.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">单摆：切向管运动、法向管张力</text><rect x="736" y="174" width="148" height="36" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="742" y="192" font-size="10.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">圆柱面：N=0 判脱离</text><line x1="144" y1="70" x2="810" y2="70" stroke="#94a3b8" stroke-width="1.4"   /><text x="460" y="296" font-size="12" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">解题总流程：判类型（正/反问题）→ 选坐标 → 受力图 → 列方程 → 解方程 → 讨论约束</text><text x="460" y="318" font-size="11" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">四条支路不是并列的知识点，而是"同一道题里依次要做的四个决定"。</text></svg><figcaption><b>图 1-7</b> 质点动力学的四个决定：判类型 → 选坐标 → 画受力图 → 解方程。</figcaption></figure>
+
+
+<table class="zebra">
+  <tr><th>题型</th><th>对策</th><th>关键公式</th></tr>
+  <tr><td>已知运动求力</td><td>两次求导得 a，再代入方程</td><td><i>m</i><b>a</b> = Σ<b>F</b>；匀速率曲线 <i>a</i><sub>n</sub> = <i>v</i>²/<i>ρ</i></td></tr>
+  <tr><td>力 = <i>F</i>(<i>t</i>)</td><td>直接两次积分</td><td><i>v</i> = <i>v</i><sub>0</sub> + ∫<i>F</i>d<i>t</i>/<i>m</i></td></tr>
+  <tr><td>力 = <i>F</i>(<i>x</i>)</td><td>用 <i>v</i>d<i>v</i>/d<i>x</i> 换元</td><td>(1/2)<i>mv</i>² − (1/2)<i>mv</i><sub>0</sub>² = ∫<i>F</i>d<i>x</i></td></tr>
+  <tr><td>力 = <i>F</i>(<i>v</i>)</td><td>分离变量</td><td>∫d<i>v</i>/<i>F</i>(<i>v</i>) = <i>t</i>/<i>m</i></td></tr>
+  <tr><td>沿已知曲线（单摆、圆柱面）</td><td>自然坐标，两个方程分工</td><td>切向管运动，法向管约束力</td></tr>
+  <tr><td>求脱离条件</td><td>解出约束力，令其为零</td><td>圆柱面 <i>N</i> = 0 ⟹ cosθ = 2/3</td></tr>
+  <tr><td>有心力 <i>F</i> = −<i>kr</i></td><td>直角坐标下分解为两个简谐振动</td><td>椭圆轨迹，周期 2π√(<i>m</i>/<i>k</i>)</td></tr>
+</table>
+
+<div class="box exam">
+  <b>本节自测（能全部答出来，第 1 部分就过关了）</b>
+  <br>1. 为什么 <i>m</i><b>a</b> = Σ<b>F</b> 只能在惯性系里用？在加速车厢里怎么处理？
+  <br>2. 三套坐标系分别适合什么形状的问题？选择它们的唯一标准是什么？
+  <br>3. 一个物体在变力作用下运动，你怎么判断该用"直接积分"还是"分离变量"？
+  <br>4. 单摆最低点的张力为什么大于重力？如果摆球到最低点时绳子突然变长一倍，张力会怎样变？
+  <br>5. 沿圆柱面下滑，为什么"<i>N</i> 变负"就意味着脱离？脱离后做什么运动？
+  <br>6. 有阻力的下落，终端速度由什么决定？它与初始速度有没有关系？
+</div>
+
+<h1 class="ch" id="c2">第 2 部分　动量定理与质量流：把方程对时间积一次</h1>
+
+<div class="why">
+  <span class="wt">为什么要有这一部分？第 1 部分不是已经能算一切了吗？</span>
+  能算，但<b>经常算不出来</b>。原因有两个：
+  <br><br>
+  <b>第一个原因：力根本不知道。</b>锤子敲钉子、球拍击球、水流冲击叶片——这些力在极短时间内剧烈变化，
+  你没法写出 <i>F</i>(<i>t</i>) 的表达式。<b>但你不需要知道它</b>：只要知道"前后速度"，就能算出它的<b>时间累积效果</b>。
+  <br><br>
+  <b>第二个原因：物体不是一个，而是一堆。</b>一车煤、一股水流、一节链条——由无数质点组成，逐个列方程不可能。
+  这时把方程对整个系统求和，<b>内力会自动成对消掉</b>，只剩下外力。
+  <br><br>
+  这两件事用同一个动作完成：<b>把 <i>m</i><b>a</b> = Σ<b>F</b> 对时间积分一次</b>。得到的式子叫<b>动量定理</b>。
+</div>
+
+<div class="box tip">
+  <b>一句话对比：</b>
+  <br>· 第 1 部分（牛顿方程）说的是"<b>此刻</b>力与加速度的关系"——是<b>瞬时</b>关系；
+  <br>· 第 2 部分（动量定理）说的是"<b>一段时间</b>内力与速度变化的关系"——是<b>过程</b>关系。
+  <br><br>
+  瞬时关系关心"每一时刻"，过程关系只关心"首尾两个状态"。<b>当中间过程太复杂时，就换用过程关系绕过去。</b>
+</div>
+
+<h2>2.1 动量与冲量：两个新名字</h2>
+
+<div class="why">
+  <b>为什么定义这两个量：</b>因为牛顿第二定律的<b>原始形式</b>其实不是 <i>m</i><b>a</b> = <b>F</b>，而是
+  <b>F</b> = d(<i>m</i><b>v</b>)/d<i>t</i>。<b>动量 <i>m</i><b>v</b></b> 才是定律里真正的"主角"，加速度只是它在质量不变时的副产品。
+  这样一来，"力在一段时间里的累积"自然就有了名字：<b>冲量</b>。
+</div>
+
+<p><b>动量：</b><b>p</b> = <i>m</i><b>v</b>，矢量，单位 kg·m/s（也写作 N·s）。它描述"运动的量"——同样的速度，质量越大越难停下来。</p>
+<p><b>冲量：</b><b>I</b> = ∫<b>F</b>d<i>t</i>，矢量，单位 N·s。它描述"力在一段时间里累积的效果"。</p>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 344" width="900" height="344" style="max-width:900px" role="img" aria-label="冲量与动量定理"><rect x="0" y="0" width="900" height="344" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="450" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">冲量就是 F–t 图下的面积，它等于动量的改变量</text><line x1="90" y1="270" x2="420" y2="270" stroke="#334155" stroke-width="1.7"  marker-end="url(#ar)" /><line x1="90" y1="270" x2="90" y2="80" stroke="#334155" stroke-width="1.7"  marker-end="url(#ar)" /><text x="428" y="274" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">t</text><text x="76" y="78" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">F</text><path d="M90.0,230.0 L100.3,218.5 L110.7,207.4 L121.0,196.6 L131.3,186.2 L141.7,176.4 L152.0,167.1 L162.3,158.6 L172.7,150.7 L183.0,143.6 L193.3,137.4 L203.7,132.0 L214.0,127.5 L224.3,123.9 L234.7,121.2 L245.0,119.4 L255.3,118.5 L265.7,118.6 L276.0,119.6 L286.3,121.4 L296.7,124.0 L307.0,127.5 L317.3,131.7 L327.7,136.6 L338.0,142.2 L348.3,148.4 L358.7,155.0 L369.0,162.2 L379.3,169.7 L389.7,177.6 L400.0,185.7 L400.0,270 L90,270 Z" fill="#fef3c7" stroke="#b45309" stroke-width="2.2"   /><text x="210" y="224" font-size="12" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">冲量 I = ∫F dt（面积）</text><line x1="90" y1="270" x2="90" y2="296" stroke="#334155" stroke-width="1.4"   /><line x1="400" y1="270" x2="400" y2="296" stroke="#334155" stroke-width="1.4"   /><text x="90" y="312" font-size="11.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">t₁</text><text x="400" y="312" font-size="11.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">t₂</text><rect x="480" y="60" width="380" height="56" fill="#d1fae5" stroke="#0f766e" stroke-width="1.6"  rx="6"/><text x="670" y="84" font-size="13" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">微分形式：F dt = d(mv)</text><text x="670" y="104" font-size="10.6" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">（牛顿第二定律的原始写法）</text><rect x="480" y="126" width="380" height="56" fill="#fef3c7" stroke="#b45309" stroke-width="1.6"  rx="6"/><text x="670" y="150" font-size="13" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">积分形式：I = mv₂ − mv₁</text><text x="670" y="170" font-size="10.6" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">（一段时间内冲量 = 动量增量）</text><text x="480" y="208" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">三条注意（考试爱抠）：</text><text x="494" y="230" font-size="11.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">① 冲量、动量都是矢量，写分量式；</text><text x="494" y="250" font-size="11.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">② 求"平均冲力"就令 I = F̄·Δt；</text><text x="494" y="270" font-size="11.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">③ 重力这类常力的冲量别漏（mgΔt）；</text><text x="494" y="290" font-size="11.4" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">④ 碰撞瞬间的冲量远大于重力，可忽略重力但不能忘掉它的量级。</text><text x="450" y="332" font-size="11.8" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">为什么动量定理好用：它绕开了"力随时间怎么变"这个细节，只关心首尾两个状态。</text></svg><figcaption><b>图 2-1</b> 冲量是 F–t 图下的面积。这就是为什么"力不知道、但前后速度知道"也能算。</div></figcaption></figure>
+
+
+<p><b>为什么是"面积"：</b>把时间分成无数小段 d<i>t</i>，每段的冲量是 <i>F</i>d<i>t</i>（一个小矩形），加起来就是曲线下的总面积。这就是积分的几何意义。</p>
+
+<h2>2.2 质点动量定理</h2>
+
+<div class="why">
+  <b>怎么来的：</b>把 <b>F</b> = d(<i>m</i><b>v</b>)/d<i>t</i> 两边乘 d<i>t</i>，再从 <i>t</i><sub>1</sub> 积到 <i>t</i><sub>2</sub>。这一步没有任何技巧，纯粹是"把导数移过去再积分"。
+</div>
+
+<div class="fml"><b>F</b> d<i>t</i> = d(<i>m</i><b>v</b>)&nbsp;&nbsp;（微分形式）</div>
+<div class="fml">∫<sub><i>t</i>1</sub><sup><i>t</i>2</sup><b>F</b>d<i>t</i> = <i>m</i><b>v</b><sub>2</sub> − <i>m</i><b>v</b><sub>1</sub>&nbsp;&nbsp;（积分形式）</div>
+<p>写成一句话：</p>
+<div class="fml"><b>I</b> = <b>p</b><sub>2</sub> − <b>p</b><sub>1</sub> = Δ<b>p</b></div>
+
+<div class="box warn">
+  <b>三条最容易错的地方：</b>
+  <br>① <b>它是矢量式。</b>必须写成分量式：<i>I</i><sub>x</sub> = <i>mv</i><sub>2x</sub> − <i>mv</i><sub>1x</sub>，
+  <i>I</i><sub>y</sub> = <i>mv</i><sub>2y</sub> − <i>mv</i><sub>1y</sub>。<b>千万不要把大小直接相减</b>——
+  速度方向变了（比如反弹），分量是要带正负号的。
+  <br>② <b>重力这类常力不能漏。</b>它们的冲量是 <i>mg</i>Δ<i>t</i>。碰撞瞬间这个量通常远小于冲击力，
+  可以先算出来看看能不能忽略，<b>但不能不检查</b>。
+  <br>③ <b>求"平均冲力"</b>就用 <i>F̄</i> = Δ<i>p</i>/Δ<i>t</i>（这里把 <i>F</i> 当成常量）。
+</div>
+
+<div class="lv l1">
+  <div class="tagx">例 2-1 · 看懂（冲量求平均冲力）</div>
+  <p class="pt">质量 <i>m</i> = 0.2 kg 的小球以 <i>v</i><sub>1</sub> = 20 m/s 垂直撞向墙面，反弹速度 <i>v</i><sub>2</sub> = 15 m/s。
+    球与墙接触时间 Δ<i>t</i> = 0.02 s。求墙对球的平均冲力（不计重力）。</p>
+  <p><b>第 1 步 · 定正方向。</b>取"离开墙"为正方向（即反弹方向）。于是 <i>v</i><sub>1</sub> = −20 m/s，<i>v</i><sub>2</sub> = +15 m/s。</p>
+  <p><b>第 2 步 · 算动量增量。</b></p>
+  <div class="fml">Δ<i>p</i> = <i>m</i>(<i>v</i><sub>2</sub> − <i>v</i><sub>1</sub>) = 0.2 × (15 − (−20)) = 0.2 × 35 = <b>+7 N·s</b></div>
+  <p><b>第 3 步 · 求平均冲力。</b></p>
+  <div class="fml"><i>F̄</i> = Δ<i>p</i>/Δ<i>t</i> = 7/0.02 = <b>350 N</b>（方向离开墙）</div>
+  <p class="ans"><b>答：</b>平均冲力 <b>350 N</b>，方向垂直墙面指向外。</p>
+  <p class="hint"><b>经验：</b>这里 <i>v</i><sub>1</sub> 必须写负号，因为<b>动量是矢量</b>。
+    初学者最常见的错误是写 0.2×(20−15) = 1 N·s，得到 50 N——<b>少了 7 倍</b>。
+    判断方法：球的速度方向<b>反了 180°</b>，动量变化必然大于"两个速率之和的一半"。</p>
+</div>
+
+<h2>2.3 质点系动量定理：内力为什么会自动消掉</h2>
+
+<div class="why">
+  <b>这是全章最重要的一步。</b>因为现实中的物体几乎都不是"一个质点"：一车煤、一箱水、一台由几十个零件组成的机器。
+  如果要把它们逐个列方程，几十个方程几十个未知数，根本解不出来。
+  <b>但把方程全部加起来，内力就成对消掉了</b>——这就是"整体法"的数学依据。
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="880" height="320" style="max-width:880px" role="img" aria-label="质点系内力成对抵消"><rect x="0" y="0" width="880" height="320" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">为什么可以只算外力：内力总是成对、等值、反向</text><path d="M250,150 L500,170" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 3"  /><circle cx="250" cy="150" r="26" fill="#d1fae5" stroke="#0f766e" stroke-width="1.6"/><text x="250" y="155" font-size="13" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">A</text><circle cx="500" cy="170" r="26" fill="#dbeafe" stroke="#2563eb" stroke-width="1.6"/><text x="500" y="175" font-size="13" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">B</text><line x1="276" y1="158" x2="346" y2="158" stroke="#b91c1c" stroke-width="2"  marker-end="url(#ar)" /><line x1="474" y1="164" x2="404" y2="164" stroke="#b91c1c" stroke-width="2"  marker-end="url(#ar)" /><text x="342" y="180" font-size="12" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F_AB</text><text x="408" y="144" font-size="12" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F_BA</text><text x="375" y="92" font-size="11.6" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F_AB = −F_BA（等值、反向、共线）</text><text x="375" y="110" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">两者相加 = 0，成对消掉</text><line x1="190" y1="106" x2="224" y2="130" stroke="#0f766e" stroke-width="2"  marker-end="url(#ar)" /><text x="233.80361435917715" y="140.92019837118386" font-size="12.4" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F₁</text><line x1="560" y1="214" x2="526" y2="190" stroke="#2563eb" stroke-width="2"  marker-end="url(#ar)" /><text x="516.1963856408229" y="187.07980162881614" font-size="12.4" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F₂</text><rect x="640" y="60" width="210" height="120" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="6"/><text x="652" y="82" font-size="11.6" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">对 A：</text><text x="652" y="102" font-size="11.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">m_A a_A = F₁ + F_AB</text><text x="652" y="130" font-size="11.6" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">对 B：</text><text x="652" y="150" font-size="11.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">m_B a_B = F₂ + F_BA</text><text x="652" y="172" font-size="11" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">两式相加 →</text><rect x="60" y="206" width="790" height="62" fill="#d1fae5" stroke="#0f766e" stroke-width="1.4"  rx="6"/><text x="76" y="232" font-size="13.4" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ΣF^外 = d(Σm v)/dt = q_m(v₂ − v₁)（定常质量流形式）</text><text x="76" y="254" font-size="11.2" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">整个系统的动量变化只由外力决定；内力再大也改不了总和 —— 这就是"整体法"的依据。</text><text x="440" y="296" font-size="12" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">推论：若 ΣF^外 = 0，则系统总动量守恒（碰撞、爆炸、反冲都靠这一条）。</text></svg><figcaption><b>图 2-2</b> 质点系的内力永远成对出现（牛顿第三定律），相加恰好为零。所以整个系统的动量变化只由外力决定。</figcaption></figure>
+
+
+<p><b>推导（三行，但每一步都要看懂）：</b></p>
+<p>对系统中第 <i>i</i> 个质点：<i>m</i><sub><i>i</i></sub><b>a</b><sub><i>i</i></sub> = <b>F</b><sub><i>i</i></sub><sup>外</sup> + Σ<sub><i>j</i></sub><b>F</b><sub><i>ij</i></sub>（其中 <b>F</b><sub><i>ij</i></sub> 是第 <i>j</i> 个质点给它的内力）。</p>
+<p>把所有 <i>i</i> 的方程加起来。在求和号里，<b>F</b><sub><i>ij</i></sub> 与 <b>F</b><sub><i>ji</i></sub> 总是同时出现，由牛顿第三定律它们<b>等值反向</b>，相加为零：</p>
+<div class="fml">Σ<sub><i>i</i></sub><i>m</i><sub><i>i</i></sub><b>a</b><sub><i>i</i></sub> = Σ<b>F</b><sup>外</sup></div>
+<p>左边可以改写：Σ<i>m</i><sub><i>i</i></sub>d<b>v</b><sub><i>i</i></sub>/d<i>t</i> = d(Σ<i>m</i><sub><i>i</i></sub><b>v</b><sub><i>i</i></sub>)/d<i>t</i> = d<b>P</b>/d<i>t</i>，其中 <b>P</b> = Σ<i>m</i><sub><i>i</i></sub><b>v</b><sub><i>i</i></sub> 是<b>系统总动量</b>。于是：</p>
+<div class="fml"><b>Σ<b>F</b><sup>外</sup> = d<b>P</b>/d<i>t</i></b>&nbsp;&nbsp;&nbsp;（质点系动量定理）</div>
+<p>再对时间积一次，就是过程形式：</p>
+<div class="fml">Σ<b>I</b><sup>外</sup> = <b>P</b><sub>2</sub> − <b>P</b><sub>1</sub></div>
+
+<div class="box exam">
+  <b>三个推论，考试直接可用：</b>
+  <br>① <b>动量守恒：</b>若 Σ<b>F</b><sup>外</sup> = 0，则 <b>P</b> = 常矢量（<b>分量</b>也各自守恒：某个方向外力为零，该方向动量就守恒）；
+  <br>② <b>近似守恒：</b>碰撞、爆炸这类极短过程中，有限的外力（如重力）冲量很小，可近似认为动量守恒；
+  <br>③ <b>内力不改变总动量：</b>不管内部怎么折腾（炸药爆炸、人走动、弹簧弹开），系统的总动量只由外力决定。
+</div>
+
+<div class="lv l2">
+  <div class="tagx">例 2-2 · 模仿（反冲：动量守恒的最直白应用）</div>
+  <p class="pt">总质量 <i>M</i> = 200 kg 的小车静止在光滑水平面上，车上有一质量 <i>m</i> = 20 kg 的炮弹。
+    炮弹以相对地面 <i>v</i> = 100 m/s 的水平速度射出。求小车的反冲速度。</p>
+  <p><b>第 1 步 · 判断守恒。</b>水平方向没有外力（光滑地面），<b>水平方向动量守恒</b>；竖直方向重力与支持力抵消，不影响水平问题。</p>
+  <p><b>第 2 步 · 写初态与终态。</b>初态：整体静止，<b>P</b><sub>1</sub> = 0。终态：炮弹 <i>mv</i>，小车（含剩余部分）以 <i>V</i> 反冲：</p>
+  <div class="fml">0 = <i>mv</i> + (<i>M</i> − <i>m</i>)<i>V</i></div>
+  <p><b>第 3 步 · 解。</b></p>
+  <div class="fml"><i>V</i> = −<i>mv</i>/(<i>M</i> − <i>m</i>) = −20 × 100/180 = <b>−11.1 m/s</b></div>
+  <p class="ans"><b>答：</b>小车以 <b>11.1 m/s</b> 反向运动（负号表示与炮弹方向相反）。</p>
+  <p class="hint"><b>易错：</b>分母写成 <i>M</i> 而不是 (<i>M</i> − <i>m</i>)。因为炮弹飞走后车里<b>少了这 20 kg</b>。
+    这种"质量变化"的细节，是动量守恒题最常见的坑。</p>
+</div>
+
+<h2>2.4 质心运动定理：为什么"人走船退"</h2>
+
+<div class="why">
+  <b>为什么需要质心：</b>因为质点系里每个质点的运动可能很乱（人走了、弹簧伸了），
+  但我们往往只关心"<b>整个系统整体往哪儿走</b>"。这时把整个系统的质量"集中"到一个点上，那个点就是<b>质心</b>。
+  定理说：<b>质心的运动，和把所有外力作用在这个点上、质量等于总质量时的运动完全一样。</b>
+</div>
+
+<p><b>质心的定义：</b></p>
+<div class="fml"><b>r</b><sub>C</sub> = Σ<i>m</i><sub><i>i</i></sub><b>r</b><sub><i>i</i></sub>/Σ<i>m</i><sub><i>i</i></sub>&nbsp;&nbsp;&nbsp;&nbsp;（<i>x</i><sub>C</sub> = Σ<i>m</i><sub><i>i</i></sub><i>x</i><sub><i>i</i></sub>/<i>M</i>，以此类推）</div>
+<p><b>质心运动定理：</b>由 <b>P</b> = <i>M</i><b>v</b><sub>C</sub> 两边对时间求导，代入质点系动量定理：</p>
+<div class="fml"><b><i>M</i><b>a</b><sub>C</sub> = Σ<b>F</b><sup>外</sup></b></div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 330" width="880" height="330" style="max-width:880px" role="img" aria-label="质心运动定理示意"><rect x="0" y="0" width="880" height="330" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">质心运动定理：内力再大，也挪不动系统的质心</text><rect x="90" y="92" width="300" height="26" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.6"  rx="4"/><text x="240" y="110" font-size="11" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">船</text><text x="130" y="84" font-size="11" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">人</text><circle cx="124" cy="90" r="5" fill="#0f766e" stroke="#0f766e" stroke-width="1.6"/><text x="402" y="110" font-size="11.5" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">初始</text><line x1="164" y1="144" x2="164" y2="122" stroke="#b91c1c" stroke-width="1.6"  marker-end="url(#ar)" /><text x="158" y="162" font-size="10.6" fill="#b91c1c" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">C（质心）</text><rect x="16" y="190" width="300" height="26" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.6"  rx="4"/><text x="166" y="208" font-size="11" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">船（后退了）</text><circle cx="282" cy="188" r="5" fill="#0f766e" stroke="#0f766e" stroke-width="1.6"/><text x="276" y="182" font-size="11" fill="#0f766e" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">人（走到右端）</text><line x1="120" y1="242" x2="120" y2="220" stroke="#b91c1c" stroke-width="1.6"  marker-end="url(#ar)" /><text x="114" y="260" font-size="10.6" fill="#b91c1c" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">C 一动不动</text><line x1="164" y1="174" x2="164" y2="286" stroke="#b91c1c" stroke-width="1" stroke-dasharray="3 3"  /><text x="168" y="302" font-size="10.4" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">↑ 质心始终在这条竖线上</text><text x="520" y="62" font-size="12.4" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">水平方向外力为零 → 质心水平位置不变</text><text x="520" y="86" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">m_人·Δx_人 + m_船·Δx_船 = 0</text><text x="520" y="110" font-size="11.2" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">→ 船向反方向移动 m_人/(m_人+m_船) 倍的相对位移</text><text x="520" y="148" font-size="12.4" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">三条常用推论</text><text x="530" y="170" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">① 质心加速度只由外力决定：m a_C = ΣF^外；</text><text x="530" y="190" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">② 外力为零时质心静止或匀速直线，与内部怎么动无关；</text><text x="530" y="210" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">③ 刚体做平面运动 = 质心的平动 + 绕质心的转动。</text><rect x="520" y="226" width="330" height="60" fill="#fefce8" stroke="#b45309" stroke-width="1.3"  rx="6"/><text x="532" y="248" font-size="11.2" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">易错：为什么人的动量不等于船的动量的负值？</text><text x="532" y="268" font-size="10.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">因为船还被人推着加速，两者速度由 m v 关系约束，而不是大小相等。</text></svg><figcaption><b>图 2-3</b> 人从船头走到船尾，船向后移动，但系统的质心一动不动——因为水平方向没有外力。</figcaption></figure>
+
+
+<div class="lv l2">
+  <div class="tagx">例 2-3 · 模仿（人走船退）</div>
+  <p class="pt">质量 <i>M</i> = 140 kg 的小船长 <i>L</i> = 4 m，静止在静水中。质量 <i>m</i> = 60 kg 的人从船头走到船尾。
+    忽略水的阻力，求船移动的距离。</p>
+  <p><b>第 1 步 · 判断。</b>水平方向无外力 ⟹ <b>质心水平位置不变</b>（质心运动定理的直接推论）。</p>
+  <p><b>第 2 步 · 写质心守恒式。</b>设船向后退 <i>s</i>，则人对地移动 (<i>L</i> − <i>s</i>)，船对地移动 −<i>s</i>：</p>
+  <div class="fml"><i>m</i>(<i>L</i> − <i>s</i>) + <i>M</i>(−<i>s</i>) = 0</div>
+  <p><b>第 3 步 · 解。</b></p>
+  <div class="fml"><i>s</i> = <i>mL</i>/(<i>m</i> + <i>M</i>) = 60 × 4/200 = <b>1.2 m</b></div>
+  <p class="ans"><b>答：</b>船向后退 <b>1.2 m</b>，人对地前进了 2.8 m。</p>
+  <p class="hint"><b>经验：</b>这个 <i>s</i> = <i>mL</i>/(<i>m</i>+<i>M</i>) 的式子值得记住——它是"<b>系统内相对位移如何分配</b>"的通用公式。
+    注意它<b>与时间无关</b>：不管人走得快还是慢，船退的距离都一样。这一点常作为选择题的考点。</p>
+</div>
+
+<h2>2.5 定常质量流：把"一股水"当成控制体</h2>
+
+<div class="why">
+  <b>为什么这一步是"从力学到工程"的跨越：</b>前面研究的都是"固定的几个质点"。
+  但水在管子里流、空气在压气机里流，物体的<b>身份一直在换</b>——此刻在控制体里的水，下一刻就走了。
+  这时不能用"质点系"，要用<b>控制体（control volume）</b>：<b>划定一块固定空间，只关心进出它的动量</b>。
+</div>
+
+<p><b>推导思路（一句话）：单位时间内流出控制体的动量 − 流入的动量 = 控制体内动量的变化率。</b>
+对<b>定常流动</b>（控制体内各点状态不随时间变），控制体内动量不变，于是：</p>
+<div class="fml"><b>Σ<b>F</b> = <i>q</i><sub>m</sub><b>v</b><sub>2</sub> − <i>q</i><sub>m</sub><b>v</b><sub>1</sub> = <i>q</i><sub>m</sub>(<b>v</b><sub>2</sub> − <b>v</b><sub>1</sub>)</b></div>
+<p>其中 <i>q</i><sub>m</sub> = <i>ρAv</i> 是<b>质量流量</b>（kg/s），<b>v</b><sub>1</sub>、<b>v</b><sub>2</sub> 是进出口的<b>平均速度</b>。</p>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340" width="900" height="340" style="max-width:900px" role="img" aria-label="控制体与弯管受力"><rect x="0" y="0" width="900" height="340" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="450" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">控制体法：把"流体"当成一个系统，进出各算一次动量</text><path d="M100,230 L250,230 A90,90 0 0 0 250,140 L250,140" fill="none" stroke="#94a3b8" stroke-width="1"   /><rect x="90" y="204" width="160" height="52" fill="#e0f2fe" stroke="#2563eb" stroke-width="1.6"  rx="3"/><rect x="224" y="70" width="52" height="134" fill="#e0f2fe" stroke="#2563eb" stroke-width="1.6"  rx="3"/><path d="M224,204 A 52,52 0 0 1 276,204" fill="#e0f2fe" stroke="#2563eb" stroke-width="1.6"   /><line x1="40" y1="230" x2="100" y2="230" stroke="#2563eb" stroke-width="2.2"  marker-end="url(#ar)" /><text x="112" y="234" font-size="12.4" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">v₁</text><text x="45" y="256" font-size="11" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">1 进</text><text x="45" y="218" font-size="10.6" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">p₁, A₁</text><line x1="250" y1="62" x2="250" y2="2" stroke="#b91c1c" stroke-width="2.2"  marker-end="url(#ar)" /><text x="250" y="-6" font-size="12.4" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">v₂</text><text x="290" y="30" font-size="11" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">2 出</text><text x="290" y="48" font-size="10.6" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">p₂, A₂</text><text x="252" y="274" font-size="11" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">弯管（控制体）</text><text x="470" y="62" font-size="12.6" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">① 列动量方程（矢量）</text><rect x="470" y="72" width="390" height="40" fill="#d1fae5" stroke="#0f766e" stroke-width="1.6"  rx="5"/><text x="665" y="98" font-size="12.6" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ΣF = q_m v₂ − q_m v₁ = q_m(v₂ − v₁)</text><text x="470" y="136" font-size="12.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">② 外力包括</text><text x="482" y="158" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">· 流体压力 p₁A₁、p₂A₂（压向控制体内部）</text><text x="482" y="178" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">· 管壁对流体的作用力 R</text><text x="482" y="198" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">· 重力 W（气体常忽略，液体不能忽略）</text><text x="470" y="230" font-size="12.4" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">③ 反过来求"流体对管壁的力"</text><rect x="470" y="240" width="390" height="34" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.6"  rx="5"/><text x="665" y="262" font-size="12.4" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F_管壁受 = −R</text><text x="470" y="296" font-size="11" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">易错点：v₂ − v₁ 是矢量差，方向反了整道题答案就错；</text><text x="470" y="314" font-size="11" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">      q_m 用 kg/s，质量流量不乘 g。</text><text x="60" y="322" font-size="11.6" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">喷嘴/弯管/射流都是同一套：取控制体 → 画进出速度 → 写 ΣF = q_m(v₂−v₁) → 反解未知力。</text></svg><figcaption><b>图 2-4</b> 控制体法：进出的动量差等于外力之和。弯管、喷嘴、射流都是这一套。</figcaption></figure>
+
+
+<div class="box warn">
+  <b>用这个式子时的四个关键：</b>
+  <br>① <b><i>q</i><sub>m</sub> 是 kg/s，不是 m³/s。</b><i>q</i><sub>m</sub> = <i>ρQ</i> = <i>ρAv</i>。搞错这一步，答案会差 1000 倍。
+  <br>② <b><i>v</b><sub>2</sub> − <b>v</b><sub>1</sub> 是矢量差。</b>必须写分量式；90° 弯管时两个分量都要算。
+  <br>③ <b>外力包括压力。</b>流体进出控制体时，外面的流体压着它，压力 <i>pA</i> 是外力的一部分，<b>不能只算管壁力</b>。
+  <br>④ <b>反作用力。</b>式子的左边是"<b>外界对流体的力</b>"。题目通常问"<b>流体对管壁的力</b>"，那是它的<b>反作用力</b>，方向相反、大小相等。
+</div>
+
+<div class="lv l2">
+  <div class="tagx">例 2-4 · 模仿（90° 弯管：管壁受多大力）</div>
+  <p class="pt">水在水平面内的 90° 弯管中流动，质量流量 <i>q</i><sub>m</sub> = 10 kg/s，管径不变（<i>A</i> = 0.001 m²），
+    进出口压力均为 <i>p</i> = 0.2 MPa。求水流对弯管的作用力。</p>
+  <p><b>第 1 步 · 求速度。</b>管径不变 + 水不可压缩 ⟹ 进出口速率相同：</p>
+  <div class="fml"><i>v</i> = <i>q</i><sub>m</sub>/(<i>ρA</i>) = 10/(1000 × 0.001) = 10 m/s</div>
+  <p><b>第 2 步 · 设坐标。</b>入口沿 +<i>x</i>，出口沿 +<i>y</i>：</p>
+  <div class="fml"><b>v</b><sub>1</sub> = (10, 0)&nbsp;&nbsp;&nbsp;&nbsp;<b>v</b><sub>2</sub> = (0, 10)&nbsp;&nbsp;(m/s)</div>
+  <p><b>第 3 步 · 列两个分量方程。</b>外力 = 压力（<i>p</i><sub>1</sub><i>A</i><sub>1</sub> 推流体向 +<i>x</i>，<i>p</i><sub>2</sub><i>A</i><sub>2</sub> 推流体向 −<i>y</i>） + 管壁对流体的力 <i>R</i>：</p>
+  <div class="fml"><i>R</i><sub>x</sub> + <i>pA</i> = <i>q</i><sub>m</sub>(0 − 10)&nbsp;&nbsp;⟹&nbsp;&nbsp;<i>R</i><sub>x</sub> = −100 − 200 = −300 N</div>
+  <div class="fml"><i>R</i><sub>y</sub> − <i>pA</i> = <i>q</i><sub>m</sub>(10 − 0)&nbsp;&nbsp;⟹&nbsp;&nbsp;<i>R</i><sub>y</sub> = 100 + 200 = +300 N</div>
+  <p>其中 <i>pA</i> = 0.2×10⁶ × 0.001 = 200 N。</p>
+  <p><b>第 4 步 · 求合力与反作用力。</b></p>
+  <div class="fml">|<b>R</b>| = √(300² + 300²) = <b>424 N</b>（管壁对流体，指向 −<i>x</i>、+<i>y</i>）</div>
+  <div class="fml">流体对管壁：<b>F</b> = −<b>R</b>，大小 <b>424 N</b>，指向 +<i>x</i>、−<i>y</i></div>
+  <p class="ans"><b>答：</b>水流对弯管的作用力约 <b>424 N</b>，方向与入口速度同向偏下（把弯管往外推）。</p>
+  <p class="hint"><b>经验：</b>这类题<b>压力项往往比动量项更大</b>（这里 200 N vs 100 N）。
+    很多人只算 <i>q</i><sub>m</sub>Δ<b>v</b> 就交卷，答案直接错一半。<b>看到"压力"两个字，就必须把 <i>pA</i> 算进去。</b></p>
+</div>
+
+<h2>2.6 射流冲击：为什么"移动的板受力更小"</h2>
+
+<div class="why">
+  <b>为什么单独讲：</b>因为这里藏着一个非常容易被忽略的概念——<b>相对速度</b>。
+  射流冲击固定板时，进入控制体的质量流量是 <i>ρAv</i>；但当板以 <i>u</i> 后退时，
+  射流<b>相对板</b>的速度只有 <i>v</i> − <i>u</i>，所以进入"板这个控制体"的质量流量变成 <i>ρA</i>(<i>v</i>−<i>u</i>)。
+  <b>用错这个，整道题就错了。</b>
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" width="900" height="330" style="max-width:900px" role="img" aria-label="射流冲击平板"><rect x="0" y="0" width="900" height="330" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="450" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">射流冲击平板：为什么移动的板受到的力更小</text><text x="200" y="44" font-size="12.4" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(a) 固定平板</text><line x1="90" y1="190" x2="300" y2="190" stroke="#334155" stroke-width="4"   /><text x="312" y="208" font-size="10.6" fill="#64748b" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">板（固定）</text><line x1="150" y1="74" x2="150" y2="154" stroke="#2563eb" stroke-width="3"  marker-end="url(#ar)" /><text x="150" y="170" font-size="12.4" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">v</text><path d="M138,158 L150,158 L162,158" fill="none" stroke="#2563eb" stroke-width="1.6"   /><line x1="150" y1="158" x2="96" y2="158" stroke="#2563eb" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#ar)" /><line x1="150" y1="158" x2="204" y2="158" stroke="#2563eb" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#ar)" /><text x="104" y="138" font-size="10.4" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">v/2 分流</text><line x1="150" y1="194" x2="150" y2="246" stroke="#b91c1c" stroke-width="2.4"  marker-end="url(#ar)" /><text x="150" y="262" font-size="12.4" fill="#b91c1c" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F</text><text x="168" y="238" font-size="11.5" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F = ρQv</text><text x="580" y="44" font-size="12.4" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(b) 平板以 u 后退</text><line x1="470" y1="190" x2="690" y2="190" stroke="#334155" stroke-width="4"   /><line x1="690" y1="190" x2="748" y2="190" stroke="#b45309" stroke-width="2"  marker-end="url(#ar)" /><text x="760" y="194" font-size="12.4" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">u</text><text x="696" y="212" font-size="10.6" fill="#64748b" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">板（以 u 后退）</text><line x1="530" y1="74" x2="530" y2="154" stroke="#2563eb" stroke-width="3"  marker-end="url(#ar)" /><text x="530" y="170" font-size="12.4" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">v</text><line x1="530" y1="158" x2="476" y2="158" stroke="#2563eb" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#ar)" /><line x1="530" y1="158" x2="584" y2="158" stroke="#2563eb" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#ar)" /><line x1="530" y1="194" x2="530" y2="246" stroke="#b91c1c" stroke-width="2.4"  marker-end="url(#ar)" /><text x="530" y="262" font-size="12.4" fill="#b91c1c" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F</text><text x="548" y="238" font-size="11.5" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F = ρQ(v−u)</text><rect x="60" y="254" width="800" height="56" fill="#fefce8" stroke="#b45309" stroke-width="1.3"  rx="6"/><text x="76" y="276" font-size="11.6" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">相对速度才是关键：射流相对板的速度 v−u，所以进入控制体的质量流量是 ρA(v−u) 而不是 ρAv。</text><text x="76" y="296" font-size="11.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">单板力 F = ρA(v−u)²；若要算"功率"再乘 u：P = F·u，在 u = v/3 时取最大（这是水轮机的基本结论）。</text><text x="450" y="322" font-size="11.4" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">记住一个模板：F = q_m·(速度变化)，q_m 用相对速度算。</text></svg><figcaption><b>图 2-5</b> 射流冲击平板：固定板与移动板的对比。移动板受到的力按 (v−u)² 下降。</figcaption></figure>
+
+
+<p><b>固定平板（射流垂直于板）：</b>射流沿板面分成两股，垂直于板的方向速度从 <i>v</i> 降到 0：</p>
+<div class="fml"><i>F</i> = <i>q</i><sub>m</sub>(<i>v</i> − 0) = <i>ρAv</i>·<i>v</i> = <b><i>ρAv</i>²</b></div>
+<p><b>以 <i>u</i> 后退的平板：</b>相对速度 (v−u)，质量流量 <i>ρA</i>(<i>v</i>−<i>u</i>)：</p>
+<div class="fml"><i>F</i> = <i>ρA</i>(<i>v</i>−<i>u</i>)·(<i>v</i>−<i>u</i>) = <b><i>ρA</i>(<i>v</i>−<i>u</i>)²</b></div>
+<p><b>功率：</b>力乘以板速：</p>
+<div class="fml"><i>P</i> = <i>F·u</i> = <i>ρA</i>(<i>v</i>−<i>u</i>)²<i>u</i></div>
+<p>对 <i>u</i> 求导并令其为零，可得 <b><i>u</i> = <i>v</i>/3 时功率最大</b>，此时 <i>P</i><sub>max</sub> = (4/27)<i>ρAv</i>³。这是水轮机设计的基本结论。</p>
+
+<div class="lv l3">
+  <div class="tagx">例 2-5 · 应考（射流冲击：三问递进）</div>
+  <p class="pt">直径 <i>d</i> = 50 mm 的水射流以 <i>v</i> = 20 m/s 冲击一块平板（<i>ρ</i> = 1000 kg/m³）。
+    (1) 板固定时，射流对板的力；(2) 板以 <i>u</i> = 5 m/s 同向后退时的力；(3) 板以 <i>u</i> = 20 m/s 同向运动时的力，并解释。</p>
+  <p><b>第 1 步 · 算截面积与质量流量。</b></p>
+  <div class="fml"><i>A</i> = π<i>d</i>²/4 = π × 0.05²/4 = 1.963 × 10⁻³ m²</div>
+  <div class="fml"><i>q</i><sub>m</sub> = <i>ρAv</i> = 1000 × 1.963×10⁻³ × 20 = 39.3 kg/s</div>
+  <p><b>(1) 固定板：</b></p>
+  <div class="fml"><i>F</i> = <i>ρAv</i>² = 1000 × 1.963×10⁻³ × 400 = <b>785 N</b></div>
+  <p><b>(2) 板以 5 m/s 后退：</b>相对速度 15 m/s：</p>
+  <div class="fml"><i>F</i> = <i>ρA</i>(<i>v</i>−<i>u</i>)² = 1000 × 1.963×10⁻³ × 225 = <b>442 N</b></div>
+  <p><b>(3) 板以 20 m/s 同向运动（与射流同速）：</b></p>
+  <div class="fml"><i>F</i> = <i>ρA</i>(20 − 20)² = <b>0</b></div>
+  <p class="ans"><b>答：</b>(1) 785 N；(2) 442 N；(3) 0 N。第 (3) 问的物理解释：<b>板与射流同速时，射流"追不上"板</b>，
+    相对速度为 0，没有质量流进入控制体，因此没有动量变化，也就没有力。</p>
+  <p class="hint"><b>这道题的价值：</b>它用三个数字把"<b>力来自相对运动</b>"这件事讲透了。
+    第 (3) 问的答案看起来"反直觉"，但它恰好暴露了"用绝对速度算流量"这个错误的荒谬——
+    如果不用相对速度，第 (3) 问还会算出 785 N，显然不对。</p>
+</div>
+
+<h2>2.7 变质量系统：火箭为什么能飞</h2>
+
+<div class="why">
+  <b>为什么这是难点：</b>因为牛顿第二定律 <i>m</i><b>a</b> = <b>F</b> 的推导前提是<b>质量不变</b>。
+  火箭一边飞一边喷出气体，质量一直在变，<b>不能直接套 <i>m</i><b>a</b> = <b>F</b></b>。
+  正确做法是回到"动量定理"——因为动量定理对"包含喷出气体的整个系统"仍然成立，而那个系统的质量是<b>不变</b>的。
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" width="900" height="360" style="max-width:900px" role="img" aria-label="火箭方程推导"><rect x="0" y="0" width="900" height="360" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="450" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">火箭方程：把"丢掉的质量"也算进动量账本</text><text x="150" y="66" font-size="12" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">t 时刻：总质量 m，速度 v</text><rect x="60" y="96" width="150" height="34" fill="#e2e8f0" stroke="#334155" stroke-width="1.6"  rx="16"/><text x="135" y="119" font-size="12.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">m</text><text x="224" y="118" font-size="12" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">v</text><text x="400" y="62" font-size="12" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">t+dt 时刻：分成两块</text><rect x="330" y="90" width="120" height="30" fill="#e2e8f0" stroke="#334155" stroke-width="1.6"  rx="14"/><text x="390" y="111" font-size="11.6" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">m−dm</text><text x="462" y="108" font-size="11.6" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">v+dv</text><rect x="330" y="152" width="120" height="26" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.6"  rx="12"/><text x="390" y="170" font-size="11" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">dm（喷出）</text><line x1="455" y1="165" x2="500" y2="165" stroke="#b91c1c" stroke-width="2"  marker-end="url(#ar)" /><text x="512" y="169" font-size="12.4" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">v−u</text><text x="478" y="188" font-size="10.2" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">相对火箭喷速 u</text><text x="540" y="120" font-size="11.8" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">动量守恒（略去二阶小量 dm·dv）</text><rect x="540" y="130" width="330" height="40" fill="#d1fae5" stroke="#0f766e" stroke-width="1.6"  rx="5"/><text x="705" y="156" font-size="13.4" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">m dv = −u dm</text><text x="540" y="190" font-size="11.4" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">分离变量并从 0 积到 t：</text><rect x="540" y="200" width="330" height="40" fill="#fef3c7" stroke="#b45309" stroke-width="1.6"  rx="5"/><text x="705" y="226" font-size="13.4" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">v = u ln(m₀/m)</text><text x="540" y="262" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">这是理想情况（无重力、无阻力）。要算"增量"就用</text><text x="540" y="282" font-size="11.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">Δv = u ln(m₀/m)（齐奥尔科夫斯基公式）</text><text x="540" y="308" font-size="11.2" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">要点：速度是"对数"增长的 —— 想快一倍，</text><text x="540" y="328" font-size="11.2" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">质量比要平方，所以火箭要分级。</text><text x="60" y="200" font-size="11.6" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">建模三步：</text><text x="60" y="222" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">① 取"火箭 + 已喷出气体"</text><text x="60" y="242" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">    为系统（质量不变）；</text><text x="60" y="262" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">② 外力为零 → 总动量守恒；</text><text x="60" y="282" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">③ 喷出气体相对火箭的速度是 u，</text><text x="60" y="302" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">    相对地面是 v−u。</text></svg><figcaption><b>图 2-6</b> 火箭方程的推导：把"火箭 + 已喷出的气体"当成一个质量不变的系统，用动量守恒。</figcaption></figure>
+
+
+<p><b>推导（四步）：</b></p>
+<p><b>第 1 步 · 取系统。</b>取"<b>火箭 + 将在 d<i>t</i> 内喷出的气体</b>"为系统，这个系统的<b>总质量不变</b>，为 <i>m</i>。</p>
+<p><b>第 2 步 · 写 <i>t</i> 时刻的动量。</b>整体以速度 <b>v</b> 运动：<b>P</b><sub>1</sub> = <i>m</i><b>v</b>。</p>
+<p><b>第 3 步 · 写 <i>t</i>+d<i>t</i> 时刻的动量。</b>火箭剩 <i>m</i>−d<i>m</i>，速度 <b>v</b>+d<b>v</b>；喷出的 d<i>m</i> 相对火箭速度为 −<b>u</b>（向后），
+  故它对地速度为 <b>v</b> − <b>u</b>：</p>
+<div class="fml"><b>P</b><sub>2</sub> = (<i>m</i>−d<i>m</i>)(<b>v</b>+d<b>v</b>) + d<i>m</i>(<b>v</b>−<b>u</b>)</div>
+<p><b>第 4 步 · 令 <b>P</b><sub>1</sub> = <b>P</b><sub>2</sub>（忽略外力）。</b>展开并略去二阶小量 d<i>m</i>·d<b>v</b>：</p>
+<div class="fml"><i>m</i><b>v</b> = <i>m</i><b>v</b> + <i>m</i>d<b>v</b> − <b>v</b>d<i>m</i> + <b>v</b>d<i>m</i> − <b>u</b>d<i>m</i></div>
+<div class="fml"><b><i>m</i>d<b>v</b> = <b>u</b>d<i>m</i>&nbsp;&nbsp;——&nbsp;&nbsp;火箭方程（微分形式）</b></div>
+
+<p><b>积分。</b>设初始质量 <i>m</i><sub>0</sub>、初速 0，喷速 <i>u</i> 恒定。分离变量 d<i>v</i> = <i>u</i> d<i>m</i>/<i>m</i>，两边积分：</p>
+<div class="fml"><b><i>v</i> = <i>u</i> ln(<i>m</i><sub>0</sub>/<i>m</i>)</b>&nbsp;&nbsp;（齐奥尔科夫斯基公式）</div>
+<p class="hint"><b>注意 <i>m</i> 在这里是</b>（当前质量），比 <i>m</i><sub>0</sub> 小，所以 <i>m</i><sub>0</sub>/<i>m</i> &gt; 1，<i>v</i> &gt; 0。这个符号约定一定要和课本核对。</p>
+
+<div class="box tip">
+  <b>三个必然的结论（简答题常考）：</b>
+  <br>① 速度与质量比成 <b>对数</b>关系：想让速度翻倍，质量比要<b>平方</b>。这就是为什么必须<b>多级火箭</b>。
+  <br>② 要提高末速度，两条路：<b>提高喷速 <i>u</i></b>（改进推进剂）或<b>提高质量比 <i>m</i><sub>0</sub>/<i>m</i></b>（减少结构质量）。
+  <br>③ 有重力时，方程多一项：<i>m</i>d<i>v</i>/d<i>t</i> = <i>u</i>d<i>m</i>/d<i>t</i> − <i>mg</i>，把重力冲量扣掉即可。
+</div>
+
+<div class="lv l3">
+  <div class="tagx">例 2-6 · 应考（链条落到秤盘上，动量流的经典题）</div>
+  <p class="pt">柔软链条线密度为 <i>λ</i>（kg/m），一端悬空、另一端自由下落，落到秤盘上堆起来。
+    当堆起高度为 <i>y</i> 时，求秤的读数。（忽略链条堆起过程的高度变化）</p>
+  <p><b>第 1 步 · 想清楚读数由两部分组成。</b>这是本题的关键洞察：
+    ① <b>已经堆在盘上的链条的重量</b>；② <b>正在落下的链条撞上盘时，动量被"刹住"所需要的力</b>。</p>
+  <p><b>第 2 步 · 第一部分（静重）。</b>堆起高度 <i>y</i>，质量 <i>λy</i>：</p>
+  <div class="fml"><i>F</i><sub>1</sub> = <i>λyg</i></div>
+  <p><b>第 3 步 · 第二部分（动量流）。</b>链条从高度 <i>y</i> 落下，撞盘时速度 <i>v</i> = √(2<i>gy</i>)。
+    单位时间落到盘上的质量是 <i>λv</i>，这些质量的速度从 <i>v</i> 变为 0，动量变化率为：</p>
+  <div class="fml"><i>F</i><sub>2</sub> = (<i>λv</i>)·<i>v</i> = <i>λv</i>² = <i>λ</i>·2<i>gy</i> = 2<i>λyg</i></div>
+  <p><b>第 4 步 · 相加。</b></p>
+  <div class="fml"><i>F</i> = <i>λyg</i> + 2<i>λyg</i> = <b>3<i>λyg</i></b></div>
+  <p class="ans"><b>答：</b>秤的读数为 <b>3<i>λyg</i></b>，是<b>静止堆放的 3 倍</b>。</p>
+  <p class="hint"><b>为什么是 3 倍而不是 2 倍：</b>已堆部分的重量是 1 倍；落下部分"刹停"贡献 2 倍
+    （其中 1 倍来自"每秒增加的质量带来的动量"，另 1 倍来自"这些质量本身的速度"——这正是 <i>λv</i>·<i>v</i> 中两个 <i>v</i> 的来源）。
+    <b>这道题是"动量流"最好的思维训练：凡是"有质量持续加入/离开"的系统，都要单独算动量流这一项。</b></p>
+</div>
+
+<h2>2.8 第 2 部分小结</h2>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" width="900" height="300" style="max-width:900px" role="img" aria-label="动量定理知识树"><rect x="0" y="0" width="900" height="300" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><rect x="330" y="20" width="240" height="38" fill="#0f766e" stroke="#0f766e" stroke-width="1.6"  rx="6"/><text x="450" y="45" font-size="13.5" fill="#fff" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">动量定理 ΣF = dp/dt</text><line x1="450" y1="58" x2="450" y2="72" stroke="#94a3b8" stroke-width="1.4"   /><line x1="120" y1="72" x2="780" y2="72" stroke="#94a3b8" stroke-width="1.4"   /><line x1="132" y1="72" x2="132" y2="96" stroke="#94a3b8" stroke-width="1.4"   /><rect x="56" y="96" width="152" height="32" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="5"/><text x="132" y="117" font-size="11.8" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">① 单质点</text><rect x="56" y="138" width="152" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="64" y="158" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">冲量 I = ∫F dt</text><rect x="56" y="178" width="152" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="64" y="198" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">I = mv₂ − mv₁</text><rect x="56" y="218" width="152" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="64" y="238" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">求平均冲力</text><line x1="344" y1="72" x2="344" y2="96" stroke="#94a3b8" stroke-width="1.4"   /><rect x="268" y="96" width="152" height="32" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="5"/><text x="344" y="117" font-size="11.8" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">② 质点系</text><rect x="268" y="138" width="152" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="276" y="158" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">内力成对消掉</text><rect x="268" y="178" width="152" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="276" y="198" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">ΣF外 = dP/dt</text><rect x="268" y="218" width="152" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="276" y="238" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">动量守恒</text><line x1="556" y1="72" x2="556" y2="96" stroke="#94a3b8" stroke-width="1.4"   /><rect x="480" y="96" width="152" height="32" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="5"/><text x="556" y="117" font-size="11.8" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">③ 质心</text><rect x="480" y="138" width="152" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="488" y="158" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">m a_C = ΣF外</text><rect x="480" y="178" width="152" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="488" y="198" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">人走船退</text><rect x="480" y="218" width="152" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="488" y="238" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">整体法列方程</text><line x1="768" y1="72" x2="768" y2="96" stroke="#94a3b8" stroke-width="1.4"   /><rect x="692" y="96" width="152" height="32" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="5"/><text x="768" y="117" font-size="11.8" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">④ 质量流/变质量</text><rect x="692" y="138" width="152" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="700" y="158" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">ΣF = q_m(v₂−v₁)</text><rect x="692" y="178" width="152" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="700" y="198" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">弯管、射流、喷嘴</text><rect x="692" y="218" width="152" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="700" y="238" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">火箭 v = u ln(m₀/m)</text><text x="450" y="282" font-size="11.8" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">一条主线：先判"系统包含谁"，再判"外力有没有"，最后决定用动量式还是守恒式。</text></svg><figcaption><b>图 2-7</b> 动量定理的四条分支：单质点、质点系、质心、质量流与变质量。</figcaption></figure>
+
+
+<table class="zebra">
+  <tr><th>对象</th><th>方程</th><th>什么时候用</th></tr>
+  <tr><td>单质点（过程）</td><td><b>I</b> = <i>m</i><b>v</b><sub>2</sub> − <i>m</i><b>v</b><sub>1</sub></td><td>碰撞、冲击，力不知道但速度知道</td></tr>
+  <tr><td>质点系</td><td>Σ<b>F</b><sup>外</sup> = d<b>P</b>/d<i>t</i>；Σ<b>F</b><sup>外</sup>=0 ⟹ <b>P</b> 守恒</td><td>反冲、爆炸、整体法</td></tr>
+  <tr><td>质心</td><td><i>M</i><b>a</b><sub>C</sub> = Σ<b>F</b><sup>外</sup></td><td>问"整体移动多少"、"质心轨迹"</td></tr>
+  <tr><td>定常质量流</td><td>Σ<b>F</b> = <i>q</i><sub>m</sub>(<b>v</b><sub>2</sub>−<b>v</b><sub>1</sub>)</td><td>弯管、喷嘴、射流、叶片</td></tr>
+  <tr><td>变质量</td><td><i>m</i>d<b>v</b>/d<i>t</i> = <b>u</b>d<i>m</i>/d<i>t</i> + Σ<b>F</b><sup>外</sup></td><td>火箭、链条、洒水车</td></tr>
+</table>
+
+<div class="box exam">
+  <b>本节自测（能全部答出来，第 2 部分就过关了）</b>
+  <br>1. 冲量和动量有什么区别？为什么说冲量是"过程量"、动量是"状态量"？
+  <br>2. 为什么质点系的内力可以全部消掉？这个结论依赖牛顿第三定律的哪一点？
+  <br>3. 动量守恒的条件是什么？如果只有 <i>x</i> 方向没有外力，能说总动量守恒吗？
+  <br>4. 射流冲击移动平板时，为什么必须用相对速度算质量流量？
+  <br>5. 火箭方程的推导中，为什么"取火箭 + 喷出气体为系统"是关键一步？
+  <br>6. 链条落到秤盘上，读数为什么是静重的 3 倍？如果链条是匀速放下的呢？
+</div>
+
+<h1 class="ch" id="c3">第 3 部分　动量矩定理：把方程再"转"一次</h1>
+
+<div class="why">
+  <span class="wt">为什么还要再来一个定理？前两个不够用吗？</span>
+  不够，而且差得很明显。请看三个场景：
+  <br><br>
+  <b>场景一：物体在转动。</b>风车、齿轮、飞轮、方向盘——它们不是"整体往前跑"，而是"绕一根轴转"。
+  用 <i>m</i><b>a</b> = Σ<b>F</b> 描述"转"，要先算出每个质点的加速度，几乎不可能。
+  <br><br>
+  <b>场景二：想知道"转动的惯性"。</b>同样大的力矩，为什么推一个薄圆盘比推一个同样重的细杆容易？
+  质量相同、外力相同，转动效果却不同——说明"转动"有一个和"质量"平行的新概念，叫<b>转动惯量</b>。
+  <br><br>
+  <b>场景三：轮子滚下斜坡到底多快。</b>纯滚动的轮子既平动又转动，两个运动绑在一起，
+  只用 <i>m</i><b>a</b> = Σ<b>F</b> 会漏掉一半信息（缺"转动"那个方程）。
+  <br><br>
+  解决这三件事用同一个动作：<b>把 <i>m</i><b>a</b> = Σ<b>F</b> 两边同时叉乘位置矢量 <b>r</b></b>，再对时间积分。
+  得到的式子叫<b>动量矩定理</b>（也叫角动量定理）。
+</div>
+
+<div class="box tip">
+  <b>三个定理是一条流水线，不是三个孤立的知识点：</b>
+  <br>· 牛顿方程 <i>m</i><b>a</b> = Σ<b>F</b> —— <b>力 ↔ 加速度</b>（瞬时）
+  <br>· 对时间积一次 → 动量定理 —— <b>冲量 ↔ 动量</b>（过程）
+  <br>· 两边叉乘 <b>r</b> → 动量矩定理 —— <b>力矩 ↔ 动量矩</b>（转动版的牛顿方程）
+  <br><br>
+  所以第 3 部分的公式长得和第 1、2 部分几乎一样，只是把"力"换成"力矩"、"动量"换成"动量矩"、"质量"换成"转动惯量"。
+  <b>看懂了这条对应关系，本部分就已经学会一半。</b>
+</div>
+
+<h2>3.1 动量矩（角动量）：转动版的"动量"</h2>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" width="900" height="330" style="max-width:900px" role="img" aria-label="动量矩的定义"><rect x="0" y="0" width="900" height="330" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="450" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">动量矩（角动量）：转动的"动量"，等于 r × mv</text><circle cx="250" cy="240" r="5" fill="#334155" stroke="#334155" stroke-width="1.6"/><text x="234" y="246" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">O</text><line x1="250" y1="240" x2="420" y2="120" stroke="#2563eb" stroke-width="2.2"  marker-end="url(#ar)" /><text x="429.8036143591771" y="117.07980162881614" font-size="12.4" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">r</text><circle cx="420" cy="120" r="6" fill="#b45309" stroke="#b45309" stroke-width="1.6"/><line x1="420" y1="120" x2="516" y2="146" stroke="#b91c1c" stroke-width="2.4"  marker-end="url(#ar)" /><text x="527.5827164630393" y="153.13698570873981" font-size="12.4" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">mv</text><line x1="420" y1="120" x2="291.89648200566114" y2="85.30529720986657" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3"  /><line x1="250" y1="240" x2="291.89648200566114" y2="85.30529720986657" stroke="#b45309" stroke-width="1.6" stroke-dasharray="5 4"  /><text x="244.94824100283057" y="166.6526486049333" font-size="10.6" fill="#b45309" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">d（力臂）</text><path d="M310,230 A62,62 0 0 1 320,182" fill="none" stroke="#b45309" stroke-width="1.4"  marker-end="url(#ar)" /><text x="346" y="200" font-size="10.6" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">逆时针 = 正</text><rect x="500" y="56" width="360" height="62" fill="#d1fae5" stroke="#0f766e" stroke-width="1.6"  rx="6"/><text x="680" y="80" font-size="13" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">对点 O：L_O = r × m v</text><text x="680" y="102" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">大小 = m v d（d 是 O 到速度作用线的距离）</text><rect x="500" y="128" width="360" height="62" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.6"  rx="6"/><text x="680" y="152" font-size="13" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">对轴 z：L_z = (r × m v)_z</text><text x="680" y="174" font-size="10.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">= m v · d_xy（只看垂直于轴的投影）</text><text x="500" y="216" font-size="11.8" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">✱ 质点做圆周运动时：L_O = m v r = m r² ω</text><text x="500" y="238" font-size="11.8" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">✱ 刚体绕定轴转动时：L_z = J_z ω（J 是转动惯量）</text><text x="500" y="264" font-size="11" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">这两个特例是后面所有计算的出发点，务必熟到能背。</text><rect x="60" y="276" width="800" height="42" fill="#fefce8" stroke="#b45309" stroke-width="1.3"  rx="6"/><text x="76" y="296" font-size="11.4" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">动量矩和动量一样是"状态量"，但它依赖你选的矩心：换一个 O，动量矩的大小和正负都会变。</text><text x="76" y="312" font-size="11.4" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">所以做题第一步永远是"明确对哪个点/哪根轴取矩"，并把这个选择写下来。</text></svg><figcaption><b>图 3-1</b> 动量矩的定义：L = r × mv，大小等于 mvd（d 是力臂，即 O 到速度作用线的垂直距离）。</figcaption></figure>
+
+
+<p><b>定义（对点）：</b></p>
+<div class="fml"><b>L</b><sub>O</sub> = <b>r</b> × <i>m</i><b>v</b></div>
+<p>大小：<i>L</i><sub>O</sub> = <i>mvd</i>，其中 <i>d</i> 是 <b>O 点到速度作用线的垂直距离</b>（力臂）。方向用右手螺旋判定（四指从 <b>r</b> 转向 <b>v</b>，拇指指向就是 <b>L</b> 的方向）。</p>
+
+<p><b>定义（对轴）：</b>把对点的动量矩投影到轴上：</p>
+<div class="fml"><i>L</i><sub>z</sub> = (<b>r</b> × <i>m</i><b>v</b>)<sub>z</sub> = <i>m</i>·<i>v</i><sub>xy</sub>·<i>d</i><sub>xy</sub></div>
+<p>即：<b>对轴的动量矩，只用垂直于该轴的那个速度分量来算</b>。这一点非常重要——沿轴方向的速度分量对绕该轴的转动没有任何贡献。</p>
+
+<div class="box warn">
+  <b>三个必须知道的特例（后面全靠它们）：</b>
+  <br>① <b>质点做圆周运动</b>（半径 <i>r</i>、角速度 <i>ω</i>）：<i>L</i><sub>O</sub> = <i>mvr</i> = <i>mr</i>²<i>ω</i>；
+  <br>② <b>刚体绕定轴转动</b>：<i>L</i><sub>z</sub> = <i>J</i><sub>z</sub><i>ω</i>，其中 <i>J</i><sub>z</sub> = Σ<i>m</i><sub><i>i</i></sub><i>r</i><sub><i>i</i></sub>² 是转动惯量；
+  <br>③ <b>平动的刚体</b>：<i>L</i><sub>O</sub> = <i>Mv</i><sub>C</sub><i>d</i>，可以看成"质量全部集中在质心"。
+</div>
+
+<h2>3.2 动量矩定理：从牛顿方程叉乘出来</h2>
+
+<div class="why">
+  <b>怎么来的（三行，但要看懂"为什么用叉乘"）：</b>因为力矩的定义就是 <b>M</b> = <b>r</b> × <b>F</b>。
+  既然力的效果要用叉乘来度量，方程两边就都该叉乘 <b>r</b>。这不是技巧，而是<b>定义的自然结果</b>。
+</div>
+
+<p>对质点：<i>m</i><b>a</b> = <b>F</b>。两边左叉乘 <b>r</b>：</p>
+<div class="fml"><b>r</b> × <i>m</i><b>a</b> = <b>r</b> × <b>F</b> = <b>M</b><sub>O</sub></div>
+<p>左边可以改写。注意 <b>v</b> × <i>m</i><b>v</b> = 0（自己叉自己为零）：</p>
+<div class="fml">d(<b>r</b> × <i>m</i><b>v</b>)/d<i>t</i> = <b>v</b> × <i>m</i><b>v</b> + <b>r</b> × <i>m</i><b>a</b> = 0 + <b>r</b> × <i>m</i><b>a</b></div>
+<p>所以：</p>
+<div class="fml"><b>d<b>L</b><sub>O</sub>/d<i>t</i> = <b>M</b><sub>O</sub></b>&nbsp;&nbsp;&nbsp;（质点动量矩定理）</div>
+
+<p>对所有质点求和。<b>内力矩也成对抵消</b>——因为两个质点间的内力等值、反向、且<b>作用在同一条直线上</b>（这一点是关键：
+如果作用线不同，力臂不同，力矩就不一定抵消了）：</p>
+<div class="fml"><b>d<b>L</b><sub>O</sub>/d<i>t</i> = Σ<b>M</b><sub>O</sub><sup>外</sup></b>&nbsp;&nbsp;&nbsp;（质点系动量矩定理）</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 330" width="880" height="330" style="max-width:880px" role="img" aria-label="定轴转动微分方程"><rect x="0" y="0" width="880" height="330" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">定轴转动：J ε = ΣM_z（转动版的牛顿第二定律）</text><circle cx="230" cy="170" r="8" fill="#334155" stroke="#334155" stroke-width="1.6"/><circle cx="230" cy="170" r="96" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.4"/><line x1="230" y1="170" x2="318.42185542427694" y2="207.38416086163045" stroke="#e2e8f0" stroke-width="1.2"   /><line x1="230" y1="170" x2="192.61583913836955" y2="258.42185542427694" stroke="#e2e8f0" stroke-width="1.2"   /><line x1="230" y1="170" x2="141.578144575723" y2="132.61583913836958" stroke="#e2e8f0" stroke-width="1.2"   /><line x1="230" y1="170" x2="267.38416086163045" y2="81.57814457572304" stroke="#e2e8f0" stroke-width="1.2"   /><line x1="314.2479259414758" y1="123.97514829399651" x2="343.97230933493637" y2="178.3852671311996" stroke="#b91c1c" stroke-width="2.4"  marker-end="url(#ar)" /><text x="349.7254157981868" y="192.9162578738841" font-size="12.4" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F</text><line x1="230" y1="170" x2="314.2479259414758" y2="123.97514829399651" stroke="#2563eb" stroke-width="1.6" stroke-dasharray="4 3"  /><text x="272.1239629707379" y="138.98757414699827" font-size="11.5" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">R</text><text x="270" y="60" font-size="11.5" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ω, ε</text><rect x="460" y="60" width="390" height="46" fill="#d1fae5" stroke="#0f766e" stroke-width="1.6"  rx="5"/><text x="655" y="88" font-size="13.6" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">J_z ε = ΣM_z(外)</text><text x="460" y="124" font-size="11.4" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">⇒ ε = ΣM_z / J_z，与"a = ΣF/m"完全同构</text><text x="460" y="156" font-size="12.4" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">三个必须记住的对应关系</text><text x="470" y="178" font-size="11.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">质量 m ↔ 转动惯量 J_z</text><text x="470" y="198" font-size="11.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">速度 v ↔ 角速度 ω</text><text x="470" y="218" font-size="11.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">加速度 a ↔ 角加速度 ε</text><text x="470" y="238" font-size="11.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">力矩 ΣM ↔ 力 ΣF</text><rect x="460" y="254" width="390" height="60" fill="#fef3c7" stroke="#b45309" stroke-width="1.3"  rx="6"/><text x="472" y="274" font-size="11.2" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">注意：M_z 只算"绕这根轴"的力矩分量。</text><text x="472" y="294" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">轴承反力、穿过轴的力、重力（若轴过质心）都不产生力矩。</text><text x="60" y="316" font-size="11.4" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">解题套路：受力图 → 算各力对轴的矩（带正负）→ J 求出来 → ε = ΣM/J → 再积两次得 ω、θ。</text></svg><figcaption><b>图 3-2</b> 定轴转动：把矢量式投影到转轴上，就得到 J_z·ε = M_z——转动版的"F = ma"。</figcaption></figure>
+
+
+<p><b>投影到定轴 <i>z</i> 上：</b>因为 <i>L</i><sub>z</sub> = <i>J</i><sub>z</sub><i>ω</i>，而 d<i>ω</i>/d<i>t</i> = <i>ε</i>（角加速度）：</p>
+<div class="fml"><b><i>J</i><sub>z</sub>·<i>ε</i> = <i>M</i><sub>z</sub></b>&nbsp;&nbsp;&nbsp;（定轴转动微分方程）</div>
+<p>这就是"转动版的牛顿第二定律"：<b>转动惯量 ↔ 质量，角加速度 ↔ 线加速度，力矩 ↔ 力</b>。一一对应。</p>
+
+<div class="box exam">
+  <b>动量矩守恒（考试极高频）：</b>
+  <br>若 Σ<b>M</b><sub>O</sub><sup>外</sup> = 0，则 <b>L</b><sub>O</sub> = 常矢量。
+  <br><b>典型例子：</b>花样滑冰收臂加速、直升机尾桨、行星绕日、绳穿过桌孔拉小球。
+  <br><b>注意：</b>动量矩守恒比动量守恒"更容易满足"——因为<b>凡是作用线穿过取矩点的力，力矩都是零</b>。
+  所以"绳子拉小球"这类题，绳的拉力虽然很大，但对孔的力矩为零，<b>动量矩照样守恒</b>。
+</div>
+
+<div class="lv l1">
+  <div class="tagx">例 3-1 · 看懂（定轴转动：用 <i>J</i><sub>z</sub><i>ε</i> = <i>M</i><sub>z</sub> 一步求解）</div>
+  <p class="pt">质量 <i>m</i> = 100 kg、半径 <i>R</i> = 0.5 m 的均质圆盘飞轮绕中心轴转动，受恒定力矩 <i>M</i> = 50 N·m。
+    求角加速度 <i>ε</i>，以及从静止开始 5 s 后的转速。</p>
+  <p><b>第 1 步 · 求转动惯量。</b>均质圆盘绕中心轴：</p>
+  <div class="fml"><i>J</i><sub>z</sub> = <i>mR</i>²/2 = 100 × 0.25/2 = 12.5 kg·m²</div>
+  <p><b>第 2 步 · 用微分方程求角加速度。</b></p>
+  <div class="fml"><i>ε</i> = <i>M</i><sub>z</sub>/<i>J</i><sub>z</sub> = 50/12.5 = <b>4 rad/s²</b></div>
+  <p><b>第 3 步 · 匀角加速，直接积分。</b></p>
+  <div class="fml"><i>ω</i> = <i>εt</i> = 4 × 5 = 20 rad/s</div>
+  <div class="fml"><i>n</i> = <i>ω</i>/(2π) = 20/6.283 = <b>3.18 r/s</b>（约 191 r/min）</div>
+  <p class="ans"><b>答：</b><i>ε</i> = <b>4 rad/s²</b>；5 s 后 <i>ω</i> = 20 rad/s，约 <b>191 r/min</b>。</p>
+  <p class="hint"><b>经验：</b>定轴转动题的<b>唯一</b>套路就是"<i>J</i> → <i>ε</i> → 积分求 <i>ω</i>、<i>θ</i>"。
+    用到的积分式和直线运动完全对称：<i>ω</i> = <i>ω</i><sub>0</sub> + <i>εt</i>，<i>θ</i> = <i>ω</i><sub>0</sub><i>t</i> + <i>εt</i>²/2。
+    <b>把 <i>m</i>→<i>J</i>、<i>v</i>→<i>ω</i>、<i>a</i>→<i>ε</i>、<i>F</i>→<i>M</i>、<i>x</i>→<i>θ</i> 直接替换，公式不用再记一遍。</b></p>
+</div>
+
+<h2>3.3 转动惯量：为什么"同样的质量，转起来不一样"</h2>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 332" width="880" height="332" style="max-width:880px" role="img" aria-label="转动惯量与平行轴定理"><rect x="0" y="0" width="880" height="332" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">同一根轴换个位置，转动惯量就变了：J = J_C + m d²</text><text x="190" y="66" font-size="12.2" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">轴过质心 C</text><rect x="100" y="143" width="180" height="54" fill="#e2e8f0" stroke="#334155" stroke-width="1.6"  rx="3"/><circle cx="190" cy="170" r="4.5" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><text x="202" y="162" font-size="11" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">C</text><line x1="190" y1="117" x2="190" y2="223" stroke="#2563eb" stroke-width="2"   /><text x="182" y="111" font-size="10.6" fill="#2563eb" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">轴 z</text><text x="190" y="243" font-size="11.2" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">J_C = m(长²+宽²)/12</text><text x="600" y="66" font-size="12.2" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">轴平移 d（平行于原轴）</text><rect x="510" y="143" width="180" height="54" fill="#e2e8f0" stroke="#334155" stroke-width="1.6"  rx="3"/><circle cx="600" cy="170" r="4.5" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><text x="612" y="162" font-size="11" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">C</text><line x1="526" y1="117" x2="526" y2="223" stroke="#2563eb" stroke-width="2"   /><text x="518" y="111" font-size="10.6" fill="#2563eb" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">轴 z′</text><line x1="526" y1="231" x2="600" y2="231" stroke="#94a3b8" stroke-width="1.2"  marker-end="url(#ar)" /><text x="563" y="249" font-size="11.5" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">d</text><text x="600" y="259" font-size="14" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">J = J_C + m d²</text><rect x="60" y="246" width="760" height="52" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="6"/><text x="76" y="268" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">常用值：细杆（轴过端）J = ml²/3；细杆（轴过心）J = ml²/12；圆盘（轴过心、垂直于盘面）J = mR²/2；</text><text x="76" y="288" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">圆环 J = mR²（质量全在外缘）；薄圆盘（轴在盘面内）J = mR²/4。</text><text x="440" y="318" font-size="11.2" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">平行轴定理只在"两根轴互相平行且其中一根过质心"时能用，别乱套。</text></svg><figcaption><b>图 3-3</b> 平行轴定理：轴平移 d 后转动惯量增加 md²。常用刚体的转动惯量必须背下来。</figcaption></figure>
+
+
+<p><b>定义：</b></p>
+<div class="fml"><i>J</i><sub>z</sub> = Σ<i>m</i><sub><i>i</i></sub><i>r</i><sub><i>i</i></sub>²&nbsp;&nbsp;（连续体：<i>J</i><sub>z</sub> = ∫<i>r</i>²d<i>m</i>）</div>
+<p><b>它为什么"不等于质量"：</b>因为 <i>r</i> 是<b>到轴的距离</b>。同样的质量，堆得离轴越远，<i>J</i> 越大，越难加速转动。
+这就是为什么<b>长杆握中间比握一端好转</b>、<b>轮圈（质量在外缘）比圆盘难刹住</b>。</p>
+
+<p><b>平行轴定理：</b>若已知绕质心轴的 <i>J</i><sub>C</sub>，则绕与之平行的任意轴的转动惯量为：</p>
+<div class="fml"><b><i>J</i><sub>z</sub> = <i>J</i><sub>C</sub> + <i>md</i>²</b>&nbsp;&nbsp;（<i>d</i> 是两轴的距离）</div>
+<p class="hint"><b>只能用于"两轴平行、且其中一根过质心"。</b>若两根轴都不在质心上，要先各用一次平行轴定理把 <i>J</i><sub>C</sub> 求出来再算，不能直接相减。</p>
+
+<p><b>必须背熟的常用值：</b></p>
+<table class="zebra">
+  <tr><th>刚体</th><th>转轴</th><th><i>J</i></th></tr>
+  <tr><td>细杆（长 <i>l</i>）</td><td>过质心、垂直于杆</td><td><i>ml</i>²/12</td></tr>
+  <tr><td>细杆（长 <i>l</i>）</td><td>过一端、垂直于杆</td><td><i>ml</i>²/3</td></tr>
+  <tr><td>圆盘/圆柱（半径 <i>R</i>）</td><td>中心轴（垂直于盘面）</td><td><i>mR</i>²/2</td></tr>
+  <tr><td>圆环/薄圆筒（半径 <i>R</i>）</td><td>中心轴</td><td><i>mR</i>²</td></tr>
+  <tr><td>球体（半径 <i>R</i>）</td><td>直径</td><td>2<i>mR</i>²/5</td></tr>
+</table>
+<p><b>验证一下平行轴定理：</b>细杆 <i>J</i><sub>C</sub> = <i>ml</i>²/12，轴移到一端时 <i>d</i> = <i>l</i>/2：</p>
+<div class="fml"><i>J</i><sub>端</sub> = <i>ml</i>²/12 + <i>m</i>(<i>l</i>/2)² = <i>ml</i>²/12 + <i>ml</i>²/4 = <b><i>ml</i>²/3</b>&nbsp;&nbsp;✓</div>
+<p class="hint">能自己验证出来的公式，考试时忘了也能现推。<b>这就是"背少量、推多数"的正确复习方式。</b></p>
+
+<div class="lv l2">
+  <div class="tagx">例 3-2 · 模仿（动量矩守恒：绳穿过桌孔拉小球）</div>
+  <p class="pt">光滑水平桌面上，质量 <i>m</i> = 0.5 kg 的小球用细绳系住，绳穿过桌面中心的孔。
+    小球最初在半径 <i>r</i><sub>1</sub> = 0.5 m 处，以 <i>v</i><sub>1</sub> = 0.4 m/s 做圆周运动。
+    缓慢拉绳，使半径减小到 <i>r</i><sub>2</sub> = 0.1 m。求此时的速率与绳的张力。</p>
+  <p><b>第 1 步 · 判断守恒。</b>绳的拉力<b>始终沿半径方向</b>，穿过孔（取矩点），所以<b>对孔的力矩为零</b>：</p>
+  <div class="fml">Σ<i>M</i><sub>O</sub> = 0&nbsp;&nbsp;⟹&nbsp;&nbsp;<i>m v</i><sub>1</sub><i>r</i><sub>1</sub> = <i>m v</i><sub>2</sub><i>r</i><sub>2</sub></div>
+  <p><b>第 2 步 · 求新速率。</b></p>
+  <div class="fml"><i>v</i><sub>2</sub> = <i>v</i><sub>1</sub><i>r</i><sub>1</sub>/<i>r</i><sub>2</sub> = 0.4 × 0.5/0.1 = <b>2.0 m/s</b></div>
+  <p><b>第 3 步 · 求张力。</b>圆周运动，张力就是向心力：</p>
+  <div class="fml"><i>T</i> = <i>mv</i><sub>2</sub>²/<i>r</i><sub>2</sub> = 0.5 × 4/0.1 = <b>20 N</b></div>
+  <p class="ans"><b>答：</b><i>v</i><sub>2</sub> = <b>2.0 m/s</b>，<i>T</i> = <b>20 N</b>（是最初 <i>T</i><sub>1</sub> = 0.5×0.16/0.5 = 0.16 N 的 125 倍）。</p>
+  <p class="hint"><b>经验：</b>半径缩小 5 倍，速率涨 5 倍，而张力涨 <b>25 倍</b>（因为 <i>T</i> = <i>mv</i>²/<i>r</i> 里 <i>v</i> 是平方、<i>r</i> 在分母）。
+    <b>"拉得越近越快、而且快得离谱"——这是动量矩守恒最反直觉也最常考的地方。</b>
+    另外：<b>答案与"缓慢拉"还是"快速拉"无关</b>，因为守恒式与过程无关。</p>
+</div>
+
+<h2>3.4 刚体平面运动：两个方程必须同时用</h2>
+
+<div class="why">
+  <b>什么叫平面运动：</b>物体上各点都在平行于某一固定平面的平面内运动（比如车轮沿路滚动、连杆机构）。
+  <b>关键结论：平面运动 = 质心的平动 + 绕质心的转动</b>，而且这两部分<b>可以分开列方程</b>。
+  <br><br>
+  <b>为什么必须绕"质心"取矩：</b>因为只有对质心取矩，"转动"和"平动"才彻底解耦。
+  若对别的点取矩，方程里会多出惯性力矩项，形式变得很复杂（这就是课本上那个 <i>J</i><sub>A</sub><i>ε</i> = Σ<i>M</i><sub>A</sub> 的推广式只在特殊情形才好用）。
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 330" width="880" height="330" style="max-width:880px" role="img" aria-label="刚体平面运动微分方程"><rect x="0" y="0" width="880" height="330" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">平面运动 = 质心平动 + 绕质心转动，两组方程同时列</text><circle cx="230" cy="190" r="76" fill="#f8fafc" stroke="#334155" stroke-width="2"/><circle cx="230" cy="190" r="5" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><text x="240" y="182" font-size="11" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">C</text><line x1="230" y1="114" x2="230" y2="266" stroke="#e2e8f0" stroke-width="1"   /><line x1="100" y1="266" x2="360" y2="266" stroke="#334155" stroke-width="2.4"   /><line x1="230" y1="190" x2="326" y2="190" stroke="#0f766e" stroke-width="2.4"  marker-end="url(#ar)" /><text x="338" y="194" font-size="12.4" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F</text><line x1="230" y1="190" x2="230" y2="282" stroke="#334155" stroke-width="2.2"  marker-end="url(#ar)" /><text x="230" y="298" font-size="12.4" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">mg</text><line x1="230" y1="266" x2="230" y2="212" stroke="#2563eb" stroke-width="2.2"  marker-end="url(#ar)" /><text x="230" y="204" font-size="12.4" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">N</text><line x1="230" y1="266" x2="164" y2="266" stroke="#b45309" stroke-width="2.2"  marker-end="url(#ar)" /><text x="152" y="270" font-size="12.4" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F_f</text><text x="270" y="216" font-size="11.2" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ω, ε</text><rect x="470" y="56" width="380" height="54" fill="#d1fae5" stroke="#0f766e" stroke-width="1.6"  rx="6"/><text x="660" y="78" font-size="12.4" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">① 质心平动方程</text><text x="660" y="98" font-size="12.4" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">m a_Cx = ΣF_x ,  m a_Cy = ΣF_y</text><rect x="470" y="122" width="380" height="54" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.6"  rx="6"/><text x="660" y="144" font-size="12.4" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">② 绕质心的转动方程</text><text x="660" y="164" font-size="12.4" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">J_C · ε = ΣM_C</text><text x="470" y="200" font-size="11.2" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">关键：转动方程必须对"质心"取矩，不能随便换点</text><text x="470" y="220" font-size="10.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">（若换点用 J_C ε = ΣM_C 的推广式，会多出惯性力矩项，容易错）</text><rect x="470" y="236" width="380" height="70" fill="#fefce8" stroke="#b45309" stroke-width="1.3"  rx="6"/><text x="482" y="256" font-size="11.4" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">纯滚动补充条件（不打滑）：</text><text x="482" y="276" font-size="11.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">a_C = ε R ,  v_C = ω R ,  s = θ R</text><text x="482" y="296" font-size="10.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">此时摩擦力是"静摩擦"，大小由方程解出，不能用 f = μN。</text><text x="60" y="316" font-size="11.4" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">平面运动题的标准四步：受力图 → 三个方程（2 平动 + 1 转动）→ 补运动学关系 → 解方程组。</text></svg><figcaption><b>图 3-4</b> 刚体平面运动的两组方程：质心平动 + 绕质心转动。纯滚动时两者由 a_C = εR 绑定。</figcaption></figure>
+
+
+<p><b>两组方程（同时成立）：</b></p>
+<div class="fml"><i>m a</i><sub>Cx</sub> = Σ<i>F</i><sub>x</sub>&nbsp;&nbsp;&nbsp;&nbsp;<i>m a</i><sub>Cy</sub> = Σ<i>F</i><sub>y</sub>&nbsp;&nbsp;&nbsp;（质心平动）</div>
+<div class="fml"><i>J</i><sub>C</sub>·<i>ε</i> = Σ<i>M</i><sub>C</sub>&nbsp;&nbsp;&nbsp;（绕质心转动）</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="880" height="320" style="max-width:880px" role="img" aria-label="纯滚动受力分析"><rect x="0" y="0" width="880" height="320" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="26" font-size="14" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">纯滚动的两个经典场景：摩擦力的方向由方程解出来，不是猜出来的</text><text x="200" y="64" font-size="12.2" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(a) 沿斜面滚下</text><text x="200" y="84" font-size="10.4" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">重力分量驱动，摩擦向上（阻碍滑动趋势）</text><circle cx="200" cy="170" r="66" fill="#f8fafc" stroke="#334155" stroke-width="1.8"/><circle cx="200" cy="170" r="4" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><line x1="94" y1="236" x2="306" y2="236" stroke="#334155" stroke-width="2.2"   /><path d="M94,236 L306,236 L306,146 Z" fill="#eef2f7" stroke="#94a3b8" stroke-width="1"   /><line x1="200" y1="170" x2="200" y2="246" stroke="#334155" stroke-width="2"  marker-end="url(#ar)" /><text x="200" y="262" font-size="12.4" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">mg</text><line x1="200" y1="236" x2="200" y2="190" stroke="#2563eb" stroke-width="2"  marker-end="url(#ar)" /><text x="200" y="182" font-size="12.4" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">N</text><line x1="200" y1="236" x2="140" y2="236" stroke="#b45309" stroke-width="2.2"  marker-end="url(#ar)" /><text x="128" y="240" font-size="12.4" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F_f</text><text x="240" y="130" font-size="11" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ω, ε</text><text x="620" y="64" font-size="12.2" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(b) 被水平力拉动</text><text x="620" y="84" font-size="10.4" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">力加在质心，摩擦可能向后也可能向前</text><circle cx="620" cy="170" r="66" fill="#f8fafc" stroke="#334155" stroke-width="1.8"/><circle cx="620" cy="170" r="4" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><line x1="514" y1="236" x2="726" y2="236" stroke="#334155" stroke-width="2.2"   /><path d="M514,236 L726,236 L726,146 Z" fill="#eef2f7" stroke="#94a3b8" stroke-width="1"   /><line x1="620" y1="170" x2="620" y2="246" stroke="#334155" stroke-width="2"  marker-end="url(#ar)" /><text x="620" y="262" font-size="12.4" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">mg</text><line x1="620" y1="236" x2="620" y2="190" stroke="#2563eb" stroke-width="2"  marker-end="url(#ar)" /><text x="620" y="182" font-size="12.4" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">N</text><line x1="620" y1="236" x2="680" y2="236" stroke="#b45309" stroke-width="2.2"  marker-end="url(#ar)" /><text x="692" y="240" font-size="12.4" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F_f</text><text x="660" y="130" font-size="11" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ω, ε</text><rect x="60" y="240" width="360" height="66" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="6"/><text x="76" y="260" font-size="11.4" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">斜面上滚下（θ 为倾角）</text><text x="76" y="280" font-size="10.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">mg sinθ − f = m a ,  f R = J ε ,  a = εR</text><text x="76" y="298" font-size="10.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">⇒ a = g sinθ /(1 + J/(mR²))（圆柱 = 2g sinθ/3）</text><rect x="460" y="240" width="360" height="66" fill="#fef3c7" stroke="#b45309" stroke-width="1.3"  rx="6"/><text x="476" y="260" font-size="11.4" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">水平力 F 拉圆盘（过质心）</text><text x="476" y="280" font-size="10.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">F + f = m a（f 先假设向前）,  −f R = J ε</text><text x="476" y="298" font-size="10.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">解出 f &lt; 0 ⇒ 摩擦实际向后，说明假设只是记号的约定。</text><text x="440" y="320" font-size="11.2" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">纯滚动的判据不是"没有摩擦"，而是"接触点无相对滑动"——摩擦力通常在起作用。</text></svg><figcaption><b>图 3-5</b> 纯滚动的补充条件：不打滑时 a_C = εR，摩擦力是"静摩擦"，大小由方程解出，不能用 f = μN。</figcaption></figure>
+
+
+<p><b>纯滚动（不打滑）的补充条件：</b></p>
+<div class="fml"><i>a</i><sub>C</sub> = <i>εR</i>&nbsp;&nbsp;&nbsp;&nbsp;<i>v</i><sub>C</sub> = <i>ωR</i>&nbsp;&nbsp;&nbsp;&nbsp;<i>s</i> = <i>θR</i></div>
+
+<div class="box warn">
+  <b>四个最容易错的地方：</b>
+  <br>① <b>纯滚动时摩擦力是静摩擦</b>，大小<b>由方程解出</b>，<b>绝不能写 f = μN</b>（μN 只是上限）。
+  <br>② 解出的 f 若为负，说明<b>方向设反了</b>，改回来即可；若 |f| &gt; μN，说明<b>其实打滑了</b>，假设不成立。
+  <br>③ <b>不能对瞬心直接套 <i>J</i><sub>C</sub><i>ε</i> = Σ<i>M</i><sub>C</sub></b>，必须对质心取矩。对瞬心要用 <i>J</i><sub>瞬心</sub> = <i>J</i><sub>C</sub> + <i>mR</i>²。
+  <br>④ 纯滚动时<b>摩擦力不做功</b>（接触点无相对滑动），所以机械能守恒可以用——这是很多题的捷径。
+</div>
+
+<div class="lv l2">
+  <div class="tagx">例 3-3 · 模仿（定滑轮两侧挂重物：<i>J</i> 不能忽略）</div>
+  <p class="pt">定滑轮质量 <i>M</i> = 2 kg、半径 <i>R</i> = 0.2 m（视为均质圆盘），两侧分别挂 <i>m</i><sub>1</sub> = 3 kg 与 <i>m</i><sub>2</sub> = 1 kg 的重物。
+    绳与轮间不打滑、绳质量不计。求两物的加速度与绳的张力。</p>
+  <p><b>第 1 步 · 分析。</b>三部分：<i>m</i><sub>1</sub> 向下加速、<i>m</i><sub>2</sub> 向上加速、滑轮转动。
+    因不打滑，<b>三者的加速度由 <i>a</i> = <i>εR</i> 联系在一起</b>，且绳两侧张力<b>不再相等</b>（因为滑轮有转动惯量，需要力矩差来加速）。</p>
+  <p><b>第 2 步 · 列三个方程。</b>设 <i>a</i> 为 <i>m</i><sub>1</sub> 下降的加速度，<i>T</i><sub>1</sub>、<i>T</i><sub>2</sub> 为两侧张力：</p>
+  <div class="fml"><i>m</i><sub>1</sub><i>g</i> − <i>T</i><sub>1</sub> = <i>m</i><sub>1</sub><i>a</i>&nbsp;&nbsp;&nbsp;&nbsp;<i>T</i><sub>2</sub> − <i>m</i><sub>2</sub><i>g</i> = <i>m</i><sub>2</sub><i>a</i></div>
+  <div class="fml">(<i>T</i><sub>1</sub> − <i>T</i><sub>2</sub>)<i>R</i> = <i>J</i><sub>C</sub><i>ε</i>&nbsp;&nbsp;其中&nbsp;<i>J</i><sub>C</sub> = <i>MR</i>²/2，<i>ε</i> = <i>a</i>/<i>R</i></div>
+  <p><b>第 3 步 · 用 <i>ε</i> = <i>a</i>/<i>R</i> 化简第三个方程。</b></p>
+  <div class="fml">(<i>T</i><sub>1</sub> − <i>T</i><sub>2</sub>)<i>R</i> = (<i>MR</i>²/2)(<i>a</i>/<i>R</i>)&nbsp;&nbsp;⟹&nbsp;&nbsp;<i>T</i><sub>1</sub> − <i>T</i><sub>2</sub> = <i>Ma</i>/2</div>
+  <p><b>第 4 步 · 三式联立。</b>把前两式写成 <i>T</i><sub>1</sub> = <i>m</i><sub>1</sub>(<i>g</i>−<i>a</i>)、<i>T</i><sub>2</sub> = <i>m</i><sub>2</sub>(<i>g</i>+<i>a</i>)，代入：</p>
+  <div class="fml"><i>m</i><sub>1</sub><i>g</i> − <i>m</i><sub>1</sub><i>a</i> − <i>m</i><sub>2</sub><i>g</i> − <i>m</i><sub>2</sub><i>a</i> = <i>Ma</i>/2</div>
+  <div class="fml"><i>a</i> = (<i>m</i><sub>1</sub>−<i>m</i><sub>2</sub>)<i>g</i>/(<i>m</i><sub>1</sub>+<i>m</i><sub>2</sub>+<i>M</i>/2) = (3−1)×9.8/(3+1+1) = <b>3.92 m/s²</b></div>
+  <p><b>第 5 步 · 回代求张力。</b></p>
+  <div class="fml"><i>T</i><sub>1</sub> = 3×(9.8−3.92) = <b>17.6 N</b>&nbsp;&nbsp;&nbsp;<i>T</i><sub>2</sub> = 1×(9.8+3.92) = <b>13.7 N</b></div>
+  <p class="ans"><b>答：</b><i>a</i> = <b>3.92 m/s²</b>，<i>T</i><sub>1</sub> = <b>17.6 N</b>，<i>T</i><sub>2</sub> = <b>13.7 N</b>（两侧张力确实不相等，差 3.9 N）。</p>
+  <p class="hint"><b>这道题的"必考性"：</b>它一次考了三件事——<b>张力不等</b>、<b><i>ε</i> = <i>a</i>/<i>R</i> 的约束</b>、<b><i>J</i> 要算进去</b>。
+    若把滑轮当"理想滑轮"（<i>J</i>=0），会得到 <i>a</i> = (3−1)×9.8/4 = 4.9 m/s²、两侧张力都等于 14.7 N——
+    <b>差别 25%</b>。所以凡题目给了滑轮质量或半径，<b>就必须把转动惯量算进去</b>。</p>
+</div>
+
+<div class="lv l3">
+  <div class="tagx">例 3-4 · 应考（圆盘沿斜面纯滚动：为什么 a = (2/3)g sinθ）</div>
+  <p class="pt">均质圆盘（质量 <i>m</i>、半径 <i>R</i>）从倾角 <i>θ</i> 的斜面上由静止开始<b>纯滚动</b>下滑。
+    求质心加速度 <i>a</i><sub>C</sub>、所需的摩擦力 <i>f</i>，以及不打滑的最小摩擦因数。</p>
+  <p><b>第 1 步 · 画受力图，定正方向。</b>沿斜面向下为正。力有三个：重力 <i>mg</i>、支持力 <i>N</i>、静摩擦 <i>f</i>（设<b>沿斜面向上</b>）。</p>
+  <p><b>第 2 步 · 写平动方程（沿斜面）。</b></p>
+  <div class="fml"><i>mg</i> sin<i>θ</i> − <i>f</i> = <i>m a</i><sub>C</sub></div>
+  <p><b>第 3 步 · 写转动方程（对质心取矩）。</b>重力、支持力的作用线都过质心，力矩为零；只有 <i>f</i> 产生力矩：</p>
+  <div class="fml"><i>fR</i> = <i>J</i><sub>C</sub><i>ε</i>&nbsp;&nbsp;其中&nbsp;<i>J</i><sub>C</sub> = <i>mR</i>²/2</div>
+  <p><b>第 4 步 · 加纯滚动条件。</b></p>
+  <div class="fml"><i>a</i><sub>C</sub> = <i>εR</i>&nbsp;&nbsp;⟹&nbsp;&nbsp;<i>fR</i> = (<i>mR</i>²/2)(<i>a</i><sub>C</sub>/<i>R</i>)&nbsp;&nbsp;⟹&nbsp;&nbsp;<i>f</i> = <i>m a</i><sub>C</sub>/2</div>
+  <p><b>第 5 步 · 联立求 <i>a</i><sub>C</sub>。</b>把 <i>f</i> 代入第 2 步：</p>
+  <div class="fml"><i>mg</i> sin<i>θ</i> − <i>m a</i><sub>C</sub>/2 = <i>m a</i><sub>C</sub>&nbsp;&nbsp;⟹&nbsp;&nbsp;<i>a</i><sub>C</sub> = <b>(2/3)<i>g</i> sin<i>θ</i></b></div>
+  <p><b>第 6 步 · 求 <i>f</i> 与最小摩擦因数。</b></p>
+  <div class="fml"><i>f</i> = <i>m a</i><sub>C</sub>/2 = <b>(1/3)<i>mg</i> sin<i>θ</i></b></div>
+  <div class="fml"><i>N</i> = <i>mg</i> cos<i>θ</i>&nbsp;&nbsp;⟹&nbsp;&nbsp;<i>μ</i><sub>min</sub> = <i>f</i>/<i>N</i> = (1/3)tan<i>θ</i></div>
+  <p class="ans"><b>答：</b><i>a</i><sub>C</sub> = <b>(2/3)<i>g</i> sin<i>θ</i></b>，<i>f</i> = <b>(1/3)<i>mg</i> sin<i>θ</i></b>（沿斜面向上），
+    <i>μ</i><sub>min</sub> = <b>(1/3)tan<i>θ</i></b>。</p>
+  <p class="hint"><b>三个必记对照（考试常拿来对比）：</b>
+    <br>· <b>光滑下滑</b>（无转动）：<i>a</i> = <i>g</i> sin<i>θ</i>
+    <br>· <b>纯滚动圆盘</b>：<i>a</i> = (2/3)<i>g</i> sin<i>θ</i> —— <b>慢了 1/3</b>
+    <br>· <b>纯滚动圆环</b>（<i>J</i> = <i>mR</i>²）：<i>a</i> = (1/2)<i>g</i> sin<i>θ</i> —— <b>更慢</b>
+    <br><br>
+    <b>规律：<i>J</i> 越大，滚得越慢。</b>因为同样的重力势能要分一部分给转动。
+    这也是"滚下来的比赛"里，实心球总比空心球先到终点的原因。</p>
+</div>
+
+<h2>3.5 第 3 部分小结</h2>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 290" width="880" height="290" style="max-width:880px" role="img" aria-label="动量矩定理知识树"><rect x="0" y="0" width="880" height="290" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><rect x="310" y="20" width="260" height="38" fill="#0f766e" stroke="#0f766e" stroke-width="1.6"  rx="6"/><text x="440" y="45" font-size="13.5" fill="#fff" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">动量矩定理 dL/dt = ΣM</text><line x1="440" y1="58" x2="440" y2="70" stroke="#94a3b8" stroke-width="1.4"   /><line x1="112" y1="70" x2="768" y2="70" stroke="#94a3b8" stroke-width="1.4"   /><line x1="128" y1="70" x2="128" y2="92" stroke="#94a3b8" stroke-width="1.4"   /><rect x="56" y="92" width="144" height="32" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="5"/><text x="128" y="113" font-size="11.6" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">① 动量矩的算法</text><rect x="56" y="134" width="144" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="63" y="154" font-size="9.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">对点 L = r × mv</text><rect x="56" y="174" width="144" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="63" y="194" font-size="9.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">对轴取投影</text><rect x="56" y="214" width="144" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="63" y="234" font-size="9.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">圆周：L = mr²ω</text><line x1="336" y1="70" x2="336" y2="92" stroke="#94a3b8" stroke-width="1.4"   /><rect x="264" y="92" width="144" height="32" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="5"/><text x="336" y="113" font-size="11.6" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">② 定理本身</text><rect x="264" y="134" width="144" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="271" y="154" font-size="9.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">dL_O/dt = ΣM_O</text><rect x="264" y="174" width="144" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="271" y="194" font-size="9.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">对定轴：J ε = ΣM_z</text><rect x="264" y="214" width="144" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="271" y="234" font-size="9.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">ΣM=0 ⇒ L 守恒</text><line x1="544" y1="70" x2="544" y2="92" stroke="#94a3b8" stroke-width="1.4"   /><rect x="472" y="92" width="144" height="32" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="5"/><text x="544" y="113" font-size="11.6" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">③ 转动惯量</text><rect x="472" y="134" width="144" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="479" y="154" font-size="9.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">J = ∫r² dm</text><rect x="472" y="174" width="144" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="479" y="194" font-size="9.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">平行轴 J = J_C+md²</text><rect x="472" y="214" width="144" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="479" y="234" font-size="9.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">常见形体要背下来</text><line x1="752" y1="70" x2="752" y2="92" stroke="#94a3b8" stroke-width="1.4"   /><rect x="680" y="92" width="144" height="32" fill="#d1fae5" stroke="#0f766e" stroke-width="1.3"  rx="5"/><text x="752" y="113" font-size="11.6" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">④ 刚体平面运动</text><rect x="680" y="134" width="144" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="687" y="154" font-size="9.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">平动 2 个 + 转动 1 个</text><rect x="680" y="174" width="144" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="687" y="194" font-size="9.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">a_C = εR（纯滚动）</text><rect x="680" y="214" width="144" height="32" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"  rx="4"/><text x="687" y="234" font-size="9.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">摩擦方向由方程定</text><text x="440" y="272" font-size="11.6" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">和动量定理对照着学：动量 → 平动，动量矩 → 转动；两者的结构、解法、易错点完全平行。</text></svg><figcaption><b>图 3-6</b> 动量矩定理的三条分支：定轴转动、平面运动、动量矩守恒。</figcaption></figure>
+
+
+<table class="zebra">
+  <tr><th>对象</th><th>方程</th><th>关键约束</th></tr>
+  <tr><td>质点（对点）</td><td>d<b>L</b><sub>O</sub>/d<i>t</i> = <b>M</b><sub>O</sub></td><td><i>L</i><sub>O</sub> = <i>mvd</i></td></tr>
+  <tr><td>质点系</td><td>d<b>L</b><sub>O</sub>/d<i>t</i> = Σ<b>M</b><sub>O</sub><sup>外</sup></td><td>内力矩成对抵消</td></tr>
+  <tr><td>定轴转动</td><td><i>J</i><sub>z</sub><i>ε</i> = <i>M</i><sub>z</sub></td><td><i>L</i><sub>z</sub> = <i>J</i><sub>z</sub><i>ω</i></td></tr>
+  <tr><td>平面运动</td><td><i>m</i><b>a</b><sub>C</sub> = Σ<b>F</b>；<i>J</i><sub>C</sub><i>ε</i> = Σ<i>M</i><sub>C</sub></td><td>必须对质心取矩</td></tr>
+  <tr><td>纯滚动</td><td>上面两组 + <i>a</i><sub>C</sub> = <i>εR</i></td><td><i>f</i> 是静摩擦，由方程解出</td></tr>
+  <tr><td>守恒</td><td>Σ<b>M</b><sub>O</sub><sup>外</sup> = 0 ⟹ <b>L</b><sub>O</sub> 不变</td><td>作用线过取矩点的力不算</td></tr>
+</table>
+
+<div class="box exam">
+  <b>本节自测（能全部答出来，第 3 部分就过关了）</b>
+  <br>1. 动量矩和动量有什么区别？为什么"沿轴方向的速度分量"对绕该轴的动量矩没有贡献？
+  <br>2. 质点系的内力矩为什么能抵消？这依赖牛顿第三定律的哪一条附加条件？
+  <br>3. 平行轴定理的适用条件是什么？两根轴都不在质心上时该怎么算？
+  <br>4. 纯滚动时摩擦力为什么不等于 μN？如果解出的 |f| &gt; μN 说明什么？
+  <br>5. 为什么平面运动的转动方程必须对质心取矩？
+  <br>6. 圆盘、圆环从同一斜面纯滚下来，谁先到？为什么？
+</div>
+
+<h1 class="ch" id="app">附录：公式总表 · 符号表 · 三部分对照</h1>
+
+<div class="why">
+  <b>怎么用这三个附录：</b>正文只读一遍是不够的。<b>附录 A</b> 是考前一周每天扫一遍的清单——
+  公式记不住的时候，看"什么时候用"那一列，比背公式本身有用；<b>附录 B</b> 是抄公式时防止符号错的对照表；
+  <b>附录 C</b> 是当你做混了题、分不清该用哪个定理时的判断流程图。
+</div>
+
+<h2 id="appA">附录 A　公式总表</h2>
+
+<p class="hint"><b>说明：</b>公式前的编号不是要背的，是为了说明"这一条属于哪一组"。<b>重点看最后一列"什么时候用"。</b></p>
+
+<h3>A.1 质点动力学（第 1 部分）</h3>
+<table class="zebra">
+  <tr><th>#</th><th>公式</th><th>什么时候用</th></tr>
+  <tr><td>1</td><td><b>m a</b> = Σ<b>F</b></td><td>一切动力学的出发点</td></tr>
+  <tr><td>2</td><td><i>m</i>ẍ = Σ<i>F</i><sub>x</sub>，<i>m</i>ÿ = Σ<i>F</i><sub>y</sub>，<i>m</i>z̈ = Σ<i>F</i><sub>z</sub></td><td>直角坐标：力沿 <i>x</i>/<i>y</i> 分解方便时</td></tr>
+  <tr><td>3</td><td><i>m</i>d<i>v</i>/d<i>t</i> = Σ<i>F</i><sub>τ</sub>，<i>mv</i>²/<i>ρ</i> = Σ<i>F</i><sub>n</sub></td><td>自然坐标：轨迹已知（圆周、曲线）</td></tr>
+  <tr><td>4</td><td><i>m</i>(r̈ − <i>r</i>φ̇²) = Σ<i>F</i><sub>r</sub>，<i>m</i>(<i>r</i>φ̈ + 2ṙφ̇) = Σ<i>F</i><sub>φ</sub></td><td>极坐标：有心力问题</td></tr>
+  <tr><td>5</td><td><i>a</i> = d<i>v</i>/d<i>t</i> = <i>v</i> d<i>v</i>/d<i>x</i></td><td><b>消去时间的桥梁</b>，F(x) 与 F(v) 题必用</td></tr>
+  <tr><td>6</td><td><i>F</i> = <i>F</i>(<i>t</i>) ⟹ d<i>v</i> = (<i>F</i>/<i>m</i>)d<i>t</i></td><td>力只是时间的函数（周期性推力）</td></tr>
+  <tr><td>7</td><td><i>F</i> = <i>F</i>(<i>x</i>) ⟹ <i>v</i>d<i>v</i> = (<i>F</i>/<i>m</i>)d<i>x</i></td><td>力只是位置的函数（重力、弹簧、万有引力）</td></tr>
+  <tr><td>8</td><td><i>F</i> = <i>F</i>(<i>v</i>) ⟹ d<i>v</i>/<i>F</i>(<i>v</i>) = d<i>t</i>/<i>m</i></td><td>力只是速度的函数（空气阻力、粘性阻尼），分离变量</td></tr>
+  <tr><td>9</td><td><i>F</i> = 常量 ⟹ <i>v</i> = <i>v</i><sub>0</sub>+<i>at</i>，<i>x</i> = <i>v</i><sub>0</sub><i>t</i>+<i>at</i>²/2</td><td>匀加速（近地面重力）</td></tr>
+  <tr><td>10</td><td><i>F</i> = <i>mv</i>²/<i>l</i> + <i>mg</i> cos<i>θ</i></td><td>单摆/圆周运动的绳张力（在角 <i>θ</i> 处）</td></tr>
+  <tr><td>11</td><td><i>F</i> = <i>mg</i>(3 − 2cos<i>θ</i><sub>0</sub>)</td><td>单摆从 <i>θ</i><sub>0</sub> 释放，到最低点时的张力</td></tr>
+  <tr><td>12</td><td><i>N</i> = <i>mg</i>(3cos<i>θ</i> − 2)</td><td>圆柱面上滑下（自顶点起算 <i>θ</i>）</td></tr>
+  <tr><td>13</td><td>cos<i>θ</i> = 2/3 ⟹ <i>θ</i> = 48.2°</td><td><b>脱离点</b>（<i>N</i> = 0），与 <i>m</i>、<i>R</i> 无关</td></tr>
+  <tr><td>14</td><td><i>v</i> = (<i>mg</i>/<i>μ</i>)(1 − e<sup>−<i>μt</i>/<i>m</i></sup>)</td><td>线性阻力 <i>R</i> = −<i>μ</i><i>v</i> 的自由下落</td></tr>
+  <tr><td>15</td><td><i>v</i><sub>∞</sub> = <i>mg</i>/<i>μ</i></td><td>终端速度（阻力与重力平衡）</td></tr>
+  <tr><td>16</td><td><i>x</i> = <i>b</i> cos<i>ωt</i>，<i>y</i> = (<i>v</i><sub>0</sub>/<i>ω</i>)sin<i>ωt</i>，<i>ω</i> = √(<i>k</i>/<i>m</i>)</td><td>有心力 <i>F</i> = −<i>kr</i> 的轨迹（椭圆）</td></tr>
+</table>
+
+<h3>A.2 动量定理与质量流（第 2 部分）</h3>
+<table class="zebra">
+  <tr><th>#</th><th>公式</th><th>什么时候用</th></tr>
+  <tr><td>17</td><td><b>p</b> = <i>m</i><b>v</b>；<b>I</b> = ∫<b>F</b>d<i>t</i></td><td>两个基本定义</td></tr>
+  <tr><td>18</td><td><b>F</b>d<i>t</i> = d(<i>m</i><b>v</b>)</td><td>牛顿第二定律的原始形式</td></tr>
+  <tr><td>19</td><td><b>I</b> = <i>m</i><b>v</b><sub>2</sub> − <i>m</i><b>v</b><sub>1</sub></td><td>碰撞、冲击：力不知道但速度知道</td></tr>
+  <tr><td>20</td><td><i>F̄</i> = Δ<i>p</i>/Δ<i>t</i></td><td>求平均冲力</td></tr>
+  <tr><td>21</td><td>Σ<b>F</b><sup>外</sup> = d<b>P</b>/d<i>t</i>；Σ<b>I</b><sup>外</sup> = <b>P</b><sub>2</sub>−<b>P</b><sub>1</sub></td><td>质点系：内力自动消掉（整体法依据）</td></tr>
+  <tr><td>22</td><td>Σ<b>F</b><sup>外</sup> = 0 ⟹ <b>P</b> = 常矢量</td><td>动量守恒（反冲、爆炸、碰撞）</td></tr>
+  <tr><td>23</td><td><i>M</i><b>a</b><sub>C</sub> = Σ<b>F</b><sup>外</sup></td><td>质心运动定理（问"整体移动多少"）</td></tr>
+  <tr><td>24</td><td><i>s</i> = <i>mL</i>/(<i>m</i>+<i>M</i>)</td><td>人走船退：系统内相对位移的分配</td></tr>
+  <tr><td>25</td><td>Σ<b>F</b> = <i>q</i><sub>m</sub>(<b>v</b><sub>2</sub>−<b>v</b><sub>1</sub>)</td><td>定常质量流（弯管、喷嘴、叶片）</td></tr>
+  <tr><td>26</td><td><i>q</i><sub>m</sub> = <i>ρAv</i></td><td>质量流量（<b>不是</b>体积流量）</td></tr>
+  <tr><td>27</td><td><i>F</i> = <i>ρAv</i>²（固定板）；<i>F</i> = <i>ρA</i>(<i>v</i>−<i>u</i>)²（移动板）</td><td>射流冲击：<b>必须用相对速度</b></td></tr>
+  <tr><td>28</td><td><i>P</i> = <i>ρA</i>(<i>v</i>−<i>u</i>)²<i>u</i>，<i>u</i> = <i>v</i>/3 时最大</td><td>水轮机/冲击式叶轮的设计</td></tr>
+  <tr><td>29</td><td><i>m</i>d<b>v</b> = <b>u</b>d<i>m</i></td><td>火箭方程（变质量，微分形式）</td></tr>
+  <tr><td>30</td><td><i>v</i> = <i>u</i> ln(<i>m</i><sub>0</sub>/<i>m</i>)</td><td>齐奥尔科夫斯基公式（自由空间）</td></tr>
+  <tr><td>31</td><td><i>F</i> = 3<i>λyg</i></td><td>链条落到秤盘上（静重 + 动量流）</td></tr>
+</table>
+
+<h3>A.3 动量矩定理（第 3 部分）</h3>
+<table class="zebra">
+  <tr><th>#</th><th>公式</th><th>什么时候用</th></tr>
+  <tr><td>32</td><td><b>L</b><sub>O</sub> = <b>r</b> × <i>m</i><b>v</b>，<i>L</i><sub>O</sub> = <i>mvd</i></td><td>动量矩定义（<i>d</i> = 力臂）</td></tr>
+  <tr><td>33</td><td><i>L</i><sub>z</sub> = (<b>r</b> × <i>m</i><b>v</b>)<sub>z</sub> = <i>mv</i><sub>xy</sub><i>d</i><sub>xy</sub></td><td>对轴取矩：只用垂直分量</td></tr>
+  <tr><td>34</td><td>d<b>L</b><sub>O</sub>/d<i>t</i> = <b>M</b><sub>O</sub></td><td>质点动量矩定理</td></tr>
+  <tr><td>35</td><td>d<b>L</b><sub>O</sub>/d<i>t</i> = Σ<b>M</b><sub>O</sub><sup>外</sup></td><td>质点系（内力矩抵消）</td></tr>
+  <tr><td>36</td><td><i>J</i><sub>z</sub><i>ε</i> = <i>M</i><sub>z</sub>；<i>L</i><sub>z</sub> = <i>J</i><sub>z</sub><i>ω</i></td><td>定轴转动（转动版牛顿方程）</td></tr>
+  <tr><td>37</td><td><i>J</i><sub>z</sub> = Σ<i>m</i><sub><i>i</i></sub><i>r</i><sub><i>i</i></sub>² = ∫<i>r</i>²d<i>m</i></td><td>转动惯量定义</td></tr>
+  <tr><td>38</td><td><i>J</i><sub>z</sub> = <i>J</i><sub>C</sub> + <i>md</i>²</td><td>平行轴定理（两轴平行、一根过质心）</td></tr>
+  <tr><td>39</td><td>细杆 <i>ml</i>²/12（中）、<i>ml</i>²/3（端）；圆盘 <i>mR</i>²/2；圆环 <i>mR</i>²；球 2<i>mR</i>²/5</td><td>必背的五个转动惯量</td></tr>
+  <tr><td>40</td><td><i>m</i><b>a</b><sub>C</sub> = Σ<b>F</b>；<i>J</i><sub>C</sub><i>ε</i> = Σ<i>M</i><sub>C</sub></td><td>刚体平面运动（<b>必须对质心取矩</b>）</td></tr>
+  <tr><td>41</td><td><i>a</i><sub>C</sub> = <i>εR</i>，<i>v</i><sub>C</sub> = <i>ωR</i>，<i>s</i> = <i>θR</i></td><td>纯滚动条件（不打滑）</td></tr>
+  <tr><td>42</td><td><i>a</i><sub>C</sub> = (2/3)<i>g</i> sin<i>θ</i>，<i>f</i> = (1/3)<i>mg</i> sin<i>θ</i>，<i>μ</i><sub>min</sub> = (1/3)tan<i>θ</i></td><td>圆盘纯滚下斜面（圆环：<i>a</i> = (1/2)<i>g</i> sin<i>θ</i>）</td></tr>
+</table>
+
+<h2 id="appB">附录 B　符号表（防止抄错）</h2>
+<table class="zebra">
+  <tr><th>符号</th><th>含义</th><th>单位</th><th>易错提醒</th></tr>
+  <tr><td><i>m</i></td><td>质量</td><td>kg</td><td>—</td></tr>
+  <tr><td><b>r</b>，<i>r</i></td><td>位置矢量，或到轴的距离</td><td>m</td><td>转动惯量里的 <i>r</i> 是<b>到轴的距离</b>，不是到原点</td></tr>
+  <tr><td><b>v</b>，<i>v</i></td><td>速度，速率</td><td>m/s</td><td>动量、动量矩都是<b>矢量</b>式</td></tr>
+  <tr><td><b>a</b>，<i>a</i><sub>C</sub></td><td>加速度，质心加速度</td><td>m/s²</td><td>自然坐标下有 <i>a</i><sub>τ</sub>、<i>a</i><sub>n</sub> 两个分量</td></tr>
+  <tr><td><i>ω</i>，<i>ε</i></td><td>角速度，角加速度</td><td>rad/s，rad/s²</td><td><b>必须用弧度</b>，不能用转/分</td></tr>
+  <tr><td><i>ρ</i></td><td>（自然坐标）曲率半径；（流体）密度</td><td>m；kg/m³</td><td><b>同符号两义</b>，看上下文</td></tr>
+  <tr><td><i>q</i><sub>m</sub></td><td>质量流量</td><td>kg/s</td><td>≠ 体积流量 <i>Q</i>（m³/s）</td></tr>
+  <tr><td><i>J</i><sub>z</sub>，<i>J</i><sub>C</sub></td><td>绕 <i>z</i> 轴、绕质心轴的转动惯量</td><td>kg·m²</td><td>平行轴定理只能加、不能随便减</td></tr>
+  <tr><td><b>L</b><sub>O</sub>，<i>L</i><sub>z</sub></td><td>对点、对轴的动量矩</td><td>kg·m²/s</td><td>与"力矩"差一个时间量纲</td></tr>
+  <tr><td><b>M</b><sub>O</sub>，<i>M</i><sub>z</sub></td><td>力矩</td><td>N·m</td><td>本讲义用 <i>M</i> 表示力矩，<b>不是质量</b></td></tr>
+  <tr><td><i>μ</i></td><td>（第 1 部分）阻力系数；（第 3 部分）摩擦因数</td><td>—</td><td><b>同符号两义</b>，看上下文</td></tr>
+  <tr><td><i>λ</i></td><td>线密度</td><td>kg/m</td><td>链条题用它</td></tr>
+  <tr><td><i>d</i></td><td>力臂；或两轴距离</td><td>m</td><td>两个用法都要熟</td></tr>
+</table>
+
+<h2 id="appC">附录 C　三部分对照速查 · 复习顺序</h2>
+
+<p><b>C.1 一张表看清三个定理的分工</b></p>
+<table class="zebra">
+  <tr><th>你被问的是…</th><th>用哪个定理</th><th>方程</th></tr>
+  <tr><td>某一时刻的力/加速度</td><td>牛顿方程</td><td><b>m a</b> = Σ<b>F</b></td></tr>
+  <tr><td>一段时间后的速度（力不知道）</td><td>动量定理</td><td><b>I</b> = Δ<i>m</i><b>v</b></td></tr>
+  <tr><td>整个系统往哪儿走</td><td>质心运动定理 / 动量守恒</td><td><i>M</i><b>a</b><sub>C</sub> = Σ<b>F</b><sup>外</sup></td></tr>
+  <tr><td>流体冲击/弯管的力</td><td>定常质量流</td><td>Σ<b>F</b> = <i>q</i><sub>m</sub>Δ<b>v</b></td></tr>
+  <tr><td>绕轴转动的角加速度</td><td>定轴转动微分方程</td><td><i>J</i><sub>z</sub><i>ε</i> = <i>M</i><sub>z</sub></td></tr>
+  <tr><td>既平动又转动（滚动）</td><td>平面运动两组方程</td><td><i>m</i><b>a</b><sub>C</sub>=Σ<b>F</b>；<i>J</i><sub>C</sub><i>ε</i>=Σ<i>M</i><sub>C</sub></td></tr>
+  <tr><td>转得更快/更慢（无力矩）</td><td>动量矩守恒</td><td><i>J</i><sub>1</sub><i>ω</i><sub>1</sub> = <i>J</i><sub>2</sub><i>ω</i><sub>2</sub></td></tr>
+</table>
+
+<p><b>C.2 解题的五步固定动作（三部分通用）</b></p>
+<div class="box tip">
+  <b>① 判类型</b>——问的是"这一刻"还是"一段过程"？是平动、转动，还是两者都有？<br>
+  <b>② 取系统</b>——单个质点？整个质点系？还是一块控制体？<b>这一步决定内力是否出现。</b><br>
+  <b>③ 选坐标/取矩点</b>——直角、自然、极坐标选一个；取矩点优先选<b>力最多穿过的那一点</b>（力矩为零）。<br>
+  <b>④ 列方程</b>——写清正方向，标好每个量的符号，<b>未知量个数要等于方程个数</b>。<br>
+  <b>⑤ 回代与检验</b>——量纲对不对？极限情况（<i>θ</i>→0、<i>μ</i>→0、<i>J</i>→0）合不合理？
+</div>
+
+<p><b>C.3 七天复习顺序（如果只剩一周）</b></p>
+<table class="zebra">
+  <tr><th>天数</th><th>内容</th><th>目标</th></tr>
+  <tr><td>第 1 天</td><td>第 1 部分 1.1–1.4（两类问题、三定律、三种坐标、三类积分）</td><td>能把任意一道题的方程写出来</td></tr>
+  <tr><td>第 2 天</td><td>第 1 部分 1.5–1.8（单摆、圆柱面、阻力、有心力）</td><td>四个典型模型的结论能默写</td></tr>
+  <tr><td>第 3 天</td><td>第 2 部分 2.1–2.4（动量、质点系、质心）</td><td>会判断"守恒不守恒"</td></tr>
+  <tr><td>第 4 天</td><td>第 2 部分 2.5–2.7（质量流、射流、火箭）</td><td>弯管与射流题能独立算对</td></tr>
+  <tr><td>第 5 天</td><td>第 3 部分 3.1–3.3（动量矩、定轴转动、转动惯量）</td><td>会算 <i>J</i>，会用 <i>J</i><sub>z</sub><i>ε</i>=<i>M</i><sub>z</sub></td></tr>
+  <tr><td>第 6 天</td><td>第 3 部分 3.4（平面运动、纯滚动）</td><td>纯滚动题能列出三个方程</td></tr>
+  <tr><td>第 7 天</td><td>附录 A 全表 + 三部分自测题</td><td>公式不看书能写，自测能全答</td></tr>
+</table>
+
+<div class="box exam">
+  <b>最后提醒三句（比任何公式都重要）：</b>
+  <br>① <b>矢量式必须写成分量式</b>——三部分的所有错误里，一半以上来自"直接拿大小相减"。
+  <br>② <b>先取系统，再列方程</b>——系统取错，内力就会混进来，题目必然做不下去。
+  <br>③ <b>每一步都写清楚"为什么"</b>——考试给分看的是步骤，不是最后的数字。
+</div>
+
+</body>
+</html>
