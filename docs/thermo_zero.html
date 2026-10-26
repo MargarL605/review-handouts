@@ -132,6 +132,8 @@ h4 { color: #146c66; }
 .why { border: 1px solid #cfe8e3; background: #f4fbf9; border-radius: 5px; padding: 8px 11px; margin: 8px 0; page-break-inside: avoid; }
 .why > .wt { display: block; font-weight: bold; color: #0f766e; margin-bottom: 3px; }
 .why > .wt::before { content: "为什么 · "; color: #94a3a0; font-weight: normal; }
+/* 少数 .why 不是"为什么"（读法建议、小结、附录用法），用 plain 抑制前缀 */
+.why.plain > .wt::before { content: ""; }
 
 /* ---------- 二、类比 / 直觉 ---------- */
 .analogy { border-left: 4px solid #a855f7; background: #faf5ff; border-radius: 4px; padding: 7px 10px; margin: 8px 0; page-break-inside: avoid; }
@@ -156,6 +158,12 @@ body { counter-reset: fmln; }
 /* ---------- 四、三级例题 ---------- */
 .lv { border: 1px solid #dbe6e4; border-radius: 5px; padding: 7px 10px; margin: 9px 0; page-break-inside: avoid; background: #fdfefe; }
 .lv > .lt { font-weight: bold; margin-bottom: 4px; color: #0b4a45; }
+/* 例题标题行：直接作为 .lv 第一个子元素的 .tagx（早期讲义用这种写法） */
+.lv > .tagx { display: block; font-size: 9.6pt; font-weight: bold; color: #0b4a45;
+              margin: 0 0 6px 0; padding: 0 0 4px 0; border-bottom: 1px dashed #cfe0dc; }
+.lv.l1 > .tagx { color: #15803d; }
+.lv.l2 > .tagx { color: #b45309; }
+.lv.l3 > .tagx { color: #b91c1c; }
 .lv > .lt .tagx { display: inline-block; font-size: 8.6pt; border-radius: 3px; padding: 0 6px; margin-right: 5px; color: #fff; background: #16a34a; vertical-align: 1px; }
 .lv.l1 { border-left: 4px solid #16a34a; }   .lv.l1 > .lt .tagx { background: #16a34a; }
 .lv.l2 { border-left: 4px solid #2563eb; }   .lv.l2 > .lt .tagx { background: #2563eb; }
@@ -196,6 +204,11 @@ figcaption .src { color: #9aa3a0; }
   .lv, .derive, .why, .analogy, .myth, figure { break-inside: avoid; }
   h1.ch { break-before: page; }
   .cover + .toc + h1.ch { break-before: auto; }
+}
+
+/* 网页阅读时给正文一点左右留白（打印由 @page margin 负责，不受影响） */
+@media screen {
+  body { padding: 0 18px 40px 18px; }
 }
 
 </style>
@@ -375,7 +388,7 @@ figcaption .src { color: #9aa3a0; }
 <h2>1.2 状态与状态参数：给一团工质"拍一张身份证"</h2>
 
 <div class="why">
-  <span class="wt">为什么需要"状态参数"？</span>
+  <span class="wt">需要"状态参数"？</span>
   因为热力学只关心"宏观上这团东西现在怎么样"，而不关心每个分子怎么飞。
   一团 1 kg 空气，在 300 K、100 kPa 下，不管里面分子怎么乱撞，只要这三个数字确定，它的内能 <i>u</i>、熵 <i>s</i>、比容 <i>v</i> 就全都确定了。
   换句话说：<b>少数几个可测量的量，就能把整团工质的状态"锁死"</b>。这几个量就叫状态参数。
@@ -526,7 +539,7 @@ figcaption .src { color: #9aa3a0; }
 <h2>1.3 平衡状态与状态公理：为什么"两个参数就够了"</h2>
 
 <div class="why">
-  <span class="wt">为什么非要"平衡"？</span>
+  <span class="wt">非要"平衡"？</span>
   前面说"给定状态，参数唯一确定"，这句话只有在<b>平衡状态</b>下才成立。
   如果气缸里一半 500 ℃、一半 20 ℃，你根本无法回答"这团气体的温度是多少"——因为它没有<b>一个</b>温度。
   所以"平衡"不是一个可有可无的假设，它是"状态参数存在"的前提。而"参数有几个是独立的"，则由状态公理给出。
@@ -581,7 +594,7 @@ figcaption .src { color: #9aa3a0; }
 <h2>1.4 准静态过程与可逆过程：把"变化"变成能积分的曲线</h2>
 
 <div class="why">
-  <span class="wt">为什么非要有"准静态"这个奇怪的东西？</span>
+  <span class="wt">非要有"准静态"这个奇怪的东西？</span>
   因为如果活塞一下子被抽掉，气体瞬间乱成一团，中间每个时刻的 <i>p</i>、<i>T</i> 到底是多少？没人知道，也画不出来。
   那么功 <i>w</i>=∫<i>p</i>d<i>v</i> 就没法算。工程上必须想个办法，让过程"慢到每一刻都近似平衡"，这样每一刻都能用状态参数描述，曲线才画得出来、才积得了分。
   <b>准静态不是物理上必须的，而是数学上必须的。</b>
@@ -914,7 +927,7 @@ figcaption .src { color: #9aa3a0; }
 <h2>2.2 比热容：算热量必须先有它</h2>
 
 <div class="why">
-  <span class="wt">为什么不能直接用 <i>q</i> = <i>cm</i>Δ<i>t</i>？</span>
+  <span class="wt">不能直接用 <i>q</i> = <i>cm</i>Δ<i>t</i>？</span>
   中学的 <i>Q</i>=<i>cm</i>Δ<i>t</i> 在热力学里不够用，因为它默认"加热方式只有一种"。可现实中同样是升温 1 K，<b>定容加热</b>和<b>定压加热</b>需要的热量不一样——定压时气体还要顶开活塞对外做功。
   所以必须定义两个比热：<i>c<sub>v</sub></i> 和 <i>c<sub>p</sub></i>。这就是这一节的全部动机。
 </div>
@@ -1054,7 +1067,7 @@ figcaption .src { color: #9aa3a0; }
 <h2>2.4 理想气体混合物：空气就是混合物</h2>
 
 <div class="why">
-  <span class="wt">为什么不直接用"空气"这一种气体？</span>
+  <span class="wt">不直接用"空气"这一种气体？</span>
   因为空气是 N<sub>2</sub>、O<sub>2</sub>、Ar、CO<sub>2</sub> 的混合物，它的 <i>R</i>、<i>c<sub>p</sub></i>、<i>c<sub>v</sub></i> 都是由各组分"按比例平均"出来的。工程上还常遇到烟气、燃气、湿空气（第 8 章），全是混合物。
   更实际的原因是：<b>题目常常给出各组分，要求你算出混合物的气体常数和比热</b>——这是必考题型。
 </div>
@@ -1547,7 +1560,7 @@ figcaption .src { color: #9aa3a0; }
 <h2>4.3 多变过程：一条公式收编全部</h2>
 
 <div class="why">
-  <span class="wt">为什么要有"多变"？</span>
+  <span class="wt">要有"多变"？</span>
   因为真实机器里的压缩、膨胀<b>既不是等温也不是绝热</b>——有散热但不充分，有摩擦但不剧烈。真实过程夹在"定温"和"定熵"之间。
   工程师想：能不能用一个"可调"的指数 <i>n</i> 来统一描述？<b>能</b>。令 <i>pv<sup>n</sup></i> = 常数，<i>n</i> 取 0 就是定压、取 1 就是定温、取 <i>κ</i> 就是定熵、取 ±∞ 就是定容。
   <b>一条式子把四种情况全包了，这就是多变过程的威力。</b>

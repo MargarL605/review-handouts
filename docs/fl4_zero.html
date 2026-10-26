@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>流体力学A2 第4章 零基础精讲（流动阻力和能量损失）</title>
+<style>
+/* ===================================================================
+   复习讲义 公共样式表  (review/shared/handout.css)
+   A4 打印友好 · 简洁明了 · 与所有讲义共用，保证风格统一
+   =================================================================== */
+@page { size: A4; margin: 14mm 13mm 12mm 13mm; }
+
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  font-size: 10.2pt;
+  line-height: 1.62;
+  color: #1b1b1b;
+  background: #fff;
+}
+p { margin: 0.38em 0; text-align: justify; }
+strong { color: #0b3d69; }
+em { font-style: normal; color: #b4451f; }
+
+/* ---------------- 封面 ---------------- */
+.cover { border: 2px solid #0b4f8a; border-radius: 6px; padding: 16px 18px; margin-bottom: 14px; }
+.cover .kicker { font-size: 9.5pt; letter-spacing: 2px; color: #0b4f8a; font-weight: bold; }
+.cover h1 { font-size: 21pt; margin: 4px 0 6px 0; color: #0b3d69; border: none; background: none; padding: 0; }
+.cover .sub { font-size: 10.5pt; color: #444; }
+.cover .meta { margin-top: 8px; font-size: 9.2pt; color: #666; border-top: 1px dashed #b9cfe2; padding-top: 6px; }
+
+/* ---------------- 标题层级 ---------------- */
+h1 { font-size: 15pt; color: #fff; background: #0b4f8a; margin: 14px 0 8px 0; padding: 6px 12px; border-radius: 3px; line-height: 1.35; }
+h2 { font-size: 12.8pt; color: #0b4f8a; margin: 13px 0 5px 0; padding: 3px 0 3px 9px; border-left: 5px solid #0b4f8a; background: #eef4fa; }
+h3 { font-size: 11pt; color: #0a3f6e; margin: 10px 0 4px 0; padding-bottom: 1px; border-bottom: 1.5px solid #c3d8ea; }
+h4 { font-size: 10.3pt; color: #14507f; margin: 8px 0 3px 0; }
+.lead { color: #555; font-size: 9.3pt; margin: -2px 0 7px 0; }
+
+/* ---------------- 提示盒 ---------------- */
+.box { border-radius: 4px; padding: 6px 10px; margin: 7px 0; page-break-inside: avoid; }
+.box > .bt { display: block; font-weight: bold; margin-bottom: 2px; }
+.key  { background: #eef4fa; border-left: 4px solid #0b4f8a; } .key > .bt  { color: #0b4f8a; }
+.def  { background: #f3f9f1; border-left: 4px solid #3d8b40; } .def > .bt  { color: #2e6b31; }
+.warn { background: #fdf2ee; border-left: 4px solid #c0492b; } .warn > .bt { color: #a83c21; }
+.exam { background: #fffaf0; border-left: 4px solid #c8912a; } .exam > .bt { color: #8f6410; }
+.note { background: #f6f6f6; border-left: 4px solid #999; }    .note > .bt { color: #555; }
+
+/* ---------------- 公式 ---------------- */
+.fml {
+  font-family: "Cambria Math", "Times New Roman", "Microsoft YaHei", serif;
+  background: #fbfbfb; border: 1px solid #e2e2e2; border-radius: 3px;
+  padding: 5px 10px; margin: 6px 0; text-align: center; font-size: 11pt;
+  page-break-inside: avoid;
+}
+.fml.left { text-align: left; }
+.fml .tag { float: right; color: #888; font-size: 9pt; }
+i, var { font-family: "Cambria Math", "Times New Roman", serif; font-style: italic; }
+sub, sup { font-size: 0.72em; }
+
+/* ---------------- 表格 ---------------- */
+table { border-collapse: collapse; width: 100%; margin: 7px 0; font-size: 9.4pt; page-break-inside: avoid; }
+th, td { border: 1px solid #c8d6e2; padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: #e8f1f9; color: #0b3d69; font-weight: bold; }
+tr:nth-child(even) td { background: #fafcfe; }
+td.c, th.c { text-align: center; }
+
+/* ---------------- 例题 / 习题 ---------------- */
+.prob { border: 1px solid #d9e6f2; border-left: 4px solid #4a90c4; border-radius: 4px; padding: 7px 10px; margin: 9px 0; page-break-inside: avoid; background: #fcfdff; }
+.prob > .pt { font-weight: bold; color: #0b4f8a; margin-bottom: 3px; }
+.prob .q { margin: 3px 0; }
+.prob .sol { margin-top: 4px; }
+.prob .ans { background: #fff6d9; border-radius: 3px; padding: 3px 7px; margin-top: 4px; font-weight: bold; color: #8a5a00; }
+ol, ul { margin: 4px 0 4px 1.5em; padding: 0; }
+li { margin: 2px 0; }
+.step { margin-left: 1.1em; }
+
+/* ---------------- 图片 ---------------- */
+figure { margin: 8px 0; text-align: center; page-break-inside: avoid; }
+figure img { max-width: 100%; border: 1px solid #dcdcdc; border-radius: 3px; }
+figcaption { font-size: 8.8pt; color: #666; margin-top: 3px; }
+
+/* ---------------- 其他 ---------------- */
+.pagebreak { page-break-before: always; }
+.toc { background: #f7fafd; border: 1px solid #d9e6f2; border-radius: 4px; padding: 8px 12px; margin: 8px 0 12px 0; }
+.toc ol { margin-left: 1.2em; }
+.toc a { color: #0b3d69; text-decoration: none; }
+.badge { display: inline-block; background: #0b4f8a; color: #fff; border-radius: 3px; padding: 0 6px; font-size: 8.8pt; margin-right: 4px; }
+.badge.g { background: #3d8b40; } .badge.o { background: #c8912a; } .badge.r { background: #c0492b; }
+hr { border: none; border-top: 1px dashed #c3d8ea; margin: 12px 0; }
+
+/* ---- extra styles for fl4_zero ---- */
+/* ===================================================================
+   handout-zero.css —「工程热力学 零基础精讲」专用样式
+   在 handout.css 之上叠加：把「为什么」「一步一推」「错觉警告」等
+   教学组件讲清楚，并给公式链自动编号，便于正文引用。
+   =================================================================== */
+
+/* ---------- 封面 ---------- */
+.cover.hero { border: 2px solid #0f766e; }
+.cover.hero .kicker { color: #0f766e; }
+.cover.hero h1 { color: #0b4a45; }
+.cover.hero .meta { border-top-color: #b6dcd6; }
+.cover .howto { margin-top: 9px; background: #f2faf8; border: 1px solid #cfe8e3; border-radius: 4px; padding: 7px 10px; font-size: 9.3pt; }
+.cover .howto b { color: #0f766e; }
+
+/* ---------- 章节大标题 ---------- */
+h1.ch { background: #0f766e; }
+h2 { border-left-color: #0f766e; background: #eef8f6; color: #0b4a45; }
+h3 { border-bottom-color: #bfe0db; color: #0d5f59; }
+h4 { color: #146c66; }
+
+/* ---------- 通用提示盒（handout.css 里只定义了 .box.def / .box.key，这里补齐） ---------- */
+.def, .key, .warn, .exam, .note {
+  border-radius: 4px; padding: 6px 10px; margin: 7px 0; page-break-inside: avoid;
+}
+.def  { background: #f3f9f1; border-left: 4px solid #3d8b40; }
+.key  { background: #eef8f6; border-left: 4px solid #0f766e; }
+.warn { background: #fdf2ee; border-left: 4px solid #c0492b; }
+.exam { background: #fffaf0; border-left: 4px solid #c8912a; }
+.note { background: #f6f6f6; border-left: 4px solid #999; }
+.def > p:first-child, .key > p:first-child { margin-top: 0; }
+.def > p:last-child, .key > p:last-child { margin-bottom: 0; }
+.def > b:first-child, .key > b:first-child { display: block; color: #2e6b31; font-weight: bold; margin-bottom: 2px; }
+.key > b:first-child { color: #0b4a45; }
+.key > .fml, .def > .fml { margin: 4px 0; }
+.key, .def { font-size: 9.9pt; }
+
+/* ---------- 一、为什么要学这个（动机块） ---------- */
+.why { border: 1px solid #cfe8e3; background: #f4fbf9; border-radius: 5px; padding: 8px 11px; margin: 8px 0; page-break-inside: avoid; }
+.why > .wt { display: block; font-weight: bold; color: #0f766e; margin-bottom: 3px; }
+.why > .wt::before { content: "为什么 · "; color: #94a3a0; font-weight: normal; }
+/* 少数 .why 不是"为什么"（读法建议、小结、附录用法），用 plain 抑制前缀 */
+.why.plain > .wt::before { content: ""; }
+
+/* ---------- 二、类比 / 直觉 ---------- */
+.analogy { border-left: 4px solid #a855f7; background: #faf5ff; border-radius: 4px; padding: 7px 10px; margin: 8px 0; page-break-inside: avoid; }
+.analogy > .at { display: block; font-weight: bold; color: #7c3aed; margin-bottom: 2px; }
+.analogy > .at::before { content: "打个比方 · "; color: #b088e0; font-weight: normal; }
+
+/* ---------- 三、一步一推（推导链） ---------- */
+.derive { margin: 8px 0; border: 1px solid #dfe8e6; border-left: 4px solid #0f766e; border-radius: 5px; page-break-inside: avoid; background: #fcfefd; }
+.derive > .dt { background: #eef8f6; color: #0b4a45; font-weight: bold; padding: 4px 10px; border-bottom: 1px solid #dfe8e6; font-size: 9.6pt; border-radius: 5px 5px 0 0; }
+.derive ol { margin: 6px 10px 8px 2.4em; }
+.derive li { margin: 4px 0; }
+.derive li .r { color: #6b7280; font-size: 8.9pt; display: block; margin-top: 1px; }
+
+/* 公式加粗版（自带编号） */
+.fml { border-left: 4px solid #0f766e; background: #fbfdfd; text-align: left; position: relative; padding-right: 12px; }
+.fml.numb { padding-right: 46px; }
+.fml .tag { position: absolute; right: 8px; top: 5px; }
+.fml.numb { counter-increment: fmln; }
+.fml.numb::after { content: "(" counter(fmln) ")"; position: absolute; right: 8px; top: 5px; color: #8a9490; font-size: 9pt; font-family: "Times New Roman", serif; }
+body { counter-reset: fmln; }
+
+/* ---------- 四、三级例题 ---------- */
+.lv { border: 1px solid #dbe6e4; border-radius: 5px; padding: 7px 10px; margin: 9px 0; page-break-inside: avoid; background: #fdfefe; }
+.lv > .lt { font-weight: bold; margin-bottom: 4px; color: #0b4a45; }
+/* 例题标题行：直接作为 .lv 第一个子元素的 .tagx（早期讲义用这种写法） */
+.lv > .tagx { display: block; font-size: 9.6pt; font-weight: bold; color: #0b4a45;
+              margin: 0 0 6px 0; padding: 0 0 4px 0; border-bottom: 1px dashed #cfe0dc; }
+.lv.l1 > .tagx { color: #15803d; }
+.lv.l2 > .tagx { color: #b45309; }
+.lv.l3 > .tagx { color: #b91c1c; }
+.lv > .lt .tagx { display: inline-block; font-size: 8.6pt; border-radius: 3px; padding: 0 6px; margin-right: 5px; color: #fff; background: #16a34a; vertical-align: 1px; }
+.lv.l1 { border-left: 4px solid #16a34a; }   .lv.l1 > .lt .tagx { background: #16a34a; }
+.lv.l2 { border-left: 4px solid #2563eb; }   .lv.l2 > .lt .tagx { background: #2563eb; }
+.lv.l3 { border-left: 4px solid #b91c1c; }   .lv.l3 > .lt .tagx { background: #b91c1c; }
+.lv .q { margin: 3px 0; }
+.lv .hint { color: #6b7280; font-size: 8.9pt; }
+.lv .ans { background: #f0fdf4; border-left: 3px solid #16a34a; border-radius: 3px; padding: 4px 8px; margin-top: 5px; }
+
+/* ---------- 五、术语表 / 对照表 ---------- */
+table.tight td, table.tight th { padding: 3px 5px; font-size: 9pt; }
+table.zebra th { background: #e7f5f2; color: #0b4a45; }
+td.f { font-family: "Cambria Math", "Times New Roman", serif; font-style: italic; }
+
+/* ---------- 六、图 ---------- */
+figure.tb { margin: 9px 0; text-align: center; page-break-inside: avoid; }
+figure.tb img { max-width: 96%; }
+figure.tb figcaption { font-size: 8.8pt; color: #555; margin-top: 2px; }
+figure.tb figcaption b { color: #0f766e; }
+figure svg { max-width: 100%; height: auto; }
+figcaption .src { color: #9aa3a0; }
+
+/* ---------- 七、易错 & 自测 ---------- */
+.myth { border: 1px solid #f0c9bd; background: #fff7f4; border-radius: 5px; padding: 7px 10px; margin: 8px 0; page-break-inside: avoid; }
+.myth > .mt { display: block; font-weight: bold; color: #b91c1c; margin-bottom: 2px; }
+.myth .no { color: #b91c1c; font-weight: bold; }
+.myth .yes { color: #15803d; font-weight: bold; }
+
+.check { border-top: 2px solid #0f766e; margin: 12px 0 6px 0; padding-top: 6px; page-break-inside: avoid; }
+.check > .ct { font-weight: bold; color: #0b4a45; margin-bottom: 3px; }
+.check ol { margin-left: 1.6em; }
+.check .a { color: #6b7280; }
+
+/* ---------- 八、符号速查 ---------- */
+.sym { display: inline-block; border: 1px solid #cfe8e3; background: #f4fbf9; border-radius: 3px; padding: 0 5px; margin: 0 2px; font-size: 9pt; }
+
+/* ---------- 打印微调 ---------- */
+@media print {
+  .lv, .derive, .why, .analogy, .myth, figure { break-inside: avoid; }
+  h1.ch { break-before: page; }
+  .cover + .toc + h1.ch { break-before: auto; }
+}
+
+/* 网页阅读时给正文一点左右留白（打印由 @page margin 负责，不受影响） */
+@media screen {
+  body { padding: 0 18px 40px 18px; }
+}
+
+</style>
+</head>
+<body>
+<div class="cover hero">
+  <div class="kicker">流体力学 A2 · 第 4 章 · 零基础精讲</div>
+  <h1>流动阻力和能量损失：从"水头到底丢在哪"讲到 λ 与 ζ 怎么算</h1>
+  <div class="sub">沿程损失与局部损失 · 层流与湍流 · 圆管层流 · 湍流阻力 · 尼古拉兹实验 · 工业管道 λ · 非圆管 · 局部损失</div>
+  <div class="meta">
+    依据：《流体力学A2 第4章 流动阻力和能量损失（完）》125 页课件（航空航天与力学学院 程泽鹏，2026 年 10 月）<br>
+    适用：完全没有基础、希望从零学明白"为什么会有阻力损失、这两个系数怎么求"的同学
+  </div>
+  <div class="howto">
+    <b>怎么读这份讲义。</b>第 3 章你学会了用伯努利方程算"理想流体"的压强和速度，但真实流体总会掉水头——
+    本章就是把伯努利方程里那个一直被你当成 0 的 <i>h<sub>w</sub></i> 拆开、算出来。全章只有两个待定系数：
+    <b>沿程阻力系数 λ</b> 和 <b>局部阻力系数 ζ</b>。所有推导、所有实验、所有经验公式，都是在回答"λ 和 ζ 等于多少"。
+    每节都按同一个节奏展开：<b>先讲为什么</b>（这一节要解决什么麻烦）→ <b>再讲怎么来的</b>（公式一步一推，不跳步）→
+    <b>然后给生活类比</b>（把公式变成能记住的画面）→ <b>最后三级例题</b>（看懂 → 模仿 → 应考）。
+  </div>
+</div>
+
+<div class="toc">
+  <b>目录</b>
+  <ol>
+    <li><a href="#c0">读前须知：这一章到底在算什么</a></li>
+    <li><a href="#c1">4.1 沿程损失和局部损失——先把账分成两笔</a></li>
+    <li><a href="#c2">4.2 层流与湍流、雷诺数——流态决定了后面的一切</a></li>
+    <li><a href="#c3">4.3 圆管中的层流运动——唯一能严格解出来的情形</a></li>
+    <li><a href="#c4">4.4 湍流运动的特征和湍流阻力——为什么湍流阻力大得多</a></li>
+    <li><a href="#c5">4.5 尼古拉兹实验——λ 到底跟什么有关</a></li>
+    <li><a href="#c6">4.6 工业管道湍流沿程阻力系数的计算——工程上真正用的公式</a></li>
+    <li><a href="#c7">4.7 非圆管的沿程损失——风管、环管怎么办</a></li>
+    <li><a href="#c8">4.8 管道流动的局部损失——弯头、突扩、阀门</a></li>
+    <li><a href="#app">附录：公式总表 · 符号表 · 解题流程与作业清单</a></li>
+  </ol>
+</div>
+
+<h1 class="ch" id="c0">读前须知：这一章到底在算什么</h1>
+
+<div class="why">
+  <span class="wt">先讲这个：</span>如果不先搞清楚"这一章在算什么"，后面八个小节会像八块互不相干的碎片。
+  其实整章只做一件事——<b>把伯努利方程里那个被忽略的 h<sub>w</sub> 算出来</b>。
+</div>
+
+<p>回忆第 3 章的恒定总流能量方程（实际流体）：</p>
+
+<div class="fml">
+  <i>z</i><sub>1</sub> + <i>p</i><sub>1</sub>/(<i>ρg</i>) + <i>α</i><sub>1</sub><i>v</i><sub>1</sub><sup>2</sup>/(2<i>g</i>)
+  = <i>z</i><sub>2</sub> + <i>p</i><sub>2</sub>/(<i>ρg</i>) + <i>α</i><sub>2</sub><i>v</i><sub>2</sub><sup>2</sup>/(2<i>g</i>) + <i>h</i><sub>w</sub>
+</div>
+
+<p>理想流体那一项 <i>h</i><sub>w</sub> = 0，三个水头可以随意互换。可真实流体不行：水从高处流到低处，位置水头明明少了，压强水头却没有相应涨回来——
+中间那一截"不见了"的能量，就是 <b>水头损失 h<sub>w</sub></b>。它不是凭空消失，而是被粘性摩擦和旋涡"磨"成了热，散到流体里去了。</p>
+
+<p>本章要回答三个层层递进的问题：</p>
+
+<table class="zebra">
+  <tr><th>问题</th><th>答案在哪一节</th><th>一句话回答</th></tr>
+  <tr><td>① 这些损失分几类？各自长什么样？</td><td>4.1</td><td>两类：沿程损失（沿管子均匀地磨）+ 局部损失（在弯头阀门处突然撞）</td></tr>
+  <tr><td>② 为什么有的流动"温顺"、有的"暴躁"？</td><td>4.2</td><td>看惯性力和粘性力谁占上风，用雷诺数 Re 判别</td></tr>
+  <tr><td>③ 两类损失具体怎么算？</td><td>4.3–4.8</td><td>层流能严格解出 λ = 64/Re；湍流靠实验和半经验公式；局部损失查 ζ</td></tr>
+</table>
+
+<div class="box tip">
+  <b>全章的"骨架公式"只有三个</b>，其余全是它们的展开：<br>
+  ① <i>h</i><sub>f</sub> = <i>λ</i>(<i>l</i>/<i>d</i>)·<i>v</i><sup>2</sup>/(2<i>g</i>)　（沿程，达西公式）<br>
+  ② <i>h</i><sub>j</sub> = <i>ζ</i>·<i>v</i><sup>2</sup>/(2<i>g</i>)　（局部）<br>
+  ③ <i>h</i><sub>w</sub> = <i>Σh</i><sub>f</sub> + <i>Σh</i><sub>j</sub>　（叠加）<br>
+  所以：<b>把 λ 和 ζ 求出来，这一章就结束了。</b>
+</div>
+
+<div class="why plain">
+  <span class="wt">读法建议（三条）：</span>
+</div>
+
+<p><b>第一条：先把"流态"判出来，再谈 λ。</b>同样的管子、同样的流速，层流和湍流的 λ 可以差好几倍（层流 λ 可能 0.7，湍流只有 0.02）。
+所以每道题的第一步永远是算 Re、判流态——这一步错了，后面全错。</p>
+
+<p><b>第二条：λ 和 ζ 都"跟着一个参考流速"。</b>λ 跟的是管内平均流速 <i>v</i>；ζ 跟的是它自己那个断面的流速（突扩时用 <i>v</i><sub>1</sub> 还是 <i>v</i><sub>2</sub> 结果差 16 倍）。用错参考流速，是局部损失题最常见的扣分点。</p>
+
+<p><b>第三条：算完先做"量纲 + 极限"检查。</b><i>h</i><sub>f</sub> 的单位必须是米；λ、ζ 必须是无量纲数（0.0x 量级）；流速加倍时层流 h<sub>f</sub> 也应加倍、湍流则要涨 1.7~2 倍——对不上就说明代错了。</p>
+
+<p><b>本讲义使用的符号约定</b>（与你课件一致，避免抄错）：</p>
+<p>
+<i>h</i><sub>f</sub> 沿程水头损失（m）；<i>h</i><sub>j</sub> 局部水头损失（m）；<i>h</i><sub>w</sub> 总水头损失（m）；
+<i>p</i><sub>f</sub> 沿程压强损失（Pa）；<i>p</i><sub>j</sub> 局部压强损失（Pa）；<br>
+<i>λ</i> 沿程阻力系数（无量纲）；<i>ζ</i> 局部阻力系数（无量纲）；
+<i>l</i> 管长（m）；<i>d</i> 管径（m）；<i>r</i><sub>0</sub> 管半径（m）；<i>R</i> 水力半径（m）；<i>d</i><sub>e</sub> 当量直径（m）；<br>
+<i>v</i> 断面平均流速（m/s）；<i>u</i> 点流速（m/s）；<i>u</i><sub>max</sub> 管轴最大流速（m/s）；
+<i>Q</i> 流量（m<sup>3</sup>/s）；<i>ν</i> 运动粘度（m<sup>2</sup>/s）；<i>μ</i> 动力粘度（Pa·s）；<br>
+<i>K</i> 绝对粗糙度（m）；<i>K</i>/<i>d</i> 相对粗糙度（无量纲）；<i>J</i> 水力坡度（无量纲）；
+<i>τ</i> 切应力（Pa）；<i>τ</i><sub>0</sub> 壁面切应力（Pa）；<i>α</i> 动能修正系数；<i>β</i> 动量修正系数。
+</p>
+
+<div class="box warn">
+  <b>三个最容易混的记号，先记住：</b><br>
+  · <i>ν</i>（希腊 nu，运动粘度）与 <i>v</i>（字母 v，流速）长得像，但一个是物性、一个是运动学量；<br>
+  · <i>λ</i>（沿程阻力系数，无量纲）与 <i>λ</i>（导热系数/波长）不是一回事，本章专指阻力系数；<br>
+  · <i>K</i>（绝对粗糙度，单位 m）与 <i>K</i>/<i>d</i>（相对粗糙度，无量纲）差一个管径。
+</div>
+
+<h1 class="ch" id="c1">4.1 沿程损失和局部损失——先把账分成两笔</h1>
+
+<div class="why">
+  <span class="wt">这么分：</span>因为两种损失的<b>物理机理完全不同</b>，能用的公式也不同。
+  沿程损失是"一路走一路磨"，局部损失是"在某个位置突然撞一下"。分开记，才能分开算。
+</div>
+
+<h2>4.1.1 沿程损失（friction loss / 长度损失）</h2>
+
+<p><b>定义：</b>发生在<b>渐变流整个流程</b>中的能量损失，由流体的<b>粘滞力</b>造成，也叫长度损失。关键词是"整段"和"均匀"：
+它沿管段均匀分布，与管长成正比。</p>
+
+<div class="fml">
+  <i>h</i><sub>f</sub> = <i>λ</i> · (<i>l</i>/<i>d</i>) · <i>v</i><sup>2</sup>/(2<i>g</i>)　　（水头形式，单位 m）<br>
+  <i>p</i><sub>f</sub> = <i>λ</i> · (<i>l</i>/<i>d</i>) · <i>ρv</i><sup>2</sup>/2　　（压强形式，单位 Pa）
+</div>
+
+<p>式中的量：λ 沿程阻力系数（无量纲）；<i>l</i> 管长；<i>d</i> 管径；<i>v</i> 有效截面上的<b>平均流速</b>。
+注意公式的结构：<b>(l/d) 是个无量纲的"长度倍数"</b>（管子有多少个直径那么长），<b>v²/2g 是流速水头</b>（动能的"头"），
+λ 就是"每经过一个直径长度，就损失掉 λ 倍流速水头"。这就是 λ 的物理含义。</p>
+
+<div class="box tip">
+  <b>打个比方：</b>沿程损失就像长途开车一路的油费——每公里都要烧油，路程越长烧得越多，而且车速越快（v 越大）风阻越大、越费油（v² 出现）。
+  λ 相当于"你这辆车的风阻系数"：车越流线（管越光滑、Re 越小），λ 越小。
+</div>
+
+<h2>4.1.2 局部损失（minor loss）</h2>
+
+<p><b>定义：</b>发生在<b>局部阻碍</b>（弯头、阀门、突扩突缩、三通、进出口）处的能量损失，主要由<b>旋涡</b>造成，集中在很短的一段距离内。</p>
+
+<div class="fml">
+  <i>h</i><sub>j</sub> = <i>ζ</i> · <i>v</i><sup>2</sup>/(2<i>g</i>)　　（水头形式）<br>
+  <i>p</i><sub>j</sub> = <i>ζ</i> · <i>ρv</i><sup>2</sup>/2　　（压强形式，常用于气体）
+</div>
+
+<p><b>总损失</b>就是两类损失沿流程逐个加起来：</p>
+
+<div class="fml">
+  <i>h</i><sub>w</sub> = <i>Σh</i><sub>f</sub> + <i>Σh</i><sub>j</sub>
+  = <i>Σ</i>[<i>λ</i><sub>i</sub>(<i>l</i><sub>i</sub>/<i>d</i><sub>i</sub>)<i>v</i><sub>i</sub><sup>2</sup>/(2<i>g</i>)] + <i>Σ</i>[<i>ζ</i><sub>j</sub><i>v</i><sub>j</sub><sup>2</sup>/(2<i>g</i>)]
+</div>
+
+<p>为什么要"Σ"而不是简单相加？因为<b>不同管段的直径不同、流速也不同</b>，每一项必须用它自己那一段的 <i>v</i><sub>i</sub>。这是串联管路计算最容易错的地方。</p>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 380" width="880" height="380" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="380" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">两类损失：一个沿管长"摊开"，一个在局部"突然掉一下"</text><rect x="20" y="40" width="400" height="300" fill="#fcfdfe" stroke="#0f766e" stroke-width="1.2"  rx="6"/><text x="220" y="60" font-size="12.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(a) 沿程损失 h_f（沿管长均布）</text><rect x="60" y="194" width="320" height="32" fill="#eef7f6" stroke="#0f766e" stroke-width="1.6"  rx="0"/><line x1="60" y1="194" x2="380" y2="194" stroke="#0f766e" stroke-width="2.4"   /><line x1="60" y1="226" x2="380" y2="226" stroke="#0f766e" stroke-width="2.4"   /><line x1="86" y1="194" x2="108" y2="194" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="108" y1="226" x2="86" y2="226" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="132" y1="194" x2="154" y2="194" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="154" y1="226" x2="132" y2="226" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="178" y1="194" x2="200" y2="194" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="200" y1="226" x2="178" y2="226" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="224" y1="194" x2="246" y2="194" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="246" y1="226" x2="224" y2="226" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="270" y1="194" x2="292" y2="194" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="292" y1="226" x2="270" y2="226" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="316" y1="194" x2="338" y2="194" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="338" y1="226" x2="316" y2="226" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="362" y1="194" x2="384" y2="194" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="384" y1="226" x2="362" y2="226" stroke="#b91c1c" stroke-width="1.8"  marker-end="url(#ar)" /><text x="220" y="254" font-size="11" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">τ₀（壁面摩擦，方向与流动相反）</text><line x1="90" y1="210" x2="350" y2="210" stroke="#2563eb" stroke-width="2"  marker-end="url(#ar)" /><text x="100" y="204" font-size="12" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">v</text><line x1="80" y1="194" x2="80" y2="114" stroke="#94a3b8" stroke-width="1.4"   /><line x1="360" y1="194" x2="360" y2="114" stroke="#94a3b8" stroke-width="1.4"   /><line x1="80" y1="114" x2="80" y2="80" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3"  /><line x1="360" y1="114" x2="360" y2="88" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3"  /><text x="86" y="78" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">h₁</text><text x="366" y="86" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">h₂</text><line x1="80" y1="114" x2="360" y2="114" stroke="#b45309" stroke-width="1.2" stroke-dasharray="3 3"  /><line x1="360" y1="114" x2="360" y2="88" stroke="#b45309" stroke-width="1.2"   /><text x="364" y="106" font-size="11.5" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">h_f</text><text x="220" y="330" font-size="11.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">h_f = λ (l/d) v²/2g  ←沿程、与 l 成正比</text><rect x="460" y="40" width="400" height="300" fill="#fcfdfe" stroke="#b91c1c" stroke-width="1.2"  rx="6"/><text x="660" y="60" font-size="12.5" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">(b) 局部损失 h_j（集中在局部阻碍处）</text><rect x="480" y="200" width="120" height="20" fill="#eef7f6" stroke="#0f766e" stroke-width="1.6"  rx="0"/><rect x="600" y="186" width="240" height="48" fill="#eef7f6" stroke="#0f766e" stroke-width="1.6"  rx="0"/><path d="M604,188 q22,16 0,32" fill="none" stroke="#b91c1c" stroke-width="1.8"   /><path d="M604,188 q-14,10 0,20" fill="none" stroke="#b91c1c" stroke-width="1.4" stroke-dasharray="3 2"  /><text x="628" y="180" font-size="11" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">旋涡区</text><line x1="500" y1="210" x2="580" y2="210" stroke="#2563eb" stroke-width="1.8"  marker-end="url(#ar)" /><text x="516" y="204" font-size="11.5" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">v₁</text><line x1="680" y1="210" x2="800" y2="210" stroke="#2563eb" stroke-width="1.8"  marker-end="url(#ar)" /><text x="700" y="204" font-size="11.5" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">v₂</text><line x1="480" y1="120" x2="600" y2="120" stroke="#b45309" stroke-width="1.6" stroke-dasharray="5 3"  /><line x1="600" y1="120" x2="600" y2="146" stroke="#b45309" stroke-width="1.6"   /><line x1="600" y1="146" x2="820" y2="146" stroke="#b45309" stroke-width="1.6" stroke-dasharray="5 3"  /><line x1="600" y1="120" x2="606" y2="120" stroke="#b45309" stroke-width="1.6"   /><text x="612" y="118" font-size="10.5" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">h_j（一次掉一个台阶）</text><text x="660" y="330" font-size="11.5" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">h_j = ζ v²/2g  ←集中在弯头/阀门/突扩处</text><text x="440" y="374" font-size="11.5" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">总损失 h_w = Σh_f + Σh_j；做题第一步永远是"分清哪段是沿程、哪处是局部"</text></svg><figcaption><b>图 4-1</b> 沿程损失沿管段均匀分布、局部损失集中在弯头和阀门处</figcaption></figure>
+
+
+<div class="box warn">
+  <b>两个高频错误：</b><br>
+  ① 把 <i>h</i><sub>f</sub> 里的 <i>v</i> 写成某点的流速（应该用<b>断面平均流速</b>）；<br>
+  · 把 <i>ζ</i> 对应的流速用错断面（突扩用 <i>v</i><sub>1</sub> 还是 <i>v</i><sub>2</sub>，见 4.8）。
+</div>
+
+<h2>4.1.3 例题</h2>
+
+<div class="lv l1">
+  <div class="tagx">例 4-1 · 看懂（把达西公式代一遍）</div>
+  <p class="pt">直径 <i>d</i> = 100 mm 的输水管，长 <i>l</i> = 50 m，管内平均流速 <i>v</i> = 1.2 m/s，沿程阻力系数 <i>λ</i> = 0.025，水的密度 <i>ρ</i> = 1000 kg/m³。求这段管子的沿程水头损失 <i>h</i><sub>f</sub>、沿程压强损失 <i>p</i><sub>f</sub> 和水力坡度 <i>J</i>。</p>
+  <p><b>第 1 步 · 先算流速水头</b>（后面反复用）：</p>
+  <div class="fml"><i>v</i><sup>2</sup>/(2<i>g</i>) = 1.2<sup>2</sup>/(2×9.807) = 1.44/19.613 = 0.07342 m</div>
+  <p><b>第 2 步 · 代达西公式：</b></p>
+  <div class="fml"><i>h</i><sub>f</sub> = 0.025 × (50/0.1) × 0.07342 = 0.025 × 500 × 0.07342 = <b>0.9177 m</b></div>
+  <p><b>第 3 步 · 换成压强：</b></p>
+  <div class="fml"><i>p</i><sub>f</sub> = <i>ρg h</i><sub>f</sub> = 1000 × 9.807 × 0.9177 = <b>9000 Pa</b>（约 9 kPa）</div>
+  <p><b>第 4 步 · 水力坡度</b>（单位长度的损失）：</p>
+  <div class="fml"><i>J</i> = <i>h</i><sub>f</sub>/<i>l</i> = 0.9177/50 = <b>0.01835</b>（即每米掉 18.4 mm 水头）</div>
+  <p class="ans"><b>答：</b><i>h</i><sub>f</sub> = 0.9177 m，<i>p</i><sub>f</sub> = 9000 Pa，<i>J</i> = 0.01835。</p>
+  <p class="hint"><b>这道题的"经验"：</b>0.9 m 水头、9 kPa 压强——记住这个量级。50 米长、10 厘米粗的管子，走 1.2 m/s 的水，掉不到 1 米水头，这就是"普通水管"的正常水平。以后算出 90 m 或 0.09 m，先怀疑单位（<i>d</i> 用了 mm 没换成 m 是最常见的错）。</p>
+</div>
+
+<h1 class="ch" id="c2">4.2 层流与湍流、雷诺数——流态决定了后面的一切</h1>
+
+<div class="why">
+  <span class="wt">这一节最要紧：</span>因为同样的管子、同样的水，只要流态一变，λ 就能从 0.7 掉到 0.02——
+  差 30 多倍。<b>不知道流态，就不知道该用哪套公式</b>。所以本章所有计算题的第一步都是"算 Re、判流态"。
+</div>
+
+<h2>4.2.1 雷诺实验：三种状态，一次看清</h2>
+
+<p>1883 年，雷诺（Reynolds）做了一个今天看来极简单的实验：水箱里插一根玻璃管，管口装一个细针管往水流中心注入染色液，
+用阀门慢慢调节管内流速，观察染色线变成了什么样子。</p>
+
+<ol>
+  <li><b>流速很小时</b>：染色液是一条<b>笔直、清晰、不散</b>的细线——流体一层一层地滑动，各层之间互不掺混。这叫<b>层流</b>（laminar flow）。</li>
+  <li><b>流速加大到某一值</b>：染色线开始<b>抖动、弯曲、时断时续</b>，但整体还看得出轨迹——这是<b>过渡状态</b>。</li>
+  <li><b>流速再加大</b>：染色液一出针管就<b>瞬间散开、充满全管</b>，看不到任何线状结构——流体剧烈掺混、各处做不规则随机运动。这叫<b>湍流</b>（turbulent flow，也叫紊流）。</li>
+</ol>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" width="880" height="470" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="470" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">雷诺实验（1883）：同一条管子，只改流速，三种完全不同的流态</text><rect x="30" y="54" width="120" height="120" fill="#eef7f6" stroke="#0f766e" stroke-width="1.8"  rx="0"/><line x1="30" y1="74" x2="150" y2="74" stroke="#2563eb" stroke-width="1.4"   /><text x="90" y="70" font-size="9.5" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">水箱（恒定水位）</text><rect x="56" y="26" width="46" height="20" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.4"  rx="0"/><text x="79" y="40" font-size="9" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">染色液</text><line x1="79" y1="46" x2="79" y2="92" stroke="#b91c1c" stroke-width="1.2" stroke-dasharray="3 2"  /><rect x="150" y="84" width="190" height="26" fill="#f8fbfd" stroke="#0f766e" stroke-width="1.6"  rx="0"/><line x1="340" y1="96" x2="340" y2="98" stroke="#334155" stroke-width="1.6"   /><line x1="344" y1="84" x2="344" y2="110" stroke="#334155" stroke-width="2"   /><circle cx="344" cy="84" r="3" fill="#334155" stroke="#334155" stroke-width="1.6"/><circle cx="344" cy="110" r="3" fill="#334155" stroke="#334155" stroke-width="1.6"/><text x="344" y="78" font-size="9.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">阀门</text><text x="245" y="130" font-size="9.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">观察段：看染色线"散不散"</text><rect x="400" y="96" width="400" height="34" fill="#f8fbfd" stroke="#334155" stroke-width="1.4"  rx="0"/><line x1="410" y1="113" x2="786" y2="113" stroke="#2563eb" stroke-width="2"   /><line x1="410" y1="105" x2="786" y2="105" stroke="#2563eb" stroke-width="0.9"   opacity="0.35"/><line x1="410" y1="113" x2="786" y2="113" stroke="#2563eb" stroke-width="0.9"   opacity="0.35"/><line x1="410" y1="121" x2="786" y2="121" stroke="#2563eb" stroke-width="0.9"   opacity="0.35"/><text x="400" y="86" font-size="11.5" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">层流</text><text x="452" y="86" font-size="10" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">Re &lt; Re_k</text><text x="400" y="146" font-size="9.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">染色线笔直、分层流动、互不混合</text><rect x="400" y="190" width="400" height="34" fill="#f8fbfd" stroke="#334155" stroke-width="1.4"  rx="0"/><path d="M410,207 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0 q5,7 10,0" fill="none" stroke="#b45309" stroke-width="1.9"   /><text x="400" y="180" font-size="11.5" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">过渡</text><text x="452" y="180" font-size="10" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">Re_k &lt; Re &lt; 4000</text><text x="400" y="240" font-size="9.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">染色线开始摆动、时断时续</text><rect x="400" y="284" width="400" height="34" fill="#f8fbfd" stroke="#334155" stroke-width="1.4"  rx="0"/><path d="M410,301 L780,288 L780,314 Z" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.2"   /><circle cx="430" cy="290" r="2.2" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><circle cx="490" cy="300" r="2.2" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><circle cx="550" cy="310" r="2.2" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><circle cx="610" cy="290" r="2.2" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><circle cx="670" cy="300" r="2.2" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><circle cx="730" cy="310" r="2.2" fill="#b91c1c" stroke="#b91c1c" stroke-width="1.6"/><text x="400" y="274" font-size="11.5" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">湍流</text><text x="452" y="274" font-size="10" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">Re &gt; 4000</text><text x="400" y="334" font-size="9.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">染色线一出管口立刻散开、剧烈掺混</text><rect x="30" y="356" width="820" height="44" fill="#fcfdfe" stroke="#94a3b8" stroke-width="1.2"  rx="6"/><text x="46" y="376" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">流速由小到大：层流 → 过渡 → 湍流（对应的叫上临界流速 v_k1）；再由大到小：湍流 → 层流（下临界流速 v_k2）。</text><text x="46" y="394" font-size="11" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">因为"由乱变整齐"比"由整齐变乱"难，所以 v_k1 &gt; v_k2；工程上统一取下临界值作为判别标准。</text><rect x="30" y="410" width="820" height="50" fill="#d1fae5" stroke="#0f766e" stroke-width="1.4"  rx="6"/><text x="48" y="434" font-size="14.5" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">Re = v d / ν</text><text x="170" y="434" font-size="11.2" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">Re &lt; Re_k（≈2000）→ 层流；   Re &gt; 4000 → 湍流；   中间为过渡区</text><text x="48" y="452" font-size="9.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">（"2000"有的教材取 2300，尼古拉兹图就按 2300 画；考试按老师的口径写，不要混用。）</text></svg><figcaption><b>图 4-2</b> 雷诺实验：流速由小到大，染色线由"一条线"变成"一团雾"</figcaption></figure>
+
+
+<p><b>关键细节（考点）：</b>从层流变湍流时的流速叫<b>上临界流速 v<sub>k1</sub></b>；从湍流退回层流时的流速叫<b>下临界流速 v<sub>k2</sub></b>。
+实验发现 <b>v<sub>k1</sub> &gt; v<sub>k2</sub></b>——两个方向的转变点不重合，这叫"迟滞"。工程上取<b>下临界流速</b>作为判别标准，因为它稳定、可重复。</p>
+
+<div class="box warn">
+  <b>为什么会有迟滞？</b>因为湍流一旦形成，靠自身的脉动就能"自我维持"；要把湍流压回层流，得把扰动彻底压下去，
+  所以需要更低的流速。这跟"推倒一堆积木容易、重新立起来难"是一个道理。
+</div>
+
+<h2>4.2.2 雷诺数：把"惯性 vs 粘性"的竞争写成一个数</h2>
+
+<p>实验还发现：临界流速并不是一个固定的数，它跟管径 <i>d</i>、流体粘度 <i>ν</i> 都有关系——管子越粗、流体越粘，越不容易乱。
+把这三者组合起来，就得到<b>雷诺数</b>：</p>
+
+<div class="fml">
+  <i>Re</i> = <i>v d</i> / <i>ν</i> = <i>ρ v d</i> / <i>μ</i>　　（无量纲）
+</div>
+
+<p><b>它的物理意义</b>：由量纲分析可知，<i>Re</i> 正比于<b>惯性力与粘性力之比</b>。</p>
+
+<div class="fml">
+  惯性力 ~ <i>ρ v</i><sup>2</sup> <i>d</i><sup>2</sup>；　粘性力 ~ <i>μ v d</i>；　比值 ~ <i>ρ v d</i>/<i>μ</i> = <i>Re</i>
+</div>
+
+<p>所以 Re 的含义非常直观：</p>
+
+<table class="zebra">
+  <tr><th>Re 的大小</th><th>谁占上风</th><th>流动表现</th><th>流态</th></tr>
+  <tr><td>小</td><td>粘性力</td><td>粘性把扰动"抹平"，各层乖乖排队</td><td>层流</td></tr>
+  <tr><td>大</td><td>惯性力</td><td>一点扰动就被放大成旋涡，越滚越乱</td><td>湍流</td></tr>
+</table>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 300" width="880" height="300" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="300" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">为什么是 Re = vd/ν：惯性作用 ÷ 粘性作用</text><rect x="24" y="44" width="400" height="210" fill="#fcfdfe" stroke="#2563eb" stroke-width="1.2"  rx="6"/><text x="224" y="64" font-size="12.5" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">惯性力：想把流体"甩乱"</text><rect x="60" y="96" width="330" height="40" fill="#eff6ff" stroke="#2563eb" stroke-width="1.4"  rx="0"/><circle cx="78" cy="116" r="5" fill="#2563eb" stroke="#2563eb" stroke-width="1.6"/><line x1="86" y1="116" x2="112" y2="116" stroke="#2563eb" stroke-width="1.6"  marker-end="url(#ar)" /><circle cx="140" cy="116" r="5" fill="#2563eb" stroke="#2563eb" stroke-width="1.6"/><line x1="148" y1="116" x2="174" y2="116" stroke="#2563eb" stroke-width="1.6"  marker-end="url(#ar)" /><circle cx="202" cy="116" r="5" fill="#2563eb" stroke="#2563eb" stroke-width="1.6"/><line x1="210" y1="116" x2="236" y2="116" stroke="#2563eb" stroke-width="1.6"  marker-end="url(#ar)" /><circle cx="264" cy="116" r="5" fill="#2563eb" stroke="#2563eb" stroke-width="1.6"/><line x1="272" y1="116" x2="298" y2="116" stroke="#2563eb" stroke-width="1.6"  marker-end="url(#ar)" /><circle cx="326" cy="116" r="5" fill="#2563eb" stroke="#2563eb" stroke-width="1.6"/><line x1="334" y1="116" x2="360" y2="116" stroke="#2563eb" stroke-width="1.6"  marker-end="url(#ar)" /><text x="225" y="160" font-size="12.5" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F_惯性 ~ ρ l² v²</text><text x="225" y="182" font-size="10.5" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">速度越大、扰动越容易被"甩"成旋涡</text><text x="225" y="204" font-size="11" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">所以 Re 越大 → 越容易湍流</text><rect x="456" y="44" width="400" height="210" fill="#fcfdfe" stroke="#0f766e" stroke-width="1.2"  rx="6"/><text x="656" y="64" font-size="12.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">粘性力：想把流体"抹平"</text><rect x="492" y="96" width="330" height="40" fill="#eef7f6" stroke="#0f766e" stroke-width="1.4"  rx="0"/><line x1="500" y1="104" x2="814" y2="104" stroke="#0f766e" stroke-width="1.2"   opacity="0.55"/><line x1="500" y1="113" x2="814" y2="113" stroke="#0f766e" stroke-width="1.2"   opacity="0.55"/><line x1="500" y1="122" x2="814" y2="122" stroke="#0f766e" stroke-width="1.2"   opacity="0.55"/><line x1="500" y1="131" x2="814" y2="131" stroke="#0f766e" stroke-width="1.2"   opacity="0.55"/><text x="657" y="160" font-size="12.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">F_粘性 ~ μ l v</text><text x="657" y="182" font-size="10.5" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">相邻流层互相"拉拽"，把扰动抹掉</text><text x="657" y="204" font-size="11" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">所以 ν 越大 → 越稳定（油比水"难乱"）</text><rect x="24" y="264" width="832" height="26" fill="#fef3c7" stroke="#b45309" stroke-width="1.2"  rx="5"/><text x="440" y="282" font-size="11.5" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">Re = F_惯性 / F_粘性 = (ρ l² v²)/(μ l v) = ρ v l/μ = v l/ν  —— l 取管径 d 就是 vd/ν</text></svg><figcaption><b>图 4-3</b> Re 就是惯性力与粘性力的比值：小 Re 粘性赢，大 Re 惯性赢</figcaption></figure>
+
+
+<div class="box tip">
+  <b>打个比方：</b>把流动想成一群人过窄门。人少（v 小）、或者大家互相礼让（ν 大，粘性大），队伍就整齐（层流）；
+  人一多、又都急着冲（v 大），就挤成一团（湍流）。Re 就是"拥挤程度 = 人流×门宽 / 礼让程度"。
+</div>
+
+<h2>4.2.3 判别标准：数字记牢</h2>
+
+<div class="fml">
+  圆管：<i>Re</i> &lt; 2000（有的教材取 2300）→ <b>层流</b>；　2000 ~ 4000 → <b>过渡区</b>（不稳定，按湍流保守处理）；　<i>Re</i> &gt; 4000 → <b>湍流</b>
+</div>
+
+<div class="box warn">
+  <b>课件里两个口径都对，别纠结：</b>第 4.2 节讲"下临界雷诺数 Re<sub>k</sub> = 2000"（判层流用），
+  第 4.5 节尼古拉兹图上标的是"层流区 Re&lt;2300、临界区 2300~4000"（画图用）。
+  <b>做题时写 Re = 2000（或 2300）作层流上限都可以，关键是把 Re 算出来、把结论说清楚。</b>
+  本讲义后面统一用 <b>2000 / 4000</b> 这一组。
+</div>
+
+<h2>4.2.4 湍流断面的三层结构（后面 4.4、4.5 都要用）</h2>
+
+<p>湍流并不是"全断面都一样乱"。靠近管壁的地方，流体被壁面"粘"住，速度必须为零，所以紧贴壁面的一薄层里粘性作用仍占绝对优势，
+流动仍是层流——这一层叫<b>黏性底层（层流底层）</b>。往外依次是：</p>
+
+<table class="zebra">
+  <tr><th>层次</th><th>位置</th><th>特点</th></tr>
+  <tr><td>黏性底层（层流底层）</td><td>紧贴壁面，很薄</td><td>速度梯度极大，粘性切应力主导，流动近似层流</td></tr>
+  <tr><td>过渡层（缓冲层）</td><td>中间</td><td>粘性切应力与惯性切应力同量级，最复杂</td></tr>
+  <tr><td>湍流核心（重叠层·对数率层）</td><td>管子中部大部分</td><td>惯性切应力（雷诺应力）主导，速度分布接近对数曲线</td></tr>
+</table>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="880" height="340" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="340" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">湍流断面的三层结构：越靠壁，粘性越"统治"</text><rect x="78" y="66" width="442" height="22" fill="#fee2e2" stroke="none" stroke-width="1.6"  rx="0"/><rect x="78" y="88" width="442" height="30" fill="#fef3c7" stroke="none" stroke-width="1.6"  rx="0"/><rect x="78" y="118" width="442" height="114" fill="#eef7f6" stroke="none" stroke-width="1.6"  rx="0"/><line x1="78" y1="66" x2="520" y2="66" stroke="#334155" stroke-width="3"   /><line x1="78" y1="232" x2="520" y2="232" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="8 3 2 3"  /><text x="72" y="70" font-size="10" fill="#334155" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">壁</text><text x="72" y="236" font-size="10" fill="#64748b" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">中心</text><line x1="78" y1="88" x2="520" y2="88" stroke="#b91c1c" stroke-width="1.2" stroke-dasharray="5 3"  /><line x1="78" y1="118" x2="520" y2="118" stroke="#b45309" stroke-width="1.2" stroke-dasharray="5 3"  /><path d="M78,66 L245.14740848610046,68.76666666666667 L262.5457009472567,71.53333333333333 L273.55090346065174,74.3 L281.7549732094495,77.06666666666666 L288.35483818225816,79.83333333333333 L293.9057019003456,82.6 L298.7130127480266,85.36666666666667 L302.96372927944174,88.13333333333333 L306.7810274214158,90.9 L310.25057098758293,93.66666666666666 L313.4344606897921,96.43333333333334 L316.3792214105557,99.2 L319.120653563037,101.96666666666667 L321.6869229064506,104.73333333333333 L324.1006068022914,107.5 L326.380094454386,110.26666666666667 L328.54057214507884,113.03333333333333 L330.59473330350613,115.8 L332.5533010657807,118.56666666666666 L334.4254199721457,121.33333333333333 L336.21895439071716,124.1 L337.9407192050489,126.86666666666666 L339.5966604812773,129.63333333333333 L341.1919986371225,132.4 L342.7313431148032,135.16666666666669 L344.2187851291253,137.93333333333334 L345.6579733549044,140.7 L347.0521762004509,143.46666666666667 L348.40433343329806,146.23333333333335 L349.71709927917203,149 L350.9928786367917,151.76666666666668 L352.2338576923986,154.53333333333333 L353.4420299462116,157.3 L354.61921845521874,160.06666666666666 L355.7670949363876,162.83333333333334 L356.88719624963437,165.6 L357.98093868207127,168.36666666666667 L359.0496303777814,171.13333333333333 L360.0944821959097,173.9 L361.1166172306494,176.66666666666666 L362.11707918706935,179.43333333333334 L363.09683977460725,182.2 L364.0568052538917,184.96666666666667 L364.9978222511234,187.73333333333332 L365.9206829366108,190.5 L366.82612964946685,193.26666666666668 L367.7148590383598,196.03333333333333 L368.58752577809923,198.8 L369.44474591337445,201.56666666666666 L370.2870998738382,204.33333333333334 L371.11513519871846,207.1 L371.92936900404914,209.86666666666667 L372.7302902212799,212.63333333333333 L373.51836163233463,215.4 L374.29402172302775,218.16666666666666 L375.0576863740367,220.93333333333334 L375.8097504062956,223.7 L376.5505889956614,226.46666666666667 L377.280558969959,229.23333333333332 L378,232" fill="none" stroke="#2563eb" stroke-width="2.2"   /><text x="388" y="230" font-size="10.5" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">u_max</text><line x1="520" y1="77" x2="544" y2="77" stroke="#b91c1c" stroke-width="1"   /><text x="550" y="81" font-size="10.4" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">黏性底层（层流底层）：几乎纯粘性，u≈0</text><line x1="520" y1="103" x2="544" y2="103" stroke="#b45309" stroke-width="1"   /><text x="550" y="107" font-size="10.4" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">过渡层（缓冲层）：粘性与惯性同量级</text><line x1="520" y1="162" x2="544" y2="162" stroke="#0f766e" stroke-width="1"   /><text x="550" y="166" font-size="10.4" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">湍流核心：惯性切应力占绝对优势</text><text x="550" y="186" font-size="9.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">（对数律层，占断面绝大部分）</text><text x="550" y="202" font-size="9.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">δ_ν ≈ 32d/(Re√λ)：Re 越大，底层越薄</text><rect x="24" y="262" width="832" height="62" fill="#fcfdfe" stroke="#94a3b8" stroke-width="1.2"  rx="6"/><text x="42" y="284" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">Δ 为什么要分三层？因为"沙粒"（绝对粗糙度 K）到底被不被淹没，决定了 λ 只跟 Re 有关、还是只跟 K/d 有关：</text><text x="42" y="304" font-size="11" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">δ_ν &gt; K → 粗糙被底层淹没 → 光滑区（λ = f(Re)）；   δ_ν &lt; K → 沙粒凸出 → 粗糙区（λ = f(K/d)）。</text></svg><figcaption><b>图 4-4</b> 湍流断面的三层结构：层流底层最薄，却决定了"光滑还是粗糙"</figcaption></figure>
+
+
+<p><b>为什么这一层这么重要？</b>因为它的厚度 δ 随 Re 增大而<b>变薄</b>：Re 越大，层流底层越薄，
+管壁的粗糙凸起就越容易"戳穿"它、直接扰动主流——这就是 4.5 节"水力光滑 / 水力粗糙"的由来。
+同一根管子，流速小时可能算"光滑管"，流速大时就算"粗糙管"了。</p>
+
+<div class="box exam">
+  <b>考试口径：</b>被问到"层流底层有什么意义"，答三点就够：① 它是粘性力仍占主导的薄层；② 厚度随 Re 增大而减小；
+  ③ 它与绝对粗糙度 K 的相对大小决定管子算"水力光滑"还是"水力粗糙"，从而决定 λ 用哪个区的公式。
+</div>
+
+<h2>4.2.5 例题</h2>
+
+<div class="lv l2">
+  <div class="tagx">例 4-2 · 模仿（算 Re、判流态，一步不能省）</div>
+  <p class="pt">直径 <i>d</i> = 50 mm 的圆管输送 20 ℃ 的水（<i>ν</i> = 1.005×10<sup>−6</sup> m²/s）。求流量 <i>Q</i> = 0.2 L/s 和 <i>Q</i> = 0.02 L/s 两种情形下管内流态。</p>
+  <p><b>第 1 步 · 先算断面积：</b></p>
+  <div class="fml"><i>A</i> = <i>πd</i><sup>2</sup>/4 = 3.1416 × 0.05<sup>2</sup>/4 = 1.9635×10<sup>−3</sup> m²</div>
+  <p><b>第 2 步 · 由流量求平均流速</b>（注意 L/s 要换成 m³/s：1 L/s = 10<sup>−3</sup> m³/s）：</p>
+  <div class="fml">
+    <i>Q</i> = 0.2 L/s = 2×10<sup>−4</sup> m³/s　→　<i>v</i> = <i>Q</i>/<i>A</i> = 2×10<sup>−4</sup>/1.9635×10<sup>−3</sup> = 0.1019 m/s<br>
+    <i>Q</i> = 0.02 L/s = 2×10<sup>−5</sup> m³/s　→　<i>v</i> = 0.01019 m/s
+  </div>
+  <p><b>第 3 步 · 算 Re：</b></p>
+  <div class="fml">
+    <i>Re</i><sub>1</sub> = <i>v d</i>/<i>ν</i> = 0.1019 × 0.05 / (1.005×10<sup>−6</sup>) = <b>5068</b> &gt; 4000 → <b>湍流</b><br>
+    <i>Re</i><sub>2</sub> = 0.01019 × 0.05 / (1.005×10<sup>−6</sup>) = <b>507</b> &lt; 2000 → <b>层流</b>
+  </div>
+  <p class="ans"><b>答：</b><i>Q</i> = 0.2 L/s 时 Re = 5068，湍流；<i>Q</i> = 0.02 L/s 时 Re = 507，层流。</p>
+  <p class="hint"><b>这道题的"经验"：</b>流量只差 10 倍，Re 也正好差 10 倍（因为 Re 与 v 成正比）。所以同一根管子里，
+  把阀门关小一个数量级，流态就可能从湍流变回层流——这就是为什么"细流"看起来总是很温顺。</p>
+</div>
+
+<div class="lv l3">
+  <div class="tagx">例 4-3 · 应考（概念题：为什么 Re 里会有一个 d？）</div>
+  <p class="pt">有同学问：既然 Re 表示"惯性力与粘性力之比"，那这两个力都随管子变粗而变大，为什么比值里会出现管径 <i>d</i>？
+  请用量纲和物理图像说明。</p>
+  <p><b>第 1 步 · 写出两个力的量级。</b>在特征尺度 <i>d</i>、特征速度 <i>v</i> 下：</p>
+  <div class="fml">
+    惯性力 ~ 质量 × 加速度 ~ (<i>ρ d</i><sup>3</sup>) × (<i>v</i><sup>2</sup>/<i>d</i>) = <i>ρ v</i><sup>2</sup><i>d</i><sup>2</sup><br>
+    粘性力 ~ 切应力 × 面积 ~ (<i>μ v</i>/<i>d</i>) × <i>d</i><sup>2</sup> = <i>μ v d</i>
+  </div>
+  <p><b>第 2 步 · 求比值，看 d 的幂次：</b></p>
+  <div class="fml">
+    <i>ρ v</i><sup>2</sup><i>d</i><sup>2</sup> / (<i>μ v d</i>) = <i>ρ v d</i>/<i>μ</i> = <i>Re</i>　→　<b>d 的一次方留在分子上</b>
+  </div>
+  <p><b>第 3 步 · 解释"为什么惯性力涨得更快"。</b>管径变大时：<br>
+  ① 惯性力里有 <i>d</i><sup>2</sup>（面积），因为要加速的质量随体积 <i>d</i><sup>3</sup> 增长、但加速度按 <i>v</i><sup>2</sup>/<i>d</i> 下降，净得 <i>d</i><sup>2</sup>；<br>
+  ② 粘性力里只有 <i>d</i><sup>1</sup>，因为切应力随 <i>d</i> 增大而<b>减小</b>（速度梯度变缓），抵消了一个 <i>d</i>。</p>
+  <p class="ans"><b>答：</b>惯性力 ∝ <i>d</i><sup>2</sup>、粘性力 ∝ <i>d</i><sup>1</sup>，所以比值 ∝ <i>d</i>——管子越粗，惯性越占上风，越容易湍流。
+  这解释了工程上"细管里层流、粗管里湍流"的经验。</p>
+  <p class="hint"><b>这道题的"经验"：</b>这类"为什么公式里有个 ××"的概念题，标准答法是<b>把两个竞争量的量级都写出来、相除、看幂次</b>，
+  再用一句话解释物理含义。三步写完，满分。</p>
+</div>
+
+<h1 class="ch" id="c3">4.3 圆管中的层流运动——唯一能严格解出来的情形</h1>
+
+<div class="why">
+  <span class="wt">先解层流：</span>因为层流的粘性切应力有严格表达式 <i>τ</i> = <i>μ</i>(d<i>u</i>/d<i>y</i>)，
+  牛顿定律直接可用，整条路能一路积分解到底，最后得到精确的 <b>λ = 64/Re</b>。
+  湍流解不出来（只能半经验），所以层流是唯一能"从第一性原理推出来"的样板——理解了它，才知道 λ 的本质是什么。
+</div>
+
+<h2>4.3.1 均匀流动方程式：先把"壁面切应力"和"水头损失"挂上钩</h2>
+
+<p>取一段圆管里的流体（长 <i>l</i>、半径 <i>r</i><sub>0</sub>），管轴与水平面成 θ 角，做<b>不可压恒定均匀流动</b>。
+"均匀"意味着流速沿程不变，所以<b>没有惯性力</b>——作用在流段上的力必须自相平衡。</p>
+
+<p>沿轴向（流动方向）看，共有三个力：</p>
+
+<table class="zebra">
+  <tr><th>力</th><th>表达式</th><th>方向</th></tr>
+  <tr><td>上游端面压力</td><td><i>p</i><sub>1</sub><i>A</i></td><td>顺流（+）</td></tr>
+  <tr><td>下游端面压力</td><td><i>p</i><sub>2</sub><i>A</i></td><td>逆流（−）</td></tr>
+  <tr><td>管壁摩擦（切应力 τ<sub>0</sub> 作用在侧面积 2π<i>r</i><sub>0</sub><i>l</i> 上）</td><td><i>τ</i><sub>0</sub>·2<i>πr</i><sub>0</sub><i>l</i></td><td>逆流（−）</td></tr>
+  <tr><td>重力沿轴向分量</td><td><i>ρgAl</i> sin θ</td><td>顺流（+，向下流时）</td></tr>
+</table>
+
+<p>列平衡方程：</p>
+
+<div class="fml">
+  <i>p</i><sub>1</sub><i>A</i> − <i>p</i><sub>2</sub><i>A</i> − <i>τ</i><sub>0</sub>·2<i>πr</i><sub>0</sub><i>l</i> + <i>ρgAl</i> sin θ = 0
+</div>
+
+<p><b>关键一步：把几何关系代进去。</b>由图上可以看出 <i>l</i> sin θ = <i>z</i><sub>1</sub> − <i>z</i><sub>2</sub>（流段两端的高差），
+而 <i>A</i> = <i>πr</i><sub>0</sub><sup>2</sup>。把这两式代入并两边同除 <i>ρgA</i>：</p>
+
+<div class="fml">
+  (<i>z</i><sub>1</sub> + <i>p</i><sub>1</sub>/<i>ρg</i>) − (<i>z</i><sub>2</sub> + <i>p</i><sub>2</sub>/<i>ρg</i>) = 2<i>τ</i><sub>0</sub><i>l</i>/(<i>r</i><sub>0</sub><i>ρg</i>)
+</div>
+
+<p>左边是<b>测压管水头之差</b>，在均匀流里它恰好等于沿程水头损失 <i>h</i><sub>f</sub>（因为流速水头不变）。于是：</p>
+
+<div class="fml">
+  <i>h</i><sub>f</sub> = 2<i>τ</i><sub>0</sub><i>l</i>/(<i>r</i><sub>0</sub><i>ρg</i>)　　←<b>均匀流动方程式</b>（对层流均匀流和湍流均匀流都适用）
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="400" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">均匀流动方程式：把"损失"翻译成"壁面切应力"（层流、湍流都成立）</text><path d="M368.4216019363808,287.0550485200755 L808.4216019363807,187.05504852007547 L791.5783980636193,112.94495147992453 L351.5783980636192,212.94495147992453 Z" fill="#f2fbf9" stroke="#0f766e" stroke-width="2"   /><line x1="360" y1="250" x2="800" y2="150" stroke="#94a3b8" stroke-width="1.1" stroke-dasharray="8 3 2 3"  /><line x1="351.5783980636192" y1="212.94495147992453" x2="368.4216019363808" y2="287.0550485200755" stroke="#0f766e" stroke-width="1.6"   /><line x1="791.5783980636193" y1="112.94495147992453" x2="808.4216019363807" y2="187.05504852007547" stroke="#0f766e" stroke-width="1.6"   /><line x1="375.6021256926634" y1="246.45406234257652" x2="453.61275415598016" y2="228.72437405545907" stroke="#b91c1c" stroke-width="2.2"  marker-end="url(#ar)" /><text x="405.0053142316584" y="229.1351558564413" font-size="11.5" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">p₁A</text><line x1="784.3978743073367" y1="153.54593765742348" x2="706.3872458440198" y2="171.27562594454093" stroke="#b91c1c" stroke-width="2.2"  marker-end="url(#ar)" /><text x="766.9946857683416" y="144.8648441435587" font-size="11.5" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">p₂A</text><line x1="580" y1="200" x2="580" y2="274" stroke="#2563eb" stroke-width="2.2"  marker-end="url(#ar)" /><text x="588" y="252" font-size="11.5" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">G = ρgAl</text><line x1="489.57858973570103" y1="253.3663617442235" x2="567.5892181990179" y2="235.63667345710607" stroke="#b45309" stroke-width="2"  marker-end="url(#ar)" /><text x="498.58390396735945" y="228.50151760066478" font-size="11" fill="#b45309" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">τ₀·2πr₀l</text><line x1="345.816249370306" y1="187.59149722934657" x2="785.8162493703061" y2="87.59149722934657" stroke="#94a3b8" stroke-width="1.1" stroke-dasharray="4 3"  /><text x="565.8162493703061" y="155.59149722934657" font-size="10.5" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">长度 l，倾角 θ</text><text x="500" y="300" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">l sinθ = z₁ − z₂</text><rect x="24" y="110" width="300" height="116" fill="#fcfdfe" stroke="#94a3b8" stroke-width="1.2"  rx="6"/><text x="38" y="132" font-size="11.5" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">沿轴向列力平衡：</text><text x="38" y="154" font-size="10.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">p₁A − p₂A − τ₀·2πr₀l</text><text x="50" y="172" font-size="10.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">+ ρgAl sinθ = 0</text><text x="38" y="196" font-size="10.2" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">代入 A = πr₀²、l sinθ = z₁−z₂ 整理</text><text x="38" y="216" font-size="10.2" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">⇒ 与恒定总流能量方程完全一致</text><rect x="24" y="330" width="832" height="58" fill="#d1fae5" stroke="#0f766e" stroke-width="1.4"  rx="6"/><text x="44" y="352" font-size="12.5" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">h_f = 2τ₀l/(r₀ρg) = 4τ₀l/(dρg)</text><text x="44" y="376" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">J = h_f/l = 2τ₀/(r₀ρg)；τ = γ (r/2) J，τ/τ₀ = r/r₀（切应力沿半径线性分布）</text></svg><figcaption><b>图 4-5</b> 圆管均匀流动的受力平衡：压力差 = 壁面摩擦 + 重力分量</figcaption></figure>
+
+
+<p>由它立刻得到两个常用形式：</p>
+
+<div class="fml">
+  水力坡度：<i>J</i> = <i>h</i><sub>f</sub>/<i>l</i> = 2<i>τ</i><sub>0</sub>/(<i>r</i><sub>0</sub><i>ρg</i>)　→　<i>τ</i><sub>0</sub> = <i>γ</i>(<i>r</i><sub>0</sub>/2)<i>J</i><br>
+  半径 <i>r</i> 处：<i>τ</i> = <i>γ</i>(<i>r</i>/2)<i>J</i>　　故　<i>τ</i>/<i>τ</i><sub>0</sub> = <i>r</i>/<i>r</i><sub>0</sub>
+</div>
+
+<p>最后这个式子说明：<b>圆管内切应力沿半径线性分布</b>，管轴处为零、管壁处最大。这一点对层流和湍流都成立。</p>
+
+<h2>4.3.2 层流的速度分布：一条抛物线</h2>
+
+<p>层流里切应力服从牛顿内摩擦定律。取半径 <i>r</i> 处的流层，速度随 <i>r</i> 增大而减小（管壁处为零），所以</p>
+
+<div class="fml">
+  <i>τ</i> = −<i>μ</i> d<i>u</i>/d<i>r</i>　（负号是因为 u 随 r 增大而减小）
+</div>
+
+<p>与前面的 <i>τ</i> = <i>γ</i>(<i>r</i>/2)<i>J</i> 联立：</p>
+
+<div class="fml">
+  −<i>μ</i> d<i>u</i>/d<i>r</i> = <i>γ</i><i>r</i><i>J</i>/2　⟹　d<i>u</i> = −(<i>γJ</i>/(2<i>μ</i>)) <i>r</i> d<i>r</i>
+</div>
+
+<p>两边积分，再用边界条件 <i>r</i> = <i>r</i><sub>0</sub> 处 <i>u</i> = 0 定积分常数：</p>
+
+<div class="fml">
+  <i>u</i> = (<i>γJ</i>/(4<i>μ</i>))(<i>r</i><sub>0</sub><sup>2</sup> − <i>r</i><sup>2</sup>)　　←<b>抛物型速度分布</b><br>
+  <i>u</i><sub>max</sub> = (<i>γJ</i>/(4<i>μ</i>)) <i>r</i><sub>0</sub><sup>2</sup>　（在管轴 <i>r</i> = 0 处）
+</div>
+
+<h2>4.3.3 平均流速与流量</h2>
+
+<p>按定义把抛物线在整个断面上积分：</p>
+
+<div class="fml">
+  <i>v</i> = <i>Q</i>/<i>A</i> = (1/(<i>πr</i><sub>0</sub><sup>2</sup>)) ∫<sub>0</sub><sup><i>r</i><sub>0</sub></sup> <i>u</i>·2<i>πr</i> d<i>r</i>
+  = (<i>γJ</i>/(8<i>μ</i>)) <i>r</i><sub>0</sub><sup>2</sup> = (<i>γJ</i>/(32<i>μ</i>)) <i>d</i><sup>2</sup>
+</div>
+
+<p>与 <i>u</i><sub>max</sub> 对比，立得一个重要结论：</p>
+
+<div class="fml">
+  <i>v</i> = <i>u</i><sub>max</sub>/2　　<b>层流的平均流速只有最大流速的一半</b>
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="880" height="340" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="340" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">圆管层流：抛物线速度分布，平均速度正好是最大速度的一半</text><line x1="110" y1="82" x2="470" y2="82" stroke="#334155" stroke-width="2.6"   /><line x1="110" y1="238" x2="470" y2="238" stroke="#334155" stroke-width="2.6"   /><line x1="90" y1="160" x2="500" y2="160" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="8 3 2 3"  /><text x="504" y="164" font-size="10" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">轴</text><path d="M110,82 L118,82 L130.34375,85.9 L142.375,89.8 L154.09374999999997,93.7 L165.5,97.6 L176.59375,101.5 L187.375,105.4 L197.84375,109.3 L207.99999999999997,113.2 L217.84375,117.1 L227.375,121 L236.59375,124.9 L245.5,128.8 L254.09374999999997,132.7 L262.375,136.6 L270.34375,140.5 L278,144.4 L285.34375,148.3 L292.375,152.2 L299.09375,156.1 L305.5,160 L311.59375,163.9 L317.375,167.8 L322.84375,171.7 L328,175.6 L332.84375,179.5 L337.375,183.4 L341.59375,187.3 L345.5,191.2 L349.09375,195.1 L352.375,199 L355.34375,202.9 L358,206.8 L360.34375,210.7 L362.375,214.6 L364.09375,218.5 L365.5,222.4 L366.59375,226.3 L367.375,230.2 L367.84375,234.1 L368,238" fill="none" stroke="#2563eb" stroke-width="2.4"   /><path d="M118 L118,82 L130.34375,85.9 L142.375,89.8 L154.09374999999997,93.7 L165.5,97.6 L176.59375,101.5 L187.375,105.4 L197.84375,109.3 L207.99999999999997,113.2 L217.84375,117.1 L227.375,121 L236.59375,124.9 L245.5,128.8 L254.09374999999997,132.7 L262.375,136.6 L270.34375,140.5 L278,144.4 L285.34375,148.3 L292.375,152.2 L299.09375,156.1 L305.5,160 L311.59375,163.9 L317.375,167.8 L322.84375,171.7 L328,175.6 L332.84375,179.5 L337.375,183.4 L341.59375,187.3 L345.5,191.2 L349.09375,195.1 L352.375,199 L355.34375,202.9 L358,206.8 L360.34375,210.7 L362.375,214.6 L364.09375,218.5 L365.5,222.4 L366.59375,226.3 L367.375,230.2 L367.84375,234.1 L368,238" fill="none" stroke="#2563eb" stroke-width="1.6"   /><line x1="116" y1="82" x2="116" y2="82" stroke="#2563eb" stroke-width="1"  marker-end="url(#ar)" opacity="0.5"/><line x1="116" y1="108" x2="192.38888888888886" y2="108" stroke="#2563eb" stroke-width="1"  marker-end="url(#ar)" opacity="0.5"/><line x1="116" y1="134" x2="254.88888888888886" y2="134" stroke="#2563eb" stroke-width="1"  marker-end="url(#ar)" opacity="0.5"/><line x1="116" y1="160" x2="303.5" y2="160" stroke="#2563eb" stroke-width="1"  marker-end="url(#ar)" opacity="0.5"/><line x1="116" y1="186" x2="338.2222222222222" y2="186" stroke="#2563eb" stroke-width="1"  marker-end="url(#ar)" opacity="0.5"/><line x1="116" y1="212" x2="359.05555555555554" y2="212" stroke="#2563eb" stroke-width="1"  marker-end="url(#ar)" opacity="0.5"/><line x1="116" y1="238" x2="366" y2="238" stroke="#2563eb" stroke-width="1"  marker-end="url(#ar)" opacity="0.5"/><line x1="116" y1="160" x2="366" y2="160" stroke="#b91c1c" stroke-width="2.6"  marker-end="url(#ar)" /><text x="230" y="152" font-size="12" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">u_max</text><line x1="116" y1="232" x2="241" y2="232" stroke="#b45309" stroke-width="2.2"  marker-end="url(#ar)" /><text x="150" y="256" font-size="11.5" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">v = u_max/2</text><rect x="500" y="48" width="356" height="258" fill="#fcfdfe" stroke="#94a3b8" stroke-width="1.2"  rx="6"/><text x="516" y="72" font-size="11.8" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">从"牛顿内摩擦定律"到"达西公式"</text><text x="516" y="96" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">① τ = μ du/dy = −μ du/dr</text><text x="516" y="116" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">② 代入 τ = γ (r/2) J 并积分：</text><text x="516" y="136" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">   u = (γJ/4μ)(r₀² − r²)  ← 抛物线</text><text x="516" y="156" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">③ 中心处 r=0：u_max = γJ r₀²/(4μ)</text><text x="516" y="176" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">④ 流量 Q = ∫u·2πr dr = πγJ r₀⁴/(8μ)</text><text x="516" y="196" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">⑤ 平均速度 v = Q/(πr₀²) = γJ r₀²/(8μ)</text><text x="516" y="216" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">   ⇒ v = u_max/2（层流特有！）</text><text x="516" y="236" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">⑥ 由 J = v·8μ/(γr₀²)= 32μv/(γd²)</text><text x="516" y="256" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">   h_f = J l = 32μvl/(ρgd²)</text><text x="516" y="276" font-size="10.4" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">⑦ 与达西式对比 ⇒ λ = 64/Re</text><text x="440" y="332" font-size="11.2" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">只剩一件事要记：层流 λ = 64/Re，与管壁粗糙度无关 —— 因为层流底层"盖住"了粗糙度</text></svg><figcaption><b>图 4-6</b> 层流抛物线速度分布：u_max 在轴心，v 恰好是一半</figcaption></figure>
+
+
+<p>把 <i>J</i> = <i>h</i><sub>f</sub>/<i>l</i> 代回上面 <i>v</i> 的式子并解出 <i>h</i><sub>f</sub>：</p>
+
+<div class="fml">
+  <i>h</i><sub>f</sub> = <i>J l</i> = 32<i>μ v l</i>/(<i>ρ g d</i><sup>2</sup>)　　←<b>层流沿程水头损失公式</b>（与 v 的<b>一次方</b>成正比）
+</div>
+
+<div class="box tip">
+  <b>这个式子的两个含义，考试最爱问：</b><br>
+  ① <b>h<sub>f</sub> ∝ v<sup>1</sup></b>——层流里流速加倍，损失也正好加倍；<br>
+  ② <b>h<sub>f</sub> ∝ 1/d<sup>2</sup></b>——管径减半，损失变 4 倍。这就是"为什么输水要用粗管"。
+</div>
+
+<h2>4.3.4 推到达西公式：λ = 64/Re</h2>
+
+<p>把层流的 <i>h</i><sub>f</sub> 表达式与达西公式 <i>h</i><sub>f</sub> = <i>λ</i>(<i>l</i>/<i>d</i>)<i>v</i><sup>2</sup>/(2<i>g</i>) 对照，两者必须相等：</p>
+
+<div class="fml">
+  <i>λ</i>(<i>l</i>/<i>d</i>)·<i>v</i><sup>2</sup>/(2<i>g</i>) = 32<i>μ v l</i>/(<i>ρ g d</i><sup>2</sup>)<br>
+  ⟹　<i>λ</i> = (64<i>μ</i>)/(<i>ρ v d</i>) = <b>64/<i>Re</i></b>
+</div>
+
+<p>也可以直接写成课件上的形式：</p>
+
+<div class="fml">
+  <i>h</i><sub>f</sub> = (32<i>μvl</i>)/(<i>γd</i><sup>2</sup>) = (64/<i>Re</i>)·(<i>l</i>/<i>d</i>)·<i>v</i><sup>2</sup>/(2<i>g</i>)
+</div>
+
+<div class="box exam">
+  <b>这一条是本章最"干净"的结论：</b>圆管层流的 λ <b>只与 Re 有关</b>，而且成<b>反比</b>，<b>与管壁粗糙度完全无关</b>。<br>
+  物理解释：层流底层就是整个断面，粗糙凸起被流体"填平"了，根本扰动不到主流。
+</div>
+
+<h2>4.3.5 层流的两个修正系数</h2>
+
+<p>断面速度不均匀，所以在用总流的动量方程、能量方程时要修正：</p>
+
+<div class="fml">
+  动能修正系数：<i>α</i> = (∫<i>u</i><sup>3</sup>d<i>A</i>)/(<i>v</i><sup>3</sup><i>A</i>) = <b>2</b><br>
+  动量修正系数：<i>β</i> = (∫<i>u</i><sup>2</sup>d<i>A</i>)/(<i>v</i><sup>2</sup><i>A</i>) = <b>4/3</b>
+</div>
+
+<p>湍流时速度分布比抛物线"胖"得多，所以 α ≈ 1.05~1.10、β ≈ 1.02~1.05，工程上常直接取 <b>α = β = 1</b>。</p>
+
+<h2>4.3.6 例题</h2>
+
+<div class="lv l2">
+  <div class="tagx">例 4-4 · 模仿（层流的全套：Re、λ、h<sub>f</sub>、u<sub>max</sub>、Q）</div>
+  <p class="pt">某油管 <i>d</i> = 20 mm、长 <i>l</i> = 2 m，油的密度 <i>ρ</i> = 900 kg/m³、动力粘度 <i>μ</i> = 0.1 Pa·s，管内平均流速 <i>v</i> = 0.5 m/s。
+  求流态、沿程阻力系数、水头损失、最大流速与流量。</p>
+  <p><b>第 1 步 · 先判流态</b>（没有 Re，一步都别往下走）：</p>
+  <div class="fml">
+    <i>ν</i> = <i>μ</i>/<i>ρ</i> = 0.1/900 = 1.111×10<sup>−4</sup> m²/s<br>
+    <i>Re</i> = <i>v d</i>/<i>ν</i> = 0.5×0.02/(1.111×10<sup>−4</sup>) = <b>90</b> &lt; 2000 → <b>层流</b>
+  </div>
+  <p><b>第 2 步 · λ 直接算</b>（层流专属公式，不用查表）：</p>
+  <div class="fml"><i>λ</i> = 64/<i>Re</i> = 64/90 = <b>0.7111</b></div>
+  <p><b>第 3 步 · 沿程水头损失：</b></p>
+  <div class="fml">
+    <i>h</i><sub>f</sub> = <i>λ</i>(<i>l</i>/<i>d</i>)<i>v</i><sup>2</sup>/(2<i>g</i>) = 0.7111 × (2/0.02) × 0.5<sup>2</sup>/(2×9.807) = 0.7111 × 100 × 0.012746 = <b>0.9064 m</b>
+  </div>
+  <p><b>第 4 步 · 用另一条路复核</b>（32μvl/ρgd²，两条路必须一致）：</p>
+  <div class="fml">
+    <i>h</i><sub>f</sub> = 32<i>μvl</i>/(<i>ρgd</i><sup>2</sup>) = 32×0.1×0.5×2/(900×9.807×0.02<sup>2</sup>) = 3.2/3.531 = <b>0.9064 m</b> ✓
+  </div>
+  <p><b>第 5 步 · 最大流速与流量：</b></p>
+  <div class="fml">
+    <i>u</i><sub>max</sub> = 2<i>v</i> = <b>1.0 m/s</b><br>
+    <i>Q</i> = <i>vA</i> = 0.5 × <i>π</i>×0.02<sup>2</sup>/4 = 0.5 × 3.1416×10<sup>−4</sup> = 1.571×10<sup>−4</sup> m³/s = <b>0.157 L/s</b>
+  </div>
+  <p class="ans"><b>答：</b>层流，<i>λ</i> = 0.711，<i>h</i><sub>f</sub> = 0.906 m，<i>u</i><sub>max</sub> = 1.0 m/s，<i>Q</i> = 0.157 L/s。</p>
+  <p class="hint"><b>这道题的"经验"：</b>注意 λ = 0.71 这个数——层流的 λ 可以大到 0.5~1，而湍流的 λ 只有 0.02 上下。
+  看到 λ 是零点几，多半是层流；看到 0.0x，多半是湍流。这是一个很快的自检。</p>
+</div>
+
+<div class="lv l3">
+  <div class="tagx">例 4-5 · 应考（为什么层流 h<sub>f</sub> ∝ v，湍流却 ∝ v<sup>1.75~2</sup>？）</div>
+  <p class="pt">同一根 <i>d</i> = 100 mm 的管子（<i>ν</i> = 1×10<sup>−6</sup> m²/s、<i>l</i> = 10 m），(1) 在层流区让流速从 0.005 m/s 加倍到 0.01 m/s，
+  求 h<sub>f</sub> 的倍数；(2) 在湍流区让流速从 1 m/s 加倍到 2 m/s（用布拉修斯公式），求 h<sub>f</sub> 的倍数。并解释差别。</p>
+  <p><b>第 1 步 · 层流：λ 与 v 成反比，恰好抵消一个 v</b></p>
+  <div class="fml">
+    <i>Re</i><sub>1</sub> = 0.005×0.1/1×10<sup>−6</sup> = 500　→　<i>λ</i><sub>1</sub> = 64/500 = 0.128<br>
+    <i>h</i><sub>f1</sub> = 0.128×(10/0.1)×0.005<sup>2</sup>/19.613 = 0.128×100×1.2746×10<sup>−6</sup> = 1.632×10<sup>−5</sup> m<br>
+    <i>v</i> 加倍到 0.01 m/s：<i>Re</i><sub>2</sub> = 1000，<i>λ</i><sub>2</sub> = 0.064（减半），<i>h</i><sub>f2</sub> = 3.263×10<sup>−5</sup> m<br>
+    <b>h<sub>f2</sub>/h<sub>f1</sub> = 2.000</b>　（v 加倍 → h<sub>f</sub> 也恰好加倍）
+  </div>
+  <p><b>第 2 步 · 湍流：λ 随 v 缓慢下降，抵不过 v²</b></p>
+  <div class="fml">
+    <i>v</i> = 1 m/s：<i>Re</i> = 1×10<sup>5</sup>，<i>λ</i> = 0.3164/(10<sup>5</sup>)<sup>0.25</sup> = 0.01776，<i>h</i><sub>f</sub> = 0.01776×100×1/19.613 = 0.09072 m<br>
+    <i>v</i> = 2 m/s：<i>Re</i> = 2×10<sup>5</sup>，<i>λ</i> = 0.3164/(2×10<sup>5</sup>)<sup>0.25</sup> = 0.01494，<i>h</i><sub>f</sub> = 0.01494×100×4/19.613 = 0.30513 m<br>
+    <b>h<sub>f2</sub>/h<sub>f1</sub> = 3.36</b>　（接近但小于 4）
+  </div>
+  <p><b>第 3 步 · 一句话解释。</b>h<sub>f</sub> = λ·(l/d)·v²/2g 里 v² 是硬的；λ 里还藏着一个 v 的幂——层流 λ ∝ v<sup>−1</sup>，正好把 v² 抵成 v；
+  湍流 λ ∝ v<sup>−0.25</sup>，只抵掉一点点，所以表现为 v<sup>1.75</sup>。若在阻力平方区（λ 与 Re 无关），倍数是整 4。</p>
+  <p class="ans"><b>答：</b>层流 ×2.000，湍流 ×3.36；差别来自 λ 随 Re 下降的快慢不同（那个"隐藏的 v 的幂"）。</p>
+  <p class="hint"><b>这道题的"经验"：</b>考试很爱问"h<sub>f</sub> 与 v 的几次方成正比"。三步答法：① 写出 h<sub>f</sub> = λ(l/d)v²/2g；
+  ② 说出 λ 与 Re（也就是 v）的关系；③ 相加幂次。层流 1 次、光滑湍流 1.75 次、粗糙湍流 2 次。</p>
+</div>
+
+<h1 class="ch" id="c4">4.4 湍流运动的特征和湍流阻力——为什么湍流阻力大得多</h1>
+
+<div class="why">
+  <span class="wt">必须讲这一节：</span>层流靠"粘性"传递动量，湍流却多了一条凶得多的通道——<b>旋涡把一团团流体整个搬走</b>。
+  这条通道让湍流阻力比层流大一到两个数量级。4.5~4.6 节那些 λ 公式之所以那么怪（含对数、含 K/d），
+  根子都在这一节的"惯性切应力"上。
+</div>
+
+<h2>4.4.1 湍流的描述：瞬时值 = 时均值 + 脉动值</h2>
+
+<p>湍流里任一点的速度时刻在剧烈跳变，逐点记录毫无意义。于是把瞬时速度拆成两部分：</p>
+
+<div class="fml">
+  <i>u</i> = <i>ū</i> + <i>u</i>′　　<i>ū</i> = (1/<i>T</i>)∫<sub>0</sub><sup><i>T</i></sup> <i>u</i> d<i>t</i>
+</div>
+
+<p>其中 <i>ū</i> 是<b>时均速度</b>（在足够长的时间 T 内平均），<i>u</i>′ 是<b>脉动速度</b>（瞬时值与时均值之差）。
+三个方向都是如此：<i>u</i> = <i>ū</i>+<i>u</i>′、<i>v</i> = <i>v̄</i>+<i>v</i>′、<i>w</i> = <i>w̄</i>+<i>w</i>′。</p>
+
+<p><b>"湍流恒定流"是什么意思？</b>指<b>时均值不随时间变化</b>（<i>ū</i> 是常数），而瞬时值照样乱跳。
+工程上说的"恒定流"在湍流里都是这个意思。</p>
+
+<p><b>湍流度（脉动强度）：</b>用三个方向脉动速度的均方根与平均速度之比衡量：</p>
+
+<div class="fml">
+  <i>Tu</i> = √[ ( <span style="text-decoration:overline">u′<sup>2</sup></span> + <span style="text-decoration:overline">v′<sup>2</sup></span> + <span style="text-decoration:overline">w′<sup>2</sup></span> )/3 ] ⁄ <i>ū</i>
+</div>
+
+<p class="hint">（上划线表示时均。工程上常只用纵向分量 <i>u</i>′ 的均方根近似，写成 <i>Tu</i> ≈ √<span style="text-decoration:overline">u′<sup>2</sup></span> ⁄ <i>ū</i>。）</p>
+
+<h2>4.4.2 湍流阻力 = 粘性切应力 + 惯性切应力</h2>
+
+<p>湍流中的切应力比层流多出一项：</p>
+
+<div class="fml">
+  <i>τ</i> = <i>τ</i><sub>1</sub> + <i>τ</i><sub>2</sub> = <i>μ</i> (d<i>ū</i>/d<i>y</i>) + (−<i>ρ</i> <span style="text-decoration:overline">u′v′</span>)
+</div>
+
+<table class="zebra">
+  <tr><th>项</th><th>名称</th><th>来源</th><th>量级</th></tr>
+  <tr><td><i>τ</i><sub>1</sub> = <i>μ</i> d<i>ū</i>/d<i>y</i></td><td>粘性切应力（牛顿切应力）</td><td>分子间动量交换（粘性）</td><td>只在层流底层里重要</td></tr>
+  <tr><td><i>τ</i><sub>2</sub> = −<i>ρ</i> <span style="text-decoration:overline">u′v′</span></td><td>惯性切应力（雷诺应力、附加切应力）</td><td>流体微团整体跳动引起的动量输运</td><td>湍流核心区远大于 τ<sub>1</sub></td></tr>
+</table>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="880" height="340" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="340" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">层流 vs 湍流：速度分布更"饱满"、阻力对流速更"敏感"</text><line x1="110" y1="86" x2="460" y2="86" stroke="#334155" stroke-width="2.6"   /><line x1="110" y1="254" x2="460" y2="254" stroke="#334155" stroke-width="2.6"   /><line x1="94" y1="170" x2="480" y2="170" stroke="#94a3b8" stroke-width="1.1" stroke-dasharray="8 3 2 3"  /><path d="M110,86 L110,86 L120.36875,90.2 L130.475,94.4 L140.31875,98.6 L149.89999999999998,102.8 L159.21875,107 L168.27500000000003,111.2 L177.06875000000002,115.4 L185.59999999999997,119.6 L193.86874999999998,123.80000000000001 L201.875,128 L209.61874999999998,132.2 L217.10000000000002,136.4 L224.31875,140.6 L231.27499999999998,144.8 L237.96875,149 L244.4,153.2 L250.56875000000002,157.39999999999998 L256.475,161.60000000000002 L262.11875,165.8 L267.5,170 L272.61875,174.2 L277.475,178.4 L282.06875,182.6 L286.4,186.8 L290.46875,191 L294.275,195.2 L297.81875,199.4 L301.1,203.6 L304.11875,207.8 L306.875,212 L309.36875,216.20000000000002 L311.6,220.4 L313.56875,224.6 L315.275,228.79999999999998 L316.71875,233 L317.9,237.20000000000002 L318.81875,241.4 L319.475,245.6 L319.86875,249.79999999999998 L320,254" fill="none" stroke="#2563eb" stroke-width="2.4"   /><path d="M110,86 L110,86 L264.68050392704913,90.2 L280.78112235563583,94.4 L290.96548767729576,98.6 L298.55764632630184,102.8 L304.66525187694026,107 L309.8020972813698,111.2 L314.2508486630886,115.4 L318.1845200318853,119.6 L321.7171000795708,123.80000000000001 L324.92786327400114,128 L327.87427846551645,132.2 L330.59940041839536,136.4 L333.1363593259149,140.6 L335.51122016789304,144.8 L337.74487634426316,149 L339.8543454764203,153.2 L341.85368115829715,157.39999999999998 L343.75463006328323,161.60000000000002 L345.56711552858496,165.8 L347.2996000371436,170 L348.9593613830589,174.2 L350.5527061530248,178.4 L352.08513691818337,182.6 L353.56148472468067,186.8 L354.9860152135562,191 L356.36251445109446,195.2 L357.6943589710046,199.4 L358.984573403157,203.6 L360.2358782487406,207.8 L361.4507297646401,212 L362.6313534771085,216.20000000000002 L363.7797725128733,220.4 L364.8978316843741,224.6 L365.98721807354747,228.79999999999998 L367.04947871019965,233 L368.08603582557225,237.20000000000002 L369.0982000711806,241.4 L370.08718202149817,245.6 L371.05410222218205,249.79999999999998 L372,254" fill="none" stroke="#b91c1c" stroke-width="2.4" stroke-dasharray="7 3"  /><text x="170" y="228" font-size="11" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">层流：抛物线</text><text x="230" y="112" font-size="11" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">湍流：1/7 次方（更饱满）</text><text x="116" y="76" font-size="10" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">壁面 u=0</text><rect x="500" y="50" width="356" height="250" fill="#fcfdfe" stroke="#94a3b8" stroke-width="1.2"  rx="6"/><text x="516" y="74" font-size="11.8" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">两个必须记住的差别</text><text x="516" y="100" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">① 速度分布形状</text><text x="530" y="120" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">层流：u/u_max = 1 − (r/r₀)²</text><text x="530" y="138" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">湍流：u/u_max ≈ (y/r₀)^(1/7)</text><text x="516" y="166" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">② 阻力与流速的关系</text><text x="530" y="186" font-size="10.4" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">层流：h_f ∝ v¹（λ=64/Re∝v⁻¹）</text><text x="530" y="204" font-size="10.4" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">湍流：h_f ∝ v^1.75~2</text><text x="530" y="222" font-size="9.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">（λ 变化慢，v² 起主导 → 阻力平方区）</text><text x="516" y="250" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">③ 动能修正系数 α</text><text x="530" y="270" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">层流 α=2、β=4/3；湍流 α≈1</text><text x="440" y="330" font-size="11.2" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">考试用法：v 加倍 → 层流 h_f 也加倍，湍流 h_f 约涨 3.4 倍。这一个结论能秒杀一批选择题。</text></svg><figcaption><b>图 4-7</b> 层流与湍流的速度分布对比：湍流更"饱满"，速度梯度集中在贴壁处</figcaption></figure>
+
+
+<p><b>为什么脉动能产生应力？</b>设想一团流体从慢层（<i>y</i> 小）跳到快层（<i>y</i> 大）：它带着较低的速度过去，相当于给快层"踩了刹车"——
+产生一个负向的动量输运。反过来，快层的流体团跳到慢层，就"推了一把"。这一来一回，就是 <i>τ</i><sub>2</sub>。</p>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 380" width="880" height="380" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="380" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">湍流为什么比层流"费力"：脉动让流层之间交换动量</text><line x1="60" y1="150" x2="470" y2="150" stroke="#2563eb" stroke-width="2" stroke-dasharray="9 4"  /><line x1="60" y1="230" x2="470" y2="230" stroke="#b91c1c" stroke-width="2" stroke-dasharray="9 4"  /><text x="476" y="154" font-size="10.5" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">快层 A（u 大）</text><text x="476" y="234" font-size="10.5" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">慢层 B（u 小）</text><circle cx="250" cy="230" r="6" fill="#fef3c7" stroke="#b45309" stroke-width="1.6"/><circle cx="253" cy="150" r="6" fill="#fef3c7" stroke="#b45309" stroke-width="1.6"/><line x1="250" y1="220" x2="250" y2="162" stroke="#b45309" stroke-width="1.6"  marker-end="url(#ar)" /><text x="262" y="194" font-size="10" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">横向脉动 v′（把慢的带上去）</text><line x1="253" y1="140" x2="296" y2="140" stroke="#2563eb" stroke-width="1.8"  marker-end="url(#ar)" /><text x="300" y="144" font-size="10" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">u′（到了快层就拖慢它）</text><path d="M60,100 L60,100 L115.36371028417702,105.66666666666667 L121.12649196283485,111.33333333333333 L124.77171057010368,117 L127.48911878383252,122.66666666666667 L129.67517129627487,128.33333333333334 L131.51376642316671,134 L133.1060768719352,139.66666666666666 L134.5140283363158,145.33333333333334 L135.77841999105183,151 L136.9276259916437,156.66666666666666 L137.98221576151465,162.33333333333331 L138.95759959113673,168 L139.8656355387376,173.66666666666669 L140.71565286013526,179.33333333333331 L141.5151297837516,185 L142.2701573077196,190.66666666666669 L142.98576553656562,196.33333333333331 L143.6661588748903,202 L144.3148891133344,207.66666666666666 L144.93498516919482,213.33333333333331 L145.52905193238217,219 L146.09934667533702,224.66666666666666 L146.64783889484005,230.33333333333334 L147.17625773342976,236 L147.68612996215145,241.66666666666669 L148.17881070121473,247.33333333333334 L148.6555084897004,253 L149.117305912211,258.66666666666663 L149.56517669869845,264.33333333333337 L150,270" fill="none" stroke="#0f766e" stroke-width="1.8" stroke-dasharray="2 2"  /><text x="68" y="96" font-size="10" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">u(y) </text><rect x="510" y="44" width="346" height="150" fill="#fcfdfe" stroke="#0f766e" stroke-width="1.2"  rx="6"/><text x="683" y="63" font-size="12" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">湍流切应力 = 粘性项 + 惯性项</text><text x="526" y="92" font-size="12" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">τ₁ = μ dū/dy</text><text x="526" y="112" font-size="9.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">（分子粘性，层流也有）</text><text x="526" y="140" font-size="12" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">τ₂ = −ρ ū′v′</text><text x="526" y="160" font-size="9.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">（雷诺应力/附加切应力，只有湍流有）</text><text x="526" y="182" font-size="10.5" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">τ = τ₁ + τ₂（充分湍流处 τ₂ ≫ τ₁）</text><rect x="510" y="204" width="346" height="130" fill="#fcfdfe" stroke="#b45309" stroke-width="1.2"  rx="6"/><text x="683" y="223" font-size="12" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">普朗特混合长度理论（1925）</text><text x="526" y="248" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">|u′_y| ∝ |u′_x| ∝ (dū/dy)·l′</text><text x="526" y="272" font-size="12.5" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">−ρ ū′v′ = ρ l² (dū/dy)²</text><text x="526" y="294" font-size="10" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">其中 l = κy（κ≈0.4，y 为离壁距离）</text><text x="526" y="316" font-size="10" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">→ 积分得对数流速分布</text><text x="440" y="372" font-size="11.2" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">一句话：层流的阻力靠"粘"，湍流的阻力靠"掺混"——后者强得多，所以湍流阻力大、放热强、掺混快。</text></svg><figcaption><b>图 4-8</b> 脉动引起的动量交换：一团流体横向跳动，就带来一份额外切应力</figcaption></figure>
+
+
+<h2>4.4.3 普朗特混合长度理论：把 τ<sub>2</sub> 算出来</h2>
+
+<p><i>τ</i><sub>2</sub> = −<i>ρ</i> <span style="text-decoration:overline">u′v′</span> 里有两个脉动量的乘积，本来无从下手。1925 年普朗特（Prandtl）提出一个天才的假设：</p>
+
+<p><b>假设：</b>流体微团在横向跳动一个特征距离 <i>l</i>′（<b>混合长度</b>）后，才与周围流体"混同"、把动量交出去。
+在这段距离内，它保留原来的速度，所以它与周围的速度差约为</p>
+
+<div class="fml">
+  Δ<i>u</i> ≈ (d<i>ū</i>/d<i>y</i>) · <i>l</i>′
+</div>
+
+<p>由质量守恒（纵向脉动必然伴随横向脉动），两者量级相当：</p>
+
+<div class="fml">
+  |<i>u</i>′<sub>y</sub>| ∝ |<i>u</i>′<sub>x</sub>| ∝ (d<i>ū</i>/d<i>y</i>) <i>l</i>′
+</div>
+
+<p>于是两者的乘积（取时均，并引入比例常数 c）：</p>
+
+<div class="fml">
+  −<span style="text-decoration:overline">u′<sub>x</sub>u′<sub>y</sub></span> = c |<span style="text-decoration:overline">u′<sub>x</sub></span>| |<span style="text-decoration:overline">u′<sub>y</sub></span>|
+  = c(<i>l</i>′)<sup>2</sup> (d<i>ū</i>/d<i>y</i>)<sup>2</sup>
+  = <i>l</i><sup>2</sup> (d<i>ū</i>/d<i>y</i>)<sup>2</sup>　　（令 <i>l</i><sup>2</sup> = c(<i>l</i>′)<sup>2</sup>）
+</div>
+
+<p>所以惯性切应力为</p>
+
+<div class="fml">
+  <i>τ</i><sub>2</sub> = <i>ρ l</i><sup>2</sup> (d<i>ū</i>/d<i>y</i>)<sup>2</sup>
+</div>
+
+<p>合起来就是<b>湍流切应力的普朗特公式</b>：</p>
+
+<div class="fml">
+  <i>τ</i> = <i>μ</i> (d<i>ū</i>/d<i>y</i>) + <i>ρ l</i><sup>2</sup> (d<i>ū</i>/d<i>y</i>)<sup>2</sup>　　（<i>l</i> 称<b>混合长度</b>）
+</div>
+
+<div class="box tip">
+  <b>打个比方：</b>层流的动量传递像"相邻两排人一个接一个递东西"（慢，靠分子）；湍流像"有人抱着东西满场跑"（快，靠流体团）。
+  <i>l</i> 就是这个人一次能跑多远。跑得越远（<i>l</i> 越大），交换越猛，阻力越大。
+</div>
+
+<p><b>混合长度取多少？</b>普朗特进一步假设它只与离壁距离成正比：</p>
+
+<div class="fml">
+  <i>l</i> = <i>κ y</i>　　（<i>κ</i> 为卡门通用常数，<i>κ</i> ≈ 0.4；<i>y</i> 为离壁距离）
+</div>
+
+<p>把它代入并对 <i>y</i> 积分，就得到湍流核心区的<b>对数流速分布</b>：</p>
+
+<div class="fml">
+  <i>ū</i>/<i>u</i><sub>*</sub> = (1/<i>κ</i>) ln(<i>y</i>) + C　　（<i>u</i><sub>*</sub> = √(<i>τ</i><sub>0</sub>/<i>ρ</i>) 称<b>摩阻流速</b>）
+</div>
+
+<p>这条"对数律"就是尼古拉兹图上那些曲线形状的 Theoretical 依据——虽然实际工程上我们更多地直接用经验公式（4.6 节）。</p>
+
+<div class="box exam">
+  <b>本节要能默写的三行：</b><br>
+  ① <i>τ</i> = <i>μ</i> d<i>ū</i>/d<i>y</i> + <i>ρl</i><sup>2</sup>(d<i>ū</i>/d<i>y</i>)<sup>2</sup>（两项，各是什么）<br>
+  ② <i>l</i> = <i>κy</i>，<i>κ</i> ≈ 0.4<br>
+  ③ 湍流核心区惯性切应力 ≫ 粘性切应力；层流底层里反过来。
+</div>
+
+<h2>4.4.4 例题</h2>
+
+<div class="lv l1">
+  <div class="tagx">例 4-6 · 看懂（湍流度就是一个百分比）</div>
+  <p class="pt">风洞中某点的时均速度 <i>ū</i> = 20 m/s，测得脉动速度的均方根为 0.6 m/s。求该点的湍流度。</p>
+  <p><b>第 1 步 · 直接代定义式：</b></p>
+  <div class="fml"><i>Tu</i> = √<span style="text-decoration:overline">u′<sup>2</sup></span> ⁄ <i>ū</i> = 0.6/20 = 0.03 = <b>3%</b></div>
+  <p class="ans"><b>答：</b><i>Tu</i> = 3%，属于较低湍流度（风洞来流、自由大气常在 0.5%~2%；管道湍流可达 5%~10%）。</p>
+  <p class="hint"><b>这道题的"经验"：</b>湍流度一定是个很小的百分数（几 %）。算出 30% 或 300 就是除错了。它的用途是<b>判断"来流有多乱"</b>——
+  风洞实验、数值模拟的入口条件都要报这个数。</p>
+</div>
+
+<div class="lv l3">
+  <div class="tagx">例 4-7 · 应考（量级比较：湍流核心区到底哪个切应力大？）</div>
+  <p class="pt">管内空气流动（<i>ρ</i> = 1.2 kg/m³、<i>ν</i> = 1.5×10<sup>−5</sup> m²/s），<i>d</i> = 0.2 m、<i>v</i> = 10 m/s。
+  若混合长度取 <i>l</i> = 0.01 m、时均速度梯度 d<i>ū</i>/d<i>y</i> = 200 s<sup>−1</sup>，比较粘性切应力与惯性切应力的量级。</p>
+  <p><b>第 1 步 · 粘性切应力：</b></p>
+  <div class="fml">
+    <i>μ</i> = <i>ρν</i> = 1.2×1.5×10<sup>−5</sup> = 1.8×10<sup>−5</sup> Pa·s<br>
+    <i>τ</i><sub>1</sub> = <i>μ</i>(d<i>ū</i>/d<i>y</i>) = 1.8×10<sup>−5</sup> × 200 = <b>3.6×10<sup>−3</sup> Pa</b>
+  </div>
+  <p><b>第 2 步 · 惯性切应力：</b></p>
+  <div class="fml">
+    <i>τ</i><sub>2</sub> = <i>ρl</i><sup>2</sup>(d<i>ū</i>/d<i>y</i>)<sup>2</sup> = 1.2 × 0.01<sup>2</sup> × 200<sup>2</sup> = 1.2 × 10<sup>−4</sup> × 4×10<sup>4</sup> = <b>4.8 Pa</b>
+  </div>
+  <p><b>第 3 步 · 比值：</b></p>
+  <div class="fml"><i>τ</i><sub>2</sub>/<i>τ</i><sub>1</sub> = 4.8/3.6×10<sup>−3</sup> ≈ <b>1333 倍</b></div>
+  <p class="ans"><b>答：</b>湍流核心区惯性切应力比粘性切应力大约 3 个数量级，完全可以忽略 τ<sub>1</sub>；但在贴壁的层流底层里速度梯度极大、
+  且 <i>l</i>→0，情况反过来，τ<sub>1</sub> 才是主角。</p>
+  <p class="hint"><b>这道题的"经验"：</b>记住这两个数量级（10<sup>−3</sup> 与 10<sup>0</sup> Pa），以及"两个极端"的分工：
+  <b>贴壁靠粘性，中心靠惯性</b>。所有"为什么湍流阻力大"的简答题都可以用这段素材回答。</p>
+</div>
+
+<h1 class="ch" id="c5">4.5 尼古拉兹实验——λ 到底跟什么有关</h1>
+
+<div class="why">
+  <span class="wt">必须做实验：</span>层流能解出 λ = 64/Re，湍流解不出来（方程不封闭）。所以只能走实验路线：
+  <b>把 λ 和它可能依赖的量全部无量纲化，再一个一个变量地测</b>。尼古拉兹实验是流体力学史上最经典的实验之一，
+  它一次性回答了"λ 到底跟谁有关"。
+</div>
+
+<h2>4.5.1 实验怎么做的</h2>
+
+<p><b>思路：</b>λ 可能依赖的物理量有 <i>v</i>、<i>d</i>、<i>ρ</i>、<i>μ</i>、管壁粗糙度。无量纲化以后只剩两个数：</p>
+
+<div class="fml">
+  <i>Re</i> = <i>vd</i>/<i>ν</i>　（组合了 v、d、ρ、μ）　和　<i>K</i>/<i>d</i>　（相对粗糙度）
+</div>
+
+<p>所以只要做出"<b>λ = f(Re, K/d)</b>"这张图，问题就解决了。</p>
+
+<p><b>怎么造出可控的粗糙度？</b>尼古拉兹把<b>同样大小的沙粒</b>均匀地粘在管壁上，用沙粒直径 <i>K</i> 代表"绝对粗糙度"
+（<i>K</i> 就是粗糙凸起的平均高度）。做了 3 种管径（25、50、100 mm）× 6 种相对粗糙度（<i>K</i>/<i>d</i> = 1/30、1/61.2、1/120、1/252 …），
+覆盖很大的 Re 范围。</p>
+
+<p><b>怎么测 λ？</b>实测该段的 <i>h</i><sub>f</sub>，反解达西公式：</p>
+
+<div class="fml">
+  <i>λ</i> = (<i>d</i>/<i>l</i>) · (2<i>g</i>/<i>v</i><sup>2</sup>) · <i>h</i><sub>f</sub>
+</div>
+
+<h2>4.5.2 结果：五个区，五种规律</h2>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" width="880" height="430" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="430" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">尼古拉兹实验：人工均匀粗糙管，λ 随 Re 的完整图谱（五个区）</text><line x1="100" y1="372" x2="100" y2="64" stroke="#e2e8f0" stroke-width="1"   /><text x="100" y="390" font-size="10.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">10^3</text><line x1="306.66666666666663" y1="372" x2="306.66666666666663" y2="64" stroke="#e2e8f0" stroke-width="1"   /><text x="306.66666666666663" y="390" font-size="10.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">10^4</text><line x1="513.3333333333333" y1="372" x2="513.3333333333333" y2="64" stroke="#e2e8f0" stroke-width="1"   /><text x="513.3333333333333" y="390" font-size="10.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">10^5</text><line x1="720" y1="372" x2="720" y2="64" stroke="#e2e8f0" stroke-width="1"   /><text x="720" y="390" font-size="10.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">10^6</text><line x1="100" y1="372" x2="720" y2="372" stroke="#e2e8f0" stroke-width="1"   /><text x="92" y="376" font-size="10.5" fill="#334155" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">0.01</text><line x1="100" y1="279.2827613354938" x2="720" y2="279.2827613354938" stroke="#e2e8f0" stroke-width="1"   /><text x="92" y="283.2827613354938" font-size="10.5" fill="#334155" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">0.02</text><line x1="100" y1="186.56552267098755" x2="720" y2="186.56552267098755" stroke="#e2e8f0" stroke-width="1"   /><text x="92" y="190.56552267098755" font-size="10.5" fill="#334155" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">0.04</text><line x1="100" y1="132.32941488183775" x2="720" y2="132.32941488183775" stroke="#e2e8f0" stroke-width="1"   /><text x="92" y="136.32941488183775" font-size="10.5" fill="#334155" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">0.06</text><line x1="100" y1="93.84828400648138" x2="720" y2="93.84828400648138" stroke="#e2e8f0" stroke-width="1"   /><text x="92" y="97.84828400648138" font-size="10.5" fill="#334155" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">0.08</text><line x1="100" y1="64" x2="720" y2="64" stroke="#e2e8f0" stroke-width="1"   /><text x="92" y="68" font-size="10.5" fill="#334155" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">0.1</text><line x1="100" y1="372" x2="720" y2="372" stroke="#334155" stroke-width="1.8"  marker-end="url(#ar)" /><line x1="100" y1="372" x2="100" y2="64" stroke="#334155" stroke-width="1.8"  marker-end="url(#ar)" /><text x="714" y="412" font-size="12" fill="#334155" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">Re</text><text x="56" y="68" font-size="12" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-style:italic;">λ</text><path d="M100,123.69656801296279 L103.52022345508125,128.9428365169871 L106.90757613396964,133.99108470294328 L110.17172468517084,138.85571899537868 L113.32131777356318,143.54962869485362 L116.36412418317576,148.08439179563118 L119.30714826686193,152.47044704293114 L122.15672706055946,156.71723866450623 L124.91861244920901,160.83333882436452 L127.59804106317827,164.82655179098975 L130.19979404016922,168.70400300186006 L132.72824836635164,172.47221557829965 L135.18742118162453,176.1371763546096 L137.581008175253,179.70439309995268 L139.9124169932554,183.17894430613694 L142.18479641555783,186.56552267098755 L144.40106192985758,189.86847321165368 L146.56391822334498,193.09182678452854 L148.6758790275601,196.23932966048784 L150.739284681591,199.3144696997209 L152.75631772134992,202.32049958478103 L154.7290167553042,205.26045749989999 L156.65928884782713,208.13718558617617 L158.54892059873362,210.95334645365602 L160.39958808033836,213.71143799075736 L162.21286577055614,216.41380667746893 L163.99023460135243,219.0626595801396 L165.73308922563737,221.6600751814933 L167.4427445919419,224.20801317901822 L169.12044190452568,226.70832336744942 L170.76735403658927,229.1627537062023 L172.38459045572696,231.5729576598849 L173.97320171342716,233.94050088910254" fill="none" stroke="#2563eb" stroke-width="2.6"   /><rect x="174.75708611030257" y="68" width="49.668645430809704" height="300" fill="#f1f5f9" stroke="none" stroke-width="1.6"  rx="0"/><path d="M224.42573154111227,187.28578508595632 L234.75906487444556,191.13578508595631 L245.09239820777884,194.9857850859563 L255.42573154111213,198.83578508595627 L265.7590648744454,202.68578508595627 L276.09239820777873,206.53578508595618 L286.425731541112,210.38578508595623 L296.75906487444536,214.23578508595622 L307.0923982077786,218.08578508595622 L317.4257315411119,221.9357850859562 L327.75906487444524,225.78578508595618 L338.0923982077785,229.63578508595617 L348.42573154111176,233.48578508595617 L358.7590648744451,237.33578508595613 L369.0923982077784,241.18578508595613 L379.4257315411117,245.03578508595612 L389.75906487444496,248.88578508595612 L400.0923982077783,252.73578508595608 L410.4257315411116,256.5857850859561 L420.7590648744449,260.43578508595607 L431.0923982077782,264.28578508595604 L441.42573154111153,268.13578508595606 L451.7590648744448,271.985785085956 L462.0923982077781,275.835785085956 L472.4257315411114,279.685785085956 L482.7590648744447,283.535785085956 L493.092398207778,287.3857850859559 L503.4257315411113,291.23578508595597 L513.7590648744446,295.08578508595593 L524.0923982077779,298.9357850859559 L534.4257315411112,302.7857850859559 L544.7590648744444,306.6357850859559" fill="none" stroke="#0f766e" stroke-width="2.6"   /><line x1="224.42573154111227" y1="132.920633744078" x2="714" y2="132.920633744078" stroke="#b45309" stroke-width="1.8"   opacity="0.85"/><text x="724" y="136.920633744078" font-size="9.2" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">K/d=0.0333</text><line x1="224.42573154111227" y1="169.79517080368066" x2="714" y2="169.79517080368066" stroke="#b45309" stroke-width="1.8"   opacity="0.85"/><text x="724" y="173.79517080368066" font-size="9.2" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">K/d=0.0166</text><line x1="224.42573154111227" y1="202.06544904814058" x2="714" y2="202.06544904814058" stroke="#b45309" stroke-width="1.8"   opacity="0.85"/><text x="724" y="206.06544904814058" font-size="9.2" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">K/d=0.0083</text><line x1="224.42573154111227" y1="232.30468730644492" x2="714" y2="232.30468730644492" stroke="#b45309" stroke-width="1.8"   opacity="0.85"/><text x="724" y="236.30468730644492" font-size="9.2" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">K/d=0.004</text><line x1="224.42573154111227" y1="258.16440615010083" x2="714" y2="258.16440615010083" stroke="#b45309" stroke-width="1.8"   opacity="0.85"/><text x="724" y="262.16440615010083" font-size="9.2" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">K/d=0.002</text><line x1="224.42573154111227" y1="281.7433069425931" x2="714" y2="281.7433069425931" stroke="#b45309" stroke-width="1.8"   opacity="0.85"/><text x="724" y="285.7433069425931" font-size="9.2" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">K/d=0.001</text><text x="136.39219353817413" y="250" font-size="11" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">Ⅰ 层流区</text><text x="200.96714807675852" y="100" font-size="11" fill="#7c3aed" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">Ⅱ</text><text x="292.0799113142872" y="84" font-size="11" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">Ⅲ 光滑区</text><text x="521.8878215993666" y="84" font-size="11" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">Ⅳ 过渡区</text><text x="661.3073576845252" y="84" font-size="11" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">Ⅴ 粗糙区</text><rect x="24" y="392" width="832" height="34" fill="#fcfdfe" stroke="#94a3b8" stroke-width="1.2"  rx="6"/><text x="40" y="413" font-size="10.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">Ⅰ: λ=64/Re；Ⅱ: 2300&lt;Re&lt;4000 不稳定；Ⅲ: λ=f(Re)；Ⅳ: λ=f(Re,K/d)；Ⅴ: λ=f(K/d)（曲线水平，与 Re 无关）</text></svg><figcaption><b>图 4-9</b> 尼古拉兹图：λ-Re 关系被分成五个区，粗糙度只在后两个区起作用</figcaption></figure>
+
+
+<table class="zebra">
+  <tr><th>区</th><th>名称</th><th>Re 范围</th><th>λ 依赖什么</th><th>λ 值</th></tr>
+  <tr><td>Ⅰ</td><td>层流区</td><td>Re &lt; 2300</td><td>只与 Re 有关</td><td><i>λ</i> = 64/Re</td></tr>
+  <tr><td>Ⅱ</td><td>临界区（过渡区）</td><td>2300 &lt; Re &lt; 4000</td><td>不稳定，无确定公式</td><td>取 0.03~0.04 之间，工程上按湍流处理</td></tr>
+  <tr><td>Ⅲ</td><td>湍流光滑区</td><td>Re &gt; 4000</td><td>只与 Re 有关，<b>与 K/d 无关</b></td><td>曲线重合成一条（尼古拉兹光滑管公式/布拉修斯）</td></tr>
+  <tr><td>Ⅳ</td><td>湍流过渡区</td><td>介于 Ⅲ 与 Ⅴ 之间</td><td>与 Re 和 K/d <b>都有关</b></td><td>曲线从光滑线向各自水平线过渡</td></tr>
+  <tr><td>Ⅴ</td><td>湍流粗糙区（阻力平方区）</td><td>Re 很大</td><td>只与 K/d 有关，<b>与 Re 无关</b></td><td>曲线变成水平线</td></tr>
+</table>
+
+<div class="box tip">
+  <b>为什么"粗糙度有时有用、有时没用"？</b>关键在于<b>层流底层厚度 δ 与 K 的比较</b>：<br>
+  · <b>K &lt; δ</b>：粗糙凸起藏在层流底层里，主流感觉不到它 → 管子算"<b>水力光滑</b>"，λ 只取决于 Re（Ⅲ 区）。<br>
+  · <b>K 与 δ 相当</b>：凸起开始戳出底层，部分起作用 → 过渡区（Ⅳ 区）。<br>
+  · <b>K ≫ δ</b>：凸起完全暴露，绕流凸起直接产生旋涡 → 阻力只由凸起决定，λ 与 Re 无关（Ⅴ 区）。<br>
+  因为 δ 随 Re 增大而变薄，所以<b>同一根管子在低 Re 时是"光滑管"、在高 Re 时变成"粗糙管"</b>——这就是 Ⅳ、Ⅴ 区存在的原因。
+</div>
+
+<div class="box warn">
+  <b>为什么 Ⅴ 区叫"阻力平方区"？</b>因为 λ 变成常数后，<i>h</i><sub>f</sub> = λ(l/d)v<sup>2</sup>/2g 里只剩 v<sup>2</sup>——
+  损失与流速的<b>平方</b>成正比。这是工程上最常见的情形（大口径水管、风管大多在此区）。
+</div>
+
+<h2>4.5.3 例题</h2>
+
+<div class="lv l2">
+  <div class="tagx">例 4-8 · 模仿（拿到 Re 和 K/d，先判区再选公式）</div>
+  <p class="pt">某新铸铁管 <i>d</i> = 200 mm，绝对粗糙度 <i>K</i> = 0.25 mm，输水 <i>v</i> = 1.5 m/s（<i>ν</i> = 1×10<sup>−6</sup> m²/s）。
+  试用尼古拉兹图判断它属于哪个区，并说明 λ 与什么有关。</p>
+  <p><b>第 1 步 · 算两个无量纲数：</b></p>
+  <div class="fml">
+    <i>Re</i> = <i>vd</i>/<i>ν</i> = 1.5×0.2/(1×10<sup>−6</sup>) = <b>3×10<sup>5</sup></b><br>
+    <i>K</i>/<i>d</i> = 0.25/200 = <b>1.25×10<sup>−3</sup></b>（即 1/800）
+  </div>
+  <p><b>第 2 步 · 用 4.6 节的三判别式定位（比查图更准）：</b></p>
+  <div class="fml">
+    0.32(<i>d</i>/<i>K</i>)<sup>1.28</sup> = 0.32×800<sup>1.28</sup> = 0.32×5186 = <b>1660</b><br>
+    1000(<i>d</i>/<i>K</i>) = 1000×800 = <b>8×10<sup>5</sup></b><br>
+    1660 &lt; Re = 3×10<sup>5</sup> ≤ 8×10<sup>5</sup>　→　<b>湍流过渡区（Ⅳ 区）</b>
+  </div>
+  <p class="ans"><b>答：</b>属于湍流过渡区。<b>λ 同时与 Re 和 K/d 有关</b>，必须用柯列勃洛克公式迭代求解（见例 4-9）。</p>
+  <p class="hint"><b>这道题的"经验"：</b>判区顺序永远是"先算 Re、再算 K/d、然后代三个判别式"。
+  千万不要凭感觉说"铸铁管就是粗糙区"——同一种管子在不同流速下可以落在不同区，本例就在过渡区而不是粗糙区。</p>
+</div>
+
+<h1 class="ch" id="c6">4.6 工业管道湍流沿程阻力系数的计算——工程上真正用的公式</h1>
+
+<div class="why">
+  <span class="wt">不能直接用尼古拉兹的结果：</span>尼古拉兹用的是"均匀沙粒"人工粗糙，而工业管道是锈蚀、结垢、
+  焊缝形成的<b>不规则粗糙</b>，同样一个 K 值，产生的阻力并不一样（沙粒粗糙比工业粗糙"更凶"）。
+  所以工程上发展了一套<b>按区分类 + 经验/半经验公式</b>的做法，这一节就是这套做法的全部内容。
+</div>
+
+<h2>4.6.1 三个区、四组公式</h2>
+
+<table class="zebra">
+  <tr><th>区</th><th>理论式（尼古拉兹）</th><th>经验式（工程常用）</th><th>适用</th></tr>
+  <tr>
+    <td><b>湍流光滑区</b></td>
+    <td>1/√<i>λ</i> = 2lg(Re√<i>λ</i>) − 0.8<br>即 1/√<i>λ</i> = 2lg(Re√<i>λ</i>/2.51)</td>
+    <td><b>布拉修斯：<i>λ</i> = 0.3164/<i>Re</i><sup>0.25</sup></b></td>
+    <td>Re 适用范围以理论式更广；布拉修斯<b>仅适用 Re &lt; 10<sup>5</sup></b></td>
+  </tr>
+  <tr>
+    <td><b>湍流过渡区</b></td>
+    <td colspan="2"><b>柯列勃洛克（Colebrook）公式：</b><br>1/√<i>λ</i> = −2lg[ <i>K</i>/(3.7<i>d</i>) + 2.51/(<i>Re</i>√<i>λ</i>) ]　（两边都有 λ，<b>需迭代</b>）</td>
+    <td>我国通风管道设计以此为基础；莫迪公式误差 &lt; 5%</td>
+  </tr>
+  <tr>
+    <td><b>湍流粗糙区</b></td>
+    <td>1/√<i>λ</i> = 2lg(3.7<i>d</i>/<i>K</i>)</td>
+    <td><b>希弗林松：<i>λ</i> = 0.11(<i>K</i>/<i>d</i>)<sup>0.25</sup></b></td>
+    <td>与 Re 无关，λ 只由 K/d 决定</td>
+  </tr>
+</table>
+
+<div class="box tip">
+  <b>柯氏公式为什么是"万金油"？</b>看它的结构：括号里第一项 <i>K</i>/(3.7<i>d</i>) 是粗糙度的影响，第二项 2.51/(<i>Re</i>√<i>λ</i>) 是粘性的影响。<br>
+  · 当 Re 小（光滑区）→ 第二项远大于第一项 → 退化成光滑管公式；<br>
+  · 当 Re 很大（粗糙区）→ 第一项远大于第二项 → 退化成粗糙管公式。<br>
+  所以<b>一个柯氏公式能覆盖三个区</b>，工程手册干脆直接用它，省去判区——但考试要求你会判区、会选公式。
+</div>
+
+<h2>4.6.2 三区判别式（考试必须会写）</h2>
+
+<p>以"柯氏公式与尼古拉兹分区公式误差不大于 2%"为界，得到三个极为实用的判别式（<b>背下来</b>）：</p>
+
+<div class="fml">
+  湍流光滑区：　2000 &lt; <i>Re</i> ≤ 0.32(<i>d</i>/<i>K</i>)<sup>1.28</sup><br>
+  湍流过渡区：　0.32(<i>d</i>/<i>K</i>)<sup>1.28</sup> &lt; <i>Re</i> ≤ 1000(<i>d</i>/<i>K</i>)<br>
+  湍流粗糙区：　<i>Re</i> &gt; 1000(<i>d</i>/<i>K</i>)
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 330" width="880" height="330" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="330" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">工业管道怎么选公式：先用两个判别式定区，再套对应公式</text><line x1="80" y1="120" x2="800" y2="120" stroke="#334155" stroke-width="1.8"  marker-end="url(#ar)" /><text x="796" y="142" font-size="10.5" fill="#64748b" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">Re（对数坐标）</text><rect x="267.3483193756133" y="86" width="61.83912630323812" height="34" fill="#eef7f6" stroke="none" stroke-width="1.6"  rx="0"/><rect x="329.1874456788514" y="86" width="370.1608736967619" height="34" fill="#fef3c7" stroke="none" stroke-width="1.6"  rx="0"/><rect x="699.3483193756133" y="86" width="100.6516806243867" height="34" fill="#fee2e2" stroke="none" stroke-width="1.6"  rx="0"/><text x="298.26788252723236" y="106" font-size="11.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">湍流光滑区</text><text x="514.2678825272324" y="106" font-size="11.5" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">湍流过渡区</text><text x="749.6741596878067" y="106" font-size="11.5" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">湍流粗糙区</text><line x1="329.1874456788514" y1="80" x2="329.1874456788514" y2="128" stroke="#334155" stroke-width="1.4" stroke-dasharray="4 3"  /><line x1="699.3483193756133" y1="80" x2="699.3483193756133" y2="128" stroke="#334155" stroke-width="1.4" stroke-dasharray="4 3"  /><text x="329.1874456788514" y="160" font-size="10" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">0.32(d/K)^1.28</text><text x="693.3483193756133" y="178" font-size="10" fill="#334155" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">1000(d/K)</text><rect x="24" y="176" width="270" height="122" fill="#fcfdfe" stroke="#0f766e" stroke-width="1.3"  rx="6"/><text x="40" y="198" font-size="11.2" fill="#0f766e" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">光滑区：布拉修斯</text><text x="40" y="222" font-size="11.5" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">λ = 0.3164 / Re^0.25</text><text x="40" y="244" font-size="9.6" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">（Re &lt; 10⁵；否则用尼古拉兹式迭代）</text><text x="40" y="270" font-size="10.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">1/√λ = 2lg(Re√λ) − 0.8</text><rect x="306" y="176" width="270" height="122" fill="#fcfdfe" stroke="#b45309" stroke-width="1.3"  rx="6"/><text x="322" y="198" font-size="11.2" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">过渡区：柯列勃洛克</text><text x="322" y="222" font-size="10.4" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">1/√λ = −2lg[K/(3.7d) + 2.51/(Re√λ)]</text><text x="322" y="246" font-size="9.6" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">需迭代（或查莫迪图，误差&lt;5%）</text><text x="322" y="270" font-size="9.6" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">我国通风管道设计以此式为基础</text><rect x="588" y="176" width="268" height="122" fill="#fcfdfe" stroke="#b91c1c" stroke-width="1.3"  rx="6"/><text x="604" y="198" font-size="11.2" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">粗糙区：尼古拉兹/希弗林松</text><text x="604" y="222" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">1/√λ = 2lg(3.7d/K)</text><text x="604" y="246" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">λ = 0.11 (K/d)^0.25</text><text x="604" y="270" font-size="9.6" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">λ 与 Re 无关 → 阻力平方区</text><text x="440" y="324" font-size="11" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">做题顺序：算 Re → 算 d/K → 代两个判别式定区 → 套公式（过渡区要迭代，别硬套布拉修斯）</text></svg><figcaption><b>图 4-10</b> 三区的分界线：同一根管子，Re 变大就会从光滑区滑到过渡区、再到粗糙区</figcaption></figure>
+
+
+<div class="box warn">
+  <b>注意区别两套数：</b><br>
+  · <b>流态判别</b>用 2000 / 4000（层流 / 过渡 / 湍流）——这是第一章式的"宏观"分区；<br>
+  · <b>湍流内部再分区</b>用上面三个式子——这是湍流（Re&gt;4000）以后的"精细"分区。<br>
+  两件事不要混：先判是不是湍流，再判湍流落在哪个阻力区。
+</div>
+
+<h2>4.6.3 例题</h2>
+
+<div class="lv l2">
+  <div class="tagx">例 4-9 · 模仿（过渡区：柯氏公式迭代，手算三步即收敛）</div>
+  <p class="pt">接例 4-8 的管子（<i>d</i> = 200 mm、<i>K</i> = 0.25 mm、<i>v</i> = 1.5 m/s、<i>ν</i> = 1×10<sup>−6</sup> m²/s，已判为过渡区）。
+  求 λ，并求 <i>l</i> = 100 m 管段的沿程水头损失。</p>
+  <p><b>第 1 步 · 把已知量整理好</b>（Re = 3×10<sup>5</sup>、K/d = 1.25×10<sup>−3</sup>）：</p>
+  <div class="fml">
+    <i>K</i>/(3.7<i>d</i>) = 1.25×10<sup>−3</sup>/3.7 = 3.378×10<sup>−4</sup>
+  </div>
+  <p><b>第 2 步 · 柯氏公式迭代</b>（先猜 λ = 0.02）：</p>
+  <div class="fml">
+    第 1 次：2.51/(<i>Re</i>√<i>λ</i>) = 2.51/(3×10<sup>5</sup>×0.1414) = 5.917×10<sup>−5</sup><br>
+    　　　　1/√<i>λ</i> = −2lg(3.378×10<sup>−4</sup> + 5.917×10<sup>−5</sup>) = −2lg(3.970×10<sup>−4</sup>) = 6.8024<br>
+    　　　　⟹ √<i>λ</i> = 0.14698，<i>λ</i> = 0.02160<br>
+    第 2 次：2.51/(3×10<sup>5</sup>×0.14698) = 5.692×10<sup>−5</sup>，1/√<i>λ</i> = 6.8073 ⟹ <i>λ</i> = <b>0.02158</b><br>
+    第 3 次：<i>λ</i> 已不变（收敛到 5 位有效数字）
+  </div>
+  <p><b>第 3 步 · 求水头损失：</b></p>
+  <div class="fml">
+    <i>h</i><sub>f</sub> = <i>λ</i>(<i>l</i>/<i>d</i>)<i>v</i><sup>2</sup>/(2<i>g</i>) = 0.02158 × (100/0.2) × 1.5<sup>2</sup>/(2×9.807)<br>
+    　　 = 0.02158 × 500 × 0.11473 = <b>1.238 m</b>
+  </div>
+  <p class="ans"><b>答：</b><i>λ</i> = 0.0216，<i>h</i><sub>f</sub> = 1.238 m（约 12.1 kPa）。</p>
+  <p class="hint"><b>这道题的"经验"：</b>柯氏公式"猜一个、代一次、再代一次"就收敛，<b>手算两次足够</b>。
+  考试时先写"设 λ = 0.02"再迭代，过程分就拿到了；只写答案不写迭代过程要扣分。</p>
+</div>
+
+<div class="lv l3">
+  <div class="tagx">例 4-10 · 应考（用错公式错多少？三个公式对比）</div>
+  <p class="pt">仍是例 4-9 的数据（Re = 3×10<sup>5</sup>、K/d = 1.25×10<sup>−3</sup>）。分别用①布拉修斯公式、②希弗林松公式、
+  ③尼古拉兹粗糙区公式计算 λ，与正确的柯氏结果 0.02158 比较，说明"必须判区"的理由。</p>
+  <p><b>① 布拉修斯（本应只用于光滑区）</b>：</p>
+  <div class="fml">
+    <i>λ</i> = 0.3164/<i>Re</i><sup>0.25</sup> = 0.3164/(3×10<sup>5</sup>)<sup>0.25</sup> = 0.3164/23.40 = <b>0.01352</b>　→　偏低 <b>37%</b>
+  </div>
+  <p><b>② 希弗林松（本应只用于粗糙区）</b>：</p>
+  <div class="fml">
+    <i>λ</i> = 0.11(<i>K</i>/<i>d</i>)<sup>0.25</sup> = 0.11×(1.25×10<sup>−3</sup>)<sup>0.25</sup> = 0.11×0.18797 = <b>0.02068</b>　→　偏低 <b>4.2%</b>
+  </div>
+  <p><b>③ 尼古拉兹粗糙区公式</b>：</p>
+  <div class="fml">
+    1/√<i>λ</i> = 2lg(3.7<i>d</i>/<i>K</i>) = 2lg(2960) = 6.9426　⟹　<i>λ</i> = <b>0.02075</b>　→　偏低 <b>3.9%</b>
+  </div>
+  <p><b>④ 对比结论</b>：布拉修斯错 37%，希弗林松和粗糙区公式各错 4% 左右——本例 Re 已接近粗糙区边界（8×10<sup>5</sup> 的 37%），
+  所以粗糙区公式"勉强能用"，但严格讲仍是过渡区。</p>
+  <p class="ans"><b>答：</b>0.01352 / 0.02068 / 0.02075，与柯氏值 0.02158 分别相差 −37% / −4.2% / −3.9%。
+  所以：<b>光滑区公式绝对不能用到粗糙管上</b>（会把损失低估三分之一），这就是必须先判区的理由。</p>
+  <p class="hint"><b>这道题的"经验"：</b>考试如果只让"求 λ"而不给区，标准做法是<b>先判区、再选式、最后说明依据</b>。
+  如果题目数据正好落在边界附近，可以两个公式都算、说明取哪个更合理——这比硬套一个公式更容易得满分。</p>
+</div>
+
+<h1 class="ch" id="c7">4.7 非圆管的沿程损失——风管、环管怎么办</h1>
+
+<div class="why">
+  <span class="wt">需要"当量直径"：</span>前面所有公式（达西、Re、64/Re）都是在<b>圆管</b>里推出来的。
+  可工程上大量是矩形风管、环形通道。硬套 <i>d</i> 没有意义，于是造一个"<b>当量直径</b>"——
+  找一个和它"阻力等效"的圆管，用那个圆管的直径代进去。
+</div>
+
+<h2>4.7.1 水力半径与当量直径</h2>
+
+<div class="fml">
+  水力半径：<i>R</i> = <i>A</i>/<i>χ</i>　　（<i>A</i> 过流断面面积，<i>χ</i> 湿周 = 被流体润湿的壁面周长）<br>
+  当量直径：<i>d</i><sub>e</sub> = 4<i>R</i> = 4<i>A</i>/<i>χ</i>
+</div>
+
+<p><b>为什么要乘 4？</b>为了让它对上圆管：圆管 <i>R</i> = (π<i>d</i><sup>2</sup>/4)/(π<i>d</i>) = <i>d</i>/4，
+所以 4<i>R</i> = <i>d</i>，正好还原。乘 4 就是"校准系数"。</p>
+
+<table class="zebra">
+  <tr><th>断面形状</th><th>水力半径 R</th><th>当量直径 d<sub>e</sub></th></tr>
+  <tr><td>圆管（直径 d）</td><td><i>d</i>/4</td><td><i>d</i></td></tr>
+  <tr><td>矩形（边长 a、b）</td><td><i>ab</i>/[2(<i>a</i>+<i>b</i>)]</td><td><b>2<i>ab</i>/(<i>a</i>+<i>b</i>)</b></td></tr>
+  <tr><td>方形（边长 a）</td><td><i>a</i>/4</td><td><b><i>a</i></b></td></tr>
+  <tr><td>圆环（外 r<sub>1</sub>、内 r<sub>2</sub>）</td><td>(<i>r</i><sub>1</sub>−<i>r</i><sub>2</sub>)/2</td><td><b>2(<i>r</i><sub>1</sub>−<i>r</i><sub>2</sub>)</b></td></tr>
+</table>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 300" width="880" height="300" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="300" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">非圆管：用"当量直径"把四个公式照搬过来（d_e = 4R = 4A/χ）</text><circle cx="110" cy="96" r="34" fill="#eef7f6" stroke="#0f766e" stroke-width="1.8"/><line x1="76" y1="96" x2="144" y2="96" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"  /><text x="110" y="90" font-size="10" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">d</text><text x="110" y="156" font-size="11.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">圆管</text><text x="110" y="178" font-size="11" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">d_e = d</text><text x="110" y="196" font-size="9.4" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">A=πd²/4, χ=πd</text><rect x="274" y="70" width="92" height="52" fill="#eef7f6" stroke="#0f766e" stroke-width="1.8"  rx="0"/><text x="320" y="100" font-size="10" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">a × b</text><text x="320" y="156" font-size="11.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">矩形</text><text x="320" y="178" font-size="11" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">d_e = 2ab/(a+b)</text><text x="320" y="196" font-size="9.4" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">A=ab, χ=2(a+b)</text><rect x="500" y="66" width="60" height="60" fill="#eef7f6" stroke="#0f766e" stroke-width="1.8"  rx="0"/><text x="530" y="100" font-size="10" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">a</text><text x="530" y="156" font-size="11.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">方形</text><text x="530" y="178" font-size="11" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">d_e = a</text><text x="530" y="196" font-size="9.4" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">A=a², χ=4a</text><circle cx="740" cy="96" r="36" fill="#eef7f6" stroke="#0f766e" stroke-width="1.8"/><circle cx="740" cy="96" r="20" fill="#fff" stroke="#0f766e" stroke-width="1.8"/><line x1="740" y1="96" x2="776" y2="96" stroke="#2563eb" stroke-width="1" stroke-dasharray="3 3"  /><text x="758" y="90" font-size="9.5" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">r₁</text><line x1="740" y1="96" x2="760" y2="96" stroke="#b91c1c" stroke-width="1" stroke-dasharray="3 3"  /><text x="746" y="110" font-size="9.5" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">r₂</text><text x="740" y="156" font-size="11.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">圆环</text><text x="740" y="178" font-size="11" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">d_e = 2(r₁−r₂)</text><text x="740" y="196" font-size="9.4" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">A=π(r₁²−r₂²), χ=2π(r₁+r₂)</text><rect x="24" y="214" width="832" height="72" fill="#fef3c7" stroke="#b45309" stroke-width="1.3"  rx="6"/><text x="42" y="236" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">适用范围（考试爱考）：① 湍流；② 断面形状与圆管差别不能太大（矩形长边 ≤ 8×短边；圆环大径 ≥ 3×小径）。</text><text x="42" y="256" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">③ 层流不要用当量直径 —— 层流的 λ=64/Re 是按圆管精确解推出来的，换成方管误差很大（要用专门的层流解）。</text><text x="42" y="276" font-size="11" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">④ Re 与相对粗糙度也要换成 d_e：Re = v d_e/ν，粗糙度比 K/d_e，沿程损失用 l/d_e。</text></svg><figcaption><b>图 4-11</b> 非圆管用"当量直径"折算成圆管：湿周只算被流体润湿的那部分</figcaption></figure>
+
+
+<div class="box warn">
+  <b>湿周 χ 只算"湿的"。</b>比如明渠（水面是自由面）不算水面那段；矩形风管四边都算。
+  这是非圆管题最容易错的一步——把不接触流体的边也算进去，d<sub>e</sub> 就小了。
+</div>
+
+<h2>4.7.2 用法与限制</h2>
+
+<p>把圆管公式里的 <i>d</i> 全部换成 <i>d</i><sub>e</sub> 即可：</p>
+
+<div class="fml">
+  <i>Re</i> = <i>v d</i><sub>e</sub>/<i>ν</i>；　<i>h</i><sub>f</sub> = <i>λ</i>(<i>l</i>/<i>d</i><sub>e</sub>)<i>v</i><sup>2</sup>/(2<i>g</i>)；　相对粗糙度用 <i>K</i>/<i>d</i><sub>e</sub>；　临界 Re 仍近似取 2000
+</div>
+
+<p><b>适用条件（考题常问）：</b></p>
+<ol>
+  <li>必须是<b>湍流</b>（层流用当量直径误差很大，因为层流的 λ 与断面形状关系复杂）；</li>
+  <li>断面形状与圆管<b>不能差太多</b>：长方形长边不宜超过短边的 8 倍；圆环大径宜不小于小径的 3 倍。</li>
+</ol>
+
+<h2>4.7.3 例题</h2>
+
+<div class="lv l2">
+  <div class="tagx">例 4-11 · 模仿（矩形风管 + 环形通道，一次练两种）</div>
+  <p class="pt">(1) 矩形风管 <i>a</i> = 400 mm、<i>b</i> = 200 mm，求当量直径。
+  (2) 环形通道外半径 <i>r</i><sub>1</sub> = 50 mm、内半径 <i>r</i><sub>2</sub> = 30 mm，求水力半径与当量直径。</p>
+  <p><b>第 1 步 · 矩形：直接用 2ab/(a+b)</b></p>
+  <div class="fml">
+    <i>d</i><sub>e</sub> = 2<i>ab</i>/(<i>a</i>+<i>b</i>) = 2×0.4×0.2/(0.4+0.2) = 0.16/0.6 = <b>0.2667 m</b>
+  </div>
+  <p><b>第 2 步 · 环形：先面积、再湿周</b>（湿周 = 内外两个周长之和，因为内壁也接触流体）</p>
+  <div class="fml">
+    <i>A</i> = π(<i>r</i><sub>1</sub><sup>2</sup> − <i>r</i><sub>2</sub><sup>2</sup>) = π(0.05<sup>2</sup> − 0.03<sup>2</sup>) = π×1.6×10<sup>−3</sup> = 5.027×10<sup>−3</sup> m²<br>
+    <i>χ</i> = 2π(<i>r</i><sub>1</sub> + <i>r</i><sub>2</sub>) = 2π×0.08 = 0.5027 m<br>
+    <i>R</i> = <i>A</i>/<i>χ</i> = 5.027×10<sup>−3</sup>/0.5027 = <b>0.0100 m</b><br>
+    <i>d</i><sub>e</sub> = 4<i>R</i> = <b>0.0400 m</b> = 2(<i>r</i><sub>1</sub> − <i>r</i><sub>2</sub>) ✓
+  </div>
+  <p class="ans"><b>答：</b>矩形 d<sub>e</sub> = 0.267 m；环形 R = 0.010 m、d<sub>e</sub> = 0.040 m。</p>
+  <p class="hint"><b>这道题的"经验"：</b>圆环的 d<sub>e</sub> = 2(r<sub>1</sub>−r<sub>2</sub>) 很好记：<b>等于"缝隙宽度"的 2 倍</b>。
+  矩形记住 <b>2ab/(a+b)</b>：当 a = b 时退化为 a，与方形一致——可以用这个特例来验算公式有没有记错。</p>
+</div>
+
+<h1 class="ch" id="c8">4.8 管道流动的局部损失——弯头、突扩、阀门</h1>
+
+<div class="why">
+  <span class="wt">局部损失难算：</span>沿程损失靠"粘性摩擦"，机理单纯；局部损失靠"<b>旋涡</b>"，
+  而旋涡是分离流，没有解析解。所以除了<b>突然扩大</b>这一种能用"能量+动量方程联立"严格解出来，
+  其余全部靠实验测 ζ。这一节的重点就是：<b>把突扩推透，其余记 ζ 的来源和用法</b>。
+</div>
+
+<h2>4.8.1 局部损失的来源与 ζ 的用法</h2>
+
+<p>局部阻碍产生损失的三个原因（简答题标准答案）：</p>
+<ol>
+  <li><b>主流与边壁脱离，形成旋涡区</b>——旋涡靠粘性耗散能量，这是主要来源；</li>
+  <li><b>流速梯度加大</b>（断面突变处），粘性摩擦耗散增加；</li>
+  <li><b>加剧下游湍流脉动</b>，使湍流附加切应力增大，需要在更长一段距离内才恢复。</li>
+</ol>
+
+<div class="fml">
+  <i>h</i><sub>j</sub> = <i>ζ</i> · <i>v</i><sup>2</sup>/(2<i>g</i>)　　（<i>ζ</i> 局部阻力系数，由实验测定或查手册）
+</div>
+
+<p><b>ζ 依赖什么？</b></p>
+<ul>
+  <li>主要看<b>局部阻碍的几何形状</b>（突扩/突缩/弯头/阀门）与<b>相对粗糙度</b>；</li>
+  <li>其次看 <b>Re</b>：层流时 <i>ζ</i> = B/<i>Re</i>（与流速一次方成正比，故 h<sub>j</sub> ∝ v）；</li>
+  <li><b>突变型阻碍</b>（突扩、突缩）旋涡位置与 Re 关系小，进入阻力平方区很早；</li>
+  <li><b>渐变型阻碍</b>（渐扩、渐缩、弯管）受 Re 影响大，判据是 <i>Re</i> &gt; 10<sup>4</sup> 才算进阻力平方区；
+      没进平方区时用修正 <i>ζ</i> = <i>ζ</i><sub>平方区</sub> · <i>k</i>。</li>
+</ul>
+
+<div class="box warn">
+  <b>铁律：ζ 永远对应一个"参考流速"。</b>同一个突扩，对 <i>v</i><sub>1</sub> 的 ζ 和对 <i>v</i><sub>2</sub> 的 ζ 差 16 倍（见例 4-12）。
+  查表时<b>必须确认表里的 ζ 是对哪个流速定义的</b>，否则结果全错。
+</div>
+
+<h2>4.8.2 突然扩大：唯一能严格推出来的局部损失</h2>
+
+<p>这是本章最漂亮的一段推导，务必掌握。取突扩处 1-1（小管）到 2-2（大管）之间的流体为控制体，<b>忽略壁面摩擦</b>。</p>
+
+<p><b>① 写能量方程</b>（1→2，取 α<sub>1</sub> = α<sub>2</sub> = 1，只有局部损失）：</p>
+
+<div class="fml">
+  (<i>z</i><sub>1</sub> + <i>p</i><sub>1</sub>/<i>γ</i> + <i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i>) − (<i>z</i><sub>2</sub> + <i>p</i><sub>2</sub>/<i>γ</i> + <i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i>) = <i>h</i><sub>j</sub>
+</div>
+
+<p>管道水平放置（<i>z</i><sub>1</sub> = <i>z</i><sub>2</sub>），移项得：</p>
+
+<div class="fml">
+  <i>h</i><sub>j</sub> = (<i>p</i><sub>1</sub> − <i>p</i><sub>2</sub>)/<i>γ</i> + (<i>v</i><sub>1</sub><sup>2</sup> − <i>v</i><sub>2</sub><sup>2</sup>)/(2<i>g</i>)　　（★）
+</div>
+
+<p><b>② 写动量方程</b>（1-1 → 2-2，定常、忽略摩擦）：关键在于——<b>突扩台阶上的压强近似等于 p<sub>1</sub></b>（那里的流体是滞止的旋涡区），
+所以作用在控制体上的压力是 (<i>p</i><sub>1</sub> − <i>p</i><sub>2</sub>)<i>A</i><sub>2</sub>：</p>
+
+<div class="fml">
+  (<i>p</i><sub>1</sub> − <i>p</i><sub>2</sub>) <i>A</i><sub>2</sub> = <i>ρQ</i>(<i>v</i><sub>2</sub> − <i>v</i><sub>1</sub>) = <i>ρ A</i><sub>2</sub><i>v</i><sub>2</sub>(<i>v</i><sub>2</sub> − <i>v</i><sub>1</sub>)
+</div>
+
+<p>两边除 <i>ρA</i><sub>2</sub>，再除 <i>g</i>：</p>
+
+<div class="fml">
+  (<i>p</i><sub>1</sub> − <i>p</i><sub>2</sub>)/<i>γ</i> = <i>v</i><sub>2</sub>(<i>v</i><sub>2</sub> − <i>v</i><sub>1</sub>)/<i>g</i>　　（★★）
+</div>
+
+<p><b>③ 把 (★★) 代入 (★)：</b></p>
+
+<div class="fml">
+  <i>h</i><sub>j</sub> = <i>v</i><sub>2</sub>(<i>v</i><sub>2</sub> − <i>v</i><sub>1</sub>)/<i>g</i> + (<i>v</i><sub>1</sub><sup>2</sup> − <i>v</i><sub>2</sub><sup>2</sup>)/(2<i>g</i>)<br>
+  　　= [2<i>v</i><sub>2</sub><sup>2</sup> − 2<i>v</i><sub>1</sub><i>v</i><sub>2</sub> + <i>v</i><sub>1</sub><sup>2</sup> − <i>v</i><sub>2</sub><sup>2</sup>]/(2<i>g</i>)<br>
+  　　= (<i>v</i><sub>1</sub><sup>2</sup> − 2<i>v</i><sub>1</sub><i>v</i><sub>2</sub> + <i>v</i><sub>2</sub><sup>2</sup>)/(2<i>g</i>)<br>
+  　　= <b>(<i>v</i><sub>1</sub> − <i>v</i><sub>2</sub>)<sup>2</sup>/(2<i>g</i>)</b>
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="400" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">突然扩大：唯一能用"动量方程 + 能量方程"解出解析式的局部损失</text><rect x="60" y="132" width="270" height="36" fill="#eef7f6" stroke="#0f766e" stroke-width="1.8"  rx="0"/><rect x="330" y="104" width="290" height="92" fill="#eef7f6" stroke="#0f766e" stroke-width="1.8"  rx="0"/><line x1="60" y1="132" x2="60" y2="168" stroke="#0f766e" stroke-width="2.6"   /><line x1="620" y1="104" x2="620" y2="196" stroke="#0f766e" stroke-width="2.6"   /><text x="46" y="136" font-size="11.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">1</text><text x="634" y="108" font-size="11.5" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">2</text><path d="M333,109 q36,26 0,52" fill="none" stroke="#b91c1c" stroke-width="1.8"   /><path d="M333,191 q36,-26 0,-52" fill="none" stroke="#b91c1c" stroke-width="1.8"   /><text x="382" y="116" font-size="10" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">旋涡区：机械能就是在这里变成热</text><line x1="78" y1="150" x2="304" y2="150" stroke="#2563eb" stroke-width="2"  marker-end="url(#ar)" /><text x="82" y="142" font-size="11.5" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">v₁</text><line x1="376" y1="150" x2="596" y2="150" stroke="#2563eb" stroke-width="2"  marker-end="url(#ar)" /><text x="416" y="168" font-size="10.6" fill="#2563eb" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">v₂ = v₁·A₁/A₂（变小）</text><line x1="66" y1="186" x2="126" y2="186" stroke="#b91c1c" stroke-width="2"  marker-end="url(#ar)" /><text x="64" y="206" font-size="10.5" fill="#b91c1c" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">p₁A₂</text><line x1="614" y1="86" x2="554" y2="86" stroke="#b91c1c" stroke-width="2"  marker-end="url(#ar)" /><text x="616" y="80" font-size="10.5" fill="#b91c1c" text-anchor="end" font-family='"Microsoft YaHei",sans-serif' style="">p₂A₂</text><rect x="60" y="102" width="560" height="96" fill="none" stroke="#94a3b8" stroke-width="1.1" stroke-dasharray="5 4" rx="0"/><text x="66" y="210" font-size="9.6" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">控制体：取 1—2 之间（含旋涡区）</text><rect x="24" y="216" width="410" height="158" fill="#fcfdfe" stroke="#b45309" stroke-width="1.2"  rx="6"/><text x="229" y="235" font-size="12" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">两步：先动量、再能量</text><text x="40" y="252" font-size="10.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">① 动量方程（忽略壁面摩擦）</text><text x="56" y="274" font-size="11" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">p₁A₂ − p₂A₂ = ρQ(v₂ − v₁)</text><text x="56" y="294" font-size="10.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">⇒ (p₁−p₂)/ρg = (v₂/g)(v₂−v₁)</text><text x="40" y="322" font-size="10.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">② 能量方程（取 α₁ = α₂ = 1）</text><text x="56" y="344" font-size="10.6" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">h_j = (p₁−p₂)/ρg + (v₁²−v₂²)/2g</text><rect x="450" y="216" width="406" height="158" fill="#fcfdfe" stroke="#0f766e" stroke-width="1.2"  rx="6"/><text x="653" y="235" font-size="12" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">合并 → 波达-卡诺公式</text><text x="653" y="258" font-size="14" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">h_j = (v₁ − v₂)² / 2g</text><text x="466" y="284" font-size="10.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">对 v₁：ζ₁ = (1 − A₁/A₂)²</text><text x="466" y="306" font-size="10.8" fill="#334155" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">对 v₂：ζ₂ = (A₂/A₁ − 1)²</text><text x="466" y="332" font-size="10.8" fill="#b45309" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">A₂ ≫ A₁ 时 ζ ≈ 1 → 即"出口损失"</text><text x="466" y="354" font-size="9.8" fill="#64748b" text-anchor="start" font-family='"Microsoft YaHei",sans-serif' style="">（气体排入大气、管道出口都按 ζ ≈ 1 算）</text><text x="440" y="394" font-size="11.2" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">记忆：突扩损失 = 用"平均流速之差"算的流速水头。这条只对突扩有解析解，也是 ζ 里唯一能推的。</text></svg><figcaption><b>图 4-12</b> 突然扩大：台阶处形成旋涡区，压力按 p₁ 作用在 A₂ 上</figcaption></figure>
+
+
+<div class="box exam">
+  <b>波达-卡诺（Borda-Carnot）结论：</b>突然扩大的局部水头损失，等于<b>以平均流速差计算的流速水头</b>。这是"局部损失等于动能损失"的一个特例。
+</div>
+
+<p><b>换成 ζ 的形式</b>（用连续性 <i>v</i><sub>2</sub> = <i>v</i><sub>1</sub><i>A</i><sub>1</sub>/<i>A</i><sub>2</sub>）：</p>
+
+<div class="fml">
+  <i>ζ</i><sub>1</sub> = <i>h</i><sub>j</sub>/(<i>v</i><sub>1</sub><sup>2</sup>/2<i>g</i>) = (<i>v</i><sub>1</sub> − <i>v</i><sub>2</sub>)<sup>2</sup>/<i>v</i><sub>1</sub><sup>2</sup> = <b>(1 − <i>A</i><sub>1</sub>/<i>A</i><sub>2</sub>)<sup>2</sup></b>　（对 <i>v</i><sub>1</sub>）<br>
+  <i>ζ</i><sub>2</sub> = <i>h</i><sub>j</sub>/(<i>v</i><sub>2</sub><sup>2</sup>/2<i>g</i>) = (<i>v</i><sub>1</sub>/<i>v</i><sub>2</sub> − 1)<sup>2</sup> = <b>(<i>A</i><sub>2</sub>/<i>A</i><sub>1</sub> − 1)<sup>2</sup></b>　（对 <i>v</i><sub>2</sub>）
+</div>
+
+<p><b>两个极限情形（很好用）：</b></p>
+<ul>
+  <li><b>A<sub>2</sub> ≫ A<sub>1</sub></b>（管子排入大容器/大气）：<i>ζ</i><sub>1</sub> → (1−0)<sup>2</sup> = <b>1</b>，
+      即"<b>出口损失系数 = 1</b>"——出口流速水头全部损失掉。这就是为什么"管道出口"在题里永远算 ζ = 1。</li>
+  <li><b>A<sub>1</sub> = A<sub>2</sub></b>（不扩）：<i>ζ</i><sub>1</sub> = 0，没有损失（自洽性检查）。</li>
+</ul>
+
+<h2>4.8.3 突然缩小与其他常见局部损失</h2>
+
+<p><b>突然缩小</b>（实验拟合，对 <i>v</i><sub>2</sub> 定义）：</p>
+
+<div class="fml">
+  <i>ζ</i> = 0.5 (1 − <i>A</i><sub>2</sub>/<i>A</i><sub>1</sub>)　　（对 <i>v</i><sub>2</sub>）<br>
+  特例：<i>A</i><sub>2</sub> ≪ <i>A</i><sub>1</sub>（从大容器进入管道）→ <i>ζ</i> = <b>0.5</b>，即"<b>管道入口损失系数 = 0.5</b>"
+</div>
+
+<p>注意它与突扩的<b>对称性</b>：突扩是 ζ 与 (1−A<sub>1</sub>/A<sub>2</sub>)<sup>2</sup> 挂钩（随面积比平方变化），
+突缩是 0.5(1−A<sub>2</sub>/A<sub>1</sub>)（一次方）。因为突缩时流体先收缩成"缩颈"（vena contracta）再扩散，
+损失比突扩小得多——收缩是"顺流"的，扩开是"逆压"的。</p>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 448" width="880" height="448" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="448" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="24" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">常见局部阻碍与它们的 ζ（ζ 的定义永远是 h_j = ζ v²/2g）</text><rect x="30" y="44" width="260" height="172" fill="#fcfdfe" stroke="#0f766e" stroke-width="1.2"  rx="6"/><text x="160" y="63" font-size="12" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">突然扩大</text><rect x="56" y="128" width="106" height="24" fill="#eef7f6" stroke="#0f766e" stroke-width="1.4"  rx="0"/><rect x="162" y="114" width="102" height="52" fill="#eef7f6" stroke="#0f766e" stroke-width="1.4"  rx="0"/><path d="M164,117 q16,15 0,30" fill="none" stroke="#b91c1c" stroke-width="1.3"   /><text x="160" y="196" font-size="10.2" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ζ₁ = (1 − A₁/A₂)²</text><rect x="310" y="44" width="260" height="172" fill="#fcfdfe" stroke="#2563eb" stroke-width="1.2"  rx="6"/><text x="440" y="63" font-size="12" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">突然缩小</text><text x="440" y="82" font-size="9" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">收缩处出现“缩颈”</text><rect x="336" y="114" width="106" height="52" fill="#eef7f6" stroke="#0f766e" stroke-width="1.4"  rx="0"/><rect x="442" y="128" width="102" height="24" fill="#eef7f6" stroke="#0f766e" stroke-width="1.4"  rx="0"/><path d="M440,117 q-13,15 0,30" fill="none" stroke="#b91c1c" stroke-width="1.3"   /><text x="440" y="196" font-size="10.2" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ζ = 0.5(1 − A₂/A₁)</text><rect x="590" y="44" width="260" height="172" fill="#fcfdfe" stroke="#2563eb" stroke-width="1.2"  rx="6"/><text x="720" y="63" font-size="12" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">管道进口</text><rect x="686" y="84" width="22" height="56" fill="#eef7f6" stroke="#0f766e" stroke-width="1.4"  rx="0"/><rect x="708" y="128" width="112" height="24" fill="#eef7f6" stroke="#0f766e" stroke-width="1.4"  rx="0"/><path d="M710,125 q-14,14 0,28" fill="none" stroke="#b91c1c" stroke-width="1.3"   /><text x="664" y="160" font-size="8.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">从大容器</text><text x="664" y="174" font-size="8.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">进入管道</text><text x="720" y="196" font-size="10.2" fill="#2563eb" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ζ ≈ 0.5</text><rect x="30" y="232" width="260" height="172" fill="#fcfdfe" stroke="#b45309" stroke-width="1.2"  rx="6"/><text x="160" y="251" font-size="12" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">弯管（90°）</text><text x="160" y="269" font-size="9" fill="#b91c1c" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">两次旋涡 + 二次流</text><path d="M64,350 L64,306 L130,306 L130,350 Z" fill="#eef7f6" stroke="#0f766e" stroke-width="1.3"   /><path d="M130,306 L166,284 L240,284" fill="none" stroke="#0f766e" stroke-width="1.3"   /><path d="M130,350 L166,372 L240,372" fill="none" stroke="#0f766e" stroke-width="1.3"   /><text x="160" y="384" font-size="10.2" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ζ 查表（约 0.3~1.2）</text><rect x="310" y="232" width="260" height="172" fill="#fcfdfe" stroke="#b45309" stroke-width="1.2"  rx="6"/><text x="440" y="251" font-size="12" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">渐扩管</text><text x="440" y="270" font-size="9" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">扩散角小 → ζ 小</text><path d="M336,316 L460,302 L544,302" fill="none" stroke="#0f766e" stroke-width="1.4"   /><path d="M336,340 L460,354 L544,354" fill="none" stroke="#0f766e" stroke-width="1.4"   /><text x="440" y="384" font-size="10.2" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ζ 由 n=A₂/A₁ 与扩散角定</text><rect x="590" y="232" width="260" height="172" fill="#fcfdfe" stroke="#b45309" stroke-width="1.2"  rx="6"/><text x="720" y="251" font-size="12" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">渐缩管 / 阀门 / 三通</text><text x="720" y="270" font-size="9" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">收缩角大 → ζ 小</text><path d="M616,302 L720,316 L824,316" fill="none" stroke="#0f766e" stroke-width="1.4"   /><path d="M616,354 L720,340 L824,340" fill="none" stroke="#0f766e" stroke-width="1.4"   /><text x="720" y="384" font-size="10.2" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ζ 查图表（阀门可很大）</text><text x="440" y="438" font-size="11" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">ζ 永远对应某个"参考流速"——多数用较大流速（较小断面）那一侧；用错流速是这类题最常见的扣分点。</text></svg><figcaption><b>图 4-13</b> 常见局部阻碍与它们的 ζ（注意 ζ 对应的参考流速）</figcaption></figure>
+
+
+<table class="zebra">
+  <tr><th>局部阻碍</th><th>ζ 的量级</th><th>说明</th></tr>
+  <tr><td>管道进口（从大容器进管）</td><td>0.5</td><td>突缩特例，边缘尖锐时最大</td></tr>
+  <tr><td>管道出口（排入大容器/大气）</td><td>1.0</td><td>突扩特例，流速水头全损</td></tr>
+  <tr><td>90° 弯头（光滑、R/d ≈ 1~2）</td><td>0.3~1.2</td><td>R/d 越大 ζ 越小；有导流叶片可再降</td></tr>
+  <tr><td>渐扩管</td><td>由 n = A<sub>2</sub>/A<sub>1</sub> 与扩散角定</td><td>扩散角小 → ζ 小；最优扩散角约 6°~8°</td></tr>
+  <tr><td>渐缩管</td><td>由收缩角与 n 定</td><td>收缩角大 → ζ 小（顺压梯度不易分离）</td></tr>
+  <tr><td>阀门（闸阀半开）</td><td>2~5，全开也有 0.1~0.2</td><td>阀门是"可调"的 ζ，开度越小 ζ 越大（可达几十）</td></tr>
+  <tr><td>三通（支管）</td><td>0.5~3</td><td>查图表，按支管流速取 ζ</td></tr>
+</table>
+
+<p><b>弯管的两个旋涡区：</b>流体进弯管后因离心力被压向外壁，内壁侧先出现分离旋涡（前半段小）；
+离开弯管后，断面上的压强差又驱动出<b>二次流</b>（一对反向螺旋，即"迪恩涡"），影响长度可达 <b>50 倍管径</b>。
+减小损失的三招：<b>减小转角 θ、增大 R/d、加导流叶片</b>。</p>
+
+<p><b>三通的水力计算只算支管：</b>因为支管的阻力（ζ 与流速水头）远大于直通，直通的损失可以忽略。
+但必须选用与<b>支管流速</b>对应的 ζ 和流速水头。</p>
+
+<h2>4.8.4 局部阻碍的相互干扰</h2>
+
+<p>两个局部阻碍离得太近时，下游的旋涡还没消散就撞上了下一个，损失会<b>不等于</b>两者之和：</p>
+
+<div class="fml">
+  <i>ζ</i><sub>总</sub> = <i>Σζ</i> + <i>κ</i>
+</div>
+
+<p>修正量 κ 可正可负（可能相互"抵消"一部分）。工程上当<b>间距 &gt; 3 倍管径</b>时取 <i>κ</i> ≈ 0，即直接相加。
+安全起见，教材建议按 <i>ζ</i><sub>总</sub> &lt; <i>Σζ</i> 取值时要说明——保守设计应取偏大的值。</p>
+
+<h2>4.8.5 例题</h2>
+
+<div class="lv l2">
+  <div class="tagx">例 4-12 · 模仿（突扩：两种算法必须互证）</div>
+  <p class="pt">水管由 <i>d</i><sub>1</sub> = 50 mm 突然扩大到 <i>d</i><sub>2</sub> = 100 mm，细管中流速 <i>v</i><sub>1</sub> = 2 m/s。求局部水头损失，
+  以及分别对 <i>v</i><sub>1</sub>、<i>v</i><sub>2</sub> 定义的 ζ。</p>
+  <p><b>第 1 步 · 连续性求 v<sub>2</sub>：</b></p>
+  <div class="fml">
+    <i>A</i><sub>1</sub>/<i>A</i><sub>2</sub> = (<i>d</i><sub>1</sub>/<i>d</i><sub>2</sub>)<sup>2</sup> = (0.05/0.1)<sup>2</sup> = <b>0.25</b><br>
+    <i>v</i><sub>2</sub> = <i>v</i><sub>1</sub><i>A</i><sub>1</sub>/<i>A</i><sub>2</sub> = 2 × 0.25 = <b>0.5 m/s</b>
+  </div>
+  <p><b>第 2 步 · 用波达-卡诺公式：</b></p>
+  <div class="fml">
+    <i>h</i><sub>j</sub> = (<i>v</i><sub>1</sub> − <i>v</i><sub>2</sub>)<sup>2</sup>/(2<i>g</i>) = (2 − 0.5)<sup>2</sup>/(2×9.807) = 2.25/19.613 = <b>0.1147 m</b>
+  </div>
+  <p><b>第 3 步 · 用 ζ 复算（两条路必须一致）：</b></p>
+  <div class="fml">
+    <i>ζ</i><sub>1</sub> = (1 − <i>A</i><sub>1</sub>/<i>A</i><sub>2</sub>)<sup>2</sup> = (1 − 0.25)<sup>2</sup> = 0.5625<br>
+    <i>h</i><sub>j</sub> = <i>ζ</i><sub>1</sub><i>v</i><sub>1</sub><sup>2</sup>/(2<i>g</i>) = 0.5625 × 4/19.613 = <b>0.1147 m</b> ✓<br>
+    <i>ζ</i><sub>2</sub> = (<i>A</i><sub>2</sub>/<i>A</i><sub>1</sub> − 1)<sup>2</sup> = (4 − 1)<sup>2</sup> = <b>9</b>；<i>h</i><sub>j</sub> = 9 × 0.5<sup>2</sup>/19.613 = 0.1147 m ✓
+  </div>
+  <p class="ans"><b>答：</b><i>h</i><sub>j</sub> = 0.1147 m；<i>ζ</i><sub>1</sub> = 0.5625（对 <i>v</i><sub>1</sub>），<i>ζ</i><sub>2</sub> = 9（对 <i>v</i><sub>2</sub>）。</p>
+  <p class="hint"><b>这道题的"经验"：</b>同一个损失，两个 ζ 相差 16 倍（9/0.5625 = 16 = (A<sub>2</sub>/A<sub>1</sub>)<sup>2</sup> = 4<sup>2</sup>）。
+  所以抄 ζ 时一定连"参考流速"一起抄。检验办法：两个 ζ 乘上各自的流速水头，结果必须相同。</p>
+</div>
+
+<div class="lv l3">
+  <div class="tagx">例 4-13 · 应考（综合：水头全吃掉多少？反求流量）</div>
+  <p class="pt">水箱水面高出管道出口 <i>H</i> = 2 m，管道长 <i>l</i> = 20 m、直径 <i>d</i> = 50 mm、绝对粗糙度 <i>K</i> = 0.1 mm，
+  中间有一个 90° 弯头（<i>ζ</i> = 0.5），出口排入大气（<i>ζ</i> = 1.0），进口（<i>ζ</i> = 0.5）已计入。
+  水 <i>ν</i> = 1×10<sup>−6</sup> m²/s。求流量 <i>Q</i>。</p>
+  <p><b>第 1 步 · 列能量方程</b>（水面 1 与出口 2，取出口处为基准面；水面流速≈0、压强均为大气压）：</p>
+  <div class="fml">
+    <i>H</i> = <i>v</i><sup>2</sup>/(2<i>g</i>) + <i>h</i><sub>w</sub>
+    = <i>v</i><sup>2</sup>/(2<i>g</i>) + [<i>λ</i>(<i>l</i>/<i>d</i>) + <i>Σζ</i>]<i>v</i><sup>2</sup>/(2<i>g</i>)
+    = [1 + <i>λ</i>(<i>l</i>/<i>d</i>) + <i>Σζ</i>]<i>v</i><sup>2</sup>/(2<i>g</i>)
+  </div>
+  <p>注意：出口那一项 <i>v</i><sup>2</sup>/2<i>g</i> 是"带走的动能"，<b>不是损失</b>，要单独留在方程左边。
+  本题 Σζ = 0.5（进口）+ 0.5（弯头）+ 1.0（出口）= 1.5，与"带走的动能"合起来正好是 1 + 1.5 = 2.5？——不，出口 ζ = 1
+  已经代表"动能全失"，所以下面统一写 <b>Σζ = 1.0（弯头）+ 1.0（出口）</b>，进口损失并入 λ 段一起迭代（此处按题目给定 ζ = 0.5 计入）。</p>
+  <div class="fml">
+    <i>H</i> = [<i>λ</i>(<i>l</i>/<i>d</i>) + <i>Σζ</i>] <i>v</i><sup>2</sup>/(2<i>g</i>)，
+    <i>Σζ</i> = 0.5 + 1.0 = <b>1.5</b>（出口损失已包含"动能带出"）
+  </div>
+  <p><b>第 2 步 · 迭代求解</b>（λ 又依赖 v，只能试算）。先设 λ = 0.02：</p>
+  <div class="fml">
+    <i>λ</i>(<i>l</i>/<i>d</i>) = 0.02 × (20/0.05) = 0.02 × 400 = 8.0<br>
+    2 = (8.0 + 1.5)·<i>v</i><sup>2</sup>/19.613　⟹　<i>v</i><sup>2</sup> = 2×19.613/9.5 = 4.129　⟹　<i>v</i> = 2.032 m/s<br>
+    <i>Re</i> = <i>vd</i>/<i>ν</i> = 2.032×0.05/1×10<sup>−6</sup> = 1.016×10<sup>5</sup>；<i>K</i>/<i>d</i> = 0.1/50 = 2×10<sup>−3</sup>
+  </div>
+  <p><b>第 3 步 · 判区并更新 λ：</b></p>
+  <div class="fml">
+    0.32(<i>d</i>/<i>K</i>)<sup>1.28</sup> = 0.32×500<sup>1.28</sup> = 0.32×2900 = 928　→　Re ≫ 928，不在光滑区<br>
+    1000(<i>d</i>/<i>K</i>) = 1000×500 = 5×10<sup>5</sup>　→　Re = 1.02×10<sup>5</sup> ≤ 5×10<sup>5</sup>　→　<b>过渡区</b><br>
+    柯氏迭代（初值 0.02）：2.51/(1.02×10<sup>5</sup>×0.1414) = 1.74×10<sup>−4</sup>；<i>K</i>/(3.7<i>d</i>) = 5.405×10<sup>−4</sup><br>
+    1/√<i>λ</i> = −2lg(7.145×10<sup>−4</sup>) = 6.292　⟹　<i>λ</i> = 0.02527（再代一次：0.02515）
+  </div>
+  <p><b>第 4 步 · 用新 λ 重算 v：</b></p>
+  <div class="fml">
+    <i>λ</i>(<i>l</i>/<i>d</i>) = 0.02515×400 = 10.06；2 = (10.06+1.5)<i>v</i><sup>2</sup>/19.613<br>
+    <i>v</i><sup>2</sup> = 39.226/11.56 = 3.393　⟹　<i>v</i> = <b>1.842 m/s</b>；<i>Re</i> = 9.21×10<sup>4</sup>（λ 基本不变，收敛）<br>
+    <i>Q</i> = <i>vA</i> = 1.842 × π×0.05<sup>2</sup>/4 = 1.842×1.9635×10<sup>−3</sup> = 3.62×10<sup>−3</sup> m³/s = <b>3.6 L/s</b>
+  </div>
+  <p><b>第 5 步 · 分配与校核：</b></p>
+  <div class="fml">
+    流速水头 <i>v</i><sup>2</sup>/2<i>g</i> = 3.393/19.613 = 0.173 m<br>
+    沿程 <i>h</i><sub>f</sub> = 10.06×0.173 = <b>1.741 m</b>；局部 <i>h</i><sub>j</sub> = 1.5×0.173 = <b>0.259 m</b><br>
+    合计 = 1.741 + 0.259 = <b>2.000 m</b> = <i>H</i> ✓ 闭合
+  </div>
+  <p class="ans"><b>答：</b><i>v</i> = 1.84 m/s，<i>Q</i> ≈ 3.6 L/s；其中沿程损失 1.74 m、局部损失 0.26 m，共 2.00 m 全部由 2 m 水位差提供。</p>
+  <p class="hint"><b>这道题的"经验"：</b>这类"水箱—管道—出口"的题是本章的<b>终极题型</b>，五步固定动作：<br>
+  ① 列能量方程、把 <i>H</i> 写成 [<i>λ</i>(l/d)+Σζ]v<sup>2</sup>/2g；② 假设一个 λ；③ 解出 v、算 Re；④ 判区求新 λ、回到③；
+  ⑤ 收敛后算 Q，并<b>把损失分配加起来校核是否等于 H</b>。第 ⑤ 步是拿满分的关键，很多人算完 Q 就停笔了。</p>
+</div>
+
+<div class="why plain">
+  <span class="wt">本章小结（一句话串起来）：</span>损失分两类（沿程 + 局部）→ 沿程靠粘性摩擦、局部主要靠旋涡 →
+  先判流态（Re）再判阻力区（三判别式）→ 层流有解析解 λ = 64/Re，湍流按区选公式（布拉修斯/柯氏/希弗林松）→
+  非圆管换成当量直径 → 局部损失查 ζ，唯一能推的是突扩 (v<sub>1</sub>−v<sub>2</sub>)<sup>2</sup>/2g。
+</div>
+
+
+<figure class="tb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 330" width="880" height="330" style="max-width:880px" role="img" aria-label="示意图"><rect x="0" y="0" width="880" height="330" fill="#fff"/><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><text x="440" y="26" font-size="13.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">第 4 章一张图：两类损失、两个系数、一条判断链</text><rect x="300" y="48" width="280" height="36" fill="#0f766e" stroke="#0f766e" stroke-width="1"  rx="5"/><text x="440" y="72" font-size="12.5" fill="#fff" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">总损失 h_w = Σh_f + Σh_j</text><line x1="440" y1="84" x2="440" y2="100" stroke="#334155" stroke-width="1.4"   /><line x1="210" y1="100" x2="670" y2="100" stroke="#334155" stroke-width="1.4"   /><line x1="210" y1="100" x2="210" y2="116" stroke="#334155" stroke-width="1.4"   /><line x1="670" y1="100" x2="670" y2="116" stroke="#334155" stroke-width="1.4"   /><rect x="40" y="116" width="340" height="46" fill="#eef7f6" stroke="#0f766e" stroke-width="1.4"  rx="5"/><text x="210" y="137" font-size="11.5" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">沿程损失 h_f = λ (l/d) v²/2g</text><text x="210" y="155" font-size="9.4" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">沿管长均布，靠粘性摩擦产生</text><line x1="210" y1="162" x2="210" y2="176" stroke="#334155" stroke-width="1.2"   /><rect x="40" y="176" width="340" height="38" fill="#fff" stroke="#0f766e" stroke-width="1.2"  rx="5"/><text x="210" y="192" font-size="11" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">关键：λ 怎么定？</text><text x="210" y="208" font-size="9.6" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">Re = vd/ν → 定流态 → 定区 → 选公式</text><line x1="210" y1="214" x2="210" y2="230" stroke="#334155" stroke-width="1.2"   /><line x1="80" y1="230" x2="406" y2="230" stroke="#334155" stroke-width="1.2"   /><line x1="75" y1="230" x2="75" y2="240" stroke="#334155" stroke-width="1"   /><rect x="30" y="240" width="90" height="48" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.1"  rx="4"/><text x="75" y="258" font-size="10" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">层流</text><text x="75" y="276" font-size="8.2" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">λ = 64/Re</text><line x1="173" y1="230" x2="173" y2="240" stroke="#334155" stroke-width="1"   /><rect x="128" y="240" width="90" height="48" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.1"  rx="4"/><text x="173" y="258" font-size="10" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">光滑区</text><text x="173" y="276" font-size="8.2" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">布拉修斯式</text><line x1="277" y1="230" x2="277" y2="240" stroke="#334155" stroke-width="1"   /><rect x="232" y="240" width="90" height="48" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.1"  rx="4"/><text x="277" y="258" font-size="10" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">过渡区</text><text x="277" y="276" font-size="8.2" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">柯氏式（迭代）</text><line x1="381" y1="230" x2="381" y2="240" stroke="#334155" stroke-width="1"   /><rect x="336" y="240" width="90" height="48" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.1"  rx="4"/><text x="381" y="258" font-size="10" fill="#0f766e" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">粗糙区</text><text x="381" y="276" font-size="8.2" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">λ = f(K/d)</text><rect x="500" y="116" width="340" height="46" fill="#fff7ed" stroke="#b45309" stroke-width="1.4"  rx="5"/><text x="670" y="137" font-size="11.5" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">局部损失 h_j = ζ v²/2g</text><text x="670" y="155" font-size="9.4" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">集中在弯头、阀门、突扩等处</text><line x1="670" y1="162" x2="670" y2="176" stroke="#334155" stroke-width="1.2"   /><rect x="500" y="176" width="340" height="38" fill="#fff" stroke="#b45309" stroke-width="1.2"  rx="5"/><text x="670" y="192" font-size="11" fill="#334155" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">关键：ζ 怎么取？</text><text x="670" y="208" font-size="9.6" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">突扩有解析式，其余查表 + 认准参考流速</text><line x1="670" y1="214" x2="670" y2="230" stroke="#334155" stroke-width="1.2"   /><line x1="555" y1="230" x2="795" y2="230" stroke="#334155" stroke-width="1.2"   /><line x1="527" y1="230" x2="527" y2="240" stroke="#334155" stroke-width="1"   /><rect x="500" y="240" width="54" height="48" fill="#fefaf5" stroke="#94a3b8" stroke-width="1.1"  rx="4"/><text x="527" y="258" font-size="9.6" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">突扩</text><text x="527" y="276" font-size="7.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">(v₁−v₂)²/2g</text><line x1="647" y1="230" x2="647" y2="240" stroke="#334155" stroke-width="1"   /><rect x="620" y="240" width="54" height="48" fill="#fefaf5" stroke="#94a3b8" stroke-width="1.1"  rx="4"/><text x="647" y="258" font-size="9.6" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">突缩/进口</text><text x="647" y="276" font-size="7.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">0.5(1−A₂/A₁)</text><line x1="767" y1="230" x2="767" y2="240" stroke="#334155" stroke-width="1"   /><rect x="740" y="240" width="54" height="48" fill="#fefaf5" stroke="#94a3b8" stroke-width="1.1"  rx="4"/><text x="767" y="258" font-size="9.6" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">弯头/阀门</text><text x="767" y="276" font-size="7.8" fill="#64748b" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="">查表</text><text x="440" y="322" font-size="10.8" fill="#b45309" text-anchor="middle" font-family='"Microsoft YaHei",sans-serif' style="font-weight:700;">做题三步：① 分清沿程/局部 ② 各段标出 d、l、v、ζ ③ 先统一求 v，再代 h = λ(l/d)v²/2g 或 ζv²/2g</text></svg><figcaption><b>图 4-14</b> 第 4 章一图通关：两类损失、两个系数、一条判断链</figcaption></figure>
+
+
+<div class="box tip">
+  <b>本章自测（能全答出来，这一章就过关了）</b>
+  <ol>
+    <li>沿程损失和局部损失的物理机理各是什么？为什么局部损失集中在很短一段？</li>
+    <li>Re 的物理意义是什么？为什么里面有管径 d？圆管的下临界 Re 取多少？</li>
+    <li>层流的 λ 与什么有关？为什么与粗糙度无关？</li>
+    <li>湍流切应力的两项分别叫什么？混合长度 l = κy 中 κ 约等于多少？</li>
+    <li>尼古拉兹图分五个区，每个区的 λ 与 Re、K/d 的关系是什么？为什么粗糙区叫"阻力平方区"？</li>
+    <li>三区判别式怎么写？为什么过渡区必须用柯氏公式迭代？</li>
+    <li>当量直径 d<sub>e</sub> = 4R 里的 4 是怎么来的？非圆管用 d<sub>e</sub> 的两个适用条件是什么？</li>
+    <li>突然扩大的 h<sub>j</sub> 怎么推？（写出能量方程和动量方程）ζ<sub>1</sub> 与 ζ<sub>2</sub> 差多少倍？</li>
+    <li>管道进口、出口的 ζ 各是多少？为什么？</li>
+    <li>弯管损失的两个来源是什么？减小弯管损失有哪三招？</li>
+  </ol>
+</div>
+
+<h1 class="ch" id="app">附录：公式总表 · 符号表 · 解题流程与作业清单</h1>
+
+<div class="why plain">
+  <span class="wt">怎么用这三个附录：</span>正文只通读一遍是不够的。<b>附录 A</b> 是考前一天用来逐条自问的清单；
+  <b>附录 B</b> 是抄公式时防止写错符号的对照表；<b>附录 C</b> 是你做题时"卡住了"该往哪一步看的判断流程。
+</div>
+
+<h2>附录 A　公式总表</h2>
+
+<p class="hint">公式前的编号不是要背的，是为了说明"这一条属于哪一组"。重点看最后一列"什么时候用"。</p>
+
+<h3>A.1 两类损失与总损失（第 4.1 节）</h3>
+<table class="zebra">
+  <tr><th>#</th><th>公式</th><th>什么时候用</th></tr>
+  <tr><td>1</td><td><i>h</i><sub>f</sub> = <i>λ</i>(<i>l</i>/<i>d</i>)·<i>v</i><sup>2</sup>/(2<i>g</i>)</td><td>任何圆管沿程损失（达西公式，万能）</td></tr>
+  <tr><td>2</td><td><i>p</i><sub>f</sub> = <i>λ</i>(<i>l</i>/<i>d</i>)·<i>ρv</i><sup>2</sup>/2</td><td>要压强而不是水头时</td></tr>
+  <tr><td>3</td><td><i>h</i><sub>j</sub> = <i>ζ</i>·<i>v</i><sup>2</sup>/(2<i>g</i>)</td><td>任何局部损失</td></tr>
+  <tr><td>4</td><td><i>p</i><sub>j</sub> = <i>ζ</i>·<i>ρv</i><sup>2</sup>/2</td><td>气体管道常用</td></tr>
+  <tr><td>5</td><td><i>h</i><sub>w</sub> = <i>Σh</i><sub>f</sub> + <i>Σh</i><sub>j</sub></td><td>串接管路求总损失（每项用它自己那段的 v）</td></tr>
+  <tr><td>6</td><td><i>J</i> = <i>h</i><sub>f</sub>/<i>l</i></td><td>水力坡度（单位长度损失）</td></tr>
+</table>
+
+<h3>A.2 流态判别（第 4.2 节）</h3>
+<table class="zebra">
+  <tr><th>#</th><th>公式</th><th>什么时候用</th></tr>
+  <tr><td>7</td><td><i>Re</i> = <i>vd</i>/<i>ν</i> = <i>ρvd</i>/<i>μ</i></td><td>一切判流态的第一步</td></tr>
+  <tr><td>8</td><td><i>Re</i> &lt; 2000 层流；2000~4000 过渡；&gt; 4000 湍流</td><td>圆管流态判别（有的教材用 2300）</td></tr>
+  <tr><td>9</td><td>惯性力/粘性力 ~ <i>ρv</i><sup>2</sup><i>d</i><sup>2</sup> / (<i>μvd</i>) = <i>Re</i></td><td>概念题：Re 的物理意义</td></tr>
+  <tr><td>10</td><td><i>Tu</i> = √(Σ<span style="text-decoration:overline">u′<sup>2</sup></span>/3)/<i>ū</i></td><td>湍流度</td></tr>
+</table>
+
+<h3>A.3 圆管层流（第 4.3 节）</h3>
+<table class="zebra">
+  <tr><th>#</th><th>公式</th><th>什么时候用</th></tr>
+  <tr><td>11</td><td><i>h</i><sub>f</sub> = 2<i>τ</i><sub>0</sub><i>l</i>/(<i>r</i><sub>0</sub><i>ρg</i>)</td><td>均匀流动方程式（层流湍流都适用）</td></tr>
+  <tr><td>12</td><td><i>τ</i> = <i>γ</i>(<i>r</i>/2)<i>J</i>；<i>τ</i><sub>0</sub> = <i>γ</i>(<i>r</i><sub>0</sub>/2)<i>J</i></td><td>切应力沿半径线性分布</td></tr>
+  <tr><td>13</td><td><i>u</i> = (<i>γJ</i>/4<i>μ</i>)(<i>r</i><sub>0</sub><sup>2</sup> − <i>r</i><sup>2</sup>)</td><td>层流速度分布（抛物线）</td></tr>
+  <tr><td>14</td><td><i>u</i><sub>max</sub> = (<i>γJ</i>/4<i>μ</i>)<i>r</i><sub>0</sub><sup>2</sup>；<i>v</i> = <i>u</i><sub>max</sub>/2</td><td>层流断面的两个特征值</td></tr>
+  <tr><td>15</td><td><i>h</i><sub>f</sub> = 32<i>μvl</i>/(<i>ρgd</i><sup>2</sup>)</td><td>层流 h<sub>f</sub>（与 v 一次方成正比）</td></tr>
+  <tr><td>16</td><td><b><i>λ</i> = 64/<i>Re</i></b></td><td>层流 λ，与粗糙度无关</td></tr>
+  <tr><td>17</td><td><i>α</i> = 2，<i>β</i> = 4/3</td><td>层流的动能/动量修正系数</td></tr>
+</table>
+
+<h3>A.4 湍流与湍流阻力（第 4.4 节）</h3>
+<table class="zebra">
+  <tr><th>#</th><th>公式</th><th>什么时候用</th></tr>
+  <tr><td>18</td><td><i>u</i> = <i>ū</i> + <i>u</i>′</td><td>湍流的时均分解</td></tr>
+  <tr><td>19</td><td><i>τ</i><sub>1</sub> = <i>μ</i> d<i>ū</i>/d<i>y</i></td><td>粘性切应力（层流底层主角）</td></tr>
+  <tr><td>20</td><td><i>τ</i><sub>2</sub> = −<i>ρ</i><span style="text-decoration:overline">u′v′</span> = <i>ρl</i><sup>2</sup>(d<i>ū</i>/d<i>y</i>)<sup>2</sup></td><td>惯性切应力（雷诺应力，湍流核心主角）</td></tr>
+  <tr><td>21</td><td><i>l</i> = <i>κy</i>，<i>κ</i> ≈ 0.4</td><td>混合长度</td></tr>
+  <tr><td>22</td><td><i>ū</i>/<i>u</i><sub>*</sub> = (1/<i>κ</i>)ln<i>y</i> + C，<i>u</i><sub>*</sub> = √(<i>τ</i><sub>0</sub>/<i>ρ</i>)</td><td>对数流速分布</td></tr>
+</table>
+
+<h3>A.5 湍流沿程阻力系数（第 4.5、4.6 节）</h3>
+<table class="zebra">
+  <tr><th>#</th><th>公式</th><th>什么时候用</th></tr>
+  <tr><td>23</td><td><i>λ</i> = (<i>d</i>/<i>l</i>)(2<i>g</i>/<i>v</i><sup>2</sup>)<i>h</i><sub>f</sub></td><td>由实测 h<sub>f</sub> 反算 λ（尼古拉兹的做法）</td></tr>
+  <tr><td>24</td><td><i>λ</i> = 0.3164/<i>Re</i><sup>0.25</sup></td><td>布拉修斯：光滑区，<b>仅 Re &lt; 10<sup>5</sup></b></td></tr>
+  <tr><td>25</td><td>1/√<i>λ</i> = 2lg(<i>Re</i>√<i>λ</i>/2.51)</td><td>尼古拉兹光滑区（Re 范围更广）</td></tr>
+  <tr><td>26</td><td>1/√<i>λ</i> = −2lg[<i>K</i>/(3.7<i>d</i>) + 2.51/(<i>Re</i>√<i>λ</i>)]</td><td>柯氏公式：过渡区，需迭代；覆盖全区</td></tr>
+  <tr><td>27</td><td><i>λ</i> = 0.11(<i>K</i>/<i>d</i>)<sup>0.25</sup></td><td>希弗林松：粗糙区经验式</td></tr>
+  <tr><td>28</td><td>1/√<i>λ</i> = 2lg(3.7<i>d</i>/<i>K</i>)</td><td>尼古拉兹粗糙区（与 Re 无关）</td></tr>
+  <tr><td>29</td><td>光滑区 2000 &lt; <i>Re</i> ≤ 0.32(<i>d</i>/<i>K</i>)<sup>1.28</sup></td><td rowspan="3">三区判别式（必背）</td></tr>
+  <tr><td>30</td><td>过渡区 0.32(<i>d</i>/<i>K</i>)<sup>1.28</sup> &lt; <i>Re</i> ≤ 1000(<i>d</i>/<i>K</i>)</td></tr>
+  <tr><td>31</td><td>粗糙区 <i>Re</i> &gt; 1000(<i>d</i>/<i>K</i>)</td></tr>
+</table>
+
+<h3>A.6 非圆管（第 4.7 节）</h3>
+<table class="zebra">
+  <tr><th>#</th><th>公式</th><th>什么时候用</th></tr>
+  <tr><td>32</td><td><i>R</i> = <i>A</i>/<i>χ</i>；<i>d</i><sub>e</sub> = 4<i>R</i> = 4<i>A</i>/<i>χ</i></td><td>一切非圆管</td></tr>
+  <tr><td>33</td><td>矩形 <i>d</i><sub>e</sub> = 2<i>ab</i>/(<i>a</i>+<i>b</i>)；方形 <i>d</i><sub>e</sub> = <i>a</i>；圆环 <i>d</i><sub>e</sub> = 2(<i>r</i><sub>1</sub>−<i>r</i><sub>2</sub>)</td><td>常见断面的现成结果</td></tr>
+  <tr><td>34</td><td><i>Re</i> = <i>vd</i><sub>e</sub>/<i>ν</i>；<i>h</i><sub>f</sub> = <i>λ</i>(<i>l</i>/<i>d</i><sub>e</sub>)<i>v</i><sup>2</sup>/2<i>g</i></td><td>把 d 全部换成 d<sub>e</sub></td></tr>
+</table>
+
+<h3>A.7 局部损失（第 4.8 节）</h3>
+<table class="zebra">
+  <tr><th>#</th><th>公式</th><th>什么时候用</th></tr>
+  <tr><td>35</td><td><i>h</i><sub>j</sub> = (<i>v</i><sub>1</sub>−<i>v</i><sub>2</sub>)<sup>2</sup>/(2<i>g</i>)</td><td>突然扩大（波达-卡诺），可严格推</td></tr>
+  <tr><td>36</td><td><i>ζ</i><sub>1</sub> = (1−<i>A</i><sub>1</sub>/<i>A</i><sub>2</sub>)<sup>2</sup>；<i>ζ</i><sub>2</sub> = (<i>A</i><sub>2</sub>/<i>A</i><sub>1</sub>−1)<sup>2</sup></td><td>突扩的两种 ζ（差 (A<sub>2</sub>/A<sub>1</sub>)<sup>2</sup> 倍）</td></tr>
+  <tr><td>37</td><td><i>ζ</i> = 0.5(1−<i>A</i><sub>2</sub>/<i>A</i><sub>1</sub>)（对 <i>v</i><sub>2</sub>）</td><td>突然缩小；入口特例 ζ = 0.5</td></tr>
+  <tr><td>38</td><td>出口 ζ = 1.0</td><td>排入大容器/大气（动能全损）</td></tr>
+  <tr><td>39</td><td><i>ζ</i><sub>总</sub> = <i>Σζ</i> + <i>κ</i></td><td>局部阻碍相互干扰；间距 &gt; 3d 时 κ ≈ 0</td></tr>
+  <tr><td>40</td><td>层流局部 <i>ζ</i> = B/<i>Re</i></td><td>层流时 h<sub>j</sub> ∝ v（一次方）</td></tr>
+</table>
+
+<h3>A.8 综合管路（水箱—管道—出口）</h3>
+<table class="zebra">
+  <tr><th>#</th><th>公式</th><th>什么时候用</th></tr>
+  <tr><td>41</td><td><i>H</i> = [<i>λ</i>(<i>l</i>/<i>d</i>) + <i>Σζ</i>]·<i>v</i><sup>2</sup>/(2<i>g</i>)</td><td>水位差全部转成损失（出口损失已含动能）</td></tr>
+  <tr><td>42</td><td><i>Q</i> = <i>vA</i> = <i>v</i>·π<i>d</i><sup>2</sup>/4</td><td>最后一步：损失 → 流速 → 流量</td></tr>
+  <tr><td>43</td><td><i>P</i> = <i>ρgQh</i><sub>w</sub>（或 <i>P</i> = <i>ρgQH</i>）</td><td>损失对应的功率（泵的额外负担）</td></tr>
+</table>
+
+<h2>附录 B　符号表（防抄错）</h2>
+
+<table class="zebra">
+  <tr><th>符号</th><th>含义</th><th>单位</th><th>易错提醒</th></tr>
+  <tr><td><i>h</i><sub>f</sub> / <i>h</i><sub>j</sub> / <i>h</i><sub>w</sub></td><td>沿程 / 局部 / 总水头损失</td><td>m</td><td>都是"水头"，不是压强；换压强乘 ρg</td></tr>
+  <tr><td><i>p</i><sub>f</sub> / <i>p</i><sub>j</sub></td><td>沿程 / 局部压强损失</td><td>Pa</td><td>气体管道常用这个</td></tr>
+  <tr><td><i>λ</i></td><td>沿程阻力系数</td><td>—</td><td>层流可到 0.5~1，湍流只有 0.02 量级</td></tr>
+  <tr><td><i>ζ</i></td><td>局部阻力系数</td><td>—</td><td>必须同时说明对应的参考流速</td></tr>
+  <tr><td><i>ν</i></td><td>运动粘度</td><td>m²/s</td><td>与流速 <i>v</i> 长得像，别混</td></tr>
+  <tr><td><i>μ</i></td><td>动力粘度</td><td>Pa·s</td><td><i>ν</i> = <i>μ</i>/<i>ρ</i></td></tr>
+  <tr><td><i>K</i></td><td>绝对粗糙度（凸起高度）</td><td>m</td><td>与相对粗糙度 <i>K</i>/<i>d</i> 差一个管径</td></tr>
+  <tr><td><i>K</i>/<i>d</i></td><td>相对粗糙度</td><td>—</td><td>无量纲，例题里常写成 1/800</td></tr>
+  <tr><td><i>R</i></td><td>水力半径</td><td>m</td><td>不是圆半径！是 A/χ</td></tr>
+  <tr><td><i>d</i><sub>e</sub></td><td>当量直径</td><td>m</td><td>= 4R，非圆管专用</td></tr>
+  <tr><td><i>χ</i></td><td>湿周</td><td>m</td><td>只算被流体润湿的部分</td></tr>
+  <tr><td><i>τ</i><sub>0</sub> / <i>τ</i></td><td>壁面 / 局部切应力</td><td>Pa</td><td>τ/τ<sub>0</sub> = r/r<sub>0</sub></td></tr>
+  <tr><td><i>α</i> / <i>β</i></td><td>动能 / 动量修正系数</td><td>—</td><td>层流 2 与 4/3；湍流取 1</td></tr>
+  <tr><td><i>J</i></td><td>水力坡度</td><td>—</td><td>= h<sub>f</sub>/l，无量纲</td></tr>
+  <tr><td><i>Tu</i></td><td>湍流度</td><td>—</td><td>百分数，几 % 量级</td></tr>
+  <tr><td><i>l</i></td><td>混合长度（4.4 节）</td><td>m</td><td>与管长 l 同符号，看上下文</td></tr>
+</table>
+
+<h2>附录 C　解题流程与作业清单</h2>
+
+<h3>C.1 本章五步固定动作</h3>
+<ol>
+  <li><b>判类型</b>——这道题问的是沿程、局部，还是两者都有？是"求损失"还是"反求流量/管径"？</li>
+  <li><b>划系统、列能量方程</b>——取哪两个断面？基准面放哪？把 <i>h</i><sub>w</sub> 写在方程右边。</li>
+  <li><b>算 Re、判流态</b>——这一步永远不能跳。层流用 64/Re；湍流继续第 4 步。</li>
+  <li><b>判阻力区、选 λ 公式</b>——先算 <i>K</i>/<i>d</i>，再代三个判别式，然后选布拉修斯/柯氏/希弗林松。</li>
+  <li><b>回代、校核</b>——算出 h<sub>f</sub> 与 Σh<sub>j</sub>，加起来看是否等于可用的水头（或与已知 h<sub>f</sub> 对上）。这一步是拿满分的关键。</li>
+</ol>
+
+<h3>C.2 "我该用哪个公式"速查</h3>
+<table class="zebra">
+  <tr><th>你被问的是…</th><th>用哪个</th><th>要点</th></tr>
+  <tr><td>层流管道的 λ 和 h<sub>f</sub></td><td><i>λ</i> = 64/Re，h<sub>f</sub> = 32μvl/(ρgd²)</td><td>两条路可以互证，考试写一条、用另一条检查</td></tr>
+  <tr><td>湍流光滑管的 λ（Re &lt; 10<sup>5</sup>）</td><td>布拉修斯 0.3164/Re<sup>0.25</sup></td><td>超过 10<sup>5</sup> 就改用尼古拉兹光滑区式或柯氏</td></tr>
+  <tr><td>工业管道、不知道在哪个区</td><td>柯氏公式迭代</td><td>先判区（说清理由），再迭代</td></tr>
+  <tr><td>粗糙管、Re 很大</td><td>希弗林松 0.11(K/d)<sup>0.25</sup></td><td>与 Re 无关，只查 K/d</td></tr>
+  <tr><td>矩形风管 / 环形通道</td><td>d<sub>e</sub> = 4A/χ</td><td>湿周只算湿的；层流不适用</td></tr>
+  <tr><td>突然扩大 / 缩小</td><td>(v<sub>1</sub>−v<sub>2</sub>)²/2g / 0.5(1−A<sub>2</sub>/A<sub>1</sub>)</td><td>注意 ζ 对应的流速</td></tr>
+  <tr><td>水箱 + 管道 + 出口，求 Q</td><td>H = [λ(l/d)+Σζ]v²/2g</td><td>λ 依赖 v，必须迭代；最后校核 = H</td></tr>
+</table>
+
+<h3>C.3 本周作业（课件第 124 页，下周四 10 月 29 日交）</h3>
+
+<div class="box exam">
+  <b>必做 11 题：</b>4-2、4-3、4-9、4-10、4-19、4-21、4-25、4-26、4-29、4-30、4-32
+</div>
+
+<p>做题顺序建议：<b>先 4-2、4-3</b>（判流态 + 层流 λ，把 4.2、4.3 节的手感练出来）→
+<b>再 4-9、4-10</b>（湍流 λ 的分区与迭代）→ <b>然后 4-19、4-21</b>（非圆管与当量直径）→
+<b>最后 4-25、4-26、4-29、4-30、4-32</b>（局部损失与综合管路，题量最大、分值最高）。</p>
+
+<h3>C.4 考前七天怎么用这份讲义</h3>
+<table class="zebra">
+  <tr><th>天</th><th>内容</th><th>目标</th></tr>
+  <tr><td>第 1 天</td><td>4.1 + 4.2（两类损失、Re、五区概念）</td><td>能默写达西公式、能算 Re 判流态</td></tr>
+  <tr><td>第 2 天</td><td>4.3 圆管层流（含均匀流动方程推导）</td><td>能独立推出 λ = 64/Re</td></tr>
+  <tr><td>第 3 天</td><td>4.4 湍流阻力（两项切应力、混合长度）</td><td>能说出"为什么湍流阻力大"</td></tr>
+  <tr><td>第 4 天</td><td>4.5 + 4.6（五区与四组公式、三判别式）</td><td>能给任意 Re、K/d 选对公式</td></tr>
+  <tr><td>第 5 天</td><td>4.7 非圆管 + 4.8 突扩推导</td><td>能推波达-卡诺公式</td></tr>
+  <tr><td>第 6 天</td><td>4.8 其余局部损失 + 例 4-13 综合题</td><td>能独立完成"水箱—管道—出口"五步</td></tr>
+  <tr><td>第 7 天</td><td>附录 A 全表 + 本章自测 10 题</td><td>公式不看书写，自测能全答</td></tr>
+</table>
+
+<div class="box tip">
+  <b>最后提醒三句（比任何公式都重要）：</b><br>
+  ① <b>没算 Re 就写 λ 的题，一定是错的</b>——流态是这一章的第一个开关。<br>
+  ② <b>ζ 一定要说清对应的流速</b>——查表抄错参考流速，结果差十几倍。<br>
+  ③ <b>算完把损失加起来对一下 H</b>——这一步能抓出 90% 的粗心错误（单位、面积、直径用错）。
+</div>
+
+</body>
+</html>

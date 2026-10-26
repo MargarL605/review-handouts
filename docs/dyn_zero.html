@@ -132,6 +132,8 @@ h4 { color: #146c66; }
 .why { border: 1px solid #cfe8e3; background: #f4fbf9; border-radius: 5px; padding: 8px 11px; margin: 8px 0; page-break-inside: avoid; }
 .why > .wt { display: block; font-weight: bold; color: #0f766e; margin-bottom: 3px; }
 .why > .wt::before { content: "为什么 · "; color: #94a3a0; font-weight: normal; }
+/* 少数 .why 不是"为什么"（读法建议、小结、附录用法），用 plain 抑制前缀 */
+.why.plain > .wt::before { content: ""; }
 
 /* ---------- 二、类比 / 直觉 ---------- */
 .analogy { border-left: 4px solid #a855f7; background: #faf5ff; border-radius: 4px; padding: 7px 10px; margin: 8px 0; page-break-inside: avoid; }
@@ -684,7 +686,7 @@ figcaption .src { color: #9aa3a0; }
 <h1 class="ch" id="c2">第 2 部分　动量定理与质量流：把方程对时间积一次</h1>
 
 <div class="why">
-  <span class="wt">为什么要有这一部分？第 1 部分不是已经能算一切了吗？</span>
+  <span class="wt">要有这一部分？第 1 部分不是已经能算一切了吗？</span>
   能算，但<b>经常算不出来</b>。原因有两个：
   <br><br>
   <b>第一个原因：力根本不知道。</b>锤子敲钉子、球拍击球、水流冲击叶片——这些力在极短时间内剧烈变化，
@@ -996,7 +998,7 @@ figcaption .src { color: #9aa3a0; }
 <h1 class="ch" id="c3">第 3 部分　动量矩定理：把方程再"转"一次</h1>
 
 <div class="why">
-  <span class="wt">为什么还要再来一个定理？前两个不够用吗？</span>
+  <span class="wt">还要再来一个定理？前两个不够用吗？</span>
   不够，而且差得很明显。请看三个场景：
   <br><br>
   <b>场景一：物体在转动。</b>风车、齿轮、飞轮、方向盘——它们不是"整体往前跑"，而是"绕一根轴转"。
